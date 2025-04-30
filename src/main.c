@@ -1,11 +1,11 @@
 #include "raylib.h"
+#include "splash_screens.h"
 
 //------------------------------------------------------------------------------------------
 // Types and Structures Definition
 //------------------------------------------------------------------------------------------
 typedef enum GameScreen { 
-    LOGO_RAYLIB = 0, 
-    LOGO_BLINK_SOFTWARE, 
+    LOADING = 0, 
     TITLE, 
     GAMEPLAY, 
     ENDING 
@@ -25,7 +25,7 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "wizard tower");
 
-    GameScreen currentScreen = LOGO_RAYLIB;
+    GameScreen currentScreen = LOADING;
 
     // TODO: Initialize all required variables and load all required data here!
 
@@ -42,27 +42,9 @@ int main(void)
         //----------------------------------------------------------------------------------
         switch (currentScreen)
         {
-            case LOGO_RAYLIB:
+            case LOADING:
             {
-                // TODO: Update LOGO screen variables here!
-
                 framesCounter++;    // Count frames
-
-                if (framesCounter > logoScreenDelay)
-                {
-                    currentScreen = LOGO_BLINK_SOFTWARE;
-                }
-            } break;
-            case LOGO_BLINK_SOFTWARE:
-            {
-                // TODO: Update LOGO screen variables here!
-
-                framesCounter++;    // Count frames
-
-                if (framesCounter > logoScreenDelay * 2)
-                {
-                    currentScreen = TITLE;
-                }
             } break;
             case TITLE:
             {
@@ -106,21 +88,13 @@ int main(void)
 
             switch(currentScreen)
             {
-                case LOGO_RAYLIB:
+                case LOADING:
                 {
-                    DrawText("RAYLIB", 20, 20, 40, LIGHTGRAY);
-                    DrawText("", 290, 220, 20, GRAY);
-
-                } break;
-                case LOGO_BLINK_SOFTWARE:
-                {
-                    DrawText("BLINK SOFTWARE", 20, 20, 40, LIGHTGRAY);
-                    DrawText("", 290, 220, 20, GRAY);
-
+                    DrawSplashScreenRaylib(screenWidth, screenHeight); // Play the elegant RayLib animation.
+                    currentScreen = TITLE;  // Update the currentScreen when finished to TITLE.
                 } break;
                 case TITLE:
                 {
-                    // TODO: Draw TITLE screen here!
                     DrawRectangle(0, 0, screenWidth, screenHeight, GREEN);
                     DrawText("Wizard Tower", 20, 20, 40, DARKGREEN);
                     DrawText("Press 'Enter' or click your mouse to begin.", 120, 220, 20, DARKGREEN);
