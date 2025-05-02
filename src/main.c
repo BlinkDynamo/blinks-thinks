@@ -91,6 +91,7 @@ int main(void)
                 case LOADING:
                 {
                     DrawSplashScreenRaylib(screenWidth, screenHeight); // Play the elegant RayLib animation.
+                    DrawSplashScreenBlinkSoftware(screenWidth, screenHeight);
                     currentScreen = TITLE;  // Update the currentScreen when finished to TITLE.
                 } break;
                 case TITLE:

@@ -3,4 +3,6 @@
 
 void DrawSplashScreenRaylib(const int screenWidth, const int screenHeight);
 
+void DrawSplashScreenBlinkSoftware(const int screenWidth, const int screenHeight);
+
 #endif // SPLASH_SCREENS_H
