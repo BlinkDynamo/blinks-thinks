@@ -1,5 +1,6 @@
 #include "raylib.h"
-#include "splash_screens.h"
+
+#include "splash_screens.hpp"
 
 //------------------------------------------------------------------------------------------
 // Types and Structures Definition

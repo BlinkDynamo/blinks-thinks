@@ -2,7 +2,7 @@
 
 all:
 	mkdir -p build
-	gcc src/main.c src/splash_screens.c -o build/wizard-tower -L.lib -lraylib -Iinclude -lm -ldl -lpthread -lGL
+	clang++ -std=c++11 src/main.cpp src/splash_screens.cpp -o build/wizard-tower -L.lib -lraylib -Iinclude -lm -ldl -lpthread -lGL
 
 clean:
 	rm -rf build
