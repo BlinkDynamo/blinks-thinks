@@ -1,2 +1,6 @@
+# Ignore all libraries, but track the directory itself.
 lib/*
+!lib/.gitkeep
+
+# Ignore build files.
 build
