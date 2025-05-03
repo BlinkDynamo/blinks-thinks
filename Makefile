@@ -1,8 +1,14 @@
 .PHONY: all clean
 
+COMPILER = clang++ -std=c++11
+
+SRCS = src/main.cpp src/splash_screens.cpp
+
+EXEC = build/blinks-thinks
+
 all:
 	mkdir -p build
-	clang++ -std=c++11 src/main.cpp src/splash_screens.cpp -o build/wizard-tower -L.lib -lraylib -Iinclude -lm -ldl -lpthread -lGL
+	$(COMPILER) $(SRCS) -o $(EXEC) -L.lib -lraylib -Iinclude -lm -ldl -lpthread -lGL
 
 clean:
 	rm -rf build
