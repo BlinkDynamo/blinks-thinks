@@ -1,7 +1,5 @@
 #include "raylib.h"
 
-using namespace std;
-
 void DrawSplashScreenRaylib(const int screenWidth, const int screenHeight)
 /*******************************************************************************************
 *
@@ -138,18 +136,15 @@ void DrawSplashScreenBlinkSoftware(const int screenWidth, const int screenHeight
     int logoPositionY = screenHeight/2 - 128;
 
     int framesCounter = 0;
-    int lettersCount = 0;
-
-    int topSideRecWidth = 16;
-    int leftSideRecHeight = 16;
-
-    int bottomSideRecWidth = 16;
-    int rightSideRecHeight = 16;
+    int lettersCount = 0; 
 
     int state = 0;
     float alpha = 1.0f;
 
-    SetTargetFPS(60);
+    int frameRate = 60;
+    int shortDelay = 1 * frameRate;
+
+    SetTargetFPS(frameRate);
 
     while (!WindowShouldClose())
     {
@@ -160,14 +155,14 @@ void DrawSplashScreenBlinkSoftware(const int screenWidth, const int screenHeight
         {
             // Letters being added on every 3 frames.
             case (0): {
-                if (lettersCount < 16) {
+                if (lettersCount < 15) {
                     if (framesCounter/3) {
                         lettersCount++;
                         framesCounter = 0;
                     }
                 }
                 // If done spelling, wait for 1 second, then move to state 1.
-                else if (framesCounter/60) {  
+                else if (framesCounter/shortDelay) {  
                         state = 1; 
                         framesCounter = 0;
                 }
@@ -182,18 +177,18 @@ void DrawSplashScreenBlinkSoftware(const int screenWidth, const int screenHeight
                     }
                 }
                 // If done removing letters, wait for 1 second, then move to state 2.
-                else if (framesCounter/60) {
+                else if (framesCounter/shortDelay) {
                         state = 2; 
                 }
             } break;
 
             // Blinking cursor.
             case (2): {
-                continue;
+                state = 3; 
             } break;
 
             case (3): {
-                continue;
+                state = 4;
             } break;
 
             case (4): {
