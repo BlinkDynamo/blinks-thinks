@@ -1,4 +1,4 @@
-#include "raylib.h"
+#include "raylib/raylib.h"
 
 void DrawSplashScreenRaylib(const int screenWidth, const int screenHeight)
 /*******************************************************************************************

@@ -1,7 +1,10 @@
-#include "raylib.h"
+#include "raylib/raylib.h"
 
-#include "splash_screens.hpp"
-#include "backgrounds.hpp"
+#include "blinks-thinks/splash_screens.hpp"
+#include "blinks-thinks/backgrounds.hpp"
+#include "blinks-thinks/button.hpp"
+
+#include <cmath>
 
 typedef enum GameScreen { 
     LOADING = 0, 
@@ -26,9 +29,14 @@ int main(void)
     Vector2 mousePoint = { 0.0f, 0.0f };
 
     /* ----- Initialization. ----- */ 
+    
+    /* Window, Screen, and FPS. */ 
     InitWindow(screenWidth, screenHeight, "Blink's Thinks");
     GameScreen currentScreen = LOADING; 
     SetTargetFPS(frameRate);
+
+    /* Game Objects */
+    Button playButton("Play", { screenWidth / 2.0f, screenHeight / 2.0f + 100}, {100,40}, RAYWHITE, BLACK);
 
     /* ----- Main Event Loop ----- */
     while (!WindowShouldClose())
@@ -85,23 +93,52 @@ int main(void)
                     DrawScrollingCheckerboard(screenWidth, screenHeight, SKYBLUE, RAYWHITE, scroll, 50);
                 }
 
-                // Title.
+                // "Blink's Thinks" Title.
                 {
                     /* Color, font size, and text. */
                     int fontSize = 100;
-                    Color titleColor = LIGHTGRAY;
-                    Color titleShadow = { 15, 15, 15, 200 };
+                    Color textColor = { 28, 197, 148, 255 };
+                    Color shadowColor = { 15, 15, 15, 200 };
                     const char *text = "Blink's Thinks";
                     int textWidth = MeasureText(text, fontSize);
 
                     /* Position. */
-                    int x = (screenWidth - textWidth) / 2;
-                    int y = (screenHeight - fontSize) / 2;
+                    Vector2 origin = { textWidth / 2.0f, fontSize / 2.0f };
+                    Vector2 position = { screenWidth / 2.0f, screenHeight / 2.0f - 100};
 
-                    /* Drawing. */
-                    DrawText(text, x, y - 100, fontSize, titleShadow); // Shadow text.
-                    DrawText(text, x - 6, y - 106, fontSize, titleColor); // Foreground text.
+                    /* Rotation */
+                    static float rotation = 0.0f;
+                    rotation = sin(GetTime()) * 7.0f;
+                    
+                    Vector2 shadowOffset = { 6.0f, 6.0f };
+                    
+                    /* Shadow. */
+                    DrawTextPro(
+                        GetFontDefault(), 
+                        text, 
+                        (Vector2){ position.x + shadowOffset.x, position.y + shadowOffset.y }, 
+                        origin,
+                        rotation,
+                        fontSize,
+                        10,
+                        shadowColor
+                        );
+                   
+                    /* Text. */ 
+                    DrawTextPro(
+                        GetFontDefault(),
+                        text,
+                        position,
+                        origin,
+                        rotation,
+                        fontSize,
+                        10,
+                        textColor
+                        );
                 }
+
+                /* Play button. */
+                playButton.Draw(); 
             } break;
 
             case GAMEPLAY:

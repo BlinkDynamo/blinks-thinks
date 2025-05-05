@@ -1,5 +1,4 @@
-#ifndef BACKGROUNDS_H
-#define BACKGROUNDS_H
+#pragma once
 
 void DrawScrollingCheckerboard (
         int screenWidth, 
@@ -8,6 +7,4 @@ void DrawScrollingCheckerboard (
         Color lightColor,
         float scrollOffset, 
         int squareSize
-        );
-
-#endif // BACKGROUNDS_H
+);
