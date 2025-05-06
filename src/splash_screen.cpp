@@ -1,5 +1,34 @@
+/**********************************************************************************************
+*
+*   splash_screen - The class library for splash screens that display upon launch.
+*
+*   LICENSE: zlib/libpng 
+*
+*   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
+*
+*   This software is provided ‘as-is’, without any express or implied
+*   warranty. In no event will the authors be held liable for any damages
+*   arising from the use of this software.
+*
+*   Permission is granted to anyone to use this software for any purpose,
+*   including commercial applications, and to alter it and redistribute it
+*   freely, subject to the following restrictions:
+*
+*   1. The origin of this software must not be misrepresented; you must not
+*   claim that you wrote the original software. If you use this software
+*   in a product, an acknowledgment in the product documentation would be
+*   appreciated but is not required.
+*
+*   2. Altered source versions must be plainly marked as such, and must not be
+*   misrepresented as being the original software.
+*
+*   3. This notice may not be removed or altered from any source
+*   distribution. 
+*
+*********************************************************************************************/
+
 #include "raylib/raylib.h"
-#include "blinks-thinks/splash_screens.hpp"
+#include "blinks-thinks/splash_screen.hpp"
 
 RaylibSplash::RaylibSplash(int screenWidth, int screenHeight)
 {
@@ -8,7 +37,7 @@ RaylibSplash::RaylibSplash(int screenWidth, int screenHeight)
 }
 
 void RaylibSplash::Draw()
-/*******************************************************************************************
+/*********************************************************************************************
 *
 *   Original animation courtesy of Ramon Santamaria (@raysan5)
 *
@@ -19,7 +48,7 @@ void RaylibSplash::Draw()
 *
 *   Copyright (c) 2014-2025 Ramon Santamaria (@raysan5)
 *
-********************************************************************************************/
+*********************************************************************************************/
 {
     int logoPositionX = screenWidth/2 - 128;
     int logoPositionY = screenHeight/2 - 128;
@@ -59,7 +88,7 @@ void RaylibSplash::Draw()
 
                 if (topSideRecWidth == 256) state = 2;
             } break;
-        
+
             case (2): {
             bottomSideRecWidth += 4;
             rightSideRecHeight += 4;
@@ -98,12 +127,12 @@ void RaylibSplash::Draw()
 
         ClearBackground(RAYWHITE);
         
-        switch (state) 
+        switch (state)
         {
             case (0): {
                 if ((framesCounter/15)%2) DrawRectangle(logoPositionX, logoPositionY, 16, 16, BLACK);
             } break;
-        
+
             case (1): {
                 DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16, BLACK);
                 DrawRectangle(logoPositionX, logoPositionY, 16, leftSideRecHeight, BLACK);
@@ -150,7 +179,7 @@ void BlinkSoftwareSplash::Draw()
     int logoPositionY = screenHeight/2 - 128;
 
     int framesCounter = 0;
-    int lettersCount = 0; 
+    int lettersCount = 0;
 
     int state = 0;
     float alpha = 1.0f;
@@ -167,7 +196,7 @@ void BlinkSoftwareSplash::Draw()
         /* ----- Update step. ----- */
         switch (state)
         {
-            // Letters being added on every 3 frames.
+            /* Letters being added on every 3 frames. */
             case (0): {
                 if (lettersCount < 15) {
                     if (framesCounter/3) {
@@ -175,14 +204,14 @@ void BlinkSoftwareSplash::Draw()
                         framesCounter = 0;
                     }
                 }
-                // If done spelling, wait for 1 second, then move to state 1.
+                /* If done spelling, wait for 1 second, then move to state 1. */
                 else if (framesCounter/shortDelay) {  
                         state = 1; 
                         framesCounter = 0;
                 }
             } break;
 
-            // Letters being removed on every 3 frames.
+            /* Letters being removed on every 3 frames. */
             case (1): {
                 if (lettersCount > 0) {
                     if (framesCounter/3) {
@@ -190,13 +219,13 @@ void BlinkSoftwareSplash::Draw()
                         framesCounter = 0;
                     }
                 }
-                // If done removing letters, wait for 1 second, then move to state 2.
+                /* If done removing letters, wait for 1 second, then move to state 2. */
                 else if (framesCounter/shortDelay) {
                         state = 2; 
                 }
             } break;
 
-            // Blinking cursor.
+            /* Blinking cursor. */
             case (2): {
                 state = 3; 
             } break;
@@ -217,26 +246,26 @@ void BlinkSoftwareSplash::Draw()
         ClearBackground((Color){ 30, 30, 30, 255});
         switch (state)
         {
-            // Letters being added on every 2 frames.
+            /* Letters being added on every 2 frames. */
             case (0): 
             case (1): {
                 const char * text = "blink software";
                 int fontSize = 50;
                 float spacing = 4.0f;
-                Vector2 textPos = { static_cast<float>(GetScreenWidth()/2 - 160), static_cast<float>(GetScreenHeight()/2) }; 
+                Vector2 textPos = { static_cast<float>(GetScreenWidth()/2 - 160), static_cast<float>(GetScreenHeight()/2) };
 
                 Font font = GetFontDefault(); 
 
                 float x = textPos.x;
                 float y = textPos.y;
-                
-                // Draw every character in 'text' sequentially, drawing a terminal cursor on the last letter.
+
+                /* Draw every character in 'text' sequentially, drawing a terminal cursor on the last letter. */
                 for (int i = 0; i < lettersCount; i++) {
                     char c = text[i];
                     char s[2] = { c, '\0' };
 
                     Vector2 charSize = MeasureTextEx(font, s, fontSize, spacing);
-                    
+
                     bool isLast = (i == lettersCount - 1);
 
                     if (isLast) {

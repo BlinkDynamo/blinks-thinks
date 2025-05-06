@@ -1,6 +1,6 @@
 /**********************************************************************************************
 *
-*   button - The class library for buttons within the game.
+*   background - The class library for backgrounds within the game.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -30,20 +30,20 @@
 #pragma once
 
 #include <raylib/raylib.h>
-#include <string>
 
-class Button {
+class Background
+{
     public:
-        Button(const char * text, int fontSize, Vector2 position, Vector2 size, Color bgColor,
-               Color textColor);
-        void Draw();
-        bool isPressed(Vector2 mousePos, bool mousePressed);
+        Background(int screenWidth, int screenHeight, Color darkColor, Color lightColor,
+                   float scrollOffset, int squareSize);
+
+        void Draw(float scrollOffset);
 
     private:
-        const char *text;
-        int fontSize;
-        Vector2 position;
-        Vector2 size;
-        Color bgColor;
-        Color textColor;
+        int screenWidth;
+        int screenHeight;
+        Color darkColor;
+        Color lightColor;
+        float scrollOffset;
+        int squareSize;
 };

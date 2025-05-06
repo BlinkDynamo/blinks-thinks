@@ -1,7 +1,36 @@
+/**********************************************************************************************
+*
+*   main - The main entry point and runtime of the program.
+*
+*   LICENSE: zlib/libpng 
+*
+*   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
+*
+*   This software is provided ‘as-is’, without any express or implied
+*   warranty. In no event will the authors be held liable for any damages
+*   arising from the use of this software.
+*
+*   Permission is granted to anyone to use this software for any purpose,
+*   including commercial applications, and to alter it and redistribute it
+*   freely, subject to the following restrictions:
+*
+*   1. The origin of this software must not be misrepresented; you must not
+*   claim that you wrote the original software. If you use this software
+*   in a product, an acknowledgment in the product documentation would be
+*   appreciated but is not required.
+*
+*   2. Altered source versions must be plainly marked as such, and must not be
+*   misrepresented as being the original software.
+*
+*   3. This notice may not be removed or altered from any source
+*   distribution. 
+*
+*********************************************************************************************/
+
 #include "raylib/raylib.h"
 
-#include "blinks-thinks/splash_screens.hpp"
-#include "blinks-thinks/backgrounds.hpp"
+#include "blinks-thinks/splash_screen.hpp"
+#include "blinks-thinks/background.hpp"
 #include "blinks-thinks/button.hpp"
 
 #include <cmath>
@@ -16,9 +45,9 @@ typedef enum GameScreen {
 
 int main(void)
 {
-    /* ----- Variables ----- */
-    
-    /* Resolution and framerate. */ 
+    /* ----- Variables. ----- */
+
+    /* Resolution and framerate. */
     const int screenWidth = 900;
     const int screenHeight = 600;
     const int frameRate = 60;
@@ -28,29 +57,29 @@ int main(void)
     Vector2 mousePoint = { 0.0f, 0.0f };
     bool mousePressed;
 
-    /* ----- Initialization. ----- */ 
-    
-    /* Window, Screen, and FPS. */ 
+    /* ----- Initialization. ----- */
+
+    /* Window, Screen, and FPS. */
     InitWindow(screenWidth, screenHeight, "Blink's Thinks");
     GameScreen currentScreen = LOADING; 
     SetTargetFPS(frameRate);
 
-    /* LOADING GameScreen */    
+    /* LOADING GameScreen */
     BlinkSoftwareSplash blinkSoftwareSplash(screenWidth, screenHeight);
     RaylibSplash raylibSplash(screenWidth, screenHeight);
-    
-    /* TITLE GameScreen */ 
+
+    /* TITLE GameScreen */
     Background titleScreenBackground(screenWidth, screenHeight, SKYBLUE, RAYWHITE, 60, 50);
     Button playButton("Play", 30, { screenWidth / 2.0f, screenHeight / 2.0f + 100}, {150,50},
                       LIGHTGRAY, BLACK);
-    
-    /* BRIEFING GameScreen */ 
+
+    /* BRIEFING GameScreen */
     Background gameplayScreenBackground(screenWidth, screenHeight, BROWN, BEIGE, 60, 50);
 
     /* ----- Main Event Loop ----- */
     while (!WindowShouldClose())
     {
-        /* ----- Update ----- */
+        /* ----- Update. ----- */
         mousePoint = GetMousePosition();
         mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT); 
 
@@ -58,7 +87,7 @@ int main(void)
         {
             case LOADING:
             {
-                // TODO. 
+                /* TODO. */
             } break;
 
             case TITLE:
@@ -70,22 +99,22 @@ int main(void)
 
             case BRIEFING:
             {
-                // TODO. 
+                /* TODO. */
             } break;
-            
+
             case GAMEPLAY:
             {
-                // TODO. 
+                /* TODO. */
             } break;
 
             case ENDING:
             {
-                // TODO. 
+                /* TODO. */
             } break;
             default: break;
         }
-        
-        /* ----- Draw ----- */
+
+        /* ----- Draw. ----- */
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
@@ -94,7 +123,7 @@ int main(void)
         {
             case LOADING:
             {
-                // Play the elegant RayLib animation, along with the Blink Software splash screen.
+                /* Play the elegant RayLib animation, along with the Blink Software splash screen. */
                 raylibSplash.Draw();
                 blinkSoftwareSplash.Draw();
                 currentScreen = TITLE;
@@ -102,14 +131,14 @@ int main(void)
 
             case TITLE:
             {
-                // Background.
+                /* Background. */
                 {
                     static float scroll = 0.0f;
                     scroll += GetFrameTime() * 30.0f;
                     titleScreenBackground.Draw(scroll); 
                 }
 
-                // "Blink's Thinks" Title.
+                /* "Blink's Thinks" Title. */
                 {
                     /* Color, font size, and text. */
                     int fontSize = 100;
@@ -125,9 +154,9 @@ int main(void)
                     /* Rotation */
                     static float rotation = 0.0f;
                     rotation = sin(GetTime()) * 7.0f;
-                    
+
                     Vector2 shadowOffset = { 6.0f, 6.0f };
-                    
+
                     /* Shadow. */
                     DrawTextPro(
                         GetFontDefault(), 
@@ -139,7 +168,7 @@ int main(void)
                         10,
                         shadowColor
                         );
-                   
+
                     /* Text. */ 
                     DrawTextPro(
                         GetFontDefault(),
@@ -159,14 +188,14 @@ int main(void)
 
             case BRIEFING:
             {
-                // Background.
+                /* Background. */
                 {
                     static float scroll = 0.0f;
                     scroll += GetFrameTime() * 30.0f;
                     gameplayScreenBackground.Draw(scroll); 
                 }
-                
-                // "Briefing" Title.
+
+                /* "Briefing" Title. */
                 {
                     /* Color, font size, and text. */
                     int fontSize = 80;
@@ -182,9 +211,9 @@ int main(void)
                     /* Rotation */
                     static float rotation = 0.0f;
                     rotation = sin(GetTime()) * 3.0f;
-                    
+
                     Vector2 shadowOffset = { 6.0f, 6.0f };
-                    
+
                     /* Shadow. */
                     DrawTextPro(
                         GetFontDefault(), 
@@ -196,7 +225,7 @@ int main(void)
                         10,
                         shadowColor
                         );
-                   
+
                     /* Text. */ 
                     DrawTextPro(
                         GetFontDefault(),
@@ -210,15 +239,15 @@ int main(void)
                         );
                 }
             } break;
-            
+
             case GAMEPLAY:
             {
-                // TODO. 
+                /* TODO. */
             } break;
 
             case ENDING:
             {
-                // TODO.
+                /* TODO.*/
             } break;
 
             default: break;
@@ -227,7 +256,7 @@ int main(void)
         EndDrawing();
     }
 
-    /* ----- De-Initialization ----- */
+    /* ----- De-Initialization. ----- */
     CloseWindow();
     return 0;
 }

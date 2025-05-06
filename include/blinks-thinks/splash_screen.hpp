@@ -1,6 +1,6 @@
 /**********************************************************************************************
 *
-*   button - The class library for buttons within the game.
+*   splash_screen - The class library for splash screens that display upon launch.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -30,20 +30,25 @@
 #pragma once
 
 #include <raylib/raylib.h>
-#include <string>
 
-class Button {
+class RaylibSplash
+{
     public:
-        Button(const char * text, int fontSize, Vector2 position, Vector2 size, Color bgColor,
-               Color textColor);
+        RaylibSplash(int screenWidth,int screenHeight);
         void Draw();
-        bool isPressed(Vector2 mousePos, bool mousePressed);
 
     private:
-        const char *text;
-        int fontSize;
-        Vector2 position;
-        Vector2 size;
-        Color bgColor;
-        Color textColor;
+        int screenWidth;
+        int screenHeight;
+};
+
+class BlinkSoftwareSplash
+{
+    public:
+        BlinkSoftwareSplash(int screenWidth,int screenHeight);
+        void Draw();
+
+    private:
+        int screenWidth;
+        int screenHeight;
 };

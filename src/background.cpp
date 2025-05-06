@@ -1,6 +1,6 @@
 /**********************************************************************************************
 *
-*   button - The class library for buttons within the game.
+*   background - The class library for backgrounds within the game.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -27,23 +27,35 @@
 *
 *********************************************************************************************/
 
-#pragma once
+#include "blinks-thinks/background.hpp"
+#include <cmath>
 
-#include <raylib/raylib.h>
-#include <string>
+Background::Background(int screenWidth, int screenHeight, Color darkColor, Color lightColor,
+                       float scrollOffset, int squareSize)
+{
+    this->screenWidth = screenWidth;
+    this->screenHeight = screenHeight;
+    this->darkColor = darkColor;
+    this->lightColor = lightColor;
+    this->squareSize = squareSize;
+}
 
-class Button {
-    public:
-        Button(const char * text, int fontSize, Vector2 position, Vector2 size, Color bgColor,
-               Color textColor);
-        void Draw();
-        bool isPressed(Vector2 mousePos, bool mousePressed);
+void Background::Draw(float scrollOffset)
+{
+    int cols = screenWidth / squareSize + 2;
+    int rows = screenHeight / squareSize + 2;
 
-    private:
-        const char *text;
-        int fontSize;
-        Vector2 position;
-        Vector2 size;
-        Color bgColor;
-        Color textColor;
-};
+    float effectiveOffset = std::fmod(scrollOffset, 2 * squareSize);
+
+    for (int y = -2; y < rows; y++) {
+        for (int x = 0; x < cols; x++) {
+            bool isDark = (x + y) % 2 == 0;
+            Color color = isDark ? darkColor : lightColor;
+
+            float drawX = x * squareSize;
+            float drawY = y * squareSize + effectiveOffset;
+
+            DrawRectangle(drawX, drawY, squareSize, squareSize, color);
+        }
+    }
+}
