@@ -1,8 +1,10 @@
 #include "blinks-thinks/button.hpp"
 
-Button::Button(const char * text, Vector2 position, Vector2 size, Color bgColor, Color textColor)
+Button::Button(const char * text, int fontSize, Vector2 position, Vector2 size, Color bgColor,
+               Color textColor)
 {
     this->text = text;
+    this->fontSize = fontSize;
     /* 'position' places the button based on it's center position. */
     this->position = {position.x -= size.x / 2.0f, position.y -= size.y / 2.0f };
     this->size = size;
@@ -14,7 +16,6 @@ void Button::Draw()
 {
     DrawRectangleV(position, size, bgColor);
 
-    int fontSize = 20;
     /* Center the text inside the button. */
     int textWidth = MeasureText(text, fontSize);
     int textX = position.x + (size.x - textWidth) / 2;

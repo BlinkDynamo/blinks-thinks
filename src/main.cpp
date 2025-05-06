@@ -9,8 +9,9 @@
 typedef enum GameScreen { 
     LOADING = 0, 
     TITLE, 
-    GAMEPLAY, 
-    ENDING 
+    BRIEFING, 
+    GAMEPLAY,
+    ENDING, 
 } GameScreen;
 
 int main(void)
@@ -23,10 +24,9 @@ int main(void)
     const int frameRate = 60;
     const int logoScreenDelay = frameRate * 5; 
 
-    int framesCounter = 0;
-
     /* Mouse */
     Vector2 mousePoint = { 0.0f, 0.0f };
+    bool mousePressed;
 
     /* ----- Initialization. ----- */ 
     
@@ -35,32 +35,44 @@ int main(void)
     GameScreen currentScreen = LOADING; 
     SetTargetFPS(frameRate);
 
-    /* Splash Screens */    
+    /* LOADING GameScreen */    
     BlinkSoftwareSplash blinkSoftwareSplash(screenWidth, screenHeight);
     RaylibSplash raylibSplash(screenWidth, screenHeight);
     
-    /* Title Screen */ 
+    /* TITLE GameScreen */ 
     Background titleScreenBackground(screenWidth, screenHeight, SKYBLUE, RAYWHITE, 60, 50);
-    Button playButton("Play", { screenWidth / 2.0f, screenHeight / 2.0f + 100}, {100,40}, RAYWHITE, BLACK);
+    Button playButton("Play", 30, { screenWidth / 2.0f, screenHeight / 2.0f + 100}, {150,50},
+                      LIGHTGRAY, BLACK);
+    
+    /* BRIEFING GameScreen */ 
+    Background gameplayScreenBackground(screenWidth, screenHeight, BROWN, BEIGE, 60, 50);
 
     /* ----- Main Event Loop ----- */
     while (!WindowShouldClose())
     {
         /* ----- Update ----- */
         mousePoint = GetMousePosition();
-        
+        mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT); 
+
         switch (currentScreen)
         {
             case LOADING:
             {
-                framesCounter++;
+                // TODO. 
             } break;
 
             case TITLE:
             {
-                // TODO.
+                if (playButton.isPressed(mousePoint, mousePressed)) {
+                    currentScreen = BRIEFING;
+                }
             } break;
 
+            case BRIEFING:
+            {
+                // TODO. 
+            } break;
+            
             case GAMEPLAY:
             {
                 // TODO. 
@@ -145,9 +157,63 @@ int main(void)
                 playButton.Draw(); 
             } break;
 
+            case BRIEFING:
+            {
+                // Background.
+                {
+                    static float scroll = 0.0f;
+                    scroll += GetFrameTime() * 30.0f;
+                    gameplayScreenBackground.Draw(scroll); 
+                }
+                
+                // "Briefing" Title.
+                {
+                    /* Color, font size, and text. */
+                    int fontSize = 80;
+                    Color textColor = DARKBROWN;
+                    Color shadowColor = { 15, 15, 15, 200 };
+                    const char *text = "Briefing";
+                    int textWidth = MeasureText(text, fontSize);
+
+                    /* Position. */
+                    Vector2 origin = { textWidth / 2.0f, fontSize / 2.0f };
+                    Vector2 position = { screenWidth / 2.0f, screenHeight / 2.0f - 120};
+
+                    /* Rotation */
+                    static float rotation = 0.0f;
+                    rotation = sin(GetTime()) * 3.0f;
+                    
+                    Vector2 shadowOffset = { 6.0f, 6.0f };
+                    
+                    /* Shadow. */
+                    DrawTextPro(
+                        GetFontDefault(), 
+                        text, 
+                        (Vector2){ position.x + shadowOffset.x, position.y + shadowOffset.y }, 
+                        origin,
+                        rotation,
+                        fontSize,
+                        10,
+                        shadowColor
+                        );
+                   
+                    /* Text. */ 
+                    DrawTextPro(
+                        GetFontDefault(),
+                        text,
+                        position,
+                        origin,
+                        rotation,
+                        fontSize,
+                        10,
+                        textColor
+                        );
+                }
+            } break;
+            
             case GAMEPLAY:
             {
-                // TODO.
+                // TODO. 
             } break;
 
             case ENDING:
