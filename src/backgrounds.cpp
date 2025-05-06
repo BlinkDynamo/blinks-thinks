@@ -1,15 +1,17 @@
-#include "raylib/raylib.h"
-
+#include "blinks-thinks/backgrounds.hpp"
 #include <cmath>
 
-void DrawScrollingCheckerboard (
-        int screenWidth, 
-        int screenHeight, 
-        Color darkColor,
-        Color lightColor,
-        float scrollOffset, 
-        int squareSize
-        )
+Background::Background(int screenWidth, int screenHeight, Color darkColor, Color lightColor,
+                       float scrollOffset, int squareSize)
+{
+    this->screenWidth = screenWidth;
+    this->screenHeight = screenHeight;
+    this->darkColor = darkColor;
+    this->lightColor = lightColor;
+    this->squareSize = squareSize;
+}
+
+void Background::Draw(float scrollOffset)
 {
     int cols = screenWidth / squareSize + 2;
     int rows = screenHeight / squareSize + 2;

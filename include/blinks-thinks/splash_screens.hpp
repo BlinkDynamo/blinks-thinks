@@ -1,5 +1,25 @@
 #pragma once
 
-void DrawSplashScreenRaylib(const int screenWidth, const int screenHeight);
+#include <raylib/raylib.h>
 
-void DrawSplashScreenBlinkSoftware(const int screenWidth, const int screenHeight);
+class RaylibSplash
+{
+    public:
+        RaylibSplash(int screenWidth,int screenHeight);
+        void Draw();
+
+    private:
+        int screenWidth;
+        int screenHeight;
+};
+
+class BlinkSoftwareSplash
+{
+    public:
+        BlinkSoftwareSplash(int screenWidth,int screenHeight);
+        void Draw();
+
+    private:
+        int screenWidth;
+        int screenHeight;
+};

@@ -1,6 +1,13 @@
 #include "raylib/raylib.h"
+#include "blinks-thinks/splash_screens.hpp"
 
-void DrawSplashScreenRaylib(const int screenWidth, const int screenHeight)
+RaylibSplash::RaylibSplash(int screenWidth, int screenHeight)
+{
+    this->screenWidth = screenWidth;
+    this->screenHeight = screenHeight;
+}
+
+void RaylibSplash::Draw()
 /*******************************************************************************************
 *
 *   Original animation courtesy of Ramon Santamaria (@raysan5)
@@ -130,7 +137,14 @@ void DrawSplashScreenRaylib(const int screenWidth, const int screenHeight)
     }
 }
 
-void DrawSplashScreenBlinkSoftware(const int screenWidth, const int screenHeight)
+
+BlinkSoftwareSplash::BlinkSoftwareSplash(const int screenWidth, const int screenHeight)
+{
+    this->screenWidth = screenWidth;
+    this->screenHeight = screenHeight;
+}
+
+void BlinkSoftwareSplash::Draw()
 {
     int logoPositionX = screenWidth/2 - 128;
     int logoPositionY = screenHeight/2 - 128;

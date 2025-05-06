@@ -35,7 +35,12 @@ int main(void)
     GameScreen currentScreen = LOADING; 
     SetTargetFPS(frameRate);
 
-    /* Game Objects */
+    /* Splash Screens */    
+    BlinkSoftwareSplash blinkSoftwareSplash(screenWidth, screenHeight);
+    RaylibSplash raylibSplash(screenWidth, screenHeight);
+    
+    /* Title Screen */ 
+    Background titleScreenBackground(screenWidth, screenHeight, SKYBLUE, RAYWHITE, 60, 50);
     Button playButton("Play", { screenWidth / 2.0f, screenHeight / 2.0f + 100}, {100,40}, RAYWHITE, BLACK);
 
     /* ----- Main Event Loop ----- */
@@ -78,8 +83,8 @@ int main(void)
             case LOADING:
             {
                 // Play the elegant RayLib animation, along with the Blink Software splash screen.
-                DrawSplashScreenRaylib(screenWidth, screenHeight);
-                DrawSplashScreenBlinkSoftware(screenWidth, screenHeight);
+                raylibSplash.Draw();
+                blinkSoftwareSplash.Draw();
                 currentScreen = TITLE;
             } break;
 
@@ -88,9 +93,8 @@ int main(void)
                 // Background.
                 {
                     static float scroll = 0.0f;
-                    int speed = 30;
-                    scroll += speed * GetFrameTime(); 
-                    DrawScrollingCheckerboard(screenWidth, screenHeight, SKYBLUE, RAYWHITE, scroll, 50);
+                    scroll += GetFrameTime() * 30.0f;
+                    titleScreenBackground.Draw(scroll); 
                 }
 
                 // "Blink's Thinks" Title.
