@@ -37,14 +37,20 @@
 
 class Button {
     public:
-        Button(const Text& text, Color bgColor, Vector2 position, Vector2 size);
+        Button(const Text& text, Color bgDefaultColor, Color bgHoverColor, Vector2 position, 
+               Vector2 size);
         void Draw();
-        bool isPressed(Vector2 mousePos, bool mousePressed);
+        bool isPressed();
+
 
     private:
+        /* Arguments. */
         Text text;
-        Color bgColor;
-        Color textColor;
+        Color bgDefaultColor;
+        Color bgHoverColor;
         Vector2 position;
         Vector2 size; 
+
+        /* Set during construction. */
+        Rectangle rect;
 };

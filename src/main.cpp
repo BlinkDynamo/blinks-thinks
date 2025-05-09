@@ -72,6 +72,9 @@ int main(void)
     /* Colors. */
     Color SHADOW = { 15, 15, 15, 200 };
 
+    /* Background. */
+    float backgroundScroll = 0.0f;
+
     /* ------------------------- Initialization. ------------------------- */
 
     /* Window, Screen, and FPS. */
@@ -84,9 +87,6 @@ int main(void)
     RaylibSplash LOADING_splashRaylib(screenWidth, screenHeight);
 
     /* TITLE. */
-
-    float TITLE_backgroundScroll = 0.0f;
-
     Background TITLE_background(
         screenWidth, 
         screenHeight, 
@@ -105,6 +105,7 @@ int main(void)
     
     Button TITLE_buttonPlay(
         Text("Play", 40, BLACK, { 0, 0, 0, 0 }),
+        GRAY,
         LIGHTGRAY,
         { screenWidthCenter, screenHeightCenter + 100 },
         {180,60}
@@ -134,19 +135,53 @@ int main(void)
         SHADOW
     );
 
-    Text LEVEL_1_textChoiceOne(
-        "1",
-        40,
-        RAYWHITE,
-        SHADOW
+    /* Answer choices are all invisible buttons with visible text. */
+    Button LEVEL_1_choiceOne(
+        Text("114", 180, GOLD, SHADOW),
+        { 0, 0, 0, 0 },
+        LIGHTGRAY,
+        { screenWidthCenter - 300, screenHeightCenter + 150 },
+        {50,50}
     );
-
+    Button LEVEL_1_choiceTwo(
+        Text("3", 70, GOLD, SHADOW),
+        { 0, 0, 0, 0 },
+        LIGHTGRAY,
+        { screenWidthCenter - 150, screenHeightCenter + 150 },
+        {50,50}
+    );
+    Button LEVEL_1_choiceThree(
+        Text("518", 40, GOLD, SHADOW),
+        { 0, 0, 0, 0 },
+        LIGHTGRAY,
+        { screenWidthCenter, screenHeightCenter + 150 },
+        {50,50}
+    );
+    Button LEVEL_1_choiceFour(
+        Text("0", 120, GOLD, SHADOW),
+        { 0, 0, 0, 0 },
+        LIGHTGRAY,
+        { screenWidthCenter + 150, screenHeightCenter + 150 },
+        {50,50}
+    );
+    Button LEVEL_1_choiceFive(
+        Text("2869", 50, GOLD, SHADOW),
+        { 0, 0, 0, 0 },
+        LIGHTGRAY,
+        { screenWidthCenter + 300, screenHeightCenter + 150 },
+        {50,50}
+    );
     /* ------------------------- Main Event Loop. ------------------------- */
     while (!WindowShouldClose())
     {
         /* ----- Update. ----- */
+
+        /* Mouse. */
         mousePoint = GetMousePosition();
         mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT); 
+        
+        /* Background. */
+        backgroundScroll += GetFrameTime() * 30.0f;
 
         switch (currentScreen)
         {
@@ -155,12 +190,9 @@ int main(void)
 
             case TITLE:
             {
-                if (TITLE_buttonPlay.isPressed(mousePoint, mousePressed)) {
+                if (TITLE_buttonPlay.isPressed()) {
                     currentScreen = LEVEL_1;
-                }
-                
-                /* Background. */
-                TITLE_backgroundScroll += GetFrameTime() * 30.0f;
+                } 
             } break;
 
             case LEVEL_1:
@@ -219,34 +251,34 @@ int main(void)
 
             case TITLE:
             { 
-                TITLE_background.Draw(TITLE_backgroundScroll); 
-                TITLE_textTitle.Draw({ screenWidthCenter, screenHeightCenter - 100 }); 
-                TITLE_buttonPlay.Draw(); 
+                TITLE_background.Draw(backgroundScroll); 
+
+                TITLE_textTitle.DrawWobbling(
+                    { screenWidthCenter, screenHeightCenter - 100 },
+                    2.0f,
+                    7.0f
+                ); 
+
+                TITLE_buttonPlay.Draw();
             } break;
 
             case LEVEL_1:
             {
-                /* Background. */
-                {
-                    static float scroll = 0.0f;
-                    scroll += GetFrameTime() * 30.0f;
-                    LEVEL_1_background.Draw(scroll); 
-                }
+                    LEVEL_1_background.Draw(backgroundScroll); 
+                    
+                    LEVEL_1_textTitle.DrawStatic({ screenWidthCenter, screenHeightCenter - 250 }); 
 
-                /* "Level 1" Title. */
-                {
-                   LEVEL_1_textTitle.Draw({ screenWidthCenter, screenHeightCenter - 250 }); 
-                }
-
-                /* "What is the largest number?" prompt. */
-                {
-                   LEVEL_1_textPrompt.Draw({ screenWidthCenter, screenHeightCenter - 150 }); 
-                }
+                    LEVEL_1_textPrompt.DrawWobbling(
+                        { screenWidthCenter, screenHeightCenter - 150 },
+                        3.0f,
+                        2.0f
+                    ); 
                 
-                /* Various numbers. */
-                {
-                    LEVEL_1_textChoiceOne.Draw({ screenWidthCenter, 500 });
-                }
+                    LEVEL_1_choiceOne.Draw();
+                    LEVEL_1_choiceTwo.Draw();
+                    LEVEL_1_choiceThree.Draw();
+                    LEVEL_1_choiceFour.Draw();
+                    LEVEL_1_choiceFive.Draw();
             } break;
 
             case LEVEL_2:

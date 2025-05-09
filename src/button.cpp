@@ -29,21 +29,27 @@
 
 #include "blinks-thinks/button.hpp"
 
-Button::Button(const Text& text, Color bgColor, Vector2 position, Vector2 size)
-    : text(text), bgColor(bgColor), position(position), size(size)
-{}
+Button::Button(const Text& text, Color bgDefaultColor, Color bgHoverColor, Vector2 position, 
+               Vector2 size)
+    : text(text), bgDefaultColor(bgDefaultColor), bgHoverColor(bgHoverColor),
+      position(position), size(size) 
+{
+    this->rect = { position.x - size.x / 2.0f, position.y - size.y / 2.0f, size.x, size.y };
+}
 
 void Button::Draw()
 {
-    Vector2 drawPosition = { position.x - size.x / 2.0f, position.y - size.y / 2.0f };
-    
-    DrawRectangleV(drawPosition, size, bgColor);
+    /* Set currentColor depending on if it's hovered or not. */
+    Color currentColor = CheckCollisionPointRec(GetMousePosition(), rect)
+                         ? bgHoverColor
+                         : bgDefaultColor;
 
-    text.Draw(position); 
+    /* Draw the rectangle and text. */
+    DrawRectangleRec(rect, currentColor);
+    text.DrawStatic(position); 
 }
 
-bool Button::isPressed(Vector2 mousePos, bool mousePressed)
+bool Button::isPressed()
 {
-    Rectangle rect = { position.x - size.x / 2.0f, position.y - size.y / 2.0f, size.x, size.y };
-    return CheckCollisionPointRec(mousePos, rect) && mousePressed;
+    return CheckCollisionPointRec(GetMousePosition(), rect) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
 }
