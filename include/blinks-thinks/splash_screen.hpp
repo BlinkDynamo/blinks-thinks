@@ -34,7 +34,7 @@
 class RaylibSplash
 {
     public:
-        RaylibSplash(int screenWidth,int screenHeight);
+        RaylibSplash(int screenWidth, int screenHeight);
         void Draw();
 
     private:
@@ -45,10 +45,11 @@ class RaylibSplash
 class BlinkSoftwareSplash
 {
     public:
-        BlinkSoftwareSplash(int screenWidth,int screenHeight);
+        BlinkSoftwareSplash(int screenWidth, int screenHeight);
         void Draw();
 
     private:
+        /* Arguments. */
         int screenWidth;
         int screenHeight;
 };

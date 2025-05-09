@@ -40,6 +40,7 @@ class Background
         void Draw(float scrollOffset);
 
     private:
+        /* Arguments. */
         int screenWidth;
         int screenHeight;
         Color darkColor;

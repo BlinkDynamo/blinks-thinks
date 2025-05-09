@@ -33,44 +33,27 @@
 
 #include <string>
 
-class Text 
-/***********************************************************************************************
-*
-*   The main class for drawing stylized text to the screen.
-*
-*   ---------------------------------------- ARGUMENTS ----------------------------------------
-*
-*   int fontSize            Font size.
-*
-*   int letterSpacing       Pixels between letters.
-*
-*   Color textColor         Color of the main text.
-*
-*   Color shadowColor       Color of the shadow to display behind the main text.
-*
-*   const char * text       The string to display.
-*
-*   int textWidth           The width of the entire text block, after being formatted.
-*
-*   Vector2 origin          The center of both axes of the entire text block, after being
-*                           formatted.
-*
-***********************************************************************************************/
+class Text
 {
     public:
         /* Text::Text --- Constructor. */
         Text(const char *text, int fontSize, Color textColor, Color shadowColor); 
 
-        /* Text::Draw --- Draw the Text object centered on a position. */
-        void Draw(Vector2 position);
+        /* Text::DrawStatic --- Draw the Text object centered on a position. */
+        void DrawStatic(Vector2 position);
+        
+        /* Text::DrawWobbling --- Draw the Text object centered on a position, animated
+                                  according to a radius depth animationDepth. */
+        void DrawWobbling(Vector2 position, float animationSpeed, float animationDepth);
 
     private:
+        /* Arguments. */
         const char * text;
         int fontSize;
-
         Color textColor;
         Color shadowColor;
-        
+       
+        /* Set during construction. */ 
         int letterSpacing;
         int textWidth;
         Vector2 origin;
