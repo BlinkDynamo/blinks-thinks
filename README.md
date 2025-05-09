@@ -5,6 +5,7 @@
 * [Dependencies](#dependencies)
 * [Build](#build-instructions)
 * [Play](#play)
+* [Cleanup](#cleanup)
 
 ## Description
 Blink's Thinks is a point-and-click puzzle game. 
@@ -28,7 +29,7 @@ Build the binary:
 make
 ``` 
 
-## Installation
+## Play
 If the project built successfully, you now have two options to play the game: 
 
 ```bash
@@ -39,6 +40,9 @@ If the project built successfully, you now have two options to play the game:
 ./valgrind/run.sh
 ```
 
+For specific information about gameplay strategy and rules, see TUTORIAL.md.
+
+## Cleanup
 Should you want to clean the build/ and tests/ directories:
 ```bash
 make clean

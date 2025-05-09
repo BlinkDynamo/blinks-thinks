@@ -1,6 +1,6 @@
-/**********************************************************************************************
+/***********************************************************************************************
 *
-*   background - The class library for backgrounds within the game.
+*   background - The library for creating and drawing backgrounds.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -25,9 +25,10 @@
 *   3. This notice may not be removed or altered from any source
 *   distribution. 
 *
-*********************************************************************************************/
+***********************************************************************************************/
 
 #include "blinks-thinks/background.hpp"
+
 #include <cmath>
 
 Background::Background(int screenWidth, int screenHeight, Color darkColor, Color lightColor,

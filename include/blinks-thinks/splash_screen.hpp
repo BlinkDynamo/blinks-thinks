@@ -1,6 +1,6 @@
-/**********************************************************************************************
+/***********************************************************************************************
 *
-*   splash_screen - The class library for splash screens that display upon launch.
+*   splash_screen - The library for drawing splash screens.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -25,7 +25,7 @@
 *   3. This notice may not be removed or altered from any source
 *   distribution. 
 *
-*********************************************************************************************/
+***********************************************************************************************/
 
 #pragma once
 

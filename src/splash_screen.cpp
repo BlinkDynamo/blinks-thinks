@@ -1,6 +1,6 @@
-/**********************************************************************************************
+/***********************************************************************************************
 *
-*   splash_screen - The class library for splash screens that display upon launch.
+*   splash_screen - The library for drawing splash screens.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -25,9 +25,10 @@
 *   3. This notice may not be removed or altered from any source
 *   distribution. 
 *
-*********************************************************************************************/
+***********************************************************************************************/
 
 #include "raylib/raylib.h"
+
 #include "blinks-thinks/splash_screen.hpp"
 
 RaylibSplash::RaylibSplash(int screenWidth, int screenHeight)
@@ -37,7 +38,7 @@ RaylibSplash::RaylibSplash(int screenWidth, int screenHeight)
 }
 
 void RaylibSplash::Draw()
-/*********************************************************************************************
+/**********************************************************************************************
 *
 *   Original animation courtesy of Ramon Santamaria (@raysan5)
 *
@@ -48,7 +49,7 @@ void RaylibSplash::Draw()
 *
 *   Copyright (c) 2014-2025 Ramon Santamaria (@raysan5)
 *
-*********************************************************************************************/
+***********************************************************************************************/
 {
     int logoPositionX = screenWidth/2 - 128;
     int logoPositionY = screenHeight/2 - 128;

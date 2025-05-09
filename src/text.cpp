@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   button - The library for creating, drawing, and interacting with buttons.
+*   text - The library for drawing formatted text.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -27,34 +27,56 @@
 *
 ***********************************************************************************************/
 
-#include "blinks-thinks/button.hpp"
+#include "raylib/raylib.h"
 
-Button::Button(const char * text, int fontSize, Vector2 position, Vector2 size, Color bgColor,
-               Color textColor)
+#include "blinks-thinks/text.hpp"
+
+#include <cmath>
+
+Text::Text(int fontSize, int letterSpacing, Color textColor, Color shadowColor, 
+           const char * text)
 {
-    this->text = text;
+    /* All passed variables. */
     this->fontSize = fontSize;
-    /* 'position' places the button based on it's center position. */
-    this->position = {position.x -= size.x / 2.0f, position.y -= size.y / 2.0f };
-    this->size = size;
-    this->bgColor = bgColor;
+    this->letterSpacing = letterSpacing;
     this->textColor = textColor;
+    this->shadowColor = shadowColor;
+    this->text = text;
+
+    /* Variables calculated on construction. */
+    this->textWidth = MeasureText(text, fontSize);
+    this->origin = { textWidth / 2.0f, fontSize / 2.0f };
 }
 
-void Button::Draw()
+void Text::Draw(Vector2 position)
 {
-    DrawRectangleV(position, size, bgColor);
+    /* Rotation */
+    static float rotation = 0.0f;
+    rotation = sin(GetTime()) * 7.0f;
 
-    /* Center the text inside the button. */
-    int textWidth = MeasureText(text, fontSize);
-    int textX = position.x + (size.x - textWidth) / 2;
-    int textY = position.y + (size.y - fontSize) / 2;
+    Vector2 shadowOffset = { 6.0f, 6.0f };
 
-    DrawText(text, textX, textY, fontSize, textColor);
-}
+    /* Shadow. */
+    DrawTextPro(
+        GetFontDefault(), 
+        text, 
+        (Vector2){ position.x + shadowOffset.x, position.y + shadowOffset.y }, 
+        origin,
+        rotation,
+        fontSize,
+        letterSpacing,
+        shadowColor
+        );
 
-bool Button::isPressed(Vector2 mousePos, bool mousePressed)
-{
-    Rectangle rect = { position.x, position.y, size.x, size.y };
-    return CheckCollisionPointRec(mousePos, rect) && mousePressed;
+    /* Text. */ 
+    DrawTextPro(
+        GetFontDefault(),
+        text,
+        position,
+        origin,
+        rotation,
+        fontSize,
+        letterSpacing,
+        textColor
+        );
 }

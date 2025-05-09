@@ -5,7 +5,8 @@ COMPILER = clang++ -std=c++11
 SRCS = src/main.cpp \
 	   src/splash_screen.cpp \
 	   src/background.cpp \
-	   src/button.cpp
+	   src/button.cpp \
+	   src/text.cpp
 
 EXEC = build/blinks-thinks
 

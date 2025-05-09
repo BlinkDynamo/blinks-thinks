@@ -1,6 +1,6 @@
-/**********************************************************************************************
+/***********************************************************************************************
 *
-*   button - The class library for buttons within the game.
+*   button - The library for creating, drawing, and interacting with buttons.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -25,11 +25,12 @@
 *   3. This notice may not be removed or altered from any source
 *   distribution. 
 *
-*********************************************************************************************/
+***********************************************************************************************/
 
 #pragma once
 
 #include <raylib/raylib.h>
+
 #include <string>
 
 class Button {
