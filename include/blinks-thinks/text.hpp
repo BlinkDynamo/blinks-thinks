@@ -59,19 +59,19 @@ class Text
 {
     public:
         /* Text::Text --- Constructor. */
-        Text(int fontSize, int letterSpacing, Color textColor, Color shadowColor, const char *text); 
+        Text(const char *text, int fontSize, Color textColor, Color shadowColor); 
 
         /* Text::Draw --- Draw the Text object centered on a position. */
         void Draw(Vector2 position);
 
     private:
+        const char * text;
         int fontSize;
-        int letterSpacing;
 
         Color textColor;
         Color shadowColor;
         
-        const char * text;
+        int letterSpacing;
         int textWidth;
         Vector2 origin;
 };

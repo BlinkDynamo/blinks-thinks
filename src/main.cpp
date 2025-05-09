@@ -55,7 +55,7 @@ typedef enum GameScreen {
 
 int main(void)
 {
-    /* ----- Variables. ----- */
+    /* ------------------------- Variables. ------------------------- */
 
     /* Resolution and framerate. */
     const int screenWidth = 900;
@@ -69,7 +69,10 @@ int main(void)
     Vector2 mousePoint = { 0.0f, 0.0f };
     bool mousePressed;
 
-    /* ----- Initialization. ----- */
+    /* Colors. */
+    Color SHADOW = { 15, 15, 15, 200 };
+
+    /* ------------------------- Initialization. ------------------------- */
 
     /* Window, Screen, and FPS. */
     InitWindow(screenWidth, screenHeight, "Blink's Thinks");
@@ -77,20 +80,68 @@ int main(void)
     SetTargetFPS(frameRate);
 
     /* LOADING. */
-    BlinkSoftwareSplash blinkSoftwareSplash(screenWidth, screenHeight);
-    RaylibSplash raylibSplash(screenWidth, screenHeight);
+    BlinkSoftwareSplash LOADING_splashBlinkSoftware(screenWidth, screenHeight);
+    RaylibSplash LOADING_splashRaylib(screenWidth, screenHeight);
 
     /* TITLE. */
-    Background titleScreenBackground(screenWidth, screenHeight, SKYBLUE, RAYWHITE, 60, 50);
-    Button playButton("Play", 30, { screenWidth / 2.0f, screenHeight / 2.0f + 100}, {150,50},
-                      LIGHTGRAY, BLACK);
+
+    float TITLE_backgroundScroll = 0.0f;
+
+    Background TITLE_background(
+        screenWidth, 
+        screenHeight, 
+        SKYBLUE, 
+        RAYWHITE, 
+        60, 
+        50
+    );
+
+    Text TITLE_textTitle(
+        "Blink's Thinks",
+        100, 
+        { 28, 197, 148, 255 }, 
+        SHADOW
+    );
+    
+    Button TITLE_buttonPlay(
+        Text("Play", 40, BLACK, { 0, 0, 0, 0 }),
+        LIGHTGRAY,
+        { screenWidthCenter, screenHeightCenter + 100 },
+        {180,60}
+    );
 
     /* LEVEL_1. */
-    Background levelOneBackground(screenWidth, screenHeight, BROWN, BEIGE, 60, 50);
+    Background LEVEL_1_background(
+        screenWidth,
+        screenHeight,
+        BROWN,
+        BEIGE,
+        60,
+        50
+    );
 
-    Text choiceOne(40, 10, RAYWHITE, BLACK, "1");
+    Text LEVEL_1_textTitle(
+        "Level 1",
+        80,
+        RAYWHITE,
+        SHADOW
+    );
 
-    /* ----- Main Event Loop ----- */
+    Text LEVEL_1_textPrompt(
+        "What is the largest number?",
+        40,
+        RAYWHITE,
+        SHADOW
+    );
+
+    Text LEVEL_1_textChoiceOne(
+        "1",
+        40,
+        RAYWHITE,
+        SHADOW
+    );
+
+    /* ------------------------- Main Event Loop. ------------------------- */
     while (!WindowShouldClose())
     {
         /* ----- Update. ----- */
@@ -100,76 +151,53 @@ int main(void)
         switch (currentScreen)
         {
             case LOADING:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case TITLE:
             {
-                if (playButton.isPressed(mousePoint, mousePressed)) {
+                if (TITLE_buttonPlay.isPressed(mousePoint, mousePressed)) {
                     currentScreen = LEVEL_1;
                 }
+                
+                /* Background. */
+                TITLE_backgroundScroll += GetFrameTime() * 30.0f;
             } break;
 
             case LEVEL_1:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_2:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_3:
-            {
-                /* TODO. */
-            } break;
+            {} break;
             
             case LEVEL_4:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_5:
-            {
-                /* TODO. */
-            } break;
+            {} break;
             
             case LEVEL_6:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_7:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_8:
-            {
-                /* TODO. */
-            } break;
+            {} break;
             
             case LEVEL_9:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_10:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LOSE:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case WIN:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             default: break;
         }
@@ -184,66 +212,16 @@ int main(void)
             case LOADING:
             {
                 /* Play the elegant RayLib animation, along with the Blink Software splash screen. */
-                raylibSplash.Draw();
-                blinkSoftwareSplash.Draw();
+                LOADING_splashRaylib.Draw();
+                LOADING_splashBlinkSoftware.Draw();
                 currentScreen = TITLE;
             } break;
 
             case TITLE:
-            {
-                /* Background. */
-                {
-                    static float scroll = 0.0f;
-                    scroll += GetFrameTime() * 30.0f;
-                    titleScreenBackground.Draw(scroll); 
-                }
-
-                /* "Blink's Thinks" Title. */
-                {
-                    /* Color, font size, and text. */
-                    int fontSize = 100;
-                    Color textColor = { 28, 197, 148, 255 };
-                    Color shadowColor = { 15, 15, 15, 200 };
-                    const char *text = "Blink's Thinks";
-                    int textWidth = MeasureText(text, fontSize);
-
-                    /* Position. */
-                    Vector2 origin = { textWidth / 2.0f, fontSize / 2.0f };
-                    Vector2 position = { screenWidth / 2.0f, screenHeight / 2.0f - 100};
-
-                    /* Rotation */
-                    static float rotation = 0.0f;
-                    rotation = sin(GetTime()) * 7.0f;
-
-                    Vector2 shadowOffset = { 6.0f, 6.0f };
-
-                    /* Shadow. */
-                    DrawTextPro(
-                        GetFontDefault(), 
-                        text, 
-                        (Vector2){ position.x + shadowOffset.x, position.y + shadowOffset.y }, 
-                        origin,
-                        rotation,
-                        fontSize,
-                        10,
-                        shadowColor
-                        );
-
-                    /* Text. */ 
-                    DrawTextPro(
-                        GetFontDefault(),
-                        text,
-                        position,
-                        origin,
-                        rotation,
-                        fontSize,
-                        10,
-                        textColor
-                        );
-                }
-
-                /* Play button. */
-                playButton.Draw(); 
+            { 
+                TITLE_background.Draw(TITLE_backgroundScroll); 
+                TITLE_textTitle.Draw({ screenWidthCenter, screenHeightCenter - 100 }); 
+                TITLE_buttonPlay.Draw(); 
             } break;
 
             case LEVEL_1:
@@ -252,163 +230,57 @@ int main(void)
                 {
                     static float scroll = 0.0f;
                     scroll += GetFrameTime() * 30.0f;
-                    levelOneBackground.Draw(scroll); 
+                    LEVEL_1_background.Draw(scroll); 
                 }
 
                 /* "Level 1" Title. */
                 {
-                    /* Text, font size, and color. */
-                    const char *text = "Level 1";
-
-                    int fontSize = 80;
-                    int spacing = 10;
-                    Vector2 textDim = MeasureTextEx(GetFontDefault(), text, fontSize, spacing);
-
-                    Color textColor = DARKBROWN;
-                    Color shadowColor = { 15, 15, 15, 200 };
-
-                    /* Position. */
-                    Vector2 origin = { textDim.x / 2.0f, textDim.y / 2.0f };
-                    Vector2 position = { screenWidth / 2.0f, screenHeight / 2.0f - 250};
-
-                    /* Rotation */
-                    static float rotation = 0.0f;
-                    //rotation = sin(GetTime()) * 3.0f;
-
-                    Vector2 shadowOffset = { 6.0f, 6.0f };
-
-                    /* Shadow. */
-                    DrawTextPro(
-                        GetFontDefault(), 
-                        text, 
-                        (Vector2){ position.x + shadowOffset.x, position.y + shadowOffset.y }, 
-                        origin,
-                        rotation,
-                        fontSize,
-                        spacing,
-                        shadowColor
-                        );
-
-                    /* Text. */ 
-                    DrawTextPro(
-                        GetFontDefault(),
-                        text,
-                        position,
-                        origin,
-                        rotation,
-                        fontSize,
-                        spacing,
-                        textColor
-                        );
+                   LEVEL_1_textTitle.Draw({ screenWidthCenter, screenHeightCenter - 250 }); 
                 }
 
                 /* "What is the largest number?" prompt. */
                 {
-                    /* Text, font size, and color. */
-                    const char *text = "What is the largest number?";
-
-                    int fontSize = 40;
-                    int spacing = 10;
-                    Vector2 textDim = MeasureTextEx(GetFontDefault(), text, fontSize, spacing);
-
-                    Color textColor = RAYWHITE;
-                    Color shadowColor = { 15, 15, 15, 200 };
-
-                    /* Position. */
-                    Vector2 origin = { textDim.x / 2.0f, textDim.y / 2.0f };
-                    Vector2 position = { screenWidth / 2.0f, screenHeight / 2.0f - 150};
-
-                    /* Rotation */
-                    static float rotation = 0.0f;
-                    /* rotation = sin(GetTime()) * 3.0f; */
-
-                    Vector2 shadowOffset = { 6.0f, 6.0f };
-
-                    /* Shadow. */
-                    DrawTextPro(
-                        GetFontDefault(), 
-                        text, 
-                        (Vector2){ position.x + shadowOffset.x, position.y + shadowOffset.y }, 
-                        origin,
-                        rotation,
-                        fontSize,
-                        spacing,
-                        shadowColor
-                        );
-
-                    /* Text. */ 
-                    DrawTextPro(
-                        GetFontDefault(),
-                        text,
-                        position,
-                        origin,
-                        rotation,
-                        fontSize,
-                        spacing,
-                        textColor
-                        );
+                   LEVEL_1_textPrompt.Draw({ screenWidthCenter, screenHeightCenter - 150 }); 
                 }
                 
                 /* Various numbers. */
                 {
-                    choiceOne.Draw({ screenWidthCenter, 500 });
+                    LEVEL_1_textChoiceOne.Draw({ screenWidthCenter, 500 });
                 }
             } break;
 
             case LEVEL_2:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_3:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_4:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_5:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_6:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_7:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_8:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_9:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LEVEL_10:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case LOSE:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             case WIN:
-            {
-                /* TODO. */
-            } break;
+            {} break;
 
             default: break;
         }

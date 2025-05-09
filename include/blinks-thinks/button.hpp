@@ -31,20 +31,20 @@
 
 #include <raylib/raylib.h>
 
+#include <blinks-thinks/text.hpp>
+
 #include <string>
 
 class Button {
     public:
-        Button(const char * text, int fontSize, Vector2 position, Vector2 size, Color bgColor,
-               Color textColor);
+        Button(const Text& text, Color bgColor, Vector2 position, Vector2 size);
         void Draw();
         bool isPressed(Vector2 mousePos, bool mousePressed);
 
     private:
-        const char *text;
-        int fontSize;
-        Vector2 position;
-        Vector2 size;
+        Text text;
         Color bgColor;
         Color textColor;
+        Vector2 position;
+        Vector2 size; 
 };

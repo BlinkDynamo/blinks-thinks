@@ -33,40 +33,41 @@
 
 #include <cmath>
 
-Text::Text(int fontSize, int letterSpacing, Color textColor, Color shadowColor, 
-           const char * text)
+Text::Text(const char * text, int fontSize, Color textColor, Color shadowColor = { 0, 0, 0, 0 })
 {
     /* All passed variables. */
+    this->text = text;
     this->fontSize = fontSize;
-    this->letterSpacing = letterSpacing;
     this->textColor = textColor;
     this->shadowColor = shadowColor;
-    this->text = text;
 
     /* Variables calculated on construction. */
+    this->letterSpacing = fontSize / 10.0f;
     this->textWidth = MeasureText(text, fontSize);
     this->origin = { textWidth / 2.0f, fontSize / 2.0f };
 }
 
 void Text::Draw(Vector2 position)
 {
-    /* Rotation */
+    /* Rotation. */
     static float rotation = 0.0f;
-    rotation = sin(GetTime()) * 7.0f;
+    //rotation = sin(GetTime()) * 7.0f;
 
     Vector2 shadowOffset = { 6.0f, 6.0f };
 
-    /* Shadow. */
-    DrawTextPro(
-        GetFontDefault(), 
-        text, 
-        (Vector2){ position.x + shadowOffset.x, position.y + shadowOffset.y }, 
-        origin,
-        rotation,
-        fontSize,
-        letterSpacing,
-        shadowColor
+    /* Shadow. Only draw the shadow if it's not fully transparent. */
+    if (shadowColor.a != 0) {
+        DrawTextPro(
+            GetFontDefault(), 
+            text, 
+            (Vector2){ position.x + shadowOffset.x, position.y + shadowOffset.y }, 
+            origin,
+            rotation,
+            fontSize,
+            letterSpacing,
+            shadowColor
         );
+    }
 
     /* Text. */ 
     DrawTextPro(
