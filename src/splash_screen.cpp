@@ -42,6 +42,10 @@ void RaylibSplash::Draw()
 *
 *   Original animation courtesy of Ramon Santamaria (@raysan5)
 *
+*   This code has been changed from the original source code found here:
+*       
+*   https://github.com/raysan5/raylib/examples/shapes/shapes_logo_raylib_anim.c
+*
 *   Example originally created with raylib 2.5, last time updated with raylib 4.0
 *
 *   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
