@@ -31,7 +31,7 @@
 
 #include <raylib/raylib.h>
 
-#include <text.hpp>
+#include "text.hpp"
 
 #include <string>
 
@@ -39,6 +39,7 @@ class Button {
     public:
         Button(Text& text, Color textHoverColor, Color bgDefaultColor, Color bgHoverColor, 
                Vector2 position, Vector2 size);
+        bool isHovered();
         void Draw();
         bool isPressed();
 

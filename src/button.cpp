@@ -28,6 +28,7 @@
 ***********************************************************************************************/
 
 #include "button.hpp"
+#include "main.hpp"
 
 Button::Button(Text& text, Color textHoverColor, Color bgDefaultColor, 
                Color bgHoverColor, Vector2 position, Vector2 size)
@@ -38,13 +39,18 @@ Button::Button(Text& text, Color textHoverColor, Color bgDefaultColor,
     this->textDefaultColor = text.GetTextColor();
 }
 
+bool Button::isHovered()
+{
+    return CheckCollisionPointRec(mousePoint, rect);
+}
+
 void Button::Draw()
 {
     /* Set currentColor depending on if it's hovered or not. */
     Color currentBgColor;
     Color currentTextColor;
     
-    if (CheckCollisionPointRec(GetMousePosition(), rect)) {
+    if (isHovered()) {
         currentBgColor = bgHoverColor;
         currentTextColor = textHoverColor;
     } 
@@ -62,5 +68,5 @@ void Button::Draw()
 
 bool Button::isPressed()
 {
-    return CheckCollisionPointRec(GetMousePosition(), rect) && IsMouseButtonDown(MOUSE_BUTTON_LEFT);
+    return isHovered() && mousePressed;
 }

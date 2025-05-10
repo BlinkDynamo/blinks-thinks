@@ -1,6 +1,6 @@
 /***********************************************************************************************
-* 
-*   text.hpp - The library for creating and drawing formatted text.
+*
+*   main.cpp - The entry point and program runtime.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -31,35 +31,6 @@
 
 #include <raylib/raylib.h>
 
-#include <string>
-
-class Text
-{
-    public:
-        /* Text::Text --- Constructor. */
-        Text(const char *text, int fontSize, Color textColor, Color shadowColor); 
-
-        /* Text::DrawStatic --- Draw the Text object centered on a position. */
-        void DrawStatic(Vector2 position);
-        
-        /* Text::DrawWobbling --- Draw the Text object centered on a position, animated
-                                  according to a radius depth animationDepth. */
-        void DrawWobbling(Vector2 position, float animationSpeed, float animationDepth);
-
-        Color GetTextColor() { return textColor; }
-
-        void SetTextColor(Color tc) { textColor = tc; }
-
-    private:
-        /* Arguments. */
-        const char * text;
-        int fontSize;
-        Color textColor;
-        Color shadowColor;
-       
-        /* Set during construction. */ 
-        int letterSpacing;
-        Vector2 textDim;
-        Vector2 origin;
-        Vector2 shadowOffset;
-};
+/* Mouse. */
+extern Vector2 mousePoint;
+extern bool mousePressed;

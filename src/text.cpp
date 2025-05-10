@@ -45,12 +45,11 @@ Text::Text(const char * text, int fontSize, Color textColor, Color shadowColor =
     this->letterSpacing = fontSize / 10.0f;
     this->textDim = MeasureTextEx(GetFontDefault(), text, fontSize, letterSpacing);
     this->origin = { textDim.x / 2.0f, textDim.y / 2.0f };
+    this->shadowOffset = { 5.0f, 5.0f };
 }
 
 void Text::DrawStatic(Vector2 position)
 {
-    Vector2 shadowOffset = { 6.0f, 6.0f };
-
     /* Shadow. Only draw the shadow if it's not fully transparent. */
     if (shadowColor.a != 0) {
         DrawTextPro(
@@ -83,8 +82,6 @@ void Text::DrawWobbling(Vector2 position, float animationSpeed, float animationD
     /* Rotation. */
     static float rotation = 0.0f;
     rotation = sin(GetTime() * animationSpeed) * animationDepth;
-
-    Vector2 shadowOffset = { 6.0f, 6.0f };
 
     /* Shadow. Only draw the shadow if it's not fully transparent. */
     if (shadowColor.a != 0) {
