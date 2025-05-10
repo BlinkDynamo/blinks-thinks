@@ -43,8 +43,8 @@ Text::Text(const char * text, int fontSize, Color textColor, Color shadowColor =
 
     /* Variables calculated on construction. */
     this->letterSpacing = fontSize / 10.0f;
-    this->textWidth = MeasureText(text, fontSize);
-    this->origin = { textWidth / 2.0f, fontSize / 2.0f };
+    this->textDim = MeasureTextEx(GetFontDefault(), text, fontSize, letterSpacing);
+    this->origin = { textDim.x / 2.0f, textDim.y / 2.0f };
 }
 
 void Text::DrawStatic(Vector2 position)

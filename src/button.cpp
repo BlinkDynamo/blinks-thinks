@@ -29,23 +29,34 @@
 
 #include "blinks-thinks/button.hpp"
 
-Button::Button(const Text& text, Color bgDefaultColor, Color bgHoverColor, Vector2 position, 
-               Vector2 size)
-    : text(text), bgDefaultColor(bgDefaultColor), bgHoverColor(bgHoverColor),
-      position(position), size(size) 
+Button::Button(Text& text, Color textHoverColor, Color bgDefaultColor, 
+               Color bgHoverColor, Vector2 position, Vector2 size)
+    : text(text), textHoverColor(textHoverColor), bgDefaultColor(bgDefaultColor), 
+      bgHoverColor(bgHoverColor), position(position), size(size) 
 {
-    this->rect = { position.x - size.x / 2.0f, position.y - size.y / 2.0f, size.x, size.y };
+    this->rect = { position.x - (size.x / 2.0f), position.y - (size.y / 2.0f), size.x, size.y };
+    this->textDefaultColor = text.GetTextColor();
 }
 
 void Button::Draw()
 {
     /* Set currentColor depending on if it's hovered or not. */
-    Color currentColor = CheckCollisionPointRec(GetMousePosition(), rect)
-                         ? bgHoverColor
-                         : bgDefaultColor;
+    Color currentBgColor;
+    Color currentTextColor;
+    
+    if (CheckCollisionPointRec(GetMousePosition(), rect)) {
+        currentBgColor = bgHoverColor;
+        currentTextColor = textHoverColor;
+    } 
+    else {
+        currentBgColor = bgDefaultColor;
+        currentTextColor = textDefaultColor;
+    }
+
+    text.SetTextColor(currentTextColor);
 
     /* Draw the rectangle and text. */
-    DrawRectangleRec(rect, currentColor);
+    DrawRectangleRec(rect, currentBgColor);
     text.DrawStatic(position); 
 }
 

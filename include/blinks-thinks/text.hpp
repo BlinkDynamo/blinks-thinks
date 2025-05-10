@@ -46,6 +46,10 @@ class Text
                                   according to a radius depth animationDepth. */
         void DrawWobbling(Vector2 position, float animationSpeed, float animationDepth);
 
+        Color GetTextColor() { return textColor; }
+
+        void SetTextColor(Color tc) { textColor = tc; }
+
     private:
         /* Arguments. */
         const char * text;
@@ -55,6 +59,6 @@ class Text
        
         /* Set during construction. */ 
         int letterSpacing;
-        int textWidth;
+        Vector2 textDim;
         Vector2 origin;
 };

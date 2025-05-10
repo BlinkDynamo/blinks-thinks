@@ -71,6 +71,7 @@ int main(void)
 
     /* Colors. */
     Color SHADOW = { 15, 15, 15, 200 };
+    Color ANSWERHOVER = { 250, 255, 180, 255 };
 
     /* Background. */
     float backgroundScroll = 0.0f;
@@ -102,9 +103,11 @@ int main(void)
         { 28, 197, 148, 255 }, 
         SHADOW
     );
-    
+   
+    Text TITLE_buttonPlayText("Play", 40, BLACK, { 0, 0, 0, 0 });
     Button TITLE_buttonPlay(
-        Text("Play", 40, BLACK, { 0, 0, 0, 0 }),
+        TITLE_buttonPlayText,
+        TITLE_buttonPlayText.GetTextColor(),
         GRAY,
         LIGHTGRAY,
         { screenWidthCenter, screenHeightCenter + 100 },
@@ -136,41 +139,56 @@ int main(void)
     );
 
     /* Answer choices are all invisible buttons with visible text. */
+    Text LEVEL_1_choiceOneText("114", 180, GOLD, SHADOW);
     Button LEVEL_1_choiceOne(
-        Text("114", 180, GOLD, SHADOW),
+        LEVEL_1_choiceOneText,
+        ANSWERHOVER,
         { 0, 0, 0, 0 },
-        LIGHTGRAY,
-        { screenWidthCenter - 300, screenHeightCenter + 150 },
-        {50,50}
+        { 0, 0, 0, 0 },
+        { screenWidthCenter - 300, screenHeightCenter + 30 },
+        { 220, 155 }
     );
+
+    Text LEVEL_1_choiceTwoText("3", 70, GOLD, SHADOW);
     Button LEVEL_1_choiceTwo(
-        Text("3", 70, GOLD, SHADOW),
+        LEVEL_1_choiceTwoText,
+        ANSWERHOVER,
         { 0, 0, 0, 0 },
-        LIGHTGRAY,
-        { screenWidthCenter - 150, screenHeightCenter + 150 },
-        {50,50}
+        { 0, 0, 0, 0 },
+        { screenWidthCenter - 150, screenHeightCenter + 180 },
+        { 55, 70 }
     );
+
+    Text LEVEL_1_choiceThreeText("518", 40, GOLD, SHADOW);
     Button LEVEL_1_choiceThree(
-        Text("518", 40, GOLD, SHADOW),
+        LEVEL_1_choiceThreeText,
+        ANSWERHOVER,
         { 0, 0, 0, 0 },
-        LIGHTGRAY,
-        { screenWidthCenter, screenHeightCenter + 150 },
-        {50,50}
+        { 0, 0, 0, 0 },
+        { screenWidthCenter, screenHeightCenter + 130 },
+        { 70, 55 }
     );
+
+    Text LEVEL_1_choiceFourText("0", 120, GOLD, SHADOW);
     Button LEVEL_1_choiceFour(
-        Text("0", 120, GOLD, SHADOW),
+        LEVEL_1_choiceFourText,
+        ANSWERHOVER,
         { 0, 0, 0, 0 },
-        LIGHTGRAY,
+        { 0, 0, 0, 0 },
         { screenWidthCenter + 150, screenHeightCenter + 150 },
-        {50,50}
+        { 75, 100 }
     );
+
+    Text LEVEL_1_choiceFiveText ("2869", 50, GOLD, SHADOW);
     Button LEVEL_1_choiceFive(
-        Text("2869", 50, GOLD, SHADOW),
+        LEVEL_1_choiceFiveText,
+        ANSWERHOVER,
         { 0, 0, 0, 0 },
-        LIGHTGRAY,
+        { 0, 0, 0, 0 },
         { screenWidthCenter + 300, screenHeightCenter + 150 },
         {50,50}
     );
+    
     /* ------------------------- Main Event Loop. ------------------------- */
     while (!WindowShouldClose())
     {

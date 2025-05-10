@@ -37,8 +37,8 @@
 
 class Button {
     public:
-        Button(const Text& text, Color bgDefaultColor, Color bgHoverColor, Vector2 position, 
-               Vector2 size);
+        Button(Text& text, Color textHoverColor, Color bgDefaultColor, Color bgHoverColor, 
+               Vector2 position, Vector2 size);
         void Draw();
         bool isPressed();
 
@@ -46,6 +46,8 @@ class Button {
     private:
         /* Arguments. */
         Text text;
+        Color textDefaultColor;
+        Color textHoverColor;
         Color bgDefaultColor;
         Color bgHoverColor;
         Vector2 position;
