@@ -29,10 +29,10 @@
 
 #include "raylib/raylib.h"
 
-#include "blinks-thinks/splash_screen.hpp"
-#include "blinks-thinks/background.hpp"
-#include "blinks-thinks/button.hpp"
-#include "blinks-thinks/text.hpp"
+#include "splash_screen.hpp"
+#include "background.hpp"
+#include "button.hpp"
+#include "text.hpp"
 
 #include <cmath>
 

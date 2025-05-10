@@ -29,7 +29,7 @@
 
 #include "raylib/raylib.h"
 
-#include "blinks-thinks/splash_screen.hpp"
+#include "splash_screen.hpp"
 
 RaylibSplash::RaylibSplash(int screenWidth, int screenHeight)
 {

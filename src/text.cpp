@@ -29,7 +29,7 @@
 
 #include "raylib/raylib.h"
 
-#include "blinks-thinks/text.hpp"
+#include "text.hpp"
 
 #include <cmath>
 

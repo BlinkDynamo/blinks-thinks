@@ -27,7 +27,7 @@
 *
 ***********************************************************************************************/
 
-#include "blinks-thinks/button.hpp"
+#include "button.hpp"
 
 Button::Button(Text& text, Color textHoverColor, Color bgDefaultColor, 
                Color bgHoverColor, Vector2 position, Vector2 size)

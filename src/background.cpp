@@ -27,7 +27,7 @@
 *
 ***********************************************************************************************/
 
-#include "blinks-thinks/background.hpp"
+#include "background.hpp"
 
 #include <cmath>
 
