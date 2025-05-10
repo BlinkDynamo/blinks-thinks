@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   background - The library for creating and drawing backgrounds.
+*   background.cpp - The library for creating and drawing backgrounds.
 *
 *   LICENSE: zlib/libpng 
 *

@@ -1,6 +1,6 @@
 /***********************************************************************************************
-* 
-*   text - The library for drawing formatted text.
+*
+*   button.hpp - The library for creating, drawing, and interacting with buttons.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -31,34 +31,28 @@
 
 #include <raylib/raylib.h>
 
+#include <blinks-thinks/text.hpp>
+
 #include <string>
 
-class Text
-{
+class Button {
     public:
-        /* Text::Text --- Constructor. */
-        Text(const char *text, int fontSize, Color textColor, Color shadowColor); 
+        Button(Text& text, Color textHoverColor, Color bgDefaultColor, Color bgHoverColor, 
+               Vector2 position, Vector2 size);
+        void Draw();
+        bool isPressed();
 
-        /* Text::DrawStatic --- Draw the Text object centered on a position. */
-        void DrawStatic(Vector2 position);
-        
-        /* Text::DrawWobbling --- Draw the Text object centered on a position, animated
-                                  according to a radius depth animationDepth. */
-        void DrawWobbling(Vector2 position, float animationSpeed, float animationDepth);
-
-        Color GetTextColor() { return textColor; }
-
-        void SetTextColor(Color tc) { textColor = tc; }
 
     private:
         /* Arguments. */
-        const char * text;
-        int fontSize;
-        Color textColor;
-        Color shadowColor;
-       
-        /* Set during construction. */ 
-        int letterSpacing;
-        Vector2 textDim;
-        Vector2 origin;
+        Text text;
+        Color textDefaultColor;
+        Color textHoverColor;
+        Color bgDefaultColor;
+        Color bgHoverColor;
+        Vector2 position;
+        Vector2 size; 
+
+        /* Set during construction. */
+        Rectangle rect;
 };

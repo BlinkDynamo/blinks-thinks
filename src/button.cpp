@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   button - The library for creating, drawing, and interacting with buttons.
+*   button.cpp - The library for creating, drawing, and interacting with buttons.
 *
 *   LICENSE: zlib/libpng 
 *

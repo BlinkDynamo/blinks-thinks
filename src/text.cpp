@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   text - The library for drawing formatted text.
+*   text.cpp - The library for creating and drawing formatted text.
 *
 *   LICENSE: zlib/libpng 
 *

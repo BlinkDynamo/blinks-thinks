@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   splash_screen - The library for drawing splash screens.
+*   splash_screen.cpp - The library for drawing splash screens.
 *
 *   LICENSE: zlib/libpng 
 *

@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   button - The library for creating, drawing, and interacting with buttons.
+*   background.hpp - The library for creating and drawing backgrounds.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -31,28 +31,20 @@
 
 #include <raylib/raylib.h>
 
-#include <blinks-thinks/text.hpp>
-
-#include <string>
-
-class Button {
+class Background
+{
     public:
-        Button(Text& text, Color textHoverColor, Color bgDefaultColor, Color bgHoverColor, 
-               Vector2 position, Vector2 size);
-        void Draw();
-        bool isPressed();
+        Background(int screenWidth, int screenHeight, Color darkColor, Color lightColor,
+                   float scrollOffset, int squareSize);
 
+        void Draw(float scrollOffset);
 
     private:
         /* Arguments. */
-        Text text;
-        Color textDefaultColor;
-        Color textHoverColor;
-        Color bgDefaultColor;
-        Color bgHoverColor;
-        Vector2 position;
-        Vector2 size; 
-
-        /* Set during construction. */
-        Rectangle rect;
+        int screenWidth;
+        int screenHeight;
+        Color darkColor;
+        Color lightColor;
+        float scrollOffset;
+        int squareSize;
 };

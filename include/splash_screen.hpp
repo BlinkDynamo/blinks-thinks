@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   version - The current version of Blink's Thinks.
+*   splash_screen.hpp - The library for drawing splash screens.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -29,5 +29,27 @@
 
 #pragma once
 
-#define PROGRAM_VERSION "0.0.2"
-#define PROGRAM_NAME "blinks-thinks"
+#include <raylib/raylib.h>
+
+class RaylibSplash
+{
+    public:
+        RaylibSplash(int screenWidth, int screenHeight);
+        void Draw();
+
+    private:
+        int screenWidth;
+        int screenHeight;
+};
+
+class BlinkSoftwareSplash
+{
+    public:
+        BlinkSoftwareSplash(int screenWidth, int screenHeight);
+        void Draw();
+
+    private:
+        /* Arguments. */
+        int screenWidth;
+        int screenHeight;
+};

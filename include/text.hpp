@@ -1,6 +1,6 @@
 /***********************************************************************************************
-*
-*   background - The library for creating and drawing backgrounds.
+* 
+*   text.hpp - The library for creating and drawing formatted text.
 *
 *   LICENSE: zlib/libpng 
 *
@@ -31,20 +31,34 @@
 
 #include <raylib/raylib.h>
 
-class Background
+#include <string>
+
+class Text
 {
     public:
-        Background(int screenWidth, int screenHeight, Color darkColor, Color lightColor,
-                   float scrollOffset, int squareSize);
+        /* Text::Text --- Constructor. */
+        Text(const char *text, int fontSize, Color textColor, Color shadowColor); 
 
-        void Draw(float scrollOffset);
+        /* Text::DrawStatic --- Draw the Text object centered on a position. */
+        void DrawStatic(Vector2 position);
+        
+        /* Text::DrawWobbling --- Draw the Text object centered on a position, animated
+                                  according to a radius depth animationDepth. */
+        void DrawWobbling(Vector2 position, float animationSpeed, float animationDepth);
+
+        Color GetTextColor() { return textColor; }
+
+        void SetTextColor(Color tc) { textColor = tc; }
 
     private:
         /* Arguments. */
-        int screenWidth;
-        int screenHeight;
-        Color darkColor;
-        Color lightColor;
-        float scrollOffset;
-        int squareSize;
+        const char * text;
+        int fontSize;
+        Color textColor;
+        Color shadowColor;
+       
+        /* Set during construction. */ 
+        int letterSpacing;
+        Vector2 textDim;
+        Vector2 origin;
 };
