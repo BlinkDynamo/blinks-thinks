@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="EN-us">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+        <title>Blink's Think's</title>
+
+        <meta name="title" content="Blink's Thinks">
+        <meta name="description" content="A point and click choice game built using raylib.">
+        <meta name="keywords" content="raylib, programming, puzzle, C, C++, games, videogames">
+        <meta name="viewport" content="width=device-width">
+        
+        <style>
+            body { 
+                margin: 0px;
+                overflow: hidden; 
+                background-color: rgb(30, 36, 40);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 60vh;
+            }
+            canvas.emscripten {
+                border: 0;
+            }
+        </style>
+
+    </head>
+    
+    <body>
+        <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
+        <p id="output" />
+        <script>
+            var Module = {
+                print: (function() {
+                    var element = document.getElementById('output');
+                    if (element) element.value = ''; // clear browser cache
+                    return function(text) {
+                        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                        console.log(text);
+                        if (element) {
+                          element.value += text + "\n";
+                          element.scrollTop = element.scrollHeight; // focus on bottom
+                        }
+                    };
+                })(),
+                canvas: (function() {
+                    var canvas = document.getElementById('canvas');
+                    return canvas;
+                })()
+            };
+        </script>
+        {{{ SCRIPT }}}
+    </body>
+</html>
