@@ -36,7 +36,10 @@ Button::Button(Text& text, Color textHoverColor, Color bgDefaultColor,
       bgHoverColor(bgHoverColor), position(position), size(size) 
 {
     this->rect = { position.x - (size.x / 2.0f), position.y - (size.y / 2.0f), size.x, size.y };
+    
     this->textDefaultColor = text.GetTextColor();
+    this->currentBgColor = bgDefaultColor;
+    this->currentTextColor = textDefaultColor;
 }
 
 bool Button::isHovered()
@@ -44,12 +47,14 @@ bool Button::isHovered()
     return CheckCollisionPointRec(mousePoint, rect);
 }
 
-void Button::Draw()
+bool Button::isPressed()
 {
-    /* Set currentColor depending on if it's hovered or not. */
-    Color currentBgColor;
-    Color currentTextColor;
-    
+    return isHovered() && mousePressed;
+}
+
+void Button::Update()
+{     
+    /* Update the color of the button's text if hovered. */
     if (isHovered()) {
         currentBgColor = bgHoverColor;
         currentTextColor = textHoverColor;
@@ -60,13 +65,11 @@ void Button::Draw()
     }
 
     text.SetTextColor(currentTextColor);
+}
 
+void Button::Draw()
+{
     /* Draw the rectangle and text. */
     DrawRectangleRec(rect, currentBgColor);
     text.DrawStatic(position); 
-}
-
-bool Button::isPressed()
-{
-    return isHovered() && mousePressed;
 }

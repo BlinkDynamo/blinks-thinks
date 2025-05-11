@@ -40,8 +40,9 @@ class Button {
         Button(Text& text, Color textHoverColor, Color bgDefaultColor, Color bgHoverColor, 
                Vector2 position, Vector2 size);
         bool isHovered();
-        void Draw();
         bool isPressed();
+        void Update();
+        void Draw();
 
 
     private:
@@ -55,5 +56,8 @@ class Button {
         Vector2 size; 
 
         /* Set during construction. */
+        Color currentBgColor;
+        Color currentTextColor;
+
         Rectangle rect;
 };

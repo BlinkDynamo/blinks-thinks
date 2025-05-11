@@ -402,6 +402,7 @@ int main(void)
 
             case TITLE:
             { 
+                TITLE_buttonPlay.Update();
                 if (TITLE_buttonPlay.isPressed()) {
                     currentScreen = LEVEL_1;
                 } 
@@ -409,6 +410,12 @@ int main(void)
 
             case LEVEL_1:
             {
+                LEVEL_1_choiceOne.Update();
+                LEVEL_1_choiceTwo.Update();
+                LEVEL_1_choiceThree.Update();
+                LEVEL_1_choiceFour.Update();
+                LEVEL_1_choiceFive.Update();
+
                 if (mousePressed) {
                     if (LEVEL_1_choiceFive.isPressed()) {
                         currentScreen = LEVEL_2;
@@ -421,6 +428,12 @@ int main(void)
 
             case LEVEL_2:
             {
+                LEVEL_2_choiceOne.Update();
+                LEVEL_2_choiceTwo.Update();
+                LEVEL_2_choiceThree.Update();
+                LEVEL_2_choiceFour.Update();
+                LEVEL_2_choiceFive.Update();
+
                 if (mousePressed) {
                     if (LEVEL_2_choiceOne.isPressed()) {
                         currentScreen = LEVEL_3;
@@ -433,6 +446,12 @@ int main(void)
 
             case LEVEL_3:
             {
+                LEVEL_3_choiceOne.Update();
+                LEVEL_3_choiceTwo.Update();
+                LEVEL_3_choiceThree.Update();
+                LEVEL_3_choiceFour.Update();
+                LEVEL_3_choiceFive.Update();
+
                 if (mousePressed) {
                     if (LEVEL_3_choiceOne.isPressed()) {
                         currentScreen = LEVEL_4;
