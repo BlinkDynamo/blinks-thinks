@@ -362,10 +362,10 @@ int main(void)
         BT_SHADOW
     );
    
-    Text LOSE_buttonRestartText("Menu", 40, BLACK, { 0, 0, 0, 0 });
-    Button LOSE_buttonRestart(
-        LOSE_buttonRestartText,
-        LOSE_buttonRestartText.GetTextColor(),
+    Text LOSE_buttonMenuText("Menu", 40, BLACK, { 0, 0, 0, 0 });
+    Button LOSE_buttonMenu(
+        LOSE_buttonMenuText,
+        LOSE_buttonMenuText.GetTextColor(),
         GRAY,
         LIGHTGRAY,
         { screenWidthCenter, screenHeightCenter + 100 },
@@ -485,7 +485,9 @@ int main(void)
 
             case LOSE:
             {
-                if (LOSE_buttonRestart.isPressed()) {
+                LOSE_buttonMenu.Update();
+
+                if (LOSE_buttonMenu.isPressed()) {
                    currentScreen = TITLE;
                 } 
             } break;
@@ -619,7 +621,7 @@ int main(void)
                     2.0f
                 );
 
-                LOSE_buttonRestart.Draw();
+                LOSE_buttonMenu.Draw();
             } break;
 
             case WIN:
