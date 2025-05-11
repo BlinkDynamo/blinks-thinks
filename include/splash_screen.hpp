@@ -34,22 +34,51 @@
 class RaylibSplash
 {
     public:
-        RaylibSplash(int screenWidth, int screenHeight);
+        RaylibSplash();
+        bool isFinished();
+        void Update();
         void Draw();
 
     private:
-        int screenWidth;
-        int screenHeight;
+        /* Runtime variables. */ 
+        int logoPositionX;
+        int logoPositionY;
+
+        int framesCounter;
+        int lettersCount;
+
+        int topSideRecWidth;
+        int leftSideRecHeight;
+
+        int bottomSideRecWidth;
+        int rightSideRecHeight;
+
+        int state;
+        float alpha;
+
+        bool finished;
 };
 
 class BlinkSoftwareSplash
 {
     public:
-        BlinkSoftwareSplash(int screenWidth, int screenHeight);
+        BlinkSoftwareSplash();
+        bool isFinished();
         void Draw();
+        void Update();
 
     private:
-        /* Arguments. */
-        int screenWidth;
-        int screenHeight;
+        /* Runtime variables. */
+        int logoPositionX;
+        int logoPositionY;
+
+        int framesCounter;
+        int lettersCount;
+
+        int state;
+        float alpha;
+        int frameRate;
+        int shortDelay;
+
+        bool finished;
 };

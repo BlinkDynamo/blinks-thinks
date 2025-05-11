@@ -18,7 +18,24 @@ NATIVE_FLAGS := -I$(INCLUDE_DIR) -L.$(LIB_DIR) -lraylib -Iinclude -lm -ldl -lpth
 WEB_BUILD_DIR := build/web
 WEB_COMPILER := emcc
 WEB_EXEC := $(WEB_BUILD_DIR)/blinks-thinks.html
-WEB_FLAGS := -Os -Wall -I. -I$(INCLUDE_DIR) $(LIB) -s USE_GLFW=3 -s ASYNCIFY --shell-file web/shell.html -DPLATFORM_WEB
+# Expand each file inside 'audio/' with xargs and format them as flags.
+WEB_PRELOAD_ASSETS := $(shell find audio -type f | xargs -I{} echo --preload-file {})
+WEB_FLAGS := -Os \
+			 -Wall \
+			 -I. \
+			 -I$(INCLUDE_DIR) \
+			 $(LIB) \
+			 -DPLATFORM_WEB \
+			 -DRAUDIO_IMPLEMENTATION \
+			 -D_SUPPORT_MODULE_RAUDIO \
+			 -s USE_GLFW=3 \
+			 -s ASYNCIFY \
+			 -s ALLOW_MEMORY_GROWTH=1\
+			 -s FORCE_FILESYSTEM=1 \
+			 $(WEB_PRELOAD_ASSETS)  \
+			 --shell-file web/shell.html
+			 
+			 
 
 all: native web
 	

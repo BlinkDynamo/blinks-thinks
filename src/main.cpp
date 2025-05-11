@@ -37,6 +37,13 @@
 
 #include <cmath>
 
+/* Resolution and framerate. */
+const int screenWidth = 900;
+const int screenHeight = 600;
+const int screenWidthCenter = screenWidth / 2.0f;
+const int screenHeightCenter = screenHeight / 2.0f;
+const int frameRate = 60;
+
 /* Mouse. These are external variables defined in 'include/main.hpp'. */
 Vector2 mousePoint = { 0.0f, 0.0f };
 bool mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
@@ -61,15 +68,7 @@ int main(void)
         LEVEL_10,
         LOSE, 
         WIN, 
-    } GameScreen;
-
-    /* Resolution and framerate. */
-    const int screenWidth = 900;
-    const int screenHeight = 600;
-    const int screenWidthCenter = screenWidth / 2.0f;
-    const int screenHeightCenter = screenHeight / 2.0f;
-    const int frameRate = 60;
-    const int logoScreenDelay = frameRate * 5;
+    } GameScreen; 
 
     /* Colors. */
     Color BT_SHADOW = { 15, 15, 15, 200 };
@@ -79,14 +78,20 @@ int main(void)
     /* Background. */
     float backgroundScroll = 0.0f;
 
-    /* ---------- Window, Screen, and FPS. ---------- */
+    /* Window, Screen, and FPS. */
     InitWindow(screenWidth, screenHeight, "Blink's Thinks");
     GameScreen currentScreen = LOADING; 
     SetTargetFPS(frameRate);
 
+    /* Audio. */
+    InitAudioDevice();
+    SetAudioStreamBufferSizeDefault(4096);
+    Music title_theme = LoadMusicStream("audio/title_theme.ogg");
+    PlayMusicStream(title_theme);
+
     /* ---------- LOADING. ---------- */
-    BlinkSoftwareSplash LOADING_splashBlinkSoftware(screenWidth, screenHeight);
-    RaylibSplash LOADING_splashRaylib(screenWidth, screenHeight);
+    BlinkSoftwareSplash LOADING_splashBlinkSoftware;
+    RaylibSplash LOADING_splashRaylib;
 
     /* ---------- TITLE. ---------- */
     Background TITLE_background(
@@ -377,15 +382,26 @@ int main(void)
         mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT); 
         
         /* Background. */
-        backgroundScroll += GetFrameTime() * 30.0f;
+        backgroundScroll += GetFrameTime() * 30.0f; 
+        
+        /* Update the music buffer with new stream data. */
+        UpdateMusicStream(title_theme);
 
         switch (currentScreen)
         {
             case LOADING:
-            {} break;
+            {
+                /* Update the correct splash screen in order of what should be played first. */
+                if (!LOADING_splashRaylib.isFinished()) {
+                        LOADING_splashRaylib.Update();
+                }
+                else if (!LOADING_splashBlinkSoftware.isFinished()) {
+                        LOADING_splashBlinkSoftware.Update();
+                }
+            } break;
 
             case TITLE:
-            {
+            { 
                 if (TITLE_buttonPlay.isPressed()) {
                     currentScreen = LEVEL_1;
                 } 
@@ -471,9 +487,15 @@ int main(void)
             case LOADING:
             {
                 /* Play the elegant RayLib animation, along with the Blink Software splash screen. */
-                LOADING_splashRaylib.Draw();
-                LOADING_splashBlinkSoftware.Draw();
-                currentScreen = TITLE;
+                if (!LOADING_splashRaylib.isFinished()) {
+                    LOADING_splashRaylib.Draw();
+                }
+                else if (!LOADING_splashBlinkSoftware.isFinished()) {
+                    LOADING_splashBlinkSoftware.Draw();
+                }
+                else {
+                    currentScreen = TITLE;
+                }
             } break;
 
             case TITLE:
@@ -591,6 +613,12 @@ int main(void)
     }
 
     /* ----- De-Initialization. ----- */
+
+    /* Audio. */
+    UnloadMusicStream(title_theme);
+    CloseAudioDevice();
+
+    /* Close window and program exit. */
     CloseWindow();
     return 0;
 }

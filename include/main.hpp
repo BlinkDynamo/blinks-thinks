@@ -31,6 +31,13 @@
 
 #include <raylib/raylib.h>
 
+/* Resolution and framerate. */
+extern const int screenWidth;
+extern const int screenHeight;
+extern const int screenWidthCenter;
+extern const int screenHeightCenter;
+extern const int frameRate;
+
 /* Mouse. */
 extern Vector2 mousePoint;
 extern bool mousePressed;
