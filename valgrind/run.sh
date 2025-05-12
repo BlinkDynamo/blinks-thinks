@@ -4,7 +4,7 @@
 
 SUPP_FILE="valgrind/supp/valgrind.supp"
 LOG_FILE="valgrind/log/valgrind.log"
-EXEC="build/blinks-thinks"
+EXEC="build/native/blinks-thinks"
 
 valgrind --leak-check=full --track-origins=yes \
     --suppressions="$SUPP_FILE" \
