@@ -40,7 +40,6 @@ class RaylibSplash
         void Draw();
 
     private:
-        /* Runtime variables. */ 
         int logoPositionX;
         int logoPositionY;
 
@@ -68,7 +67,6 @@ class BlinkSoftwareSplash
         void Update();
 
     private:
-        /* Runtime variables. */
         int logoPositionX;
         int logoPositionY;
 
@@ -77,7 +75,7 @@ class BlinkSoftwareSplash
 
         int state;
         float alpha;
-        int frameRate;
+        
         int shortDelay;
 
         bool finished;

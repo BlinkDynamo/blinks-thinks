@@ -32,6 +32,9 @@
 #include "splash_screen.hpp"
 #include "main.hpp"
 
+/* ------------------------------------------------------------------------------------------ */
+/*                                   Raylib splash screen.                                    */
+/* ------------------------------------------------------------------------------------------ */
 RaylibSplash::RaylibSplash()
 {
     this->logoPositionX = screenWidth/2 - 128;
@@ -53,7 +56,7 @@ RaylibSplash::RaylibSplash()
 }
 
 void RaylibSplash::Update()
-/**********************************************************************************************
+/***********************************************************************************************
 *
 *   Original animation courtesy of Ramon Santamaria (@raysan5)
 *
@@ -70,6 +73,11 @@ void RaylibSplash::Update()
 *
 ***********************************************************************************************/
 {
+    /* If the skip key is pressed, mark the splash screen as finished. */
+    if (IsKeyPressed(KEY_ENTER)) {
+        finished = true;
+    }
+
     switch (state)
     {
         case (0): {
@@ -124,7 +132,7 @@ void RaylibSplash::Update()
 }
 
 void RaylibSplash::Draw()
-/**********************************************************************************************
+/***********************************************************************************************
 *
 *   Original animation courtesy of Ramon Santamaria (@raysan5)
 *
@@ -146,7 +154,9 @@ void RaylibSplash::Draw()
     switch (state)
     {
         case (0): {
-            if ((framesCounter/15)%2) DrawRectangle(logoPositionX, logoPositionY, 16, 16, BLACK);
+            if ((framesCounter/15) % 2) {
+                DrawRectangle(logoPositionX, logoPositionY, 16, 16, BLACK);
+            }
         } break;
 
         case (1): {
@@ -163,15 +173,23 @@ void RaylibSplash::Draw()
         } break;
 
         case (3): {
-            DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16, Fade(BLACK, alpha));
-            DrawRectangle(logoPositionX, logoPositionY + 16, 16, leftSideRecHeight - 32, Fade(BLACK, alpha));
+            DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16,
+                          Fade(BLACK, alpha));
 
-            DrawRectangle(logoPositionX + 240, logoPositionY + 16, 16, rightSideRecHeight - 32, Fade(BLACK, alpha));
-            DrawRectangle(logoPositionX, logoPositionY + 240, bottomSideRecWidth, 16, Fade(BLACK, alpha));
+            DrawRectangle(logoPositionX, logoPositionY + 16, 16, leftSideRecHeight - 32,
+                          Fade(BLACK, alpha));
 
-            DrawRectangle(GetScreenWidth()/2 - 112, GetScreenHeight()/2 - 112, 224, 224, Fade(RAYWHITE, alpha));
+            DrawRectangle(logoPositionX + 240, logoPositionY + 16, 16, rightSideRecHeight - 32,
+                          Fade(BLACK, alpha));
 
-            DrawText(TextSubtext("raylib", 0, lettersCount), GetScreenWidth()/2 - 44, GetScreenHeight()/2 + 48, 50, Fade(BLACK, alpha));
+            DrawRectangle(logoPositionX, logoPositionY + 240, bottomSideRecWidth, 16,
+                          Fade(BLACK, alpha));
+
+            DrawRectangle(GetScreenWidth()/2 - 112, GetScreenHeight()/2 - 112, 224, 224,
+                          Fade(RAYWHITE, alpha));
+
+            DrawText(TextSubtext("raylib", 0, lettersCount), GetScreenWidth()/2 - 44,
+                     GetScreenHeight()/2 + 48, 50, Fade(BLACK, alpha));
         } break;
 
         case (4): {
@@ -181,27 +199,13 @@ void RaylibSplash::Draw()
 }
 
 bool RaylibSplash::isFinished()
-/**********************************************************************************************
-*
-*   Original animation courtesy of Ramon Santamaria (@raysan5)
-*
-*   This code has been changed from the original source code found here:
-*       
-*   https://github.com/raysan5/raylib/examples/shapes/shapes_logo_raylib_anim.c
-*
-*   Example originally created with raylib 2.5, last time updated with raylib 4.0
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2014-2025 Ramon Santamaria (@raysan5)
-*
-***********************************************************************************************/
 {
     return finished;
 }
 
-
+/* ------------------------------------------------------------------------------------------ */
+/*                               Blink Software splash screen.                                */
+/* ------------------------------------------------------------------------------------------ */
 BlinkSoftwareSplash::BlinkSoftwareSplash()
 {
     this->logoPositionX = screenWidth/2 - 128;
@@ -212,7 +216,7 @@ BlinkSoftwareSplash::BlinkSoftwareSplash()
 
     this->state = 0;
     this->alpha = 1.0f;
-    this->frameRate = 60;
+    
     this->shortDelay = 1 * frameRate;
 
     this->finished = false;
@@ -225,6 +229,11 @@ bool BlinkSoftwareSplash::isFinished()
 
 void BlinkSoftwareSplash::Update()
 { 
+    /* If the skip key is pressed, mark the splash screen as finished. */
+    if (IsKeyPressed(KEY_ENTER)) {
+        finished = true;
+    }
+
     framesCounter++;
 
     /* ----- Update step. ----- */
@@ -285,14 +294,18 @@ void BlinkSoftwareSplash::Draw()
             const char * text = "blink software";
             int fontSize = 50;
             float spacing = 4.0f;
-            Vector2 textPos = { static_cast<float>(GetScreenWidth()/2 - 160), static_cast<float>(GetScreenHeight()/2) };
+            Vector2 textPos = { 
+                static_cast<float>(GetScreenWidth()/2 - 160), 
+                static_cast<float>(GetScreenHeight()/2)
+            };
 
             Font font = GetFontDefault(); 
 
             float x = textPos.x;
             float y = textPos.y;
 
-            /* Draw every character in 'text' sequentially, drawing a terminal cursor on the last letter. */
+            /* Draw every character in 'text' sequentially, 
+             * drawing a terminal cursor on the last letter. */
             for (int i = 0; i < lettersCount; i++) {
                 char c = text[i];
                 char s[2] = { c, '\0' };
@@ -302,7 +315,13 @@ void BlinkSoftwareSplash::Draw()
                 bool isLast = (i == lettersCount - 1);
 
                 if (isLast) {
-                    DrawRectangle(static_cast<int>(x), static_cast<int>(y), static_cast<int>(charSize.x), fontSize, DARKBLUE);
+                    DrawRectangle(
+                        static_cast<int>(x), 
+                        static_cast<int>(y), 
+                        static_cast<int>(charSize.x), 
+                        fontSize, 
+                        DARKBLUE
+                    );
                 }
 
                 DrawTextEx(font, s, { x, y }, fontSize, spacing, isLast ? WHITE : SKYBLUE);
