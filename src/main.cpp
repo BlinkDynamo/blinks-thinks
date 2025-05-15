@@ -40,8 +40,8 @@
 /* Resolution and framerate. */
 const int screenWidth = 900;
 const int screenHeight = 600;
-const int screenWidthCenter = screenWidth / 2.0f;
-const int screenHeightCenter = screenHeight / 2.0f;
+const float screenWidthCenter = screenWidth / 2.0f;
+const float screenHeightCenter = screenHeight / 2.0f;
 const int frameRate = 60;
 
 /* Mouse. These are external variables defined in 'include/main.hpp'. */
@@ -110,15 +110,7 @@ int main(void)
         BT_SHADOW
     );
    
-    Text TITLE_buttonPlayText("Play", 40, RAYWHITE, { 0, 0, 0, 0 });
-    Button TITLE_buttonPlay(
-        TITLE_buttonPlayText,
-        BLACK,
-        DARKGRAY,
-        BT_AQUAMARINE,
-        { screenWidthCenter, screenHeightCenter + 100 },
-        {180,60}
-    );
+    Button TITLE_buttonPlay = makeUiButton("Play");
 
     /*  ---------- LEVEL_1. ---------- */
     Background LEVEL_1_background(
@@ -362,15 +354,7 @@ int main(void)
         BT_SHADOW
     );
    
-    Text LOSE_buttonMenuText("Menu", 40, BLACK, { 0, 0, 0, 0 });
-    Button LOSE_buttonMenu(
-        LOSE_buttonMenuText,
-        LOSE_buttonMenuText.GetTextColor(),
-        GRAY,
-        LIGHTGRAY,
-        { screenWidthCenter, screenHeightCenter + 100 },
-        {180,60}
-    );
+    Button LOSE_buttonMenu = makeUiButton("Menu");
     
     /* ------------------------- Main Event Loop. ------------------------- */
     while (!WindowShouldClose())

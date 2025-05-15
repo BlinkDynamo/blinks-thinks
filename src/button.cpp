@@ -30,6 +30,7 @@
 #include "button.hpp"
 #include "main.hpp"
 
+/* Constructor. */
 Button::Button(Text& text, Color textHoverColor, Color bgDefaultColor, 
                Color bgHoverColor, Vector2 position, Vector2 size)
     : text(text), textHoverColor(textHoverColor), bgDefaultColor(bgDefaultColor), 
@@ -42,6 +43,7 @@ Button::Button(Text& text, Color textHoverColor, Color bgDefaultColor,
     this->currentTextColor = textDefaultColor;
 }
 
+/* Methods. */
 bool Button::isHovered()
 {
     return CheckCollisionPointRec(mousePoint, rect);
@@ -72,4 +74,21 @@ void Button::Draw()
     /* Draw the rectangle and text. */
     DrawRectangleRec(rect, currentBgColor);
     text.DrawStatic(position); 
+}
+
+/* Factory functions. */
+Button makeUiButton(const char * label)
+{
+    Text text(label, 40, WHITE, { 0, 0, 0, 0 });
+
+    Button button(
+        text,
+        BLACK,
+        DARKGRAY,
+        { 75, 255, 205, 255 },
+        { screenWidthCenter, screenHeightCenter + 100 },
+        {180,60}
+    );
+
+    return button;
 }

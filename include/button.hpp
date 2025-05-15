@@ -42,8 +42,7 @@ class Button {
         bool isHovered();
         bool isPressed();
         void Update();
-        void Draw();
-
+        void Draw(); 
 
     private:
         /* Arguments. */
@@ -61,3 +60,5 @@ class Button {
 
         Rectangle rect;
 };
+
+Button makeUiButton(const char * label);

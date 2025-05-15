@@ -34,8 +34,8 @@
 /* Resolution and framerate. */
 extern const int screenWidth;
 extern const int screenHeight;
-extern const int screenWidthCenter;
-extern const int screenHeightCenter;
+extern const float screenWidthCenter;
+extern const float screenHeightCenter;
 extern const int frameRate;
 
 /* Mouse. */
