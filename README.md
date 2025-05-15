@@ -11,10 +11,11 @@
 Blink's Thinks is a point-and-click puzzle game. 
 
 ## Dependencies
-* make
-* clang
-* valgrind
-* raylib
+* make (build system)
+* clang (compiler used)
+* raylib (graphics library)
+* valgrind (development utility)
+* python (for locally hosting http server)
 
 ## Build Instructions
 To begin, clone the project and go to the root of the repository:
@@ -24,14 +25,22 @@ git clone https://github.com/BlinkDynamo/blinks-thinks.git blinks-thinks
 cd blinks-thinks/
 ```
 
-Build the binary:
+You can now build either for web, or native Linux. A simple 'make' builds both:
 ```bash
+# Native build.
+make native
+
+# Web build.
+make web
+
+# Native and web build.
 make
 ``` 
 
 ## Play
-If the project built successfully, you now have two options to play the game: 
+If the project built successfully, you now have various options to play the game: 
 
+For native build:
 ```bash
 # Simple call (no valgrind).
 ./build/blinks-thinks
@@ -40,7 +49,14 @@ If the project built successfully, you now have two options to play the game:
 ./valgrind/run.sh
 ```
 
-For specific information about gameplay strategy and rules, see TUTORIAL.md.
+For web build:
+```bash
+# Start the http server.
+make serve
+
+# Navigate to the locally hosted page that Emscripten compiled.
+firefox localhost:8080/blinks-thinks.html
+```
 
 ## Cleanup
 Should you want to clean the build/ and tests/ directories:
