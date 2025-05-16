@@ -36,19 +36,16 @@
 class Text
 {
     public:
-        /* Text::Text --- Constructor. */
         Text(const char *text, int fontSize, Color textColor, Color shadowColor); 
 
-        /* Text::DrawStatic --- Draw the Text object centered on a position. */
         void DrawStatic(Vector2 position);
-        
-        /* Text::DrawWobbling --- Draw the Text object centered on a position, animated
-                                  according to a radius depth animationDepth. */
         void DrawWobbling(Vector2 position, float animationSpeed, float animationDepth);
 
         Color GetTextColor() { return textColor; }
-
         void SetTextColor(Color tc) { textColor = tc; }
+
+        Vector2 GetTextDim() { return textDim; }
+        void SetTextDim(Vector2 td) { textDim = td; }
 
     private:
         /* Arguments. */

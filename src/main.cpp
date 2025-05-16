@@ -112,6 +112,13 @@ int main(void)
    
     Button TITLE_buttonPlay = makeUiButton("Play");
 
+    Button TITLE_buttonTest = makeTextButton(
+        "Test Button", 
+        50,
+        SKYBLUE,
+        { screenWidthCenter, screenHeightCenter}
+    );
+
     /*  ---------- LEVEL_1. ---------- */
     Background LEVEL_1_background(
         screenWidth,
@@ -122,70 +129,15 @@ int main(void)
         50
     );
 
-    Text LEVEL_1_textTitle(
-        "Level 1",
-        80,
-        RAYWHITE,
-        BT_SHADOW
-    );
+    Text LEVEL_1_textTitle("Level 1", 80, RAYWHITE, BT_SHADOW);
+    Text LEVEL_1_textPrompt("What is the greatest number?", 40, RAYWHITE, BT_SHADOW);
 
-    Text LEVEL_1_textPrompt(
-        "What is the greatest number?",
-        40,
-        RAYWHITE,
-        BT_SHADOW
-    );
-
-    /* Answer choices are all invisible buttons with visible text. */
-    Text LEVEL_1_choiceOneText("114", 180, LIME, BT_SHADOW);
-    Button LEVEL_1_choiceOne(
-        LEVEL_1_choiceOneText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter - 300, screenHeightCenter + 30 },
-        { 220, 155 }
-    );
-
-    Text LEVEL_1_choiceTwoText("3", 70, GOLD, BT_SHADOW);
-    Button LEVEL_1_choiceTwo(
-        LEVEL_1_choiceTwoText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter - 150, screenHeightCenter + 180 },
-        { 55, 70 }
-    );
-
-    Text LEVEL_1_choiceThreeText("518", 60, BLUE, BT_SHADOW);
-    Button LEVEL_1_choiceThree(
-        LEVEL_1_choiceThreeText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter, screenHeightCenter + 130 },
-        { 70, 55 }
-    );
-
-    Text LEVEL_1_choiceFourText("0", 120, PINK, BT_SHADOW);
-    Button LEVEL_1_choiceFour(
-        LEVEL_1_choiceFourText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter + 150, screenHeightCenter + 150 },
-        { 75, 100 }
-    );
-
-    Text LEVEL_1_choiceFiveText ("2869", 60, VIOLET, BT_SHADOW);
-    Button LEVEL_1_choiceFive(
-        LEVEL_1_choiceFiveText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter + 300, screenHeightCenter + 150 },
-        {50,50}
-    );
+    /* Answer choices are all invisible buttons with visible text. */ 
+    Button LEVEL_1_choiceOne = makeTextButton("144", 180, LIME, { screenWidthCenter - 300, screenHeightCenter + 30 });
+    Button LEVEL_1_choiceTwo = makeTextButton("3", 70, GOLD, { screenWidthCenter - 150, screenHeightCenter + 180 });
+    Button LEVEL_1_choiceThree = makeTextButton("518", 60, BLUE, { screenWidthCenter, screenHeightCenter + 130 });
+    Button LEVEL_1_choiceFour = makeTextButton("0", 120, PINK, { screenWidthCenter + 150, screenHeightCenter + 150 });
+    Button LEVEL_1_choiceFive = makeTextButton("2869", 60, VIOLET, { screenWidthCenter + 300, screenHeightCenter + 150 });
 
     /*  ---------- LEVEL_2. ---------- */
     Background LEVEL_2_background(
@@ -197,71 +149,16 @@ int main(void)
         50
     );
 
-    Text LEVEL_2_textTitle(
-        "Level 2",
-        80,
-        RAYWHITE,
-        BT_SHADOW
-    );
-
-    Text LEVEL_2_textPrompt(
-        "What is the greatest number?",
-        40,
-        RAYWHITE,
-        BT_SHADOW
-    );
+    Text LEVEL_2_textTitle("Level 2", 80, RAYWHITE, BT_SHADOW);
+    Text LEVEL_2_textPrompt("What is the greatest number?", 40, RAYWHITE, BT_SHADOW);
 
     /* Answer choices are all invisible buttons with visible text. */
-    Text LEVEL_2_choiceOneText("50", 180, LIME, BT_SHADOW);
-    Button LEVEL_2_choiceOne(
-        LEVEL_2_choiceOneText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter - 300, screenHeightCenter + 30 },
-        { 220, 155 }
-    );
-
-    Text LEVEL_2_choiceTwoText("36", 70, GOLD, BT_SHADOW);
-    Button LEVEL_2_choiceTwo(
-        LEVEL_2_choiceTwoText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter - 150, screenHeightCenter + 180 },
-        { 55, 70 }
-    );
-
-    Text LEVEL_2_choiceThreeText("11", 60, BLUE, BT_SHADOW);
-    Button LEVEL_2_choiceThree(
-        LEVEL_2_choiceThreeText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter, screenHeightCenter + 130 },
-        { 70, 55 }
-    );
-
-    Text LEVEL_2_choiceFourText("3", 120, PINK, BT_SHADOW);
-    Button LEVEL_2_choiceFour(
-        LEVEL_2_choiceFourText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter + 150, screenHeightCenter + 150 },
-        { 75, 100 }
-    );
-
-    Text LEVEL_2_choiceFiveText ("4", 60, VIOLET, BT_SHADOW);
-    Button LEVEL_2_choiceFive(
-        LEVEL_2_choiceFiveText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter + 300, screenHeightCenter + 150 },
-        {50,50}
-    );
-
+    Button LEVEL_2_choiceOne = makeTextButton("50", 180, LIME, { screenWidthCenter - 300, screenHeightCenter + 30 });
+    Button LEVEL_2_choiceTwo = makeTextButton("36", 70, GOLD, { screenWidthCenter - 150, screenHeightCenter + 180 });
+    Button LEVEL_2_choiceThree = makeTextButton("11", 60, BLUE, { screenWidthCenter, screenHeightCenter + 130 });
+    Button LEVEL_2_choiceFour = makeTextButton("3", 120, PINK, { screenWidthCenter + 150, screenHeightCenter + 150 });
+    Button LEVEL_2_choiceFive = makeTextButton("4", 60, VIOLET, { screenWidthCenter + 300, screenHeightCenter + 150 });
+    
     /*  ---------- LEVEL_3. ---------- */
     Background LEVEL_3_background(
         screenWidth,
@@ -272,70 +169,15 @@ int main(void)
         50
     );
 
-    Text LEVEL_3_textTitle(
-        "Level 3",
-        80,
-        RAYWHITE,
-        BT_SHADOW
-    );
-
-    Text LEVEL_3_textPrompt(
-        "What is the greenest number?",
-        40,
-        RAYWHITE,
-        BT_SHADOW
-    );
+    Text LEVEL_3_textTitle("Level 3", 80, RAYWHITE, BT_SHADOW);
+    Text LEVEL_3_textPrompt("What is the greenest number?", 40, RAYWHITE, BT_SHADOW);
 
     /* Answer choices are all invisible buttons with visible text. */
-    Text LEVEL_3_choiceOneText("7", 180, LIME, BT_SHADOW);
-    Button LEVEL_3_choiceOne(
-        LEVEL_3_choiceOneText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter - 300, screenHeightCenter + 30 },
-        { 220, 155 }
-    );
-
-    Text LEVEL_3_choiceTwoText("39", 70, GOLD, BT_SHADOW);
-    Button LEVEL_3_choiceTwo(
-        LEVEL_3_choiceTwoText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter - 150, screenHeightCenter + 180 },
-        { 55, 70 }
-    );
-
-    Text LEVEL_3_choiceThreeText("115", 60, BLUE, BT_SHADOW);
-    Button LEVEL_3_choiceThree(
-        LEVEL_3_choiceThreeText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter, screenHeightCenter + 130 },
-        { 70, 55 }
-    );
-
-    Text LEVEL_3_choiceFourText("2", 120, PINK, BT_SHADOW);
-    Button LEVEL_3_choiceFour(
-        LEVEL_3_choiceFourText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter + 150, screenHeightCenter + 150 },
-        { 75, 100 }
-    );
-
-    Text LEVEL_3_choiceFiveText ("8051", 60, VIOLET, BT_SHADOW);
-    Button LEVEL_3_choiceFive(
-        LEVEL_3_choiceFiveText,
-        BT_ANSWERHOVER,
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { screenWidthCenter + 300, screenHeightCenter + 150 },
-        {50,50}
-    );
+    Button LEVEL_3_choiceOne = makeTextButton("7", 180, LIME, { screenWidthCenter - 300, screenHeightCenter + 30 });
+    Button LEVEL_3_choiceTwo = makeTextButton("39", 70, GOLD, { screenWidthCenter - 150, screenHeightCenter + 180 });
+    Button LEVEL_3_choiceThree = makeTextButton("115", 60, BLUE, { screenWidthCenter, screenHeightCenter + 130 });
+    Button LEVEL_3_choiceFour = makeTextButton("2", 120, PINK, { screenWidthCenter + 150, screenHeightCenter + 150 });
+    Button LEVEL_3_choiceFive = makeTextButton("8051", 60, VIOLET, { screenWidthCenter + 300, screenHeightCenter + 150 });
 
     /*  ---------- LOSE. ---------- */
     Background LOSE_background(
@@ -347,13 +189,7 @@ int main(void)
         50
     );
 
-    Text LOSE_textTitle(
-        "You Lose!",
-        80, 
-        BLACK, 
-        BT_SHADOW
-    );
-   
+    Text LOSE_textTitle("You Lose!", 80, BLACK, BT_SHADOW);
     Button LOSE_buttonMenu = makeUiButton("Menu");
     
     /* ------------------------- Main Event Loop. ------------------------- */
@@ -514,6 +350,7 @@ int main(void)
                 ); 
 
                 TITLE_buttonPlay.Draw();
+                TITLE_buttonTest.Draw();
             } break;
 
             case LEVEL_1:

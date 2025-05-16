@@ -37,8 +37,7 @@
 
 class Button {
     public:
-        Button(Text& text, Color textHoverColor, Color bgDefaultColor, Color bgHoverColor, 
-               Vector2 position, Vector2 size);
+        Button(Text& text, Color bgColor, Vector2 position, Vector2 size);
         bool isHovered();
         bool isPressed();
         void Update();
@@ -47,18 +46,18 @@ class Button {
     private:
         /* Arguments. */
         Text text;
-        Color textDefaultColor;
-        Color textHoverColor;
-        Color bgDefaultColor;
-        Color bgHoverColor;
+        Color bgColor;
         Vector2 position;
         Vector2 size; 
 
         /* Set during construction. */
-        Color currentBgColor;
+        Color defaultTextColor;
         Color currentTextColor;
+        Color defaultBgColor;
+        Color currentBgColor;
 
         Rectangle rect;
 };
 
 Button makeUiButton(const char * label);
+Button makeTextButton(const char * label, int fontSize, Color textColor, Vector2 position);

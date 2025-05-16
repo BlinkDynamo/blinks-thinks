@@ -30,20 +30,25 @@
 #include "button.hpp"
 #include "main.hpp"
 
-/* Constructor. */
-Button::Button(Text& text, Color textHoverColor, Color bgDefaultColor, 
-               Color bgHoverColor, Vector2 position, Vector2 size)
-    : text(text), textHoverColor(textHoverColor), bgDefaultColor(bgDefaultColor), 
-      bgHoverColor(bgHoverColor), position(position), size(size) 
+#include <cmath>
+
+/* ------------------------------------------------------------------------------------------ */
+/*                                        Constructor.                                        */
+/* ------------------------------------------------------------------------------------------ */
+Button::Button(Text& text, Color bgColor, Vector2 position, Vector2 size)
+    : text(text), bgColor(bgColor), position(position), size(size) 
 {
     this->rect = { position.x - (size.x / 2.0f), position.y - (size.y / 2.0f), size.x, size.y };
-    
-    this->textDefaultColor = text.GetTextColor();
-    this->currentBgColor = bgDefaultColor;
-    this->currentTextColor = textDefaultColor;
+
+    this->defaultTextColor = text.GetTextColor();
+    this->currentTextColor = defaultTextColor;
+    this->defaultBgColor = bgColor;
+    this->currentBgColor = defaultBgColor;
 }
 
-/* Methods. */
+/* ------------------------------------------------------------------------------------------ */
+/*                                          Methods.                                          */
+/* ------------------------------------------------------------------------------------------ */
 bool Button::isHovered()
 {
     return CheckCollisionPointRec(mousePoint, rect);
@@ -58,12 +63,23 @@ void Button::Update()
 {     
     /* Update the color of the button's text if hovered. */
     if (isHovered()) {
-        currentBgColor = bgHoverColor;
-        currentTextColor = textHoverColor;
+        float brightenFactor = 1.2f;
+        currentBgColor = { 
+            (unsigned char) fmin(defaultBgColor.r * brightenFactor, 255),
+            (unsigned char) fmin(defaultBgColor.g * brightenFactor, 255),
+            (unsigned char) fmin(defaultBgColor.b * brightenFactor, 255),
+            defaultBgColor.a
+        };
+        currentTextColor = { 
+            (unsigned char) fmin(defaultTextColor.r * brightenFactor, 255),
+            (unsigned char) fmin(defaultTextColor.g * brightenFactor, 255),
+            (unsigned char) fmin(defaultTextColor.b * brightenFactor, 255),
+            defaultTextColor.a
+        };
     } 
     else {
-        currentBgColor = bgDefaultColor;
-        currentTextColor = textDefaultColor;
+        currentBgColor = defaultBgColor;
+        currentTextColor = defaultTextColor;
     }
 
     text.SetTextColor(currentTextColor);
@@ -76,18 +92,35 @@ void Button::Draw()
     text.DrawStatic(position); 
 }
 
-/* Factory functions. */
+/* ------------------------------------------------------------------------------------------ */
+/*                                     Factory functions.                                     */
+/* ------------------------------------------------------------------------------------------ */
+
+/* Make a clickable UI button with dynamic text and background color at a fixed location. */
 Button makeUiButton(const char * label)
 {
     Text text(label, 40, WHITE, { 0, 0, 0, 0 });
 
     Button button(
         text,
-        BLACK,
         DARKGRAY,
-        { 75, 255, 205, 255 },
         { screenWidthCenter, screenHeightCenter + 100 },
         {180,60}
+    );
+
+    return button;
+}
+
+/* Make clickable text by creating an invisible button in the shape and size of the text. */
+Button makeTextButton(const char * label, int fontSize, Color textColor, Vector2 position)
+{
+    Text text(label, fontSize, textColor, { 15, 15, 15, 200 });
+
+    Button button(
+        text,
+        { 0, 0, 0, 0 },
+        position,
+        text.GetTextDim()
     );
 
     return button;
