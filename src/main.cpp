@@ -112,13 +112,6 @@ int main(void)
    
     Button TITLE_buttonPlay = makeUiButton("Play");
 
-    Button TITLE_buttonTest = makeTextButton(
-        "Test Button", 
-        50,
-        SKYBLUE,
-        { screenWidthCenter, screenHeightCenter}
-    );
-
     /*  ---------- LEVEL_1. ---------- */
     Background LEVEL_1_background(
         screenWidth,
@@ -343,23 +336,22 @@ int main(void)
             { 
                 TITLE_background.Draw(backgroundScroll); 
 
-                TITLE_textTitle.DrawWobbling(
+                TITLE_textTitle.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 100 },
                     2.0f,
                     7.0f
                 ); 
 
                 TITLE_buttonPlay.Draw();
-                TITLE_buttonTest.Draw();
             } break;
 
             case LEVEL_1:
             {
                     LEVEL_1_background.Draw(backgroundScroll); 
                     
-                    LEVEL_1_textTitle.DrawStatic({ screenWidthCenter, screenHeightCenter - 250 }); 
+                    LEVEL_1_textTitle.drawStatic({ screenWidthCenter, screenHeightCenter - 250 }); 
 
-                    LEVEL_1_textPrompt.DrawWobbling(
+                    LEVEL_1_textPrompt.drawWobbling(
                         { screenWidthCenter, screenHeightCenter - 150 },
                         3.0f,
                         2.0f
@@ -376,9 +368,9 @@ int main(void)
             {
                 LEVEL_2_background.Draw(backgroundScroll); 
                     
-                LEVEL_2_textTitle.DrawStatic({ screenWidthCenter, screenHeightCenter - 250 }); 
+                LEVEL_2_textTitle.drawStatic({ screenWidthCenter, screenHeightCenter - 250 }); 
 
-                LEVEL_2_textPrompt.DrawWobbling(
+                LEVEL_2_textPrompt.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 150 },
                     3.0f,
                     2.0f
@@ -395,9 +387,9 @@ int main(void)
             {
                 LEVEL_3_background.Draw(backgroundScroll); 
                     
-                LEVEL_3_textTitle.DrawStatic({ screenWidthCenter, screenHeightCenter - 250 }); 
+                LEVEL_3_textTitle.drawStatic({ screenWidthCenter, screenHeightCenter - 250 }); 
 
-                LEVEL_3_textPrompt.DrawWobbling(
+                LEVEL_3_textPrompt.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 150 },
                     3.0f,
                     2.0f
@@ -436,7 +428,7 @@ int main(void)
                 /*  ---------- LOSE. ---------- */
                 LOSE_background.Draw(backgroundScroll);
 
-                LOSE_textTitle.DrawWobbling(
+                LOSE_textTitle.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 100 },
                     40.0f,
                     2.0f

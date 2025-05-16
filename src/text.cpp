@@ -48,7 +48,7 @@ Text::Text(const char * text, int fontSize, Color textColor, Color shadowColor =
     this->shadowOffset = { 5.0f, 5.0f };
 }
 
-void Text::DrawStatic(Vector2 position)
+void Text::drawStatic(Vector2 position)
 {
     /* Shadow. Only draw the shadow if it's not fully transparent. */
     if (shadowColor.a != 0) {
@@ -77,7 +77,7 @@ void Text::DrawStatic(Vector2 position)
         );
 }
 
-void Text::DrawWobbling(Vector2 position, float animationSpeed, float animationDepth)
+void Text::drawWobbling(Vector2 position, float animationSpeed, float animationDepth)
 {
     /* Rotation. */
     static float rotation = 0.0f;

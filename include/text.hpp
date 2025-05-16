@@ -38,14 +38,14 @@ class Text
     public:
         Text(const char *text, int fontSize, Color textColor, Color shadowColor); 
 
-        void DrawStatic(Vector2 position);
-        void DrawWobbling(Vector2 position, float animationSpeed, float animationDepth);
+        void drawStatic(Vector2 position);
+        void drawWobbling(Vector2 position, float animationSpeed, float animationDepth);
 
-        Color GetTextColor() { return textColor; }
-        void SetTextColor(Color tc) { textColor = tc; }
+        Color getTextColor() { return textColor; }
+        void setTextColor(Color tc) { textColor = tc; }
 
-        Vector2 GetTextDim() { return textDim; }
-        void SetTextDim(Vector2 td) { textDim = td; }
+        Vector2 getTextDim() { return textDim; }
+        void setTextDim(Vector2 td) { textDim = td; }
 
     private:
         /* Arguments. */

@@ -40,7 +40,7 @@ Button::Button(Text& text, Color bgColor, Vector2 position, Vector2 size)
 {
     this->rect = { position.x - (size.x / 2.0f), position.y - (size.y / 2.0f), size.x, size.y };
 
-    this->defaultTextColor = text.GetTextColor();
+    this->defaultTextColor = text.getTextColor();
     this->currentTextColor = defaultTextColor;
     this->defaultBgColor = bgColor;
     this->currentBgColor = defaultBgColor;
@@ -63,33 +63,46 @@ void Button::Update()
 {     
     /* Update the color of the button's text if hovered. */
     if (isHovered()) {
-        float brightenFactor = 1.2f;
-        currentBgColor = { 
-            (unsigned char) fmin(defaultBgColor.r * brightenFactor, 255),
-            (unsigned char) fmin(defaultBgColor.g * brightenFactor, 255),
-            (unsigned char) fmin(defaultBgColor.b * brightenFactor, 255),
-            defaultBgColor.a
-        };
-        currentTextColor = { 
-            (unsigned char) fmin(defaultTextColor.r * brightenFactor, 255),
-            (unsigned char) fmin(defaultTextColor.g * brightenFactor, 255),
-            (unsigned char) fmin(defaultTextColor.b * brightenFactor, 255),
-            defaultTextColor.a
-        };
+        float brightenFactor = 2.0f;
+       
+        /* If the background is visible, brighten the background and darken the text. */ 
+        if (defaultBgColor.a != 0) {
+            currentBgColor = { 
+                (unsigned char) fmin(defaultBgColor.r * brightenFactor, 255),
+                (unsigned char) fmin(defaultBgColor.g * brightenFactor, 255),
+                (unsigned char) fmin(defaultBgColor.b * brightenFactor, 255),
+                defaultBgColor.a
+            };
+            currentTextColor = { 
+                (unsigned char) fmin(defaultTextColor.r / brightenFactor, 0),
+                (unsigned char) fmin(defaultTextColor.g / brightenFactor, 0),
+                (unsigned char) fmin(defaultTextColor.b / brightenFactor, 0),
+                defaultTextColor.a
+            };
+        }
+        /* Otherwise only brighten the text. */
+        else { 
+            currentTextColor = { 
+                (unsigned char) fmin(defaultTextColor.r * brightenFactor, 255),
+                (unsigned char) fmin(defaultTextColor.g * brightenFactor, 255),
+                (unsigned char) fmin(defaultTextColor.b * brightenFactor, 255),
+                defaultTextColor.a
+            };
+        }
     } 
     else {
         currentBgColor = defaultBgColor;
         currentTextColor = defaultTextColor;
     }
 
-    text.SetTextColor(currentTextColor);
+    text.setTextColor(currentTextColor);
 }
 
 void Button::Draw()
 {
     /* Draw the rectangle and text. */
     DrawRectangleRec(rect, currentBgColor);
-    text.DrawStatic(position); 
+    text.drawStatic(position); 
 }
 
 /* ------------------------------------------------------------------------------------------ */
@@ -120,7 +133,7 @@ Button makeTextButton(const char * label, int fontSize, Color textColor, Vector2
         text,
         { 0, 0, 0, 0 },
         position,
-        text.GetTextDim()
+        text.getTextDim()
     );
 
     return button;
