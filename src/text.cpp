@@ -33,13 +33,14 @@
 
 #include <cmath>
 
-Text::Text(const char* text, int fontSize, Color textColor, Color shadowColor = { 0, 0, 0, 0 })
+Text::Text(const char* text, int fontSize, Color textColor, Color shadowColor, Vector2 position)
 {
     /* All passed variables. */
     this->text = text;
     this->fontSize = fontSize;
     this->textColor = textColor;
     this->shadowColor = shadowColor;
+    this->position = position;
 
     /* Variables calculated on construction. */
     this->letterSpacing = fontSize / 10.0f;
@@ -48,7 +49,12 @@ Text::Text(const char* text, int fontSize, Color textColor, Color shadowColor = 
     this->shadowOffset = { 5.0f, 5.0f };
 }
 
-void Text::drawStatic(Vector2 position)
+void Text::Update()
+{
+
+}
+
+void Text::Draw()
 {
     /* Shadow. Only draw the shadow if it's not fully transparent. */
     if (shadowColor.a != 0) {

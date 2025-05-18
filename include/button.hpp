@@ -42,7 +42,7 @@ class Button : public Entity {
         
         virtual void Update();
         virtual void Draw(); 
-        
+
         /* Class unique methods. */
         bool isHovered();
         bool isPressed();

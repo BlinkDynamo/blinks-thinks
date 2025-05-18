@@ -31,15 +31,23 @@
 
 #include <raylib/raylib.h>
 
+#include "entity.hpp"
+
 #include <string>
 
-class Text
+class Text : public Entity
 {
     public:
-        Text(const char* text, int fontSize, Color textColor, Color shadowColor); 
+        Text(const char* text, int fontSize, Color textColor, Color shadowColor,
+             Vector2 position); 
 
-        void drawStatic(Vector2 position);
         void drawWobbling(Vector2 position, float animationSpeed, float animationDepth);
+
+        virtual void Update();
+        virtual void Draw();
+
+        virtual Vector2 getPosition() { return position; }
+        virtual void setPosition(Vector2 pos) { position = pos; }
 
         Color getTextColor() { return textColor; }
         void setTextColor(Color tc) { textColor = tc; }
@@ -47,12 +55,15 @@ class Text
         Vector2 getTextDim() { return textDim; }
         void setTextDim(Vector2 td) { textDim = td; }
 
+        
+
     private:
         /* Arguments. */
         const char* text;
         int fontSize;
         Color textColor;
         Color shadowColor;
+        Vector2 position;
        
         /* Set during construction. */ 
         int letterSpacing;

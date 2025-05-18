@@ -47,6 +47,9 @@ Button::Button(Text& text, Color bgColor, Vector2 position, Vector2 size)
     this->currentTextColor = defaultTextColor;
     this->defaultBgColor = bgColor;
     this->currentBgColor = defaultBgColor;
+    
+    /* Set the text's position to the button's position. */
+    text.setPosition(position);
 }
 
 /* ------------------------------------------------------------------------------------------ */
@@ -97,15 +100,17 @@ void Button::Update()
         currentBgColor = defaultBgColor;
         currentTextColor = defaultTextColor;
     }
-
     text.setTextColor(currentTextColor);
+
+    /* Set the text's position to the button's position in case the button moves. */
+    text.setPosition(position);
 }
 
 void Button::Draw()
 {
     /* Draw the rectangle and text. */
     DrawRectangleRec(rect, currentBgColor);
-    text.drawStatic(position); 
+    text.Draw(); 
 }
 
 /* ------------------------------------------------------------------------------------------ */
@@ -115,12 +120,14 @@ void Button::Draw()
 /* Make a clickable UI button with dynamic text and background color at a fixed location. */
 Button makeUiButton(const char* label)
 {
-    Text text(label, 40, WHITE, { 0, 0, 0, 0 });
+    Vector2 position = { screenWidthCenter, screenHeightCenter + 100 };
+
+    Text text(label, 40, WHITE, { 0, 0, 0, 0 }, position);
 
     Button button(
         text,
         DARKGRAY,
-        { screenWidthCenter, screenHeightCenter + 100 },
+        position,
         {180,60}
     );
 
@@ -130,7 +137,7 @@ Button makeUiButton(const char* label)
 /* Make clickable text by creating an invisible button in the shape and size of the text. */
 Button makeTextButton(const char* label, int fontSize, Color textColor, Vector2 position)
 {
-    Text text(label, fontSize, textColor, { 15, 15, 15, 200 });
+    Text text(label, fontSize, textColor, { 15, 15, 15, 200 }, position);
 
     Button button(
         text,
@@ -138,6 +145,6 @@ Button makeTextButton(const char* label, int fontSize, Color textColor, Vector2 
         position,
         text.getTextDim()
     );
-
+    
     return button;
 }

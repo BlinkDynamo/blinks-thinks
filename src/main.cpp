@@ -107,7 +107,8 @@ int main(void)
         "Blink's Thinks",
         100, 
         BT_AQUAMARINE, 
-        BT_SHADOW
+        BT_SHADOW,
+        { screenWidthCenter, screenHeightCenter - 100 }
     );
    
     Button TITLE_buttonPlay = makeUiButton("Play");
@@ -122,8 +123,9 @@ int main(void)
         50
     );
 
-    Text LEVEL_1_textTitle("Level 1", 80, RAYWHITE, BT_SHADOW);
-    Text LEVEL_1_textPrompt("What is the greatest number?", 40, RAYWHITE, BT_SHADOW);
+    Text LEVEL_1_textTitle("Level 1", 80, RAYWHITE, BT_SHADOW, { screenWidthCenter, screenHeightCenter - 250 });
+    Text LEVEL_1_textPrompt("What is the greatest number?", 40, RAYWHITE, BT_SHADOW, 
+                            { screenWidthCenter, screenHeightCenter - 150 });
 
     /* Answer choices are all invisible buttons with visible text. */ 
     Button LEVEL_1_choiceOne = makeTextButton("144", 180, LIME, { screenWidthCenter - 300, screenHeightCenter + 30 });
@@ -142,8 +144,9 @@ int main(void)
         50
     );
 
-    Text LEVEL_2_textTitle("Level 2", 80, RAYWHITE, BT_SHADOW);
-    Text LEVEL_2_textPrompt("What is the greatest number?", 40, RAYWHITE, BT_SHADOW);
+    Text LEVEL_2_textTitle("Level 2", 80, RAYWHITE, BT_SHADOW, { screenWidthCenter, screenHeightCenter - 250 });
+    Text LEVEL_2_textPrompt("What is the greatest number?", 40, RAYWHITE, BT_SHADOW,
+                            { screenWidthCenter, screenHeightCenter - 150 });
 
     /* Answer choices are all invisible buttons with visible text. */
     Button LEVEL_2_choiceOne = makeTextButton("50", 180, LIME, { screenWidthCenter - 300, screenHeightCenter + 30 });
@@ -162,8 +165,10 @@ int main(void)
         50
     );
 
-    Text LEVEL_3_textTitle("Level 3", 80, RAYWHITE, BT_SHADOW);
-    Text LEVEL_3_textPrompt("What is the greenest number?", 40, RAYWHITE, BT_SHADOW);
+    Text LEVEL_3_textTitle("Level 3", 80, RAYWHITE, BT_SHADOW,
+                           { screenWidthCenter, screenHeightCenter - 250 });
+    Text LEVEL_3_textPrompt("What is the greenest number?", 40, RAYWHITE, BT_SHADOW,
+                            { screenWidthCenter, screenHeightCenter - 150 });
 
     /* Answer choices are all invisible buttons with visible text. */
     Button LEVEL_3_choiceOne = makeTextButton("7", 180, LIME, { screenWidthCenter - 300, screenHeightCenter + 30 });
@@ -182,7 +187,8 @@ int main(void)
         50
     );
 
-    Text LOSE_textTitle("You Lose!", 80, BLACK, BT_SHADOW);
+    Text LOSE_textTitle("You Lose!", 80, BLACK, BT_SHADOW,
+                        { screenWidthCenter, screenHeightCenter - 100 });
     Button LOSE_buttonMenu = makeUiButton("Menu");
     
     /* ------------------------- Main Event Loop. ------------------------- */
@@ -349,7 +355,7 @@ int main(void)
             {
                     LEVEL_1_background.Draw(backgroundScroll); 
                     
-                    LEVEL_1_textTitle.drawStatic({ screenWidthCenter, screenHeightCenter - 250 }); 
+                    LEVEL_1_textTitle.Draw(); 
 
                     LEVEL_1_textPrompt.drawWobbling(
                         { screenWidthCenter, screenHeightCenter - 150 },
@@ -368,7 +374,7 @@ int main(void)
             {
                 LEVEL_2_background.Draw(backgroundScroll); 
                     
-                LEVEL_2_textTitle.drawStatic({ screenWidthCenter, screenHeightCenter - 250 }); 
+                LEVEL_2_textTitle.Draw(); 
 
                 LEVEL_2_textPrompt.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 150 },
@@ -387,7 +393,7 @@ int main(void)
             {
                 LEVEL_3_background.Draw(backgroundScroll); 
                     
-                LEVEL_3_textTitle.drawStatic({ screenWidthCenter, screenHeightCenter - 250 }); 
+                LEVEL_3_textTitle.Draw(); 
 
                 LEVEL_3_textPrompt.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 150 },
