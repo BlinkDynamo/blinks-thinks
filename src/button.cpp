@@ -36,7 +36,10 @@
 /*                                        Constructor.                                        */
 /* ------------------------------------------------------------------------------------------ */
 Button::Button(Text& text, Color bgColor, Vector2 position, Vector2 size)
-    : text(text), bgColor(bgColor), position(position), size(size) 
+    : text(text),
+      bgColor(bgColor),
+      position(position),
+      size(size) 
 {
     this->rect = { position.x - (size.x / 2.0f), position.y - (size.y / 2.0f), size.x, size.y };
 
@@ -110,7 +113,7 @@ void Button::Draw()
 /* ------------------------------------------------------------------------------------------ */
 
 /* Make a clickable UI button with dynamic text and background color at a fixed location. */
-Button makeUiButton(const char * label)
+Button makeUiButton(const char* label)
 {
     Text text(label, 40, WHITE, { 0, 0, 0, 0 });
 
@@ -125,7 +128,7 @@ Button makeUiButton(const char * label)
 }
 
 /* Make clickable text by creating an invisible button in the shape and size of the text. */
-Button makeTextButton(const char * label, int fontSize, Color textColor, Vector2 position)
+Button makeTextButton(const char* label, int fontSize, Color textColor, Vector2 position)
 {
     Text text(label, fontSize, textColor, { 15, 15, 15, 200 });
 

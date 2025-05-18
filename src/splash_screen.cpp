@@ -291,7 +291,7 @@ void BlinkSoftwareSplash::Draw()
         /* Letters being added on every 2 frames. */
         case (0): 
         case (1): {
-            const char * text = "blink software";
+            const char* text = "blink software";
             int fontSize = 50;
             float spacing = 4.0f;
             Vector2 textPos = { 

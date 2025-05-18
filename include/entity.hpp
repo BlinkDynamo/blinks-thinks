@@ -32,9 +32,6 @@
 #include "raylib/raylib.h"
 
 class Entity {
-    protected:
-        Vector2 position;
-
     public:
         Entity(Vector2 pos = { 0, 0 });
         virtual ~Entity() = default;
@@ -44,4 +41,7 @@ class Entity {
 
         Vector2 getPosition() const { return position; }
         void setPosition(Vector2 pos) { position = pos; }
+
+    protected:
+        Vector2 position; 
 }; 

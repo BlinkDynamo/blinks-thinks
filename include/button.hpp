@@ -31,17 +31,21 @@
 
 #include <raylib/raylib.h>
 
+#include "entity.hpp"
 #include "text.hpp"
 
 #include <string>
 
-class Button {
+class Button : public Entity {
     public:
-        Button(Text& text, Color bgColor, Vector2 position, Vector2 size);
+        Button(Text& text, Color bgColor, Vector2 position, Vector2 size); 
+        
+        virtual void Update();
+        virtual void Draw(); 
+        
+        /* Class unique methods. */
         bool isHovered();
         bool isPressed();
-        void Update();
-        void Draw(); 
 
     private:
         /* Arguments. */
@@ -59,5 +63,5 @@ class Button {
         Rectangle rect;
 };
 
-Button makeUiButton(const char * label);
-Button makeTextButton(const char * label, int fontSize, Color textColor, Vector2 position);
+Button makeUiButton(const char* label);
+Button makeTextButton(const char* label, int fontSize, Color textColor, Vector2 position);

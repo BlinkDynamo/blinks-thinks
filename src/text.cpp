@@ -33,7 +33,7 @@
 
 #include <cmath>
 
-Text::Text(const char * text, int fontSize, Color textColor, Color shadowColor = { 0, 0, 0, 0 })
+Text::Text(const char* text, int fontSize, Color textColor, Color shadowColor = { 0, 0, 0, 0 })
 {
     /* All passed variables. */
     this->text = text;

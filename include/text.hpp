@@ -36,7 +36,7 @@
 class Text
 {
     public:
-        Text(const char *text, int fontSize, Color textColor, Color shadowColor); 
+        Text(const char* text, int fontSize, Color textColor, Color shadowColor); 
 
         void drawStatic(Vector2 position);
         void drawWobbling(Vector2 position, float animationSpeed, float animationDepth);
@@ -49,7 +49,7 @@ class Text
 
     private:
         /* Arguments. */
-        const char * text;
+        const char* text;
         int fontSize;
         Color textColor;
         Color shadowColor;
