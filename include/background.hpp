@@ -37,7 +37,8 @@ class Background
         Background(int screenWidth, int screenHeight, Color darkColor, Color lightColor,
                    float scrollOffset, int squareSize);
 
-        void Draw(float scrollOffset);
+        void Update();
+        void Draw();
 
     private:
         /* Arguments. */

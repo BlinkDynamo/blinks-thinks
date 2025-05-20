@@ -38,10 +38,16 @@ Background::Background(int screenWidth, int screenHeight, Color darkColor, Color
     this->screenHeight = screenHeight;
     this->darkColor = darkColor;
     this->lightColor = lightColor;
+    this->scrollOffset = scrollOffset;
     this->squareSize = squareSize;
 }
 
-void Background::Draw(float scrollOffset)
+void Background::Update()
+{
+    scrollOffset += GetFrameTime() * 30.0f;
+}
+
+void Background::Draw()
 {
     int cols = screenWidth / squareSize + 2;
     int rows = screenHeight / squareSize + 2;

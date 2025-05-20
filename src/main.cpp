@@ -72,11 +72,7 @@ int main(void)
 
     /* Colors. */
     Color BT_SHADOW = { 15, 15, 15, 200 };
-    Color BT_ANSWERHOVER = { 250, 255, 180, 255 };
     Color BT_AQUAMARINE = { 75, 255, 205, 255 };
-
-    /* Background. */
-    float backgroundScroll = 0.0f;
 
     /* Window, Screen, and FPS. */
     InitWindow(screenWidth, screenHeight, "Blink's Thinks");
@@ -94,7 +90,7 @@ int main(void)
     RaylibSplash LOADING_splashRaylib;
 
     /* ---------- TITLE. ---------- */
-    Background TITLE_background(
+    Background background(
         screenWidth, 
         screenHeight, 
         GRAY, 
@@ -114,15 +110,6 @@ int main(void)
     Button TITLE_buttonPlay = makeUiButton("Play");
 
     /*  ---------- LEVEL_1. ---------- */
-    Background LEVEL_1_background(
-        screenWidth,
-        screenHeight,
-        BROWN,
-        BEIGE,
-        60,
-        50
-    );
-
     Text LEVEL_1_textTitle("Level 1", 80, RAYWHITE, BT_SHADOW, { screenWidthCenter, screenHeightCenter - 250 });
     Text LEVEL_1_textPrompt("What is the greatest number?", 40, RAYWHITE, BT_SHADOW, 
                             { screenWidthCenter, screenHeightCenter - 150 });
@@ -134,16 +121,7 @@ int main(void)
     Button LEVEL_1_choiceFour = makeTextButton("0", 120, PINK, { screenWidthCenter + 150, screenHeightCenter + 150 });
     Button LEVEL_1_choiceFive = makeTextButton("2869", 60, VIOLET, { screenWidthCenter + 300, screenHeightCenter + 150 });
 
-    /*  ---------- LEVEL_2. ---------- */
-    Background LEVEL_2_background(
-        screenWidth,
-        screenHeight,
-        BROWN,
-        BEIGE,
-        60,
-        50
-    );
-
+    /*  ---------- LEVEL_2. ---------- */ 
     Text LEVEL_2_textTitle("Level 2", 80, RAYWHITE, BT_SHADOW, { screenWidthCenter, screenHeightCenter - 250 });
     Text LEVEL_2_textPrompt("What is the greatest number?", 40, RAYWHITE, BT_SHADOW,
                             { screenWidthCenter, screenHeightCenter - 150 });
@@ -155,16 +133,7 @@ int main(void)
     Button LEVEL_2_choiceFour = makeTextButton("3", 120, PINK, { screenWidthCenter + 150, screenHeightCenter + 150 });
     Button LEVEL_2_choiceFive = makeTextButton("4", 60, VIOLET, { screenWidthCenter + 300, screenHeightCenter + 150 });
     
-    /*  ---------- LEVEL_3. ---------- */
-    Background LEVEL_3_background(
-        screenWidth,
-        screenHeight,
-        BROWN,
-        BEIGE,
-        60,
-        50
-    );
-
+    /*  ---------- LEVEL_3. ---------- */ 
     Text LEVEL_3_textTitle("Level 3", 80, RAYWHITE, BT_SHADOW,
                            { screenWidthCenter, screenHeightCenter - 250 });
     Text LEVEL_3_textPrompt("What is the greenest number?", 40, RAYWHITE, BT_SHADOW,
@@ -177,16 +146,7 @@ int main(void)
     Button LEVEL_3_choiceFour = makeTextButton("2", 120, PINK, { screenWidthCenter + 150, screenHeightCenter + 150 });
     Button LEVEL_3_choiceFive = makeTextButton("8051", 60, VIOLET, { screenWidthCenter + 300, screenHeightCenter + 150 });
 
-    /*  ---------- LOSE. ---------- */
-    Background LOSE_background(
-        screenWidth, 
-        screenHeight, 
-        { 160, 0, 0, 255 }, 
-        { 170, 90, 90, 255 }, 
-        60, 
-        50
-    );
-
+    /*  ---------- LOSE. ---------- */ 
     Text LOSE_textTitle("You Lose!", 80, BLACK, BT_SHADOW,
                         { screenWidthCenter, screenHeightCenter - 100 });
     Button LOSE_buttonMenu = makeUiButton("Menu");
@@ -200,12 +160,9 @@ int main(void)
         mousePoint = GetMousePosition();
         mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT); 
         
-        /* Background. */
-        backgroundScroll += GetFrameTime() * 30.0f; 
-        
         /* Update the music buffer with new stream data. */
         UpdateMusicStream(title_theme);
-
+        
         switch (currentScreen)
         {
             case LOADING:
@@ -221,6 +178,8 @@ int main(void)
 
             case TITLE:
             { 
+                background.Update();
+                
                 TITLE_buttonPlay.Update();
                 if (TITLE_buttonPlay.isPressed()) {
                     currentScreen = LEVEL_1;
@@ -229,6 +188,8 @@ int main(void)
 
             case LEVEL_1:
             {
+                background.Update();
+
                 LEVEL_1_choiceOne.Update();
                 LEVEL_1_choiceTwo.Update();
                 LEVEL_1_choiceThree.Update();
@@ -247,6 +208,8 @@ int main(void)
 
             case LEVEL_2:
             {
+                background.Update();
+
                 LEVEL_2_choiceOne.Update();
                 LEVEL_2_choiceTwo.Update();
                 LEVEL_2_choiceThree.Update();
@@ -265,6 +228,8 @@ int main(void)
 
             case LEVEL_3:
             {
+                background.Update();
+
                 LEVEL_3_choiceOne.Update();
                 LEVEL_3_choiceTwo.Update();
                 LEVEL_3_choiceThree.Update();
@@ -304,6 +269,8 @@ int main(void)
 
             case LOSE:
             {
+                background.Update();
+
                 LOSE_buttonMenu.Update();
 
                 if (LOSE_buttonMenu.isPressed()) {
@@ -340,7 +307,7 @@ int main(void)
 
             case TITLE:
             { 
-                TITLE_background.Draw(backgroundScroll); 
+                background.Draw();
 
                 TITLE_textTitle.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 100 },
@@ -353,8 +320,8 @@ int main(void)
 
             case LEVEL_1:
             {
-                    LEVEL_1_background.Draw(backgroundScroll); 
-                    
+                    background.Draw();
+
                     LEVEL_1_textTitle.Draw(); 
 
                     LEVEL_1_textPrompt.drawWobbling(
@@ -372,8 +339,8 @@ int main(void)
 
             case LEVEL_2:
             {
-                LEVEL_2_background.Draw(backgroundScroll); 
-                    
+                background.Draw();
+
                 LEVEL_2_textTitle.Draw(); 
 
                 LEVEL_2_textPrompt.drawWobbling(
@@ -391,8 +358,8 @@ int main(void)
 
             case LEVEL_3:
             {
-                LEVEL_3_background.Draw(backgroundScroll); 
-                    
+                background.Draw();
+
                 LEVEL_3_textTitle.Draw(); 
 
                 LEVEL_3_textPrompt.drawWobbling(
@@ -432,7 +399,7 @@ int main(void)
             case LOSE:
             {
                 /*  ---------- LOSE. ---------- */
-                LOSE_background.Draw(backgroundScroll);
+                background.Draw();
 
                 LOSE_textTitle.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 100 },

@@ -12,7 +12,18 @@ LIB := $(LIB_DIR)/libraylib.a
 NATIVE_BUILD_DIR := build/native
 NATIVE_COMPILER = clang++ -std=c++11
 NATIVE_EXEC := $(NATIVE_BUILD_DIR)/blinks-thinks
-NATIVE_FLAGS := -I$(INCLUDE_DIR) -L.$(LIB_DIR) -lraylib -Iinclude -lm -ldl -lpthread -lGL
+NATIVE_FLAGS := -g \
+				-Wall \
+				-Wextra \
+				-Werror \
+				-I$(INCLUDE_DIR) \
+				-L.$(LIB_DIR) \
+				-lraylib \
+				-Iinclude \
+				-lm \
+				-ldl \
+				-lpthread \
+				-lGL
 
 # Web build
 WEB_BUILD_DIR := build/web

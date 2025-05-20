@@ -38,7 +38,7 @@ class Entity {
 
         virtual void Update() = 0;
         virtual void Draw() = 0;
-        virtual Vector2 getPosition() const { return position; }
+        virtual Vector2 getPosition() { return position; }
         virtual void setPosition(Vector2 pos) { position = pos; }
 
     protected:
