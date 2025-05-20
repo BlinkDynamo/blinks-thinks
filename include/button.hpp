@@ -38,7 +38,7 @@
 
 class Button : public Entity {
     public:
-        Button(Text& text, Color bgColor, Vector2 position, Vector2 size); 
+        Button(Text* text, Color bgColor, Vector2 pos, Vector2 size); 
         
         virtual void Update();
         virtual void Draw(); 
@@ -49,7 +49,7 @@ class Button : public Entity {
 
     private:
         /* Arguments. */
-        Text text;
+        Text* text;
         Color bgColor;
         Vector2 position;
         Vector2 size; 

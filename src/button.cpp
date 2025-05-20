@@ -35,21 +35,21 @@
 /* ------------------------------------------------------------------------------------------ */
 /*                                        Constructor.                                        */
 /* ------------------------------------------------------------------------------------------ */
-Button::Button(Text& text, Color bgColor, Vector2 position, Vector2 size)
-    : text(text),
-      bgColor(bgColor),
-      position(position),
-      size(size) 
+Button::Button(Text* text, Color bgColor, Vector2 pos, Vector2 size)
 {
-    this->rect = { position.x - (size.x / 2.0f), position.y - (size.y / 2.0f), size.x, size.y };
+    this->text = text;
+    this->bgColor = bgColor;
+    this->size = size;
+    this->position = pos;
+    this->rect = { pos.x - (size.x / 2.0f), pos.y - (size.y / 2.0f), size.x, size.y };
 
-    this->defaultTextColor = text.getTextColor();
+    this->defaultTextColor = text->getTextColor();
     this->currentTextColor = defaultTextColor;
     this->defaultBgColor = bgColor;
     this->currentBgColor = defaultBgColor;
     
     /* Set the text's position to the button's position. */
-    text.setPosition(position);
+    this->text->setPosition(pos);
 }
 
 /* ------------------------------------------------------------------------------------------ */
@@ -100,17 +100,17 @@ void Button::Update()
         currentBgColor = defaultBgColor;
         currentTextColor = defaultTextColor;
     }
-    text.setTextColor(currentTextColor);
+    text->setTextColor(currentTextColor);
 
     /* Set the text's position to the button's position in case the button moves. */
-    text.setPosition(position);
+    text->setPosition(position);
 }
 
 void Button::Draw()
 {
     /* Draw the rectangle and text. */
     DrawRectangleRec(rect, currentBgColor);
-    text.Draw(); 
+    text->Draw(); 
 }
 
 /* ------------------------------------------------------------------------------------------ */
@@ -122,7 +122,7 @@ Button makeUiButton(const char* label)
 {
     Vector2 position = { screenWidthCenter, screenHeightCenter + 100 };
 
-    Text text(label, 40, WHITE, { 0, 0, 0, 0 }, position);
+    Text* text = new Text(label, 40, WHITE, { 0, 0, 0, 0 }, position);
 
     Button button(
         text,
@@ -137,13 +137,13 @@ Button makeUiButton(const char* label)
 /* Make clickable text by creating an invisible button in the shape and size of the text. */
 Button makeTextButton(const char* label, int fontSize, Color textColor, Vector2 position)
 {
-    Text text(label, fontSize, textColor, { 15, 15, 15, 200 }, position);
+    Text* text = new Text(label, fontSize, textColor, { 15, 15, 15, 200 }, position);
 
     Button button(
         text,
         { 0, 0, 0, 0 },
         position,
-        text.getTextDim()
+        text->getTextDim()
     );
     
     return button;
