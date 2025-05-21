@@ -41,22 +41,22 @@ class RaylibSplash
         void Draw();
 
     private:
+        // Position.
         int logoPositionX;
         int logoPositionY;
 
-        int framesCounter;
-        int lettersCount;
-
+        // Size.
         int topSideRecWidth;
         int leftSideRecHeight;
-
         int bottomSideRecWidth;
         int rightSideRecHeight;
 
+        // Counters and state machines.
+        int framesCounter;
+        int lettersCount;
         int state;
-        float alpha;
 
-        bool finished;
+        float alpha;
 };
 
 class BlinkSoftwareSplash
@@ -68,16 +68,27 @@ class BlinkSoftwareSplash
         void Update();
 
     private:
+        // Position.
         int logoPositionX;
         int logoPositionY;
 
+        // Counters.
         int framesCounter;
         int lettersCount;
-
-        int state;
+       
+        // State of the animation. 
+        enum class State {
+            LETTERS_ADDING,
+            LETTERS_REMOVING,
+            CURSOR_BLINKING,
+            BLANK_SCREEN_DELAY,
+            FINISHED
+        };
+        State state;
+       
+        // Other. 
         float alpha;
-        
+
         int shortDelay;
 
-        bool finished;
 };

@@ -53,8 +53,11 @@ RaylibSplash::RaylibSplash()
 
     this->state = 0;
     this->alpha = 1.0f;
+}
 
-    this->finished = false;
+bool RaylibSplash::isFinished()
+{
+    return (state == 4);
 }
 
 void RaylibSplash::Update()
@@ -77,7 +80,7 @@ void RaylibSplash::Update()
 {
     // If the skip key is pressed, mark the splash screen as finished.
     if (IsKeyPressed(KEY_ENTER)) {
-        finished = true;
+        state = 4;
     }
 
     switch (state)
@@ -127,9 +130,7 @@ void RaylibSplash::Update()
             }
         } break;
 
-        case (4): { 
-            finished = true;
-        } break;
+        case (4): {} break;
     }
 }
 
@@ -156,7 +157,7 @@ void RaylibSplash::Draw()
     switch (state)
     {
         case (0): {
-            if ((framesCounter/15) % 2) {
+            if ((framesCounter / 15) % 2) {
                 DrawRectangle(logoPositionX, logoPositionY, 16, 16, BLACK);
             }
         } break;
@@ -175,23 +176,47 @@ void RaylibSplash::Draw()
         } break;
 
         case (3): {
-            DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16,
-                          Fade(BLACK, alpha));
+            DrawRectangle(
+                logoPositionX,
+                logoPositionY,
+                topSideRecWidth,
+                16,
+                Fade(BLACK, alpha));
 
-            DrawRectangle(logoPositionX, logoPositionY + 16, 16, leftSideRecHeight - 32,
-                          Fade(BLACK, alpha));
+            DrawRectangle(
+                logoPositionX,
+                logoPositionY + 16,
+                16,
+                leftSideRecHeight - 32,
+                Fade(BLACK, alpha));
 
-            DrawRectangle(logoPositionX + 240, logoPositionY + 16, 16, rightSideRecHeight - 32,
-                          Fade(BLACK, alpha));
+            DrawRectangle(
+                logoPositionX + 240,
+                logoPositionY + 16,
+                16,
+                rightSideRecHeight - 32,
+                Fade(BLACK, alpha));
 
-            DrawRectangle(logoPositionX, logoPositionY + 240, bottomSideRecWidth, 16,
-                          Fade(BLACK, alpha));
+            DrawRectangle(
+                logoPositionX,
+                logoPositionY + 240,
+                bottomSideRecWidth, 16,
+                Fade(BLACK, alpha));
 
-            DrawRectangle(GetScreenWidth()/2 - 112, GetScreenHeight()/2 - 112, 224, 224,
-                          Fade(RAYWHITE, alpha));
+            DrawRectangle(
+                GetScreenWidth()/2 - 112,
+                GetScreenHeight()/2 - 112,
+                224,
+                224,
+                Fade(RAYWHITE, alpha));
 
-            DrawText(TextSubtext("raylib", 0, lettersCount), GetScreenWidth()/2 - 44,
-                     GetScreenHeight()/2 + 48, 50, Fade(BLACK, alpha));
+            DrawText(
+                TextSubtext("raylib", 0, lettersCount),
+                screenWidth/2 - 44,
+                screenHeight/2 + 48,
+                50,
+                Fade(BLACK, alpha));
+
         } break;
 
         case (4): {
@@ -200,40 +225,38 @@ void RaylibSplash::Draw()
     }
 }
 
-bool RaylibSplash::isFinished()
-{
-    return finished;
-}
-
 // ------------------------------------------------------------------------------------------ //
 //                               Blink Software splash screen.                                //
 // ------------------------------------------------------------------------------------------ //
 BlinkSoftwareSplash::BlinkSoftwareSplash()
 {
+    // Position.
     this->logoPositionX = screenWidth/2 - 128;
     this->logoPositionY = screenHeight/2 - 128;
 
+    // Counters.
     this->framesCounter = 0;
     this->lettersCount = 0;
 
-    this->state = 0;
+    // State of the animation.
+    this->state = State::LETTERS_ADDING;
+
+    // Other.
     this->alpha = 1.0f;
     
     this->shortDelay = 1 * frameRate;
-
-    this->finished = false;
 }
 
 bool BlinkSoftwareSplash::isFinished()
 {
-    return finished;
+    return (state == State::FINISHED);
 }
 
 void BlinkSoftwareSplash::Update()
 { 
     // If the skip key is pressed, mark the splash screen as finished.
     if (IsKeyPressed(KEY_ENTER)) {
-        finished = true;
+        state = State::FINISHED;
     }
 
     framesCounter++;
@@ -241,46 +264,43 @@ void BlinkSoftwareSplash::Update()
     switch (state)
     {
         // Letters being added on every 3 frames.
-        case (0): {
+        case State::LETTERS_ADDING: {
             if (lettersCount < 15) {
-                if (framesCounter/3) {
+                if (framesCounter / 3) {
                     lettersCount++;
                     framesCounter = 0;
                 }
             }
             // If done spelling, wait for 1 second, then move to state 1.
             else if (framesCounter/shortDelay) {  
-                    state = 1; 
+                    state = State::LETTERS_REMOVING; 
                     framesCounter = 0;
             }
         } break;
 
         // Letters being removed on every 3 frames.
-        case (1): {
+        case State::LETTERS_REMOVING: {
             if (lettersCount > 0) {
-                if (framesCounter/3) {
+                if (framesCounter / 3) {
                     lettersCount--;
                     framesCounter = 0;
                 }
             }
             // If done removing letters, wait for 1 second, then move to state 2.
-            else if (framesCounter/shortDelay) {
-                    state = 2; 
+            else if (framesCounter / shortDelay) {
+                    state = State::CURSOR_BLINKING; 
             }
         } break;
 
-        // Blinking cursor.
-        case (2): {
-            state = 3; 
+        case State::CURSOR_BLINKING: {
+            state = State::BLANK_SCREEN_DELAY; 
         } break;
 
-        case (3): {
-            state = 4;
+        case State::BLANK_SCREEN_DELAY: {
+            state = State::FINISHED;
         } break;
 
-        case (4): {
-            finished = true;
-        } break;
+        case State::FINISHED: {} break;
     }
 }
 
@@ -290,8 +310,8 @@ void BlinkSoftwareSplash::Draw()
     switch (state)
     {
         // Letters being added on every 2 frames.
-        case (0): 
-        case (1): {
+        case State::LETTERS_ADDING: 
+        case State::LETTERS_REMOVING: {
             const char* text = "blink software";
             int fontSize = 50;
             float spacing = 4.0f;
@@ -329,8 +349,10 @@ void BlinkSoftwareSplash::Draw()
                 x += charSize.x + spacing;
             }
         } break;
-
-        case (2): {
+        
+        case State::CURSOR_BLINKING:
+        case State::BLANK_SCREEN_DELAY: 
+        case State::FINISHED: {
             return;
         } break;
     }
