@@ -22,9 +22,6 @@ jobs:
       - name: Build Web
         run: make web
         
-      - name: Build Native
-        run: make native
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
