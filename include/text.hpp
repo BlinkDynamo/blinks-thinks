@@ -29,17 +29,24 @@
 
 #pragma once
 
+// Raylib.
 #include <raylib/raylib.h>
 
+// Source.
 #include "entity.hpp"
 
+// Standard library.
 #include <string>
 
 class Text : public Entity
 {
     public:
-        Text(const char* text, int fontSize, Color textColor, Color shadowColor,
-             Vector2 position); 
+        Text(
+            const char* text,
+            int fontSize,
+            Color textColor,
+            Color shadowColor,
+            Vector2 position); 
 
         void drawWobbling(Vector2 position, float animationSpeed, float animationDepth);
 
@@ -55,17 +62,15 @@ class Text : public Entity
         Vector2 getTextDim() { return textDim; }
         void setTextDim(Vector2 td) { textDim = td; }
 
-        
-
     private:
-        /* Arguments. */
+        // Arguments.
         const char* text;
         int fontSize;
         Color textColor;
         Color shadowColor;
         Vector2 position;
        
-        /* Set during construction. */ 
+        // Set during construction.
         int letterSpacing;
         Vector2 textDim;
         Vector2 origin;

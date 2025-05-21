@@ -38,23 +38,27 @@
 
 class Button : public Entity {
     public:
-        Button(Text* text, Color bgColor, Vector2 pos, Vector2 size); 
+        Button(
+            Text* text,
+            Color bgColor,
+            Vector2 pos,
+            Vector2 size); 
         
         virtual void Update();
         virtual void Draw(); 
 
-        /* Class unique methods. */
+        // Class unique methods.
         bool isHovered();
         bool isPressed();
 
     private:
-        /* Arguments. */
+        // Arguments.
         Text* text;
         Color bgColor;
         Vector2 position;
         Vector2 size; 
 
-        /* Set during construction. */
+        // Set during construction.
         Color defaultTextColor;
         Color currentTextColor;
         Color defaultBgColor;

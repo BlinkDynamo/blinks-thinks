@@ -1,5 +1,7 @@
 /***********************************************************************************************
 *
+*   entity.cpp - The base class for all game entities.
+*
 *   LICENSE: zlib/libpng 
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
@@ -25,7 +27,10 @@
 *
 ***********************************************************************************************/
 
+// Source.
 #include "entity.hpp"
 
 Entity::Entity(Vector2 pos)
-    : position(pos) {}
+{
+    this->position = pos;
+}

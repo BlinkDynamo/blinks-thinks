@@ -27,34 +27,42 @@
 *
 ***********************************************************************************************/
 
+// Source.
 #include "button.hpp"
 #include "main.hpp"
 
+// Standard library.
 #include <cmath>
 
-/* ------------------------------------------------------------------------------------------ */
-/*                                        Constructor.                                        */
-/* ------------------------------------------------------------------------------------------ */
-Button::Button(Text* text, Color bgColor, Vector2 pos, Vector2 size)
+Button::Button(
+    Text* text,
+    Color bgColor,
+    Vector2 pos,
+    Vector2 size)
 {
     this->text = text;
     this->bgColor = bgColor;
     this->size = size;
     this->position = pos;
-    this->rect = { pos.x - (size.x / 2.0f), pos.y - (size.y / 2.0f), size.x, size.y };
+    this->rect = {
+        pos.x - (size.x / 2.0f),
+        pos.y - (size.y / 2.0f),
+        size.x,
+        size.y
+    };
 
     this->defaultTextColor = text->getTextColor();
     this->currentTextColor = defaultTextColor;
     this->defaultBgColor = bgColor;
     this->currentBgColor = defaultBgColor;
     
-    /* Set the text's position to the button's position. */
+    // Set the text's position to the button's position.
     this->text->setPosition(pos);
 }
 
-/* ------------------------------------------------------------------------------------------ */
-/*                                          Methods.                                          */
-/* ------------------------------------------------------------------------------------------ */
+// ------------------------------------------------------------------------------------------ //
+//                                          Methods.                                          //
+// ------------------------------------------------------------------------------------------ //
 bool Button::isHovered()
 {
     return CheckCollisionPointRec(mousePoint, rect);
@@ -67,11 +75,11 @@ bool Button::isPressed()
 
 void Button::Update()
 {     
-    /* Update the color of the button's text if hovered. */
+    // Update the color of the button's text if hovered.
     if (isHovered()) {
         float brightenFactor = 2.0f;
        
-        /* If the background is visible, brighten the background and darken the text. */ 
+        // If the background is visible, brighten the background and darken the text.
         if (defaultBgColor.a != 0) {
             currentBgColor = { 
                 (unsigned char) fmin(defaultBgColor.r * brightenFactor, 255),
@@ -86,7 +94,7 @@ void Button::Update()
                 defaultTextColor.a
             };
         }
-        /* Otherwise only brighten the text. */
+        // Otherwise only brighten the text.
         else { 
             currentTextColor = { 
                 (unsigned char) fmin(defaultTextColor.r * brightenFactor, 255),
@@ -102,22 +110,22 @@ void Button::Update()
     }
     text->setTextColor(currentTextColor);
 
-    /* Set the text's position to the button's position in case the button moves. */
+    // Set the text's position to the button's position in case the button moves.
     text->setPosition(position);
 }
 
 void Button::Draw()
 {
-    /* Draw the rectangle and text. */
+    // Draw the rectangle and text.
     DrawRectangleRec(rect, currentBgColor);
     text->Draw(); 
 }
 
-/* ------------------------------------------------------------------------------------------ */
-/*                                     Factory functions.                                     */
-/* ------------------------------------------------------------------------------------------ */
+// ------------------------------------------------------------------------------------------ //
+//                                     Factory functions.                                     //
+// ------------------------------------------------------------------------------------------ //
 
-/* Make a clickable UI button with dynamic text and background color at a fixed location. */
+// Make a clickable UI button with dynamic text and background color at a fixed location.
 Button makeUiButton(const char* label)
 {
     Vector2 position = { screenWidthCenter, screenHeightCenter + 100 };
@@ -134,7 +142,7 @@ Button makeUiButton(const char* label)
     return button;
 }
 
-/* Make clickable text by creating an invisible button in the shape and size of the text. */
+// Make clickable text by creating an invisible button in the shape and size of the text.
 Button makeTextButton(const char* label, int fontSize, Color textColor, Vector2 position)
 {
     Text* text = new Text(label, fontSize, textColor, { 15, 15, 15, 200 }, position);

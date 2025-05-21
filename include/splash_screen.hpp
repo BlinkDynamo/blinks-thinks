@@ -29,6 +29,7 @@
 
 #pragma once
 
+// Raylib.
 #include <raylib/raylib.h>
 
 class RaylibSplash

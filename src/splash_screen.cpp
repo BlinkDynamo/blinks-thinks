@@ -27,18 +27,20 @@
 *
 ***********************************************************************************************/
 
+// Raylib.
 #include "raylib/raylib.h"
 
+// Source.
 #include "splash_screen.hpp"
 #include "main.hpp"
 
-/* ------------------------------------------------------------------------------------------ */
-/*                                   Raylib splash screen.                                    */
-/* ------------------------------------------------------------------------------------------ */
+// ------------------------------------------------------------------------------------------ //
+//                                   Raylib splash screen.                                    //
+// ------------------------------------------------------------------------------------------ //
 RaylibSplash::RaylibSplash()
 {
-    this->logoPositionX = screenWidth/2 - 128;
-    this->logoPositionY = screenHeight/2 - 128;
+    this->logoPositionX = (screenWidth / 2) - 128;
+    this->logoPositionY = (screenHeight / 2) - 128;
 
     this->framesCounter = 0;
     this->lettersCount = 0;
@@ -73,7 +75,7 @@ void RaylibSplash::Update()
 *
 ***********************************************************************************************/
 {
-    /* If the skip key is pressed, mark the splash screen as finished. */
+    // If the skip key is pressed, mark the splash screen as finished.
     if (IsKeyPressed(KEY_ENTER)) {
         finished = true;
     }
@@ -203,9 +205,9 @@ bool RaylibSplash::isFinished()
     return finished;
 }
 
-/* ------------------------------------------------------------------------------------------ */
-/*                               Blink Software splash screen.                                */
-/* ------------------------------------------------------------------------------------------ */
+// ------------------------------------------------------------------------------------------ //
+//                               Blink Software splash screen.                                //
+// ------------------------------------------------------------------------------------------ //
 BlinkSoftwareSplash::BlinkSoftwareSplash()
 {
     this->logoPositionX = screenWidth/2 - 128;
@@ -229,17 +231,16 @@ bool BlinkSoftwareSplash::isFinished()
 
 void BlinkSoftwareSplash::Update()
 { 
-    /* If the skip key is pressed, mark the splash screen as finished. */
+    // If the skip key is pressed, mark the splash screen as finished.
     if (IsKeyPressed(KEY_ENTER)) {
         finished = true;
     }
 
     framesCounter++;
 
-    /* ----- Update step. ----- */
     switch (state)
     {
-        /* Letters being added on every 3 frames. */
+        // Letters being added on every 3 frames.
         case (0): {
             if (lettersCount < 15) {
                 if (framesCounter/3) {
@@ -247,14 +248,14 @@ void BlinkSoftwareSplash::Update()
                     framesCounter = 0;
                 }
             }
-            /* If done spelling, wait for 1 second, then move to state 1. */
+            // If done spelling, wait for 1 second, then move to state 1.
             else if (framesCounter/shortDelay) {  
                     state = 1; 
                     framesCounter = 0;
             }
         } break;
 
-        /* Letters being removed on every 3 frames. */
+        // Letters being removed on every 3 frames.
         case (1): {
             if (lettersCount > 0) {
                 if (framesCounter/3) {
@@ -262,13 +263,13 @@ void BlinkSoftwareSplash::Update()
                     framesCounter = 0;
                 }
             }
-            /* If done removing letters, wait for 1 second, then move to state 2. */
+            // If done removing letters, wait for 1 second, then move to state 2.
             else if (framesCounter/shortDelay) {
                     state = 2; 
             }
         } break;
 
-        /* Blinking cursor. */
+        // Blinking cursor.
         case (2): {
             state = 3; 
         } break;
@@ -288,7 +289,7 @@ void BlinkSoftwareSplash::Draw()
     ClearBackground((Color){ 30, 30, 30, 255});
     switch (state)
     {
-        /* Letters being added on every 2 frames. */
+        // Letters being added on every 2 frames.
         case (0): 
         case (1): {
             const char* text = "blink software";
@@ -304,8 +305,8 @@ void BlinkSoftwareSplash::Draw()
             float x = textPos.x;
             float y = textPos.y;
 
-            /* Draw every character in 'text' sequentially, 
-             * drawing a terminal cursor on the last letter. */
+            // Draw every character in 'text' sequentially, drawing a terminal cursor on the
+            // last letter.
             for (int i = 0; i < lettersCount; i++) {
                 char c = text[i];
                 char s[2] = { c, '\0' };

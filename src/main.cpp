@@ -27,32 +27,37 @@
 *
 ***********************************************************************************************/
 
+// Raylib.
 #include "raylib/raylib.h"
 
+// Source.
 #include "main.hpp"
 #include "splash_screen.hpp"
 #include "background.hpp"
 #include "button.hpp"
 #include "text.hpp"
 
+// Standard library.
 #include <cmath>
 
-/* Resolution and framerate. */
+// Resolution and framerate.
 const int screenWidth = 900;
 const int screenHeight = 600;
 const float screenWidthCenter = screenWidth / 2.0f;
 const float screenHeightCenter = screenHeight / 2.0f;
 const int frameRate = 60;
 
-/* Mouse. These are external variables defined in 'include/main.hpp'. */
+// Mouse. These are external variables defined in 'include/main.hpp'.
 Vector2 mousePoint = { 0.0f, 0.0f };
 bool mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
 
 int main(void)
 {
-    /* ------------------------- Initialization. ------------------------- */ 
+    // -------------------------------------------------------------------------------------- //
+    //                                    Initialization.                                     //
+    // -------------------------------------------------------------------------------------- //
 
-    /* Tracker for the game screen. */
+    // Tracker for the game screen.
     typedef enum GameScreen { 
         LOADING = 0, 
         TITLE, 
@@ -70,104 +75,210 @@ int main(void)
         WIN, 
     } GameScreen; 
 
-    /* Colors. */
+    // Colors.
     Color BT_SHADOW = { 15, 15, 15, 200 };
     Color BT_AQUAMARINE = { 75, 255, 205, 255 };
 
-    /* Window, Screen, and FPS. */
+    // Window, Screen, and FPS.
     InitWindow(screenWidth, screenHeight, "Blink's Thinks");
     GameScreen currentScreen = LOADING; 
     SetTargetFPS(frameRate);
 
-    /* Audio. */
+    // Audio.
     InitAudioDevice();
     SetAudioStreamBufferSizeDefault(4096);
     Music title_theme = LoadMusicStream("audio/title_theme.ogg");
     PlayMusicStream(title_theme);
 
-    /* ---------- LOADING. ---------- */
+    // LOADING.
     BlinkSoftwareSplash LOADING_splashBlinkSoftware;
     RaylibSplash LOADING_splashRaylib;
 
-    /* ---------- TITLE. ---------- */
+    // TITLE.
     Background background(
         screenWidth, 
         screenHeight, 
         GRAY, 
         { 200, 200, 200, 255 }, 
         60, 
-        50
-    );
+        50);
 
     Text TITLE_textTitle(
         "Blink's Thinks",
         100, 
         BT_AQUAMARINE, 
         BT_SHADOW,
-        { screenWidthCenter, screenHeightCenter - 100 }
-    );
+        { screenWidthCenter, screenHeightCenter - 100 });
    
     Button TITLE_buttonPlay = makeUiButton("Play");
 
-    /*  ---------- LEVEL_1. ---------- */
-    Text LEVEL_1_textTitle("Level 1", 80, RAYWHITE, BT_SHADOW, { screenWidthCenter, screenHeightCenter - 250 });
-    Text LEVEL_1_textPrompt("What is the greatest number?", 40, RAYWHITE, BT_SHADOW, 
-                            { screenWidthCenter, screenHeightCenter - 150 });
-
-    /* Answer choices are all invisible buttons with visible text. */ 
-    Button LEVEL_1_choiceOne = makeTextButton("144", 180, LIME, { screenWidthCenter - 300, screenHeightCenter + 30 });
-    Button LEVEL_1_choiceTwo = makeTextButton("3", 70, GOLD, { screenWidthCenter - 150, screenHeightCenter + 180 });
-    Button LEVEL_1_choiceThree = makeTextButton("518", 60, BLUE, { screenWidthCenter, screenHeightCenter + 130 });
-    Button LEVEL_1_choiceFour = makeTextButton("0", 120, PINK, { screenWidthCenter + 150, screenHeightCenter + 150 });
-    Button LEVEL_1_choiceFive = makeTextButton("2869", 60, VIOLET, { screenWidthCenter + 300, screenHeightCenter + 150 });
-
-    /*  ---------- LEVEL_2. ---------- */ 
-    Text LEVEL_2_textTitle("Level 2", 80, RAYWHITE, BT_SHADOW, { screenWidthCenter, screenHeightCenter - 250 });
-    Text LEVEL_2_textPrompt("What is the greatest number?", 40, RAYWHITE, BT_SHADOW,
-                            { screenWidthCenter, screenHeightCenter - 150 });
-
-    /* Answer choices are all invisible buttons with visible text. */
-    Button LEVEL_2_choiceOne = makeTextButton("50", 180, LIME, { screenWidthCenter - 300, screenHeightCenter + 30 });
-    Button LEVEL_2_choiceTwo = makeTextButton("36", 70, GOLD, { screenWidthCenter - 150, screenHeightCenter + 180 });
-    Button LEVEL_2_choiceThree = makeTextButton("11", 60, BLUE, { screenWidthCenter, screenHeightCenter + 130 });
-    Button LEVEL_2_choiceFour = makeTextButton("3", 120, PINK, { screenWidthCenter + 150, screenHeightCenter + 150 });
-    Button LEVEL_2_choiceFive = makeTextButton("4", 60, VIOLET, { screenWidthCenter + 300, screenHeightCenter + 150 });
+    // LEVEL_1.
+    Text LEVEL_1_textTitle(
+        "Level 1",
+        80,
+        RAYWHITE,
+        BT_SHADOW,
+        { screenWidthCenter, screenHeightCenter - 250 });
     
-    /*  ---------- LEVEL_3. ---------- */ 
-    Text LEVEL_3_textTitle("Level 3", 80, RAYWHITE, BT_SHADOW,
-                           { screenWidthCenter, screenHeightCenter - 250 });
-    Text LEVEL_3_textPrompt("What is the greenest number?", 40, RAYWHITE, BT_SHADOW,
-                            { screenWidthCenter, screenHeightCenter - 150 });
+    Text LEVEL_1_textPrompt(
+        "What is the greatest number?",
+        40,
+        RAYWHITE,
+        BT_SHADOW, 
+        { screenWidthCenter, screenHeightCenter - 150 });
 
-    /* Answer choices are all invisible buttons with visible text. */
-    Button LEVEL_3_choiceOne = makeTextButton("7", 180, LIME, { screenWidthCenter - 300, screenHeightCenter + 30 });
-    Button LEVEL_3_choiceTwo = makeTextButton("39", 70, GOLD, { screenWidthCenter - 150, screenHeightCenter + 180 });
-    Button LEVEL_3_choiceThree = makeTextButton("115", 60, BLUE, { screenWidthCenter, screenHeightCenter + 130 });
-    Button LEVEL_3_choiceFour = makeTextButton("2", 120, PINK, { screenWidthCenter + 150, screenHeightCenter + 150 });
-    Button LEVEL_3_choiceFive = makeTextButton("8051", 60, VIOLET, { screenWidthCenter + 300, screenHeightCenter + 150 });
+    // Answer choices are all invisible buttons with visible text.
+    Button LEVEL_1_choiceOne = makeTextButton(
+        "144",
+        180,
+        LIME,
+        { screenWidthCenter - 300, screenHeightCenter + 30 });
+    
+    Button LEVEL_1_choiceTwo = makeTextButton(
+        "3",
+        70,
+        GOLD,
+        { screenWidthCenter - 150, screenHeightCenter + 180 });
+    
+    Button LEVEL_1_choiceThree = makeTextButton(
+        "518",
+        60,
+        BLUE,
+        { screenWidthCenter, screenHeightCenter + 130 });
+    
+    Button LEVEL_1_choiceFour = makeTextButton(
+        "0",
+        120,
+        PINK,
+        { screenWidthCenter + 150, screenHeightCenter + 150 });
 
-    /*  ---------- LOSE. ---------- */ 
-    Text LOSE_textTitle("You Lose!", 80, BLACK, BT_SHADOW,
-                        { screenWidthCenter, screenHeightCenter - 100 });
+    Button LEVEL_1_choiceFive = makeTextButton(
+        "2869",
+        60,
+        VIOLET,
+        { screenWidthCenter + 300, screenHeightCenter + 150 });
+
+    // LEVEL_2.
+    Text LEVEL_2_textTitle(
+        "Level 2",
+        80,
+        RAYWHITE,
+        BT_SHADOW,
+        { screenWidthCenter, screenHeightCenter - 250 });
+    
+    Text LEVEL_2_textPrompt(
+        "What is the greatest number?",
+        40,
+        RAYWHITE,
+        BT_SHADOW,
+        { screenWidthCenter, screenHeightCenter - 150 });
+
+    // Answer choices are all invisible buttons with visible text.
+    Button LEVEL_2_choiceOne = makeTextButton(
+        "50",
+        180,
+        LIME,
+        { screenWidthCenter - 300, screenHeightCenter + 30 });
+    
+    Button LEVEL_2_choiceTwo = makeTextButton(
+        "36",
+        70,
+        GOLD,
+        { screenWidthCenter - 150, screenHeightCenter + 180 });
+    
+    Button LEVEL_2_choiceThree = makeTextButton(
+        "11",
+        60,
+        BLUE,
+        { screenWidthCenter, screenHeightCenter + 130 });
+    
+    Button LEVEL_2_choiceFour = makeTextButton(
+        "3",
+        120,
+        PINK,
+        { screenWidthCenter + 150, screenHeightCenter + 150 });
+    
+    Button LEVEL_2_choiceFive = makeTextButton(
+        "4",
+        60,
+        VIOLET,
+        { screenWidthCenter + 300, screenHeightCenter + 150 });
+    
+    // LEVEL_3.
+    Text LEVEL_3_textTitle(
+        "Level 3",
+        80,
+        RAYWHITE,
+        BT_SHADOW,
+        { screenWidthCenter, screenHeightCenter - 250 });
+
+    Text LEVEL_3_textPrompt(
+        "What is the greenest number?",
+        40,
+        RAYWHITE,
+        BT_SHADOW,
+        { screenWidthCenter, screenHeightCenter - 150 });
+
+    // Answer choices are all invisible buttons with visible text.
+    Button LEVEL_3_choiceOne = makeTextButton(
+        "7",
+        180,
+        LIME,
+        { screenWidthCenter - 300, screenHeightCenter + 30 });
+    
+    Button LEVEL_3_choiceTwo = makeTextButton(
+        "39",
+        70,
+        GOLD,
+        { screenWidthCenter - 150, screenHeightCenter + 180 });
+    
+    Button LEVEL_3_choiceThree = makeTextButton(
+        "115",
+        60,
+        BLUE,
+        { screenWidthCenter, screenHeightCenter + 130 });
+    
+    Button LEVEL_3_choiceFour = makeTextButton(
+        "2",
+        120,
+        PINK,
+        { screenWidthCenter + 150, screenHeightCenter + 150 });
+    
+    Button LEVEL_3_choiceFive = makeTextButton(
+        "8051",
+        60,
+        VIOLET,
+        { screenWidthCenter + 300, screenHeightCenter + 150 });
+
+    // LOSE.
+    Text LOSE_textTitle(
+        "You Lose!",
+        80,
+        BLACK,
+        BT_SHADOW,
+        { screenWidthCenter, screenHeightCenter - 100 });
+    
     Button LOSE_buttonMenu = makeUiButton("Menu");
     
-    /* ------------------------- Main Event Loop. ------------------------- */
+    // Main Event Loop.
     while (!WindowShouldClose())
     {
-        /* ----- Update. ----- */
+        // ---------------------------------------------------------------------------------- //
+        //                                      Update.                                       //
+        // ---------------------------------------------------------------------------------- //
 
-        /* Mouse. */
+        // Mouse. Remember, these are externs.
         mousePoint = GetMousePosition();
         mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT); 
         
-        /* Update the music buffer with new stream data. */
+        // Update the music buffer with new stream data.
         UpdateMusicStream(title_theme);
         
         switch (currentScreen)
         {
             case LOADING:
             {
-                /* Update the correct splash screen in order of what should be played first. */
+                // Update the correct splash screen in order of what should be played first.
                 if (!LOADING_splashRaylib.isFinished()) {
                         LOADING_splashRaylib.Update();
                 }
@@ -284,16 +395,18 @@ int main(void)
             default: break;
         }
 
-        /* ----- Draw. ----- */
+        // ---------------------------------------------------------------------------------- //
+        //                                       Draw.                                        //
+        // ---------------------------------------------------------------------------------- //
         BeginDrawing();
-
+        
         ClearBackground(RAYWHITE);
 
         switch(currentScreen)
         {
             case LOADING:
             {
-                /* Play the elegant RayLib animation, along with the Blink Software splash screen. */
+                // Play the RayLib animation, along with the Blink Software splash screen.
                 if (!LOADING_splashRaylib.isFinished()) {
                     LOADING_splashRaylib.Draw();
                 }
@@ -312,8 +425,7 @@ int main(void)
                 TITLE_textTitle.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 100 },
                     2.0f,
-                    7.0f
-                ); 
+                    7.0f); 
 
                 TITLE_buttonPlay.Draw();
             } break;
@@ -327,8 +439,7 @@ int main(void)
                     LEVEL_1_textPrompt.drawWobbling(
                         { screenWidthCenter, screenHeightCenter - 150 },
                         3.0f,
-                        2.0f
-                    ); 
+                        2.0f); 
                 
                     LEVEL_1_choiceOne.Draw();
                     LEVEL_1_choiceTwo.Draw();
@@ -346,8 +457,7 @@ int main(void)
                 LEVEL_2_textPrompt.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 150 },
                     3.0f,
-                    2.0f
-                ); 
+                    2.0f); 
             
                 LEVEL_2_choiceOne.Draw();
                 LEVEL_2_choiceTwo.Draw();
@@ -365,8 +475,7 @@ int main(void)
                 LEVEL_3_textPrompt.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 150 },
                     3.0f,
-                    2.0f
-                ); 
+                    2.0f); 
             
                 LEVEL_3_choiceOne.Draw();
                 LEVEL_3_choiceTwo.Draw();
@@ -398,14 +507,12 @@ int main(void)
 
             case LOSE:
             {
-                /*  ---------- LOSE. ---------- */
                 background.Draw();
 
                 LOSE_textTitle.drawWobbling(
                     { screenWidthCenter, screenHeightCenter - 100 },
                     40.0f,
-                    2.0f
-                );
+                    2.0f);
 
                 LOSE_buttonMenu.Draw();
             } break;
@@ -419,13 +526,15 @@ int main(void)
         EndDrawing();
     }
 
-    /* ----- De-Initialization. ----- */
+    // ------------------------------------------------------------------------------------------ //
+    //                                     De-initialization.                                     //
+    // ------------------------------------------------------------------------------------------ //
 
-    /* Audio. */
+    // Audio.
     UnloadMusicStream(title_theme);
     CloseAudioDevice();
 
-    /* Close window and program exit. */
+    // Close window and program exit.
     CloseWindow();
     return 0;
 }

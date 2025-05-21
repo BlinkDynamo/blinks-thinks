@@ -27,12 +27,19 @@
 *
 ***********************************************************************************************/
 
+// Source.
 #include "background.hpp"
 
+// Standard library.
 #include <cmath>
 
-Background::Background(int screenWidth, int screenHeight, Color darkColor, Color lightColor,
-                       float scrollOffset, int squareSize)
+Background::Background(
+    int screenWidth,
+    int screenHeight,
+    Color darkColor,
+    Color lightColor,
+    float scrollOffset,
+    int squareSize)
 {
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
@@ -49,8 +56,8 @@ void Background::Update()
 
 void Background::Draw()
 {
-    int cols = screenWidth / squareSize + 2;
-    int rows = screenHeight / squareSize + 2;
+    int cols = (screenWidth / squareSize) + 2;
+    int rows = (screenHeight / squareSize) + 2;
 
     float effectiveOffset = std::fmod(scrollOffset, 2 * squareSize);
 

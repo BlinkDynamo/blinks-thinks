@@ -27,22 +27,28 @@
 *
 ***********************************************************************************************/
 
+// Raylib.
 #include "raylib/raylib.h"
 
+// Source.
 #include "text.hpp"
 
+// Standard library.
 #include <cmath>
 
-Text::Text(const char* text, int fontSize, Color textColor, Color shadowColor, Vector2 position)
+Text::Text(
+    const char* text,
+    int fontSize,
+    Color textColor,
+    Color shadowColor,
+    Vector2 position)
 {
-    /* All passed variables. */
     this->text = text;
     this->fontSize = fontSize;
     this->textColor = textColor;
     this->shadowColor = shadowColor;
     this->position = position;
 
-    /* Variables calculated on construction. */
     this->letterSpacing = fontSize / 10.0f;
     this->textDim = MeasureTextEx(GetFontDefault(), text, fontSize, letterSpacing);
     this->origin = { textDim.x / 2.0f, textDim.y / 2.0f };
@@ -56,7 +62,7 @@ void Text::Update()
 
 void Text::Draw()
 {
-    /* Shadow. Only draw the shadow if it's not fully transparent. */
+    // Shadow. Only draw the shadow if it's not fully transparent.
     if (shadowColor.a != 0) {
         DrawTextPro(
             GetFontDefault(), 
@@ -66,11 +72,10 @@ void Text::Draw()
             0,
             fontSize,
             letterSpacing,
-            shadowColor
-        );
+            shadowColor);
     }
 
-    /* Text. */ 
+    // Text.
     DrawTextPro(
         GetFontDefault(),
         text,
@@ -79,17 +84,16 @@ void Text::Draw()
         0,
         fontSize,
         letterSpacing,
-        textColor
-        );
+        textColor);
 }
 
 void Text::drawWobbling(Vector2 position, float animationSpeed, float animationDepth)
 {
-    /* Rotation. */
+    // Rotation.
     static float rotation = 0.0f;
     rotation = sin(GetTime() * animationSpeed) * animationDepth;
 
-    /* Shadow. Only draw the shadow if it's not fully transparent. */
+    // Shadow. Only draw the shadow if it's not fully transparent.
     if (shadowColor.a != 0) {
         DrawTextPro(
             GetFontDefault(), 
@@ -99,11 +103,10 @@ void Text::drawWobbling(Vector2 position, float animationSpeed, float animationD
             rotation,
             fontSize,
             letterSpacing,
-            shadowColor
-        );
+            shadowColor);
     }
 
-    /* Text. */ 
+    // Text.
     DrawTextPro(
         GetFontDefault(),
         text,
@@ -112,6 +115,5 @@ void Text::drawWobbling(Vector2 position, float animationSpeed, float animationD
         rotation,
         fontSize,
         letterSpacing,
-        textColor
-        );
+        textColor);
 }

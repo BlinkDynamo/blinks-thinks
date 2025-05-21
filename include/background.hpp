@@ -34,14 +34,19 @@
 class Background
 {
     public:
-        Background(int screenWidth, int screenHeight, Color darkColor, Color lightColor,
-                   float scrollOffset, int squareSize);
+        Background(
+            int screenWidth,
+            int screenHeight,
+            Color darkColor,
+            Color lightColor,
+            float scrollOffset,
+            int squareSize);
 
         void Update();
         void Draw();
 
     private:
-        /* Arguments. */
+        // Arguments.
         int screenWidth;
         int screenHeight;
         Color darkColor;
