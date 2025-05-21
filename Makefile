@@ -27,7 +27,7 @@ NATIVE_FLAGS := -g \
 # Web build
 WEB_BUILD_DIR := build/web
 WEB_COMPILER := emcc
-WEB_EXEC := $(WEB_BUILD_DIR)/blinks-thinks.html
+WEB_EXEC := $(WEB_BUILD_DIR)/index.html
 # Expand each file inside 'audio/' with xargs and format them as flags.
 WEB_PRELOAD_ASSETS := $(shell find audio -type f | xargs -I{} echo --preload-file {})
 WEB_FLAGS := -Os \
