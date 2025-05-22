@@ -3,9 +3,7 @@
 # Common variables
 
 SRC_DIR := src
-INCLUDE_DIR := include
-LIB_DIR := lib
-LIB_WEB := $(LIB_DIR)/libraylib_web.a
+LIB_WEB := lib/libraylib_web.a
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 
 # Native build. This assumes an installed raylib library for now. It does not use the local 'lib/' directory.
@@ -16,9 +14,9 @@ NATIVE_FLAGS := -g \
 				-Wall \
 				-Wextra \
 				-Werror \
-				-I$(INCLUDE_DIR) \
-				-lraylib \
 				-Iinclude \
+				-Iexternal/raylib/src \
+				-lraylib \
 				-lm \
 				-ldl \
 				-lpthread \
@@ -33,7 +31,8 @@ WEB_PRELOAD_ASSETS := $(shell find audio -type f | xargs -I{} echo --preload-fil
 WEB_FLAGS := -Os \
 			 -Wall \
 			 -I. \
-			 -I$(INCLUDE_DIR) \
+			 -Iinclude \
+			 -Iexternal/raylib/src \
 			 $(LIB_WEB) \
 			 -DPLATFORM_WEB \
 			 -DRAUDIO_IMPLEMENTATION \
@@ -59,7 +58,7 @@ web: $(LIB_WEB)
 	$(WEB_COMPILER) -o $(WEB_EXEC) $(SRCS) $(WEB_FLAGS)	
 
 $(LIB_WEB):	
-	@mkdir -p $(LIB_DIR)
+	@mkdir -p lib 
 	emcc -c external/raylib/src/rcore.c -o external/raylib/src/rcore.o -Os -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
 	emcc -c external/raylib/src/rshapes.c -o external/raylib/src/rshapes.o -Os -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
 	emcc -c external/raylib/src/rtextures.c -o external/raylib/src/rtextures.o -Os -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2

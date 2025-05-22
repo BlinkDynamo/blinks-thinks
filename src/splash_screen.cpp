@@ -28,7 +28,7 @@
 ***********************************************************************************************/
 
 // Raylib.
-#include "raylib/raylib.h"
+#include "raylib.h"
 
 // Source.
 #include "splash_screen.hpp"

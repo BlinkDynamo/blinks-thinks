@@ -29,7 +29,8 @@
 
 #pragma once
 
-#include <raylib/raylib.h>
+// Raylib.
+#include "raylib.h"
 
 class Background
 {
