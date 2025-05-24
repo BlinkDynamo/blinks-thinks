@@ -10,14 +10,13 @@
 ## Description
 Blink's Thinks is a point-and-click puzzle game using raylib.
 
-Blink's Thinks is a video game built using raylib, C and C++. It uses all originally made
-source music, code, and art (other than some included code for the raylib animation). It is 
-currently compilable for Linux (clang++) and web (Emscripten). The project uses GitHub Pages 
-to host the web-compiled game in a separate branch, 'gh-pages'. GitHub Workflows re-compiles 
-the game to this branch on each push.
+Blink's Thinks is a video game built using raylib and C++. It uses all original source music, 
+code, art, and design (other than some included code for the raylib animation). It is currently 
+compilable for Linux (clang++) and web (Emscripten). The project uses GitHub Pages to host the 
+web-compiled game in a separate branch, 'gh-pages'. GitHub Workflows re-compiles the game to 
+this branch on each push.
 
 To play the most recent commit of the game, go ![here](blinkdynamo.github.io/blinks-thinks/).
-
 
 ## Dependencies
 If you would like to build the game locally, you will need these hard dependencies:
