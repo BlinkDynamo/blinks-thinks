@@ -48,7 +48,7 @@ class Text : public Entity
             Color shadowColor,
             Vector2 position); 
 
-        void drawWobbling(Vector2 position, float animationSpeed, float animationDepth);
+        void drawWobbling(float animationSpeed, float animationDepth);
 
         virtual void Update();
         virtual void Draw();

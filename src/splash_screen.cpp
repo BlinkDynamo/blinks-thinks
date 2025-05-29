@@ -241,9 +241,11 @@ BlinkSoftwareSplash::BlinkSoftwareSplash()
     // State of the animation.
     this->state = State::LETTERS_ADDING;
 
-    // Other.
+    // Colors and alpha.
+    this->bgColor = { 30, 30, 30, 255};
     this->alpha = 1.0f;
-    
+   
+    // Other. 
     this->shortDelay = 1 * frameRate;
 }
 
@@ -306,7 +308,7 @@ void BlinkSoftwareSplash::Update()
 
 void BlinkSoftwareSplash::Draw()
 { 
-    ClearBackground((Color){ 30, 30, 30, 255});
+    ClearBackground(bgColor);
     switch (state)
     {
         // Letters being added on every 2 frames.

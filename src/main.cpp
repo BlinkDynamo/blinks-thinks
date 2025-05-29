@@ -423,7 +423,6 @@ int main(void)
                 background.Draw();
 
                 TITLE_textTitle.drawWobbling(
-                    { screenWidthCenter, screenHeightCenter - 100 },
                     2.0f,
                     7.0f); 
 
@@ -437,7 +436,6 @@ int main(void)
                     LEVEL_1_textTitle.Draw(); 
 
                     LEVEL_1_textPrompt.drawWobbling(
-                        { screenWidthCenter, screenHeightCenter - 150 },
                         3.0f,
                         2.0f); 
                 
@@ -455,7 +453,6 @@ int main(void)
                 LEVEL_2_textTitle.Draw(); 
 
                 LEVEL_2_textPrompt.drawWobbling(
-                    { screenWidthCenter, screenHeightCenter - 150 },
                     3.0f,
                     2.0f); 
             
@@ -473,7 +470,6 @@ int main(void)
                 LEVEL_3_textTitle.Draw(); 
 
                 LEVEL_3_textPrompt.drawWobbling(
-                    { screenWidthCenter, screenHeightCenter - 150 },
                     3.0f,
                     2.0f); 
             
@@ -510,7 +506,6 @@ int main(void)
                 background.Draw();
 
                 LOSE_textTitle.drawWobbling(
-                    { screenWidthCenter, screenHeightCenter - 100 },
                     40.0f,
                     2.0f);
 

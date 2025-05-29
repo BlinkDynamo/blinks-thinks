@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   main.cpp - The entry point and program runtime.
+*   main.hpp - The entry point and program runtime.
 *
 *   LICENSE: zlib/libpng 
 *

@@ -8,7 +8,7 @@
 # 	RL  = raylib                                                                               #
 # 	BT  = Blink's Thinks																	   #
 # 	NAT = native                     														   #
-# 	D   = directory
+# 	D   = directory	                                                                           #
 #																							   #
 # -------------------------------------------------------------------------------------------- #
 
@@ -48,15 +48,18 @@ RL_WEB_OBJS := $(D_OBJ_RL)/rcore.o \
 			   $(D_OBJ_RL)/utils.o \
 			   $(D_OBJ_RL)/raudio.o
 
+# Shared warning flags. Work for both emcc and clang++, as emcc is clang-based.
+WARNINGS := -Wall -Wextra -Werror \
+			-Wpedantic -Wshadow -Wnon-virtual-dtor \
+			-Wold-style-cast -Wsign-conversion
+
 
 # Native build. This assumes an installed raylib library.
 # It does not search in the 'build/lib/' directory.
 NATIVE_COMPILER = clang++ -std=c++11
 NATIVE_EXEC := $(D_OUT_NAT)/blinks-thinks
-NATIVE_FLAGS := -g \
-				-Wall \
-				-Wextra \
-				-Werror \
+NATIVE_FLAGS := $(WARNINGS) \
+				-g \
 				-Iinclude \
 				-lraylib \
 				-lm \
@@ -69,8 +72,7 @@ WEB_COMPILER := emcc
 WEB_EXEC := $(D_OUT_WEB)/index.html
 # Expand each file inside 'audio/' with xargs and format them as flags.
 WEB_PRELOAD_ASSETS := $(shell find audio -type f | xargs -I{} echo --preload-file {})
-WEB_FLAGS := -Os \
-			 -Wall \
+WEB_FLAGS := $(WARNINGS) \
 			 -I. \
 			 -Iinclude \
 			 -I$(SRC_RL) \

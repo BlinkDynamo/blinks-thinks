@@ -82,24 +82,24 @@ void Button::Update()
         // If the background is visible, brighten the background and darken the text.
         if (defaultBgColor.a != 0) {
             currentBgColor = { 
-                (unsigned char) fmin(defaultBgColor.r * brightenFactor, 255),
-                (unsigned char) fmin(defaultBgColor.g * brightenFactor, 255),
-                (unsigned char) fmin(defaultBgColor.b * brightenFactor, 255),
+                static_cast<unsigned char>(fmin(defaultBgColor.r * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(defaultBgColor.g * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(defaultBgColor.b * brightenFactor, 255)),
                 defaultBgColor.a
             };
             currentTextColor = { 
-                (unsigned char) fmin(defaultTextColor.r / brightenFactor, 0),
-                (unsigned char) fmin(defaultTextColor.g / brightenFactor, 0),
-                (unsigned char) fmin(defaultTextColor.b / brightenFactor, 0),
+                static_cast<unsigned char>(fmin(defaultTextColor.r / brightenFactor, 0)),
+                static_cast<unsigned char>(fmin(defaultTextColor.g / brightenFactor, 0)),
+                static_cast<unsigned char>(fmin(defaultTextColor.b / brightenFactor, 0)),
                 defaultTextColor.a
             };
         }
         // Otherwise only brighten the text.
         else { 
             currentTextColor = { 
-                (unsigned char) fmin(defaultTextColor.r * brightenFactor, 255),
-                (unsigned char) fmin(defaultTextColor.g * brightenFactor, 255),
-                (unsigned char) fmin(defaultTextColor.b * brightenFactor, 255),
+                static_cast<unsigned char>(fmin(defaultTextColor.r * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(defaultTextColor.g * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(defaultTextColor.b * brightenFactor, 255)),
                 defaultTextColor.a
             };
         }

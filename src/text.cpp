@@ -67,7 +67,7 @@ void Text::Draw()
         DrawTextPro(
             GetFontDefault(), 
             text, 
-            (Vector2){ position.x + shadowOffset.x, position.y + shadowOffset.y }, 
+            { position.x + shadowOffset.x, position.y + shadowOffset.y }, 
             origin,
             0,
             fontSize,
@@ -87,7 +87,7 @@ void Text::Draw()
         textColor);
 }
 
-void Text::drawWobbling(Vector2 position, float animationSpeed, float animationDepth)
+void Text::drawWobbling(float animationSpeed, float animationDepth)
 {
     // Rotation.
     static float rotation = 0.0f;
@@ -98,7 +98,7 @@ void Text::drawWobbling(Vector2 position, float animationSpeed, float animationD
         DrawTextPro(
             GetFontDefault(), 
             text, 
-            (Vector2){ position.x + shadowOffset.x, position.y + shadowOffset.y }, 
+            { position.x + shadowOffset.x, position.y + shadowOffset.y }, 
             origin,
             rotation,
             fontSize,

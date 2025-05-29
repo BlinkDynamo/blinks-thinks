@@ -86,9 +86,11 @@ class BlinkSoftwareSplash
         };
         State state;
        
-        // Other. 
+        // Colors and alpha.
+        Color bgColor;
         float alpha;
 
+        // Other.
         int shortDelay;
 
 };
