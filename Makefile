@@ -53,10 +53,12 @@ WARNINGS := -Wall -Wextra -Werror \
 			-Wpedantic -Wshadow -Wnon-virtual-dtor \
 			-Wold-style-cast -Wsign-conversion
 
+# The standard of c++ to use. 
+STD := -std=c++23
 
 # Native build. This assumes an installed raylib library.
 # It does not search in the 'build/lib/' directory.
-NATIVE_COMPILER = clang++ -std=c++11
+NATIVE_COMPILER := clang++ $(STD)
 NATIVE_EXEC := $(D_OUT_NAT)/blinks-thinks
 NATIVE_FLAGS := $(WARNINGS) \
 				-g \
@@ -68,7 +70,7 @@ NATIVE_FLAGS := $(WARNINGS) \
 				-lGL
 
 # Web build.
-WEB_COMPILER := emcc
+WEB_COMPILER := em++ $(STD)
 WEB_EXEC := $(D_OUT_WEB)/index.html
 # Expand each file inside 'audio/' with xargs and format them as flags.
 WEB_PRELOAD_ASSETS := $(shell find audio -type f | xargs -I{} echo --preload-file {})
@@ -86,6 +88,9 @@ WEB_FLAGS := $(WARNINGS) \
 			 -s FORCE_FILESYSTEM=1 \
 			 $(WEB_PRELOAD_ASSETS)  \
 			 --shell-file web/shell.html
+
+# Library build.
+RL_WEB_COMPILER := emcc
 			 
 # -------------------------------------------------------------------------------------------- #
 #                                       Dependency Tree.                                       #
@@ -111,19 +116,19 @@ $(RL_WEB):	$(D_LIB_RL) $(RL_WEB_OBJS)
 
 # Raylib object file rules (check if these already exist before recompiling).
 $(D_OBJ_RL)/rcore.o: $(SRC_RL)/rcore.c | $(D_OBJ_RL)
-	emcc -c $< -o $@ -Os -w -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
 $(D_OBJ_RL)/rshapes.o: $(SRC_RL)/rshapes.c | $(D_OBJ_RL)
-	emcc -c $< -o $@ -Os -w -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
 $(D_OBJ_RL)/rtextures.o: $(SRC_RL)/rtextures.c | $(D_OBJ_RL)
-	emcc -c $< -o $@ -Os -w -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
 $(D_OBJ_RL)/rtext.o: $(SRC_RL)/rtext.c | $(D_OBJ_RL)
-	emcc -c $< -o $@ -Os -w -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
 $(D_OBJ_RL)/rmodels.o: $(SRC_RL)/rmodels.c | $(D_OBJ_RL)
-	emcc -c $< -o $@ -Os -w -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
 $(D_OBJ_RL)/utils.o: $(SRC_RL)/utils.c | $(D_OBJ_RL)
-	emcc -c $< -o $@ -Os -w -DPLATFORM_WEB
+	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB
 $(D_OBJ_RL)/raudio.o: $(SRC_RL)/raudio.c | $(D_OBJ_RL)
-	emcc -c $< -o $@ -Os -w -DPLATFORM_WEB
+	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB
 
 # Build directories.
 $(D_OBJ_NAT):
