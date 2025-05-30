@@ -24,8 +24,9 @@ Blink's Thinks is licensed under the GNU General Public License v3.0. You should
 a copy of the license along with this program. If not, see <https://www.gnu.org/licenses>.
 
 This project uses raylib, along with a small snippet of raylib example code for the intro
-animation. Both are these are licensed using a permissive zlib license, and are copyright
-of Raymon Santamaria (@raysan5).
+animation. Both of these are licensed under an unmodified zlib/libpng license, which is an
+OSI-certified, BSD-like license that allows static linking with closed source software.
+Both are copyright (c) 2014-2025 Ramon Santamaria (@raysan5).
 
 ## Dependencies
 If you would like to build the game locally, you will need these hard dependencies:
