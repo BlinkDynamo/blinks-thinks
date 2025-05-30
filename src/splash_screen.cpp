@@ -220,6 +220,16 @@ BlinkSoftwareSplash::BlinkSoftwareSplash()
     framesCounter(0),
     lettersCount(0),
     state(State::LETTERS_ADDING),
+    text("A game by Josh Hayden"),
+    fontSize(40),
+    spacing(4.0f),
+    font(GetFontDefault()),
+
+    textPos({ 
+        static_cast<float>(GetScreenWidth()/2 - 240), 
+        static_cast<float>(GetScreenHeight()/2)
+    }),
+
     bgColor({ 30, 30, 30, 255}),
     shortDelay(1 * frameRate)
 {}
@@ -242,7 +252,7 @@ void BlinkSoftwareSplash::Update()
     {
         // Letters being added on every 3 frames.
         case State::LETTERS_ADDING: {
-            if (lettersCount < 15) {
+            if (lettersCount < 21) {
                 if (framesCounter / 3) {
                     lettersCount++;
                     framesCounter = 0;
@@ -288,17 +298,7 @@ void BlinkSoftwareSplash::Draw()
     {
         // Letters being added on every 2 frames.
         case State::LETTERS_ADDING: 
-        case State::LETTERS_REMOVING: {
-            const char* text = "blink software";
-            int fontSize = 50;
-            float spacing = 4.0f;
-            Vector2 textPos = { 
-                static_cast<float>(GetScreenWidth()/2 - 160), 
-                static_cast<float>(GetScreenHeight()/2)
-            };
-
-            Font font = GetFontDefault(); 
-
+        case State::LETTERS_REMOVING: { 
             float x = textPos.x;
             float y = textPos.y;
 

@@ -73,6 +73,13 @@ class BlinkSoftwareSplash
         };
         State state;
        
+        // Text.
+        const char* text;
+        int fontSize;
+        float spacing;
+        Font font;
+        Vector2 textPos;
+
         // Colors.
         Color bgColor;
 
