@@ -29,22 +29,18 @@
 //                                   Raylib splash screen.                                    //
 // ------------------------------------------------------------------------------------------ //
 RaylibSplash::RaylibSplash()
-{
-    this->logoPositionX = (screenWidth / 2) - 128;
-    this->logoPositionY = (screenHeight / 2) - 128;
-
-    this->framesCounter = 0;
-    this->lettersCount = 0;
-
-    this->topSideRecWidth = 16;
-    this->leftSideRecHeight = 16;
-
-    this->bottomSideRecWidth = 16;
-    this->rightSideRecHeight = 16;
-
-    this->state = 0;
-    this->alpha = 1.0f;
-}
+    :
+    logoPositionX((screenWidth / 2) - 128),
+    logoPositionY((screenHeight / 2) - 128),
+    topSideRecWidth(16),
+    leftSideRecHeight(16),
+    bottomSideRecWidth(16),
+    rightSideRecHeight(16),
+    framesCounter(0),
+    lettersCount(0),
+    state(0),
+    alpha(1.0f)
+{}
 
 bool RaylibSplash::isFinished()
 {
@@ -220,25 +216,13 @@ void RaylibSplash::Draw()
 //                               Blink Software splash screen.                                //
 // ------------------------------------------------------------------------------------------ //
 BlinkSoftwareSplash::BlinkSoftwareSplash()
-{
-    // Position.
-    this->logoPositionX = screenWidth/2 - 128;
-    this->logoPositionY = screenHeight/2 - 128;
-
-    // Counters.
-    this->framesCounter = 0;
-    this->lettersCount = 0;
-
-    // State of the animation.
-    this->state = State::LETTERS_ADDING;
-
-    // Colors and alpha.
-    this->bgColor = { 30, 30, 30, 255};
-    this->alpha = 1.0f;
-   
-    // Other. 
-    this->shortDelay = 1 * frameRate;
-}
+    : 
+    framesCounter(0),
+    lettersCount(0),
+    state(State::LETTERS_ADDING),
+    bgColor({ 30, 30, 30, 255}),
+    shortDelay(1 * frameRate)
+{}
 
 bool BlinkSoftwareSplash::isFinished()
 {

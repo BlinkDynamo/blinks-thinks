@@ -31,14 +31,15 @@ Background::Background(
     Color lightColor,
     float scrollOffset,
     int squareSize)
-{
-    this->screenWidth = screenWidth;
-    this->screenHeight = screenHeight;
-    this->darkColor = darkColor;
-    this->lightColor = lightColor;
-    this->scrollOffset = scrollOffset;
-    this->squareSize = squareSize;
-}
+
+    : 
+    screenWidth(screenWidth),
+    screenHeight(screenHeight),
+    darkColor(darkColor),
+    lightColor(lightColor),
+    scrollOffset(scrollOffset),
+    squareSize(squareSize)
+{}
 
 void Background::Update()
 {

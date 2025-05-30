@@ -33,23 +33,21 @@ Label::Label(
     Color textColor,
     Color shadowColor,
     Vector2 position)
-{
-    this->text = text;
-    this->fontSize = fontSize;
-    this->textColor = textColor;
-    this->shadowColor = shadowColor;
-    this->position = position;
-
-    this->letterSpacing = fontSize / 10.0f;
-    this->textDim = MeasureTextEx(GetFontDefault(), text, fontSize, letterSpacing);
-    this->origin = { textDim.x / 2.0f, textDim.y / 2.0f };
-    this->shadowOffset = { 5.0f, 5.0f };
-}
+    
+    :
+    text(text),
+    fontSize(fontSize),
+    textColor(textColor),
+    shadowColor(shadowColor),
+    position(position),
+    letterSpacing(fontSize / 10.0f),
+    textDim(MeasureTextEx(GetFontDefault(), text, fontSize, letterSpacing)),
+    origin({ textDim.x / 2.0f, textDim.y / 2.0f }),
+    shadowOffset({ 5.0f, 5.0f }) 
+{}
 
 void Label::Update()
-{
-
-}
+{}
 
 void Label::Draw()
 {

@@ -22,6 +22,6 @@
 #include "entity.hpp"
 
 Entity::Entity(Vector2 pos)
-{
-    this->position = pos;
-}
+    :
+    position(pos)
+{}

@@ -30,24 +30,16 @@ Button::Button(
     Color bgColor,
     Vector2 pos,
     Vector2 size)
-{
-    this->label = label;
-    this->bgColor = bgColor;
-    this->size = size;
-    this->position = pos;
-    this->rect = {
-        pos.x - (size.x / 2.0f),
-        pos.y - (size.y / 2.0f),
-        size.x,
-        size.y
-    };
 
-    this->defaultLabelColor = label->getTextColor();
-    this->currentLabelColor = defaultLabelColor;
-    this->defaultBgColor = bgColor;
-    this->currentBgColor = defaultBgColor;
-    
-    // Set the label's position to the button's position.
+    :
+    label(label),
+    position(pos),
+    rect({pos.x - (size.x / 2.0f), pos.y - (size.y / 2.0f), size.x, size.y}),
+    defaultTextColor(label->getTextColor()),
+    currentTextColor(defaultTextColor),
+    defaultBgColor(bgColor),
+    currentBgColor(defaultBgColor)
+{
     this->label->setPosition(pos);
 }
 
@@ -78,28 +70,28 @@ void Button::Update()
                 static_cast<unsigned char>(fmin(defaultBgColor.b * brightenFactor, 255)),
                 defaultBgColor.a
             };
-            currentLabelColor = { 
-                static_cast<unsigned char>(fmin(defaultLabelColor.r / brightenFactor, 0)),
-                static_cast<unsigned char>(fmin(defaultLabelColor.g / brightenFactor, 0)),
-                static_cast<unsigned char>(fmin(defaultLabelColor.b / brightenFactor, 0)),
-                defaultLabelColor.a
+            currentTextColor = { 
+                static_cast<unsigned char>(fmin(defaultTextColor.r / brightenFactor, 0)),
+                static_cast<unsigned char>(fmin(defaultTextColor.g / brightenFactor, 0)),
+                static_cast<unsigned char>(fmin(defaultTextColor.b / brightenFactor, 0)),
+                defaultTextColor.a
             };
         }
         // Otherwise only brighten the label.
         else { 
-            currentLabelColor = { 
-                static_cast<unsigned char>(fmin(defaultLabelColor.r * brightenFactor, 255)),
-                static_cast<unsigned char>(fmin(defaultLabelColor.g * brightenFactor, 255)),
-                static_cast<unsigned char>(fmin(defaultLabelColor.b * brightenFactor, 255)),
-                defaultLabelColor.a
+            currentTextColor = { 
+                static_cast<unsigned char>(fmin(defaultTextColor.r * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(defaultTextColor.g * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(defaultTextColor.b * brightenFactor, 255)),
+                defaultTextColor.a
             };
         }
     } 
     else {
         currentBgColor = defaultBgColor;
-        currentLabelColor = defaultLabelColor;
+        currentTextColor = defaultTextColor;
     }
-    label->setTextColor(currentLabelColor);
+    label->setTextColor(currentTextColor);
 
     // Set the label's position to the button's position in case the button moves.
     label->setPosition(position);

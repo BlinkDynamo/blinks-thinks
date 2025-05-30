@@ -59,10 +59,6 @@ class BlinkSoftwareSplash
         void Update();
 
     private:
-        // Position.
-        int logoPositionX;
-        int logoPositionY;
-
         // Counters.
         int framesCounter;
         int lettersCount;
@@ -77,9 +73,8 @@ class BlinkSoftwareSplash
         };
         State state;
        
-        // Colors and alpha.
+        // Colors.
         Color bgColor;
-        float alpha;
 
         // Other.
         int shortDelay;
