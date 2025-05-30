@@ -24,12 +24,12 @@
 #include "raylib.h"
 
 #include "entity.hpp"
-#include "text.hpp"
+#include "label.hpp"
 
 class Button : public Entity {
     public:
         Button(
-            Text* text,
+            Label* label,
             Color bgColor,
             Vector2 pos,
             Vector2 size); 
@@ -43,19 +43,19 @@ class Button : public Entity {
 
     private:
         // Arguments.
-        Text* text;
+        Label* label;
         Color bgColor;
         Vector2 position;
         Vector2 size; 
 
         // Set during construction.
-        Color defaultTextColor;
-        Color currentTextColor;
+        Color defaultLabelColor;
+        Color currentLabelColor;
         Color defaultBgColor;
         Color currentBgColor;
 
         Rectangle rect;
 };
 
-Button makeUiButton(const char* label);
-Button makeTextButton(const char* label, int fontSize, Color textColor, Vector2 position);
+Button makeUiButton(const char* text);
+Button makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);

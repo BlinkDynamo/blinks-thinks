@@ -26,7 +26,7 @@
 #include "splash_screen.hpp"
 #include "background.hpp"
 #include "button.hpp"
-#include "text.hpp"
+#include "label.hpp"
 
 // Standard library.
 #include <cmath>
@@ -87,7 +87,7 @@ int main(void)
         60, 
         50);
 
-    Text TITLE_textTitle(
+    Label TITLE_textTitle(
         "Blink's Thinks",
         100, 
         BT_AQUAMARINE, 
@@ -97,14 +97,14 @@ int main(void)
     Button TITLE_buttonPlay = makeUiButton("Play");
 
     // LEVEL_1.
-    Text LEVEL_1_textTitle(
+    Label LEVEL_1_textTitle(
         "Level 1",
         80,
         RAYWHITE,
         BT_SHADOW,
         { screenWidthCenter, screenHeightCenter - 250 });
     
-    Text LEVEL_1_textPrompt(
+    Label LEVEL_1_textPrompt(
         "What is the greatest number?",
         40,
         RAYWHITE,
@@ -143,14 +143,14 @@ int main(void)
         { screenWidthCenter + 300, screenHeightCenter + 150 });
 
     // LEVEL_2.
-    Text LEVEL_2_textTitle(
+    Label LEVEL_2_textTitle(
         "Level 2",
         80,
         RAYWHITE,
         BT_SHADOW,
         { screenWidthCenter, screenHeightCenter - 250 });
     
-    Text LEVEL_2_textPrompt(
+    Label LEVEL_2_textPrompt(
         "What is the greatest number?",
         40,
         RAYWHITE,
@@ -189,14 +189,14 @@ int main(void)
         { screenWidthCenter + 300, screenHeightCenter + 150 });
     
     // LEVEL_3.
-    Text LEVEL_3_textTitle(
+    Label LEVEL_3_textTitle(
         "Level 3",
         80,
         RAYWHITE,
         BT_SHADOW,
         { screenWidthCenter, screenHeightCenter - 250 });
 
-    Text LEVEL_3_textPrompt(
+    Label LEVEL_3_textPrompt(
         "What is the greenest number?",
         40,
         RAYWHITE,
@@ -235,7 +235,7 @@ int main(void)
         { screenWidthCenter + 300, screenHeightCenter + 150 });
 
     // LOSE.
-    Text LOSE_textTitle(
+    Label LOSE_textTitle(
         "You Lose!",
         80,
         BLACK,

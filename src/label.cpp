@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   text.cpp - The library for creating and drawing formatted text.
+*   label.cpp - The library for creating and drawing formatted text.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
 *
@@ -22,12 +22,12 @@
 #include "raylib.h"
 
 // Source.
-#include "text.hpp"
+#include "label.hpp"
 
 // Standard library.
 #include <cmath>
 
-Text::Text(
+Label::Label(
     const char* text,
     int fontSize,
     Color textColor,
@@ -46,12 +46,12 @@ Text::Text(
     this->shadowOffset = { 5.0f, 5.0f };
 }
 
-void Text::Update()
+void Label::Update()
 {
 
 }
 
-void Text::Draw()
+void Label::Draw()
 {
     // Shadow. Only draw the shadow if it's not fully transparent.
     if (shadowColor.a != 0) {
@@ -66,7 +66,7 @@ void Text::Draw()
             shadowColor);
     }
 
-    // Text.
+    // Label.
     DrawTextPro(
         GetFontDefault(),
         text,
@@ -78,7 +78,7 @@ void Text::Draw()
         textColor);
 }
 
-void Text::drawWobbling(float animationSpeed, float animationDepth)
+void Label::drawWobbling(float animationSpeed, float animationDepth)
 {
     // Rotation.
     static float rotation = 0.0f;

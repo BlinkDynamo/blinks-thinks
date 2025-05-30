@@ -1,6 +1,6 @@
 /***********************************************************************************************
 * 
-*   text.hpp - The library for creating and drawing formatted text.
+*   label.hpp - The library for creating and drawing formatted text.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
 *
@@ -26,10 +26,10 @@
 // Source.
 #include "entity.hpp"
 
-class Text : public Entity
+class Label : public Entity
 {
     public:
-        Text(
+        Label(
             const char* text,
             int fontSize,
             Color textColor,
