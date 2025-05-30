@@ -26,8 +26,6 @@
 #include "entity.hpp"
 #include "text.hpp"
 
-#include <string>
-
 class Button : public Entity {
     public:
         Button(

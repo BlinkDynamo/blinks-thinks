@@ -23,12 +23,15 @@
 // Raylib.
 #include "raylib.h"
 
+// Standard library.
+#include <cstddef>
+
 // Resolution and framerate.
-extern const int screenWidth;
-extern const int screenHeight;
-extern const float screenWidthCenter;
-extern const float screenHeightCenter;
-extern const int frameRate;
+constexpr int screenWidth = 900;
+constexpr int screenHeight = 600;
+constexpr float screenWidthCenter = screenWidth / 2.0f;
+constexpr float screenHeightCenter = screenHeight / 2.0f;
+constexpr size_t frameRate = 60;
 
 // Mouse.
 extern Vector2 mousePoint;

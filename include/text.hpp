@@ -26,9 +26,6 @@
 // Source.
 #include "entity.hpp"
 
-// Standard library.
-#include <string>
-
 class Text : public Entity
 {
     public:

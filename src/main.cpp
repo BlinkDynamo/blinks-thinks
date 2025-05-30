@@ -31,13 +31,6 @@
 // Standard library.
 #include <cmath>
 
-// Resolution and framerate.
-const int screenWidth = 900;
-const int screenHeight = 600;
-const float screenWidthCenter = screenWidth / 2.0f;
-const float screenHeightCenter = screenHeight / 2.0f;
-const int frameRate = 60;
-
 // Mouse. These are external variables defined in 'include/main.hpp'.
 Vector2 mousePoint = { 0.0f, 0.0f };
 bool mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
