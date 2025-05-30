@@ -2,6 +2,7 @@
 
 ## Index
 * [Description](#description)
+* [License](#license)
 * [Dependencies](#dependencies)
 * [Build](#build-instructions)
 * [Play](#play)
@@ -17,6 +18,14 @@ web-compiled game in a separate branch, 'gh-pages'. GitHub Workflows re-compiles
 this branch on each push.
 
 To play the most recent commit of the game, go ![here](blinkdynamo.github.io/blinks-thinks/).
+
+# License
+Blink's Thinks is licensed under the GNU General Public License v3.0. You should have recieved
+a copy of the license along with this program. If not, see <https://www.gnu.org/licenses>.
+
+This project uses raylib, along with a small snippet of raylib example code for the intro
+animation. Both are these are licensed using a permissive zlib license, and are copyright
+of Raymon Santamaria (@raysan5).
 
 ## Dependencies
 If you would like to build the game locally, you will need these hard dependencies:
