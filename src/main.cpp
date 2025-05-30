@@ -78,7 +78,7 @@ int main(void)
     // Audio.
     InitAudioDevice();
     SetAudioStreamBufferSizeDefault(4096);
-    Music title_theme = LoadMusicStream("audio/title_theme.ogg");
+    Music title_theme = LoadMusicStream("res/music/title_theme.ogg");
     PlayMusicStream(title_theme);
 
     // LOADING.

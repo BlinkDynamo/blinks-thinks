@@ -73,7 +73,7 @@ NATIVE_FLAGS := $(WARNINGS) \
 WEB_COMPILER := em++ $(STD)
 WEB_EXEC := $(D_OUT_WEB)/index.html
 # Expand each file inside 'audio/' with xargs and format them as flags.
-WEB_PRELOAD_ASSETS := $(shell find audio -type f | xargs -I{} echo --preload-file {})
+WEB_PRELOAD_ASSETS := $(shell find res -type f | xargs -I{} echo --preload-file {})
 WEB_FLAGS := $(WARNINGS) \
 			 -I. \
 			 -Iinclude \
