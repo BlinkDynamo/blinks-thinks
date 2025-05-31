@@ -28,19 +28,19 @@
 Button::Button(
     Label* label,
     Color bgColor,
-    Vector2 pos,
+    Vector2 position,
     Vector2 size)
 
     :
+    Entity(position),
     label(label),
-    position(pos),
-    rect({pos.x - (size.x / 2.0f), pos.y - (size.y / 2.0f), size.x, size.y}),
+    rect({position.x - (size.x / 2.0f), position.y - (size.y / 2.0f), size.x, size.y}),
     defaultTextColor(label->getTextColor()),
     currentTextColor(defaultTextColor),
     defaultBgColor(bgColor),
     currentBgColor(defaultBgColor)
 {
-    this->label->setPosition(pos);
+    this->label->setPosition(position);
 }
 
 // ------------------------------------------------------------------------------------------ //

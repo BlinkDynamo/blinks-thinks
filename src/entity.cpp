@@ -21,7 +21,7 @@
 // Source.
 #include "entity.hpp"
 
-Entity::Entity(Vector2 pos)
+Entity::Entity(Vector2 position)
     :
-    position(pos)
+    position(position)
 {}

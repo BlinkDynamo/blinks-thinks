@@ -38,11 +38,11 @@ class Label : public Entity
 
         void drawWobbling(float animationSpeed, float animationDepth);
 
-        virtual void Update();
-        virtual void Draw();
+        void Update() override;
+        void Draw() override;
 
-        virtual Vector2 getPosition() { return position; }
-        virtual void setPosition(Vector2 pos) { position = pos; }
+        Vector2 getPosition() override { return position; }
+        void setPosition(Vector2 pos) override { position = pos; }
 
         Color getTextColor() { return textColor; }
         void setTextColor(Color tc) { textColor = tc; }
@@ -56,7 +56,6 @@ class Label : public Entity
         int fontSize;
         Color textColor;
         Color shadowColor;
-        Vector2 position;
        
         // Set during construction.
         int letterSpacing;

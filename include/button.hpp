@@ -31,11 +31,11 @@ class Button : public Entity {
         Button(
             Label* label,
             Color bgColor,
-            Vector2 pos,
+            Vector2 position,
             Vector2 size); 
         
-        virtual void Update();
-        virtual void Draw(); 
+        void Update() override;
+        void Draw() override; 
 
         // Class unique methods.
         bool isHovered();
@@ -44,7 +44,6 @@ class Button : public Entity {
     private:
         // Arguments.
         Label* label;
-        Vector2 position;
 
         // Set during construction.
         Rectangle rect;

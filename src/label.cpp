@@ -35,11 +35,11 @@ Label::Label(
     Vector2 position)
     
     :
+    Entity(position),
     text(text),
     fontSize(fontSize),
     textColor(textColor),
     shadowColor(shadowColor),
-    position(position),
     letterSpacing(fontSize / 10.0f),
     textDim(MeasureTextEx(GetFontDefault(), text, fontSize, letterSpacing)),
     origin({ textDim.x / 2.0f, textDim.y / 2.0f }),

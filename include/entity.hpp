@@ -25,7 +25,7 @@
 
 class Entity {
     public:
-        Entity(Vector2 pos = { 0, 0 });
+        Entity(Vector2 position);
         virtual ~Entity() = default;
 
         virtual void Update() = 0;
