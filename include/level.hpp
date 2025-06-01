@@ -27,6 +27,7 @@
 #include "entity.hpp"
 #include "button.hpp"
 #include "label.hpp"
+#include "background.hpp"
 
 // Standard library.
 #include <string>
@@ -49,5 +50,6 @@ class Level
         void makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);
 
     private:
+        Background* background;
         std::vector<Entity*> entities;
 };

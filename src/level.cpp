@@ -29,18 +29,30 @@ using std::vector;
 Level::Level()
     :
     entities{}
-{}
+{
+    // Create a base simple background for all 'Level' objects for now.
+    this->background = new Background(screenWidth, screenHeight, GRAY, { 200, 200, 200, 255 }, 
+                                      60, 50);
+}
 
 Level::~Level()
 {
+    // Delete all 'Entity' objects in 'entities', then clear the vector.
     for (Entity* entity : entities) {
         delete entity;
     }
     entities.clear();
+
+    // Delete the 'Background' object.
+    delete background;
 }
 
 void Level::Update()
 {
+    // Update the background.
+    background->Update();
+
+    // Update each 'Entity' object in 'entities'.
     for (const auto& entity : entities) {
         entity->Update();
     }
@@ -48,8 +60,12 @@ void Level::Update()
 
 void Level::Draw()
 {
+    // Draw the background.
+    background->Draw();
+
+    // Draw each 'Entity' object in 'entities'.
     for (const auto& entity : entities) {
-       entity->Draw();
+        entity->Draw();
     } 
 }
 
