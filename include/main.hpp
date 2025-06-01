@@ -23,6 +23,9 @@
 // Raylib.
 #include "raylib.h"
 
+// Source.
+#include "level.hpp"
+
 // Standard library.
 #include <cstddef>
 
@@ -36,3 +39,6 @@ constexpr size_t frameRate = 60;
 // Mouse.
 extern Vector2 mousePoint;
 extern bool mousePressed;
+
+// Level.
+extern Level* currentLevel;

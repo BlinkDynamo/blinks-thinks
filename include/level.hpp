@@ -36,12 +36,11 @@
 class Level
 {
     public:
-        Level(); 
-        ~Level();
+        Level();
+        virtual ~Level();
 
-        void Update();
-        void Draw();
-        void Destroy();
+        virtual void Update();
+        virtual void Draw();
 
         void makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size);
         void makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
@@ -52,4 +51,21 @@ class Level
     private:
         Background* background;
         std::vector<Entity*> entities;
+};
+
+// ------------------------------------------------------------------------------------------ //
+//                                     Individial levels.                                     //
+// ------------------------------------------------------------------------------------------ //
+class LevelTitle : public Level
+{
+    public:
+        LevelTitle(); 
+        void Update() override;
+};
+
+class Level1 : public Level
+{
+    public:
+        Level1(); 
+        void Update() override;
 };

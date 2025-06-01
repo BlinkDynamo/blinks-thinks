@@ -112,3 +112,33 @@ void Level::makeTextButton(const char* text, int fontSize, Color textColor, Vect
     entities.push_back(button);
 }
 
+// ------------------------------------------------------------------------------------------ //
+//                                     Individial levels.                                     //
+// ------------------------------------------------------------------------------------------ //
+
+
+// Title Screen.
+LevelTitle::LevelTitle()
+{
+    makeUiButton("Test");
+}
+
+void LevelTitle::Update()
+{
+    Level::Update();
+
+    if (mousePressed) {
+        delete currentLevel;
+        currentLevel = new Level1();
+    }
+}
+
+Level1::Level1()
+{}
+
+void Level1::Update()
+{
+    Level::Update();
+    // TODO.
+}
+
