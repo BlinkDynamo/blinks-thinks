@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   splash_screen.cpp - The library for drawing splash screens.
+*   animation.cpp - The library for drawing animations.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
 *
@@ -22,14 +22,15 @@
 #include "raylib.h"
 
 // Source.
-#include "splash_screen.hpp"
+#include "animation.hpp"
 #include "main.hpp"
 
 // ------------------------------------------------------------------------------------------ //
 //                                   Raylib splash screen.                                    //
 // ------------------------------------------------------------------------------------------ //
-RaylibSplash::RaylibSplash()
+AnimRaylib::AnimRaylib()
     :
+    Entity({0, 0}), // Set this to 0, 0 for now. Position is unused.
     logoPositionX((screenWidth / 2) - 128),
     logoPositionY((screenHeight / 2) - 128),
     topSideRecWidth(16),
@@ -42,12 +43,12 @@ RaylibSplash::RaylibSplash()
     alpha(1.0f)
 {}
 
-bool RaylibSplash::isFinished()
+bool AnimRaylib::isFinished()
 {
     return (state == 4);
 }
 
-void RaylibSplash::Update()
+void AnimRaylib::Update()
 /***********************************************************************************************
 *
 *   Original animation courtesy of Ramon Santamaria (@raysan5)
@@ -121,7 +122,7 @@ void RaylibSplash::Update()
     }
 }
 
-void RaylibSplash::Draw()
+void AnimRaylib::Draw()
 /***********************************************************************************************
 *
 *   Original animation courtesy of Ramon Santamaria (@raysan5)
@@ -213,10 +214,11 @@ void RaylibSplash::Draw()
 }
 
 // ------------------------------------------------------------------------------------------ //
-//                               Blink Software splash screen.                                //
+//                                 Self credit splash screen.                                 //
 // ------------------------------------------------------------------------------------------ //
-BlinkSoftwareSplash::BlinkSoftwareSplash()
+AnimSelfCredit::AnimSelfCredit()
     : 
+    Entity({0, 0}), // Set this to 0, 0 for now. Position is unused.
     framesCounter(0),
     lettersCount(0),
     state(State::LETTERS_ADDING),
@@ -234,12 +236,12 @@ BlinkSoftwareSplash::BlinkSoftwareSplash()
     shortDelay(1 * frameRate)
 {}
 
-bool BlinkSoftwareSplash::isFinished()
+bool AnimSelfCredit::isFinished()
 {
     return (state == State::FINISHED);
 }
 
-void BlinkSoftwareSplash::Update()
+void AnimSelfCredit::Update()
 { 
     // If the skip key is pressed, mark the splash screen as finished.
     if (IsKeyPressed(KEY_ENTER)) {
@@ -291,7 +293,7 @@ void BlinkSoftwareSplash::Update()
     }
 }
 
-void BlinkSoftwareSplash::Draw()
+void AnimSelfCredit::Draw()
 { 
     ClearBackground(bgColor);
     switch (state)

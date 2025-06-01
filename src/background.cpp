@@ -33,6 +33,7 @@ Background::Background(
     int squareSize)
 
     : 
+    Entity({0, 0}), // Set this to 0, 0 for now. Position is unused.
     screenWidth(screenWidth),
     screenHeight(screenHeight),
     darkColor(darkColor),

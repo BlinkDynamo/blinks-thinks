@@ -23,7 +23,10 @@
 // Raylib.
 #include "raylib.h"
 
-class Background
+// Source.
+#include "entity.hpp"
+
+class Background : public Entity
 {
     public:
         Background(
@@ -34,8 +37,8 @@ class Background
             float scrollOffset,
             int squareSize);
 
-        void Update();
-        void Draw();
+        void Update() override;
+        void Draw() override;
 
     private:
         // Arguments.

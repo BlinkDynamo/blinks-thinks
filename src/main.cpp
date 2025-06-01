@@ -23,7 +23,7 @@
 
 // Source.
 #include "main.hpp"
-#include "splash_screen.hpp"
+#include "animation.hpp"
 #include "background.hpp"
 #include "button.hpp"
 #include "label.hpp"
@@ -75,8 +75,8 @@ int main(void)
     PlayMusicStream(title_theme);
 
     // LOADING.
-    BlinkSoftwareSplash LOADING_splashBlinkSoftware;
-    RaylibSplash LOADING_splashRaylib;
+    AnimSelfCredit LOADING_splashSelfCredit;
+    AnimRaylib LOADING_splashRaylib;
 
     // TITLE.
     Background background(
@@ -266,8 +266,8 @@ int main(void)
                 if (!LOADING_splashRaylib.isFinished()) {
                         LOADING_splashRaylib.Update();
                 }
-                else if (!LOADING_splashBlinkSoftware.isFinished()) {
-                        LOADING_splashBlinkSoftware.Update();
+                else if (!LOADING_splashSelfCredit.isFinished()) {
+                        LOADING_splashSelfCredit.Update();
                 }
             } break;
 
@@ -394,8 +394,8 @@ int main(void)
                 if (!LOADING_splashRaylib.isFinished()) {
                     LOADING_splashRaylib.Draw();
                 }
-                else if (!LOADING_splashBlinkSoftware.isFinished()) {
-                    LOADING_splashBlinkSoftware.Draw();
+                else if (!LOADING_splashSelfCredit.isFinished()) {
+                    LOADING_splashSelfCredit.Draw();
                 }
                 else {
                     currentScreen = TITLE;

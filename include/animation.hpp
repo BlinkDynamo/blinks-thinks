@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   splash_screen.hpp - The library for drawing splash screens.
+*   animation.hpp - The library for drawing animations.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
 *
@@ -23,13 +23,16 @@
 // Raylib.
 #include "raylib.h"
 
-class RaylibSplash
+// Source.
+#include "entity.hpp"
+
+class AnimRaylib : public Entity
 {
     public:
-        RaylibSplash();
+        AnimRaylib();
         bool isFinished();
-        void Update();
-        void Draw();
+        void Update() override;
+        void Draw() override;
 
     private:
         // Position.
@@ -50,13 +53,13 @@ class RaylibSplash
         float alpha;
 };
 
-class BlinkSoftwareSplash
+class AnimSelfCredit : public Entity
 {
     public:
-        BlinkSoftwareSplash();
+        AnimSelfCredit();
         bool isFinished();
-        void Draw();
-        void Update();
+        void Draw() override;
+        void Update() override;
 
     private:
         // Counters.
