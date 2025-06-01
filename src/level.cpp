@@ -120,7 +120,9 @@ void Level::makeTextButton(const char* text, int fontSize, Color textColor, Vect
 // Title Screen.
 LevelTitle::LevelTitle()
 {
-    makeUiButton("Test");
+    makeLabel("Blink's Thinks", 100, RAYWHITE, BLACK,
+              {screenWidthCenter, screenHeightCenter - 100}); 
+    makeUiButton("Play");
 }
 
 void LevelTitle::Update()
@@ -134,7 +136,11 @@ void LevelTitle::Update()
 }
 
 Level1::Level1()
-{}
+{
+    makeLabel("Level 1", 50, RAYWHITE, BLACK,
+              {screenWidthCenter, screenHeightCenter - 100});
+    //makeUiButton("Level1");
+}
 
 void Level1::Update()
 {

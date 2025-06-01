@@ -37,7 +37,7 @@ Vector2 mousePoint = { 0.0f, 0.0f };
 bool mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
 
 // Level. Tracks what level should be drawn and updated.
-Level* currentLevel = new LevelTitle();
+Level* currentLevel = nullptr;
 
 int main(void)
 {
@@ -52,6 +52,9 @@ int main(void)
     // Window, Screen, and FPS.
     InitWindow(screenWidth, screenHeight, "Blink's Thinks");
     SetTargetFPS(frameRate);
+
+    // If currentLevel is not yet set, set it to the Title Screen.
+    if (currentLevel == nullptr) currentLevel = new LevelTitle();
 
     // Audio.
     InitAudioDevice();

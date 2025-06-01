@@ -33,6 +33,8 @@ class Button : public Entity {
             Color bgColor,
             Vector2 position,
             Vector2 size); 
+
+        ~Button();
         
         void Update() override;
         void Draw() override; 
