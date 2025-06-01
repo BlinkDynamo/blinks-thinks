@@ -25,6 +25,8 @@
 
 // Source.
 #include "entity.hpp"
+#include "button.hpp"
+#include "label.hpp"
 
 // Standard library.
 #include <string>
@@ -34,11 +36,15 @@ class Level
 {
     public:
         Level(); 
+        ~Level();
 
         void Update();
         void Draw();
         void Destroy();
 
+        void makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size);
+        void makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
+                       Vector2 position);
         void makeUiButton(const char* text);
         void makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);
 

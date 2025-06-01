@@ -31,6 +31,14 @@ Level::Level()
     entities{}
 {}
 
+Level::~Level()
+{
+    for (Entity* entity : entities) {
+        delete entity;
+    }
+    entities.clear();
+}
+
 void Level::Update()
 {
     for (const auto& entity : entities) {
@@ -43,6 +51,17 @@ void Level::Draw()
     for (const auto& entity : entities) {
        entity->Draw();
     } 
+}
+
+void Level::makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size)
+{
+    entities.push_back(new Button(label, bgColor, position, size));
+}
+
+void Level::makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
+               Vector2 position)
+{
+    entities.push_back(new Label(text, fontSize, textColor, shadowColor, position));
 }
 
 // Make a clickable UI button with dynamic label and background color at a fixed location.
