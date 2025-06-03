@@ -5,10 +5,10 @@
 #	Notable acronyms/shorthand																   #
 # 	used in variable names:                                                                    #
 #                                                                                              #
-# 	RL  = raylib                                                                               #
-# 	BT  = Blink's Thinks																	   #
-# 	NAT = native                     														   #
-# 	D   = directory	                                                                           #
+# 	NAT  = native                     														   #
+# 	RL   = raylib                                                                              #
+# 	BT   = Blink's Thinks																	   #
+# 	D    = directory	                                                                       #
 #																							   #
 # -------------------------------------------------------------------------------------------- #
 
@@ -37,6 +37,8 @@ D_LIB_RL := $(D_BUILD_LIB)/raylib
 
 # Blink's Thinks source files. 
 BT_SRCS := $(wildcard $(SRC_BT)/*.cpp)
+BT_OBJS_NAT := $(patsubst $(SRC_BT)/%.cpp, $(D_OBJ_NAT)/%.o,$(BT_SRCS))
+BT_OBJS_WEB := $(patsubst $(SRC_BT)/%.cpp, $(D_OBJ_WEB)/%.o,$(BT_SRCS))
 
 # Library build. This is where the external/raylib/ submodule sends it's *.o files.
 RL_WEB := $(D_LIB_RL)/libraylib_web.a
@@ -58,79 +60,85 @@ STD := -std=c++23
 
 # Native build. This assumes an installed raylib library.
 # It does not search in the 'build/lib/' directory.
-NATIVE_COMPILER := clang++ $(STD)
-NATIVE_EXEC := $(D_OUT_NAT)/blinks-thinks
-NATIVE_FLAGS := $(WARNINGS) \
-				-g \
-				-Iinclude \
-				-lraylib \
-				-lm \
-				-ldl \
-				-lpthread \
-				-lGL
+NAT_COMP := clang++ $(STD)
+NAT_EXEC := $(D_OUT_NAT)/blinks-thinks
+NAT_COMP_FLAGS := $(WARNINGS) -g -Iinclude
+NAT_LINK_FLAGS := -lraylib -lm -ldl -lpthread -lGL
+				
 
 # Web build.
-WEB_COMPILER := em++ $(STD)
+WEB_COMP := em++ $(STD)
 WEB_EXEC := $(D_OUT_WEB)/index.html
+
+WEB_COMP_FLAGS := $(WARNINGS) -I. -Iinclude -I$(SRC_RL) -DPLATFORM_WEB -DRAUDIO_IMPLEMENTATION \
+			      -D_SUPPORT_MODULE_RAUDIO 
+
+WEB_LINK_FLAGS := $(RL_WEB) -s USE_GLFW=3 -s ASYNCIFY -s ALLOW_MEMORY_GROWTH=1 \
+				  -s FORCE_FILESYSTEM=1 $(WEB_PRELOAD_ASSETS) --shell-file web/shell.html
+
 # Expand each file inside 'audio/' with xargs and format them as flags.
 WEB_PRELOAD_ASSETS := $(shell find res -type f | xargs -I{} echo --preload-file {})
-WEB_FLAGS := $(WARNINGS) \
-			 -I. \
-			 -Iinclude \
-			 -I$(SRC_RL) \
-			 $(RL_WEB) \
-			 -DPLATFORM_WEB \
-			 -DRAUDIO_IMPLEMENTATION \
-			 -D_SUPPORT_MODULE_RAUDIO \
-			 -s USE_GLFW=3 \
-			 -s ASYNCIFY \
-			 -s ALLOW_MEMORY_GROWTH=1\
-			 -s FORCE_FILESYSTEM=1 \
-			 $(WEB_PRELOAD_ASSETS)  \
-			 --shell-file web/shell.html
 
 # Library build.
-RL_WEB_COMPILER := emcc
+RL_WEB_COMP := emcc
 			 
 # -------------------------------------------------------------------------------------------- #
 #                                       Dependency Tree.                                       #
 # -------------------------------------------------------------------------------------------- #
- 
+
+# --- Linking rules. --- #
+
 # Build all platform targets.
 all: native web
 
 # Build for Linux.
-native:	$(D_OUT_NAT)
+native:	$(D_OUT_NAT) $(BT_OBJS_NAT)
 	@printf "[INFO] Native build.\n"
-	$(NATIVE_COMPILER) $(BT_SRCS) -o $(NATIVE_EXEC) $(NATIVE_FLAGS)
+	$(NAT_COMP) $(BT_OBJS_NAT) -o $(NAT_EXEC) $(NAT_LINK_FLAGS)
 
 # Build for the web.
-web: $(D_OUT_WEB) $(RL_WEB) 	
+web: $(D_OUT_WEB) $(RL_WEB) $(BT_OBJS_WEB)
 	@printf "[INFO] Web build.\n"
-	$(WEB_COMPILER) -o $(WEB_EXEC) $(BT_SRCS) $(WEB_FLAGS)	
+	$(WEB_COMP) $(BT_OBJS_WEB) -o $(WEB_EXEC) $(WEB_LINK_FLAGS)	
 
 # Build the web library for raylib.
 $(RL_WEB):	$(D_LIB_RL) $(RL_WEB_OBJS)
 	@printf "[INFO] Library build.\n"
-	emar rcs $(RL_WEB) $(RL_WEB_OBJS)	
+	emar rcs $(RL_WEB) $(RL_WEB_OBJS)
+
+# --- Compiling rules. --- #
+
+# Native Blink's Thinks object file rules.
+$(D_OBJ_NAT)%.o: $(SRC_BT)/%.cpp | $(D_OBJ_NAT)
+	$(NAT_COMP) $(STD) $(NAT_COMP_FLAGS) -c $< -o $@
+
+# Web Blink's Thinks object file rules.
+$(D_OBJ_WEB)%.o: $(SRC_BT)/%.cpp | $(D_OBJ_WEB)
+	$(WEB_COMP) $(STD) $(WEB_COMP_FLAGS) -Iinclude -c $< -o $@
 
 # Raylib object file rules (check if these already exist before recompiling).
 $(D_OBJ_RL)/rcore.o: $(SRC_RL)/rcore.c | $(D_OBJ_RL)
-	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
-$(D_OBJ_RL)/rshapes.o: $(SRC_RL)/rshapes.c | $(D_OBJ_RL)
-	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
-$(D_OBJ_RL)/rtextures.o: $(SRC_RL)/rtextures.c | $(D_OBJ_RL)
-	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
-$(D_OBJ_RL)/rtext.o: $(SRC_RL)/rtext.c | $(D_OBJ_RL)
-	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
-$(D_OBJ_RL)/rmodels.o: $(SRC_RL)/rmodels.c | $(D_OBJ_RL)
-	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
-$(D_OBJ_RL)/utils.o: $(SRC_RL)/utils.c | $(D_OBJ_RL)
-	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB
-$(D_OBJ_RL)/raudio.o: $(SRC_RL)/raudio.c | $(D_OBJ_RL)
-	$(RL_WEB_COMPILER) -w -c $< -o $@ -DPLATFORM_WEB
+	$(RL_WEB_COMP) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
 
-# Build directories.
+$(D_OBJ_RL)/rshapes.o: $(SRC_RL)/rshapes.c | $(D_OBJ_RL)
+	$(RL_WEB_COMP) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+
+$(D_OBJ_RL)/rtextures.o: $(SRC_RL)/rtextures.c | $(D_OBJ_RL)
+	$(RL_WEB_COMP) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+
+$(D_OBJ_RL)/rtext.o: $(SRC_RL)/rtext.c | $(D_OBJ_RL)
+	$(RL_WEB_COMP) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+
+$(D_OBJ_RL)/rmodels.o: $(SRC_RL)/rmodels.c | $(D_OBJ_RL)
+	$(RL_WEB_COMP) -w -c $< -o $@ -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+
+$(D_OBJ_RL)/utils.o: $(SRC_RL)/utils.c | $(D_OBJ_RL)
+	$(RL_WEB_COMP) -w -c $< -o $@ -DPLATFORM_WEB
+
+$(D_OBJ_RL)/raudio.o: $(SRC_RL)/raudio.c | $(D_OBJ_RL)
+	$(RL_WEB_COMP) -w -c $< -o $@ -DPLATFORM_WEB
+
+# --- Directory rules. --- #
 $(D_OBJ_NAT):
 	@mkdir -p $(D_OBJ_NAT)
 
@@ -148,6 +156,8 @@ $(D_OUT_WEB):
 
 $(D_LIB_RL):
 	@mkdir -p $(D_LIB_RL)
+
+# --- Utilities. --- #
 
 # Serve the web build files to a local http server on port 8080.
 serve: $(D_OUT_WEB)
