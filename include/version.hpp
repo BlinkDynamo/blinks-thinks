@@ -20,5 +20,5 @@
 
 #pragma once
 
-#define PROGRAM_VERSION "0.0.4"
+#define PROGRAM_VERSION "0.0.5"
 #define PROGRAM_NAME "blinks-thinks"
