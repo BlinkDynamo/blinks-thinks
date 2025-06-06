@@ -30,9 +30,9 @@ class Entity {
 
         virtual void Update() = 0;
         virtual void Draw() = 0;
-        virtual Vector2 getPosition() { return position; }
-        virtual void setPosition(Vector2 pos) { position = pos; }
+        virtual Vector2 getPosition() { return m_position; }
+        virtual void setPosition(Vector2 position) { m_position = position; }
 
     protected:
-        Vector2 position; 
+        Vector2 m_position; 
 }; 

@@ -23,5 +23,5 @@
 
 Entity::Entity(Vector2 position)
     :
-    position(position)
+    m_position(position)
 {}

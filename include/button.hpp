@@ -45,15 +45,15 @@ class Button : public Entity {
 
     private:
         // Arguments.
-        Label* label;
+        Label* m_label;
 
         // Set during construction.
-        Rectangle rect;
+        Rectangle m_rect;
 
-        Color defaultTextColor;
-        Color currentTextColor;
-        Color defaultBgColor;
-        Color currentBgColor;
+        Color m_defaultTextColor;
+        Color m_currentTextColor;
+        Color m_defaultBgColor;
+        Color m_currentBgColor;
 };
 
 Button makeUiButton(const char* text);

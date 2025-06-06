@@ -34,35 +34,35 @@ Background::Background(
 
     : 
     Entity({0, 0}), // Set this to 0, 0 for now. Position is unused.
-    screenWidth(screenWidth),
-    screenHeight(screenHeight),
-    darkColor(darkColor),
-    lightColor(lightColor),
-    scrollOffset(scrollOffset),
-    squareSize(squareSize)
+    m_screenWidth(screenWidth),
+    m_screenHeight(screenHeight),
+    m_darkColor(darkColor),
+    m_lightColor(lightColor),
+    m_scrollOffset(scrollOffset),
+    m_squareSize(squareSize)
 {}
 
 void Background::Update()
 {
-    scrollOffset += GetFrameTime() * 30.0f;
+    m_scrollOffset += GetFrameTime() * 30.0f;
 }
 
 void Background::Draw()
 {
-    int cols = (screenWidth / squareSize) + 2;
-    int rows = (screenHeight / squareSize) + 2;
+    int cols = (m_screenWidth / m_squareSize) + 2;
+    int rows = (m_screenHeight / m_squareSize) + 2;
 
-    float effectiveOffset = std::fmod(scrollOffset, 2 * squareSize);
+    float effectiveOffset = std::fmod(m_scrollOffset, 2 * m_squareSize);
 
     for (int y = -2; y < rows; y++) {
         for (int x = 0; x < cols; x++) {
             bool isDark = (x + y) % 2 == 0;
-            Color color = isDark ? darkColor : lightColor;
+            Color color = isDark ? m_darkColor : m_lightColor;
 
-            float drawX = x * squareSize;
-            float drawY = y * squareSize + effectiveOffset;
+            float drawX = x * m_squareSize;
+            float drawY = y * m_squareSize + effectiveOffset;
 
-            DrawRectangle(drawX, drawY, squareSize, squareSize, color);
+            DrawRectangle(drawX, drawY, m_squareSize, m_squareSize, color);
         }
     }
 }

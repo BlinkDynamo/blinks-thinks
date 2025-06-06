@@ -40,26 +40,23 @@ class Label : public Entity
 
         void Update() override;
         void Draw() override;
+ 
+        Color getTextColor() { return m_textColor; }
+        void setTextColor(Color textColor) { m_textColor = textColor; }
 
-        Vector2 getPosition() override { return position; }
-        void setPosition(Vector2 pos) override { position = pos; }
-
-        Color getTextColor() { return textColor; }
-        void setTextColor(Color tc) { textColor = tc; }
-
-        Vector2 getTextDim() { return textDim; }
-        void setTextDim(Vector2 td) { textDim = td; }
+        Vector2 getTextDim() { return m_textDim; }
+        void setTextDim(Vector2 textDim) { m_textDim = textDim; }
 
     private:
         // Arguments.
-        const char* text;
-        int fontSize;
-        Color textColor;
-        Color shadowColor;
+        const char* m_text;
+        int m_fontSize;
+        Color m_textColor;
+        Color m_shadowColor;
        
         // Set during construction.
-        int letterSpacing;
-        Vector2 textDim;
-        Vector2 origin;
-        Vector2 shadowOffset;
+        int m_letterSpacing;
+        Vector2 m_textDim;
+        Vector2 m_origin;
+        Vector2 m_shadowOffset;
 };

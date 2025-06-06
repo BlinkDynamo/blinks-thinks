@@ -49,8 +49,8 @@ class Level
         void makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);
 
     private:
-        Background* background;
-        std::vector<Entity*> entities;
+        Background* m_background;
+        std::vector<Entity*> m_entities;
 };
 
 // ------------------------------------------------------------------------------------------ //

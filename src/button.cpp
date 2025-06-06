@@ -33,18 +33,18 @@ Button::Button(
 
     :
     Entity(position),
-    label(label),
-    rect({position.x - (size.x / 2.0f), position.y - (size.y / 2.0f), size.x, size.y}),
-    defaultTextColor(label->getTextColor()),
-    currentTextColor(defaultTextColor),
-    defaultBgColor(bgColor),
-    currentBgColor(defaultBgColor)
+    m_label(label),
+    m_rect({position.x - (size.x / 2.0f), position.y - (size.y / 2.0f), size.x, size.y}),
+    m_defaultTextColor(label->getTextColor()),
+    m_currentTextColor(m_defaultTextColor),
+    m_defaultBgColor(bgColor),
+    m_currentBgColor(m_defaultBgColor)
 {
-    this->label->setPosition(position);
+    this->m_label->setPosition(position);
 }
 
 Button::~Button() {
-    delete label;
+    delete m_label;
 }
 
 // ------------------------------------------------------------------------------------------ //
@@ -52,7 +52,7 @@ Button::~Button() {
 // ------------------------------------------------------------------------------------------ //
 bool Button::isHovered()
 {
-    return CheckCollisionPointRec(mousePoint, rect);
+    return CheckCollisionPointRec(mousePoint, m_rect);
 }
 
 bool Button::isPressed()
@@ -67,79 +67,43 @@ void Button::Update()
         float brightenFactor = 2.0f;
        
         // If the background is visible, brighten the background and darken the label.
-        if (defaultBgColor.a != 0) {
-            currentBgColor = { 
-                static_cast<unsigned char>(fmin(defaultBgColor.r * brightenFactor, 255)),
-                static_cast<unsigned char>(fmin(defaultBgColor.g * brightenFactor, 255)),
-                static_cast<unsigned char>(fmin(defaultBgColor.b * brightenFactor, 255)),
-                defaultBgColor.a
+        if (m_defaultBgColor.a != 0) {
+            m_currentBgColor = { 
+                static_cast<unsigned char>(fmin(m_defaultBgColor.r * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(m_defaultBgColor.g * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(m_defaultBgColor.b * brightenFactor, 255)),
+                m_defaultBgColor.a
             };
-            currentTextColor = { 
-                static_cast<unsigned char>(fmin(defaultTextColor.r / brightenFactor, 0)),
-                static_cast<unsigned char>(fmin(defaultTextColor.g / brightenFactor, 0)),
-                static_cast<unsigned char>(fmin(defaultTextColor.b / brightenFactor, 0)),
-                defaultTextColor.a
+            m_currentTextColor = { 
+                static_cast<unsigned char>(fmin(m_defaultTextColor.r / brightenFactor, 0)),
+                static_cast<unsigned char>(fmin(m_defaultTextColor.g / brightenFactor, 0)),
+                static_cast<unsigned char>(fmin(m_defaultTextColor.b / brightenFactor, 0)),
+                m_defaultTextColor.a
             };
         }
         // Otherwise only brighten the label.
         else { 
-            currentTextColor = { 
-                static_cast<unsigned char>(fmin(defaultTextColor.r * brightenFactor, 255)),
-                static_cast<unsigned char>(fmin(defaultTextColor.g * brightenFactor, 255)),
-                static_cast<unsigned char>(fmin(defaultTextColor.b * brightenFactor, 255)),
-                defaultTextColor.a
+            m_currentTextColor = { 
+                static_cast<unsigned char>(fmin(m_defaultTextColor.r * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(m_defaultTextColor.g * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(m_defaultTextColor.b * brightenFactor, 255)),
+                m_defaultTextColor.a
             };
         }
     } 
     else {
-        currentBgColor = defaultBgColor;
-        currentTextColor = defaultTextColor;
+        m_currentBgColor = m_defaultBgColor;
+        m_currentTextColor = m_defaultTextColor;
     }
-    label->setTextColor(currentTextColor);
+    m_label->setTextColor(m_currentTextColor);
 
     // Set the label's position to the button's position in case the button moves.
-    label->setPosition(position);
+    m_label->setPosition(m_position);
 }
 
 void Button::Draw()
 {
     // Draw the rectangle and label.
-    DrawRectangleRec(rect, currentBgColor);
-    label->Draw(); 
-}
-
-// ------------------------------------------------------------------------------------------ //
-//                                     Factory functions.                                     //
-// ------------------------------------------------------------------------------------------ //
-
-// Make a clickable UI button with dynamic label and background color at a fixed location.
-Button makeUiButton(const char* text)
-{
-    Vector2 position = { screenWidthCenter, screenHeightCenter + 100 };
-
-    Label* label = new Label(text, 40, WHITE, { 0, 0, 0, 0 }, position);
-
-    Button button(
-        label,
-        DARKGRAY,
-        position,
-        {180,60}
-    );
-
-    return button;
-}
-
-// Make clickable label by creating an invisible button in the shape and size of the label.
-Button makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position)
-{
-    Label* label = new Label(text, fontSize, textColor, { 15, 15, 15, 200 }, position);
-
-    Button button(
-        label,
-        { 0, 0, 0, 0 },
-        position,
-        label->getTextDim()
-    );
-    
-    return button;
+    DrawRectangleRec(m_rect, m_currentBgColor);
+    m_label->Draw(); 
 }

@@ -36,14 +36,14 @@ Label::Label(
     
     :
     Entity(position),
-    text(text),
-    fontSize(fontSize),
-    textColor(textColor),
-    shadowColor(shadowColor),
-    letterSpacing(fontSize / 10.0f),
-    textDim(MeasureTextEx(GetFontDefault(), text, fontSize, letterSpacing)),
-    origin({ textDim.x / 2.0f, textDim.y / 2.0f }),
-    shadowOffset({ 5.0f, 5.0f }) 
+    m_text(text),
+    m_fontSize(fontSize),
+    m_textColor(textColor),
+    m_shadowColor(shadowColor),
+    m_letterSpacing(fontSize / 10.0f),
+    m_textDim(MeasureTextEx(GetFontDefault(), m_text, m_fontSize, m_letterSpacing)),
+    m_origin({ m_textDim.x / 2.0f, m_textDim.y / 2.0f }),
+    m_shadowOffset({ 5.0f, 5.0f }) 
 {}
 
 void Label::Update()
@@ -52,28 +52,28 @@ void Label::Update()
 void Label::Draw()
 {
     // Shadow. Only draw the shadow if it's not fully transparent.
-    if (shadowColor.a != 0) {
+    if (m_shadowColor.a != 0) {
         DrawTextPro(
             GetFontDefault(), 
-            text, 
-            { position.x + shadowOffset.x, position.y + shadowOffset.y }, 
-            origin,
+            m_text, 
+            { m_position.x + m_shadowOffset.x, m_position.y + m_shadowOffset.y }, 
+            m_origin,
             0,
-            fontSize,
-            letterSpacing,
-            shadowColor);
+            m_fontSize,
+            m_letterSpacing,
+            m_shadowColor);
     }
 
     // Label.
     DrawTextPro(
         GetFontDefault(),
-        text,
-        position,
-        origin,
+        m_text,
+        m_position,
+        m_origin,
         0,
-        fontSize,
-        letterSpacing,
-        textColor);
+        m_fontSize,
+        m_letterSpacing,
+        m_textColor);
 }
 
 void Label::drawWobbling(float animationSpeed, float animationDepth)
@@ -83,26 +83,26 @@ void Label::drawWobbling(float animationSpeed, float animationDepth)
     rotation = sin(GetTime() * animationSpeed) * animationDepth;
 
     // Shadow. Only draw the shadow if it's not fully transparent.
-    if (shadowColor.a != 0) {
+    if (m_shadowColor.a != 0) {
         DrawTextPro(
             GetFontDefault(), 
-            text, 
-            { position.x + shadowOffset.x, position.y + shadowOffset.y }, 
-            origin,
+            m_text, 
+            { m_position.x + m_shadowOffset.x, m_position.y + m_shadowOffset.y }, 
+            m_origin,
             rotation,
-            fontSize,
-            letterSpacing,
-            shadowColor);
+            m_fontSize,
+            m_letterSpacing,
+            m_shadowColor);
     }
 
     // Text.
     DrawTextPro(
         GetFontDefault(),
-        text,
-        position,
-        origin,
+        m_text,
+        m_position,
+        m_origin,
         rotation,
-        fontSize,
-        letterSpacing,
-        textColor);
+        m_fontSize,
+        m_letterSpacing,
+        m_textColor);
 }

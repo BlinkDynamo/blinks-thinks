@@ -42,10 +42,10 @@ class Background : public Entity
 
     private:
         // Arguments.
-        int screenWidth;
-        int screenHeight;
-        Color darkColor;
-        Color lightColor;
-        float scrollOffset;
-        int squareSize;
+        int m_screenWidth;
+        int m_screenHeight;
+        Color m_darkColor;
+        Color m_lightColor;
+        float m_scrollOffset;
+        int m_squareSize;
 };

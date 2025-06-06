@@ -36,21 +36,21 @@ class AnimRaylib : public Entity
 
     private:
         // Position.
-        int logoPositionX;
-        int logoPositionY;
+        int m_logoPositionX;
+        int m_logoPositionY;
 
         // Size.
-        int topSideRecWidth;
-        int leftSideRecHeight;
-        int bottomSideRecWidth;
-        int rightSideRecHeight;
+        int m_topSideRecWidth;
+        int m_leftSideRecHeight;
+        int m_bottomSideRecWidth;
+        int m_rightSideRecHeight;
 
         // Counters and state machines.
-        int framesCounter;
-        int lettersCount;
-        int state;
+        int m_framesCounter;
+        int m_lettersCount;
+        int m_state;
 
-        float alpha;
+        float m_alpha;
 };
 
 class AnimSelfCredit : public Entity
@@ -63,8 +63,8 @@ class AnimSelfCredit : public Entity
 
     private:
         // Counters.
-        int framesCounter;
-        int lettersCount;
+        int m_framesCounter;
+        int m_lettersCount;
        
         // State of the animation. 
         enum class State {
@@ -74,19 +74,19 @@ class AnimSelfCredit : public Entity
             BLANK_SCREEN_DELAY,
             FINISHED
         };
-        State state;
+        State m_state;
        
         // Text.
-        const char* text;
-        int fontSize;
-        float spacing;
-        Font font;
-        Vector2 textPos;
+        const char* m_text;
+        int m_fontSize;
+        float m_spacing;
+        Font m_font;
+        Vector2 m_textPos;
 
         // Colors.
-        Color bgColor;
+        Color m_bgColor;
 
         // Other.
-        int shortDelay;
+        int m_shortDelay;
 
 };
