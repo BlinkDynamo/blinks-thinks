@@ -73,11 +73,11 @@ WEB_EXEC := $(D_OUT_WEB)/index.html
 WEB_COMP_FLAGS := $(WARNINGS) -I. -Iinclude -I$(D_SRC_RL) -DPLATFORM_WEB -DRAUDIO_IMPLEMENTATION \
 			      -D_SUPPORT_MODULE_RAUDIO 
 
+# Expand each file inside 'res/' with xargs and format them as flags.
+WEB_PRELOAD_ASSETS := $(shell find res -type f | xargs -I{} echo --preload-file {})
+
 WEB_LINK_FLAGS := $(RL_WEB) -s USE_GLFW=3 -s ASYNCIFY -s ALLOW_MEMORY_GROWTH=1 \
 				  -s FORCE_FILESYSTEM=1 $(WEB_PRELOAD_ASSETS) --shell-file web/shell.html
-
-# Expand each file inside 'audio/' with xargs and format them as flags.
-WEB_PRELOAD_ASSETS := $(shell find res -type f | xargs -I{} echo --preload-file {})
 
 # Library build.
 RL_WEB_COMP := emcc
