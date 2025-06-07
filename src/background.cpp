@@ -20,39 +20,37 @@
 
 // Source.
 #include "background.hpp"
+#include "main.hpp"
 
 // Standard library.
 #include <cmath>
 
+// Global scroll offset to sync animations between 'Background' objects.
+float scrollOffset = 0.0f;
+
 Background::Background(
-    int screenWidth,
-    int screenHeight,
-    Color darkColor,
+    Color darkColor, 
     Color lightColor,
-    float scrollOffset,
     int squareSize)
 
     : 
     Entity({0, 0}), // Set this to 0, 0 for now. Position is unused.
-    m_screenWidth(screenWidth),
-    m_screenHeight(screenHeight),
     m_darkColor(darkColor),
     m_lightColor(lightColor),
-    m_scrollOffset(scrollOffset),
     m_squareSize(squareSize)
 {}
 
 void Background::Update()
 {
-    m_scrollOffset += GetFrameTime() * 30.0f;
+    scrollOffset += GetFrameTime() * 30.0f;
 }
 
 void Background::Draw()
 {
-    int cols = (m_screenWidth / m_squareSize) + 2;
-    int rows = (m_screenHeight / m_squareSize) + 2;
+    int cols = (screenWidth / m_squareSize) + 2;
+    int rows = (screenHeight / m_squareSize) + 2;
 
-    float effectiveOffset = std::fmod(m_scrollOffset, 2 * m_squareSize);
+    float effectiveOffset = std::fmod(scrollOffset, 2 * m_squareSize);
 
     for (int y = -2; y < rows; y++) {
         for (int x = 0; x < cols; x++) {

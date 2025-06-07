@@ -31,8 +31,7 @@ Level::Level()
     m_entities{}
 {
     // Create a base simple background for all 'Level' objects for now.
-    this->m_background = new Background(screenWidth, screenHeight, GRAY, { 200, 200, 200, 255 }, 
-                                        60, 50);
+    this->m_background = new Background(GRAY, { 200, 200, 200, 255 }, 50);
 }
 
 Level::~Level()

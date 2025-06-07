@@ -27,11 +27,8 @@ class Background : public Entity
 {
     public:
         Background(
-            int screenWidth,
-            int screenHeight,
             Color darkColor,
             Color lightColor,
-            float scrollOffset,
             int squareSize);
 
         void Update() override;
@@ -39,10 +36,7 @@ class Background : public Entity
 
     private:
         // Arguments.
-        int m_screenWidth;
-        int m_screenHeight;
         Color m_darkColor;
         Color m_lightColor;
-        float m_scrollOffset;
         int m_squareSize;
 };
