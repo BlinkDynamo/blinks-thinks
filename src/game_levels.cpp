@@ -23,34 +23,51 @@
 #include "main.hpp"
 #include "game_levels.hpp"
 
-// Title Screen.
+// ------------------------------------------------------------------------------------------ //
+//                                       Title screen.                                        //
+// ------------------------------------------------------------------------------------------ //
 LevelTitle::LevelTitle()
 {
-    makeLabel("Blink's Thinks", 100, RAYWHITE, BLACK,
-              {screenWidthCenter, screenHeightCenter - 100}); 
-    makeUiButton("Play");
+    // Non-referenced objects.
+    (void)makeLabel("Blink's Thinks", 100, RAYWHITE, BLACK,
+                    {screenWidthCenter, screenHeightCenter - 100}); 
+   
+    // Referenced objects. 
+    m_playButton = makeUiButton("Play");
 }
 
 void LevelTitle::Update()
 {
     Level::Update();
 
-    if (mousePressed) {
+    if (m_playButton->isPressed()) {
         delete currentLevel;
         currentLevel = new Level1();
     }
 }
 
+// ------------------------------------------------------------------------------------------ //
+//                                          Level 1.                                          //
+// ------------------------------------------------------------------------------------------ //
 Level1::Level1()
 {
-    makeLabel("Level 1", 50, RAYWHITE, BLACK,
-              {screenWidthCenter, screenHeightCenter - 100});
-    //makeUiButton("Level1");
+    // Non-referenced objects.
+    (void)makeLabel("Level 1", 80, RAYWHITE, BLACK,
+                    {screenWidthCenter, screenHeightCenter - 250});
+   
+    (void)makeLabel("What is the greatest number?", 40, RAYWHITE, BLACK,
+                    {screenWidthCenter, screenHeightCenter - 150});
+
+    // Referenced objects.
+    m_correctAnswer = makeTextButton("144", 180, LIME, {screenWidthCenter - 300, screenHeightCenter + 30});
 }
 
 void Level1::Update()
 {
     Level::Update();
-    // TODO.
+    if (m_correctAnswer->isPressed()) {
+        delete currentLevel;
+        currentLevel = new LevelTitle();
+    }
 }
 

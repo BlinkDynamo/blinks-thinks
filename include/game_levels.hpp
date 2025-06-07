@@ -29,6 +29,9 @@ class LevelTitle : public Level
     public:
         LevelTitle(); 
         void Update() override;
+
+    private:
+        Button* m_playButton = nullptr;
 };
 
 class Level1 : public Level
@@ -36,4 +39,7 @@ class Level1 : public Level
     public:
         Level1(); 
         void Update() override;
+
+    private:
+        Button* m_correctAnswer = nullptr;
 };

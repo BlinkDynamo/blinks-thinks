@@ -38,12 +38,11 @@ class Level
 
         virtual void Update();
         virtual void Draw();
-
-        void makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size);
-        void makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
-                       Vector2 position);
-        void makeUiButton(const char* text);
-        void makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);
+        Label* makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
+                         Vector2 position);
+        Button* makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size); 
+        Button* makeUiButton(const char* text);
+        Button* makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);
 
     private:
         Background* m_background;

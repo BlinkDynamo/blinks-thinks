@@ -69,19 +69,23 @@ void Level::Draw()
     } 
 }
 
-void Level::makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size)
-{
-    m_entities.push_back(new Button(label, bgColor, position, size));
-}
-
-void Level::makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
+Label* Level::makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
                Vector2 position)
 {
-    m_entities.push_back(new Label(text, fontSize, textColor, shadowColor, position));
+    Label* label = new Label(text, fontSize, textColor, shadowColor, position);
+    m_entities.push_back(label);
+    return label;
+}
+
+Button* Level::makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size)
+{
+    Button* button = new Button(label, bgColor, position, size);
+    m_entities.push_back(button);
+    return button;
 }
 
 // Make a clickable UI button with dynamic label and background color at a fixed location.
-void Level::makeUiButton(const char* text)
+Button* Level::makeUiButton(const char* text)
 {
     Vector2 position = { screenWidthCenter, screenHeightCenter + 100 };
 
@@ -95,10 +99,11 @@ void Level::makeUiButton(const char* text)
     );
 
     m_entities.push_back(button);
+    return button;
 }
 
 // Make clickable label by creating an invisible button in the shape and size of the label.
-void Level::makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position)
+Button* Level::makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position)
 {
     Label* label = new Label(text, fontSize, textColor, { 15, 15, 15, 200 }, position);
 
@@ -110,4 +115,5 @@ void Level::makeTextButton(const char* text, int fontSize, Color textColor, Vect
     );
     
     m_entities.push_back(button);
+    return button;
 }

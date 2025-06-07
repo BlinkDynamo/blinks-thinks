@@ -19,7 +19,7 @@ if [ -e $SUPP_FILE ]; then
 fi
 
 LOG_FILE="valgrind/log/valgrind.log"
-EXEC="build/out/native/blinks-thinks"
+EXEC="build/native/out/blinks-thinks"
 
 valgrind --leak-check=full --track-origins=yes \
     "$SUPP_FLAG" \
