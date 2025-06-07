@@ -20,9 +20,6 @@
 
 #pragma once
 
-// Raylib.
-#include "raylib.h"
-
 // Source.
 #include "entity.hpp"
 

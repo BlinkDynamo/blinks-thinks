@@ -20,9 +20,6 @@
 
 #pragma once
 
-// Raylib.
-#include "raylib.h"
-
 // Source.
 #include "entity.hpp"
 #include "button.hpp"
@@ -51,21 +48,4 @@ class Level
     private:
         Background* m_background;
         std::vector<Entity*> m_entities;
-};
-
-// ------------------------------------------------------------------------------------------ //
-//                                     Individial levels.                                     //
-// ------------------------------------------------------------------------------------------ //
-class LevelTitle : public Level
-{
-    public:
-        LevelTitle(); 
-        void Update() override;
-};
-
-class Level1 : public Level
-{
-    public:
-        Level1(); 
-        void Update() override;
 };

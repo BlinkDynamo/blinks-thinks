@@ -1,6 +1,7 @@
 /***********************************************************************************************
 *
-*   main.hpp - The entry point and program runtime.
+*   game_levels.hpp - The implementation of the Level class. All levels used in the game are
+*                     defined here.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
 *
@@ -18,24 +19,38 @@
 *
 ***********************************************************************************************/
 
-#pragma once
-
 // Source.
-#include "level.hpp"
+#include "main.hpp"
+#include "game_levels.hpp"
 
-// Standard library.
-#include <cstddef>
+// Title Screen.
+LevelTitle::LevelTitle()
+{
+    makeLabel("Blink's Thinks", 100, RAYWHITE, BLACK,
+              {screenWidthCenter, screenHeightCenter - 100}); 
+    makeUiButton("Play");
+}
 
-// Resolution and framerate.
-constexpr int screenWidth = 900;
-constexpr int screenHeight = 600;
-constexpr float screenWidthCenter = screenWidth / 2.0f;
-constexpr float screenHeightCenter = screenHeight / 2.0f;
-constexpr size_t frameRate = 60;
+void LevelTitle::Update()
+{
+    Level::Update();
 
-// Mouse.
-extern Vector2 mousePoint;
-extern bool mousePressed;
+    if (mousePressed) {
+        delete currentLevel;
+        currentLevel = new Level1();
+    }
+}
 
-// Level.
-extern Level* currentLevel;
+Level1::Level1()
+{
+    makeLabel("Level 1", 50, RAYWHITE, BLACK,
+              {screenWidthCenter, screenHeightCenter - 100});
+    //makeUiButton("Level1");
+}
+
+void Level1::Update()
+{
+    Level::Update();
+    // TODO.
+}
+

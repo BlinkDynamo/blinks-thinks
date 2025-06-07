@@ -18,9 +18,6 @@
 *
 ***********************************************************************************************/
 
-// Raylib.
-#include "raylib.h"
-
 // Source.
 #include "animation.hpp"
 #include "main.hpp"

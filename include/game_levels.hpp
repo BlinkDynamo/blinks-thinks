@@ -1,6 +1,7 @@
 /***********************************************************************************************
-*
-*   button.hpp - The library for creating, drawing, and interacting with buttons.
+* 
+*   game_levels.hpp - The implementation of the Level class. All levels used in the game are
+*                     defined here.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
 *
@@ -21,38 +22,18 @@
 #pragma once
 
 // Source.
-#include "entity.hpp"
-#include "label.hpp"
+#include "level.hpp"
 
-class Button : public Entity {
+class LevelTitle : public Level
+{
     public:
-        Button(
-            Label* label,
-            Color bgColor,
-            Vector2 position,
-            Vector2 size); 
-
-        ~Button();
-        
+        LevelTitle(); 
         void Update() override;
-        void Draw() override; 
-
-        // Class unique methods.
-        bool isHovered();
-        bool isPressed();
-
-    private:
-        // Arguments.
-        Label* m_label;
-
-        // Set during construction.
-        Rectangle m_rect;
-
-        Color m_defaultTextColor;
-        Color m_currentTextColor;
-        Color m_defaultBgColor;
-        Color m_currentBgColor;
 };
 
-Button makeUiButton(const char* text);
-Button makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);
+class Level1 : public Level
+{
+    public:
+        Level1(); 
+        void Update() override;
+};
