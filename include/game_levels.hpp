@@ -43,3 +43,13 @@ class Level1 : public Level
     private:
         Button* m_correctAnswer = nullptr;
 };
+
+class Level2 : public Level
+{
+    public:
+        Level2(); 
+        void Update() override;
+
+    private:
+        Button* m_correctAnswer = nullptr;
+};

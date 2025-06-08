@@ -33,10 +33,14 @@ class Label : public Entity
             Color shadowColor,
             Vector2 position); 
 
-        void drawWobbling(float animationSpeed, float animationDepth);
-
         void Update() override;
         void Draw() override;
+
+        void setRotation(float rotation, float speed, float depth) {
+            m_rotation = rotation;
+            m_rotationSpeed = speed;
+            m_rotationDepth = depth;
+        }
  
         Color getTextColor() { return m_textColor; }
         void setTextColor(Color textColor) { m_textColor = textColor; }
@@ -56,4 +60,9 @@ class Label : public Entity
         Vector2 m_textDim;
         Vector2 m_origin;
         Vector2 m_shadowOffset;
+
+        // Rotation.
+        float m_rotation;
+        float m_rotationSpeed;
+        float m_rotationDepth;
 };
