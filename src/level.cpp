@@ -65,7 +65,7 @@ void Level::Draw()
     // Draw each 'Entity' object in 'entities'.
     for (const auto& entity : m_entities) {
         entity->Draw();
-    } 
+    }
 }
 
 Label* Level::makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,

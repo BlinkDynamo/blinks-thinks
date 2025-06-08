@@ -325,7 +325,7 @@ void AnimSelfCredit::Draw()
                 x += charSize.x + m_spacing;
             }
         } break;
-        
+
         case State::CURSOR_BLINKING:
         case State::BLANK_SCREEN_DELAY: 
         case State::FINISHED: {

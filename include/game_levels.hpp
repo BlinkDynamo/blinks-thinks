@@ -37,7 +37,7 @@ class LevelTitle : public Level
 class Level1 : public Level
 {
     public:
-        Level1(); 
+        Level1();
         void Update() override;
 
     private:

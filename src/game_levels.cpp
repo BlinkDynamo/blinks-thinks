@@ -32,7 +32,7 @@ LevelTitle::LevelTitle()
     (void)makeLabel("Blink's Thinks", 100, RAYWHITE, BLACK,
                     {screenWidthCenter, screenHeightCenter - 100})
         ->setRotation(0.0f, 5.0f, 2.5f);
-   
+
     // Class-referenced objects. 
     m_playButton = makeUiButton("Play");
 }
@@ -56,7 +56,7 @@ Level1::Level1()
     (void)makeLabel("Level 1", 80, RAYWHITE, BLACK,
                     {screenWidthCenter, screenHeightCenter - 250})
         ->setRotation(0.0f, 5.0f, 1.5f);
-   
+
     (void)makeLabel("What is the greatest number?", 40, RAYWHITE, BLACK,
                     {screenWidthCenter, screenHeightCenter - 150})
         ->setRotation(0.0f, 4.0f, 1.5f);
@@ -83,7 +83,7 @@ Level2::Level2()
     (void)makeLabel("Level 2", 80, RAYWHITE, BLACK,
                     {screenWidthCenter, screenHeightCenter - 250})
         ->setRotation(0.0f, 5.0f, 1.5f);
-   
+
     (void)makeLabel("What is the greatest number?", 40, RAYWHITE, BLACK,
                     {screenWidthCenter, screenHeightCenter - 150})
         ->setRotation(0.0f, 4.0f, 1.5f);

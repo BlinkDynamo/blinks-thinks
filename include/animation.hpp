@@ -63,7 +63,7 @@ class AnimSelfCredit : public Entity
         int m_framesCounter;
         int m_lettersCount;
        
-        // State of the animation. 
+        // State of the animation.
         enum class State {
             LETTERS_ADDING,
             LETTERS_REMOVING,
@@ -72,7 +72,7 @@ class AnimSelfCredit : public Entity
             FINISHED
         };
         State m_state;
-       
+
         // Text.
         const char* m_text;
         int m_fontSize;

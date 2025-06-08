@@ -34,5 +34,5 @@ class Entity {
         virtual void setPosition(Vector2 position) { m_position = position; }
 
     protected:
-        Vector2 m_position; 
+        Vector2 m_position;
 }; 

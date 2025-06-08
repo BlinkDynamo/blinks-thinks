@@ -61,11 +61,11 @@ bool Button::isPressed()
 }
 
 void Button::Update()
-{     
+{
     // Update the color of the button's label if hovered.
     if (isHovered()) {
         float brightenFactor = 2.0f;
-       
+
         // If the background is visible, brighten the background and darken the label.
         if (m_defaultBgColor.a != 0) {
             m_currentBgColor = { 
@@ -90,7 +90,7 @@ void Button::Update()
                 m_defaultTextColor.a
             };
         }
-    } 
+    }
     else {
         m_currentBgColor = m_defaultBgColor;
         m_currentTextColor = m_defaultTextColor;

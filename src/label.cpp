@@ -30,7 +30,7 @@ Label::Label(
     Color textColor,
     Color shadowColor,
     Vector2 position)
-    
+
     :
     // Arguments.
     Entity(position),

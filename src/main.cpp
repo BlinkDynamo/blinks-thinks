@@ -60,7 +60,7 @@ int main(void)
     SetAudioStreamBufferSizeDefault(4096);
     Music title_theme = LoadMusicStream("res/music/title_theme.ogg");
     PlayMusicStream(title_theme); 
-    
+
     // Main Event Loop.
     while (!WindowShouldClose())
     {
@@ -71,16 +71,16 @@ int main(void)
         // Mouse. Remember, these are externs.
         mousePoint = GetMousePosition();
         mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT); 
-        
+
         // Update the music buffer with new stream data.
         UpdateMusicStream(title_theme);
 
         currentLevel->Update();
- 
+
         // ---------------------------------------------------------------------------------- //
         //                                       Draw.                                        //
         // ---------------------------------------------------------------------------------- //
-        BeginDrawing(); 
+        BeginDrawing();
 
         ClearBackground(RAYWHITE);
         currentLevel->Draw();

@@ -33,9 +33,9 @@ class Button : public Entity {
             Vector2 size); 
 
         ~Button();
-        
+
         void Update() override;
-        void Draw() override; 
+        void Draw() override;
 
         // Class unique methods.
         bool isHovered();

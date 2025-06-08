@@ -41,7 +41,7 @@ class Label : public Entity
             m_rotationSpeed = speed;
             m_rotationDepth = depth;
         }
- 
+
         Color getTextColor() { return m_textColor; }
         void setTextColor(Color textColor) { m_textColor = textColor; }
 
@@ -54,7 +54,7 @@ class Label : public Entity
         int m_fontSize;
         Color m_textColor;
         Color m_shadowColor;
-       
+
         // Set during construction.
         int m_letterSpacing;
         Vector2 m_textDim;
