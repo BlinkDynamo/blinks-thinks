@@ -33,18 +33,28 @@
 class Level
 {
     public:
+        // Constructor and destructor.
         Level();
         virtual ~Level();
 
+        // Core methods.
         virtual void Update();
         virtual void Draw();
-        Label* makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
-                         Vector2 position);
+      
+        // Getters and setters.
+        std::vector<Button*> getButtons() { return m_buttons; }
+       
+        // Core factory methods. 
+        Label* makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor, Vector2 position);
         Button* makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size); 
         Button* makeUiButton(const char* text);
         Button* makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);
 
     private:
+        // Current background of the level.
         Background* m_background;
+
+        // Vectors that contain all level entities of a type (m_entities containing everything).
         std::vector<Entity*> m_entities;
+        std::vector<Button*> m_buttons;
 };

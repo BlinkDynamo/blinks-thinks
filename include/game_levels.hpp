@@ -27,11 +27,21 @@
 class LevelTitle : public Level
 {
     public:
-        LevelTitle(); 
+        LevelTitle();
         void Update() override;
 
     private:
         Button* m_playButton = nullptr;
+};
+
+class LevelLose : public Level
+{
+    public:
+        LevelLose();
+        void Update() override;
+
+    private:
+        Button* m_restartButton = nullptr;
 };
 
 class Level1 : public Level
@@ -48,6 +58,16 @@ class Level2 : public Level
 {
     public:
         Level2(); 
+        void Update() override;
+
+    private:
+        Button* m_correctAnswer = nullptr;
+};
+
+class Level3 : public Level
+{
+    public:
+        Level3(); 
         void Update() override;
 
     private:

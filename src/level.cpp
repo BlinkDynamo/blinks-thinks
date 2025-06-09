@@ -28,7 +28,8 @@ using std::vector;
 
 Level::Level()
     :
-    m_entities{}
+    m_entities{},
+    m_buttons{}
 {
     // Create a base simple background for all 'Level' objects for now.
     this->m_background = new Background(GRAY, { 200, 200, 200, 255 }, 50);
@@ -41,6 +42,9 @@ Level::~Level()
         delete entity;
     }
     m_entities.clear();
+
+    // Only clearing the vector m_buttons is needed, as all were deleted in the prior step.
+    m_buttons.clear();
 
     // Delete the 'Background' object.
     delete m_background;
@@ -79,7 +83,10 @@ Label* Level::makeLabel(const char* text, int fontSize, Color textColor, Color s
 Button* Level::makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size)
 {
     Button* button = new Button(label, bgColor, position, size);
+
     m_entities.push_back(button);
+    m_buttons.push_back(button);
+
     return button;
 }
 
@@ -98,6 +105,8 @@ Button* Level::makeUiButton(const char* text)
     );
 
     m_entities.push_back(button);
+    m_buttons.push_back(button);
+
     return button;
 }
 
@@ -114,5 +123,7 @@ Button* Level::makeTextButton(const char* text, int fontSize, Color textColor, V
     );
     
     m_entities.push_back(button);
+    m_buttons.push_back(button);
+
     return button;
 }
