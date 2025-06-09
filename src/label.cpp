@@ -39,7 +39,7 @@ Label::Label(
     m_textColor(textColor),
     m_shadowColor(shadowColor),
     // Set here.
-    m_letterSpacing(fontSize / 10.0f),
+    m_letterSpacing(m_fontSize / 10.0f),
     m_textDim(MeasureTextEx(GetFontDefault(), m_text, m_fontSize, m_letterSpacing)),
     m_origin({ m_textDim.x / 2.0f, m_textDim.y / 2.0f }),
     m_shadowOffset({ 5.0f, 5.0f }),
@@ -50,7 +50,7 @@ Label::Label(
 {}
 
 void Label::Update()
-{
+{ 
     m_rotation = sin(GetTime() * m_rotationSpeed) * m_rotationDepth;
 }
 

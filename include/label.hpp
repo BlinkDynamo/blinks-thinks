@@ -26,6 +26,7 @@
 class Label : public Entity
 {
     public:
+        // Constructor and destructor.
         Label(
             const char* text,
             int fontSize,
@@ -33,9 +34,11 @@ class Label : public Entity
             Color shadowColor,
             Vector2 position); 
 
+        // Core methods.
         void Update() override;
         void Draw() override;
 
+        // Getters and setters.
         void setRotation(float rotation, float speed, float depth) {
             m_rotation = rotation;
             m_rotationSpeed = speed;
@@ -47,6 +50,9 @@ class Label : public Entity
 
         Vector2 getTextDim() { return m_textDim; }
         void setTextDim(Vector2 textDim) { m_textDim = textDim; }
+
+        int getFontSize() { return m_fontSize; }
+        void setFontSize(int fontSize) { m_fontSize = fontSize; }
 
     private:
         // Arguments.
