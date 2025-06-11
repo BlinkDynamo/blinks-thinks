@@ -35,7 +35,6 @@ Button::Button(
     // Arguments.
     Entity(position),
     m_label(label),
-    m_position(position),
     m_size(size),
 
     // Updated every frame in 'Update()'.
@@ -48,7 +47,7 @@ Button::Button(
     m_currentBgColor(m_defaultBgColor),
     m_scale(1.0f)
 {
-    this->m_label->setPosition(position);
+    this->m_label->setPosition(m_position);
 }
 
 Button::~Button() {

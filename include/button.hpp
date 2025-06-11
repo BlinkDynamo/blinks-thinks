@@ -51,8 +51,6 @@ class Button : public Entity {
                                     // handles updating and drawing it's child label within
                                     // it's own 'Update()' and 'Draw()' methods.
 
-        Vector2 m_position;         // Deprecated. The parent 'Entity' position should be used.
-
         Vector2 m_size;             // The area the button's rectangle will occupy. Used to
                                     // calculate 'm_rect'.
 
@@ -72,6 +70,3 @@ class Button : public Entity {
 
         float m_scale;              // What 'm_rect' and the label's 'm_fontSize' are multiplied by.
 };
-
-Button makeUiButton(const char* text);
-Button makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);
