@@ -33,28 +33,50 @@
 class Level
 {
     public:
-        // Constructor and destructor.
         Level();
-        virtual ~Level();
 
-        // Core methods.
-        virtual void Update();
-        virtual void Draw();
+        virtual ~Level();                   // Delete 'm_background', as well as all members of
+                                            // 'm_entities', clearing the vector as well.
+
+        virtual void Update();              // Will call the 'Update()' method of each member
+                                            // of 'm_entities'. Intended to be overloaded,
+                                            // calling itself before adding additional logic.
+
+        virtual void Draw();                // Will call the 'Draw()' method of each member
+                                            // of 'm_entities'. It's unlikely any overloading
+                                            // is needed that can not already be handled in 
+                                            // 'Update()', but the option is there.
       
         // Getters and setters.
         std::vector<Button*> getButtons() { return m_buttons; }
        
-        // Core factory methods. 
-        Label* makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor, Vector2 position);
+        // ---------------------------------------------------------------------------------- //
+        //                                  Factory methods.                                  //
+        // ---------------------------------------------------------------------------------- //
+
+        // Wrapper method to the 'Label' constructor.
+        Label* makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
+                         Vector2 position);
+
+        // Wrapper method to the 'Button' constructor.
         Button* makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size); 
+
+        // Create a centered gray and black UI button with custom text.
         Button* makeUiButton(const char* text);
+
+        // Create a button with an invisible background, appearing to only be a clickable label.
         Button* makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);
 
-    private:
-        // Current background of the level.
-        Background* m_background;
+    private: 
+        Background* m_background;           // Current background of the level. This background
+                                            // will have it's 'Update()' and 'Draw()' methods
+                                            // called once per frame.
 
-        // Vectors that contain all level entities of a type (m_entities containing everything).
-        std::vector<Entity*> m_entities;
-        std::vector<Button*> m_buttons;
+        std::vector<Entity*> m_entities;    // All entities made by factory methods are added
+                                            // to here. All members of this vector will have
+                                            // their 'Update()' and 'Draw()' methods called
+                                            // once per frame.
+
+        std::vector<Button*> m_buttons;     // All buttons made by factory methods are added to
+                                            // here.
 };
