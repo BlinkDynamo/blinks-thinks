@@ -32,13 +32,21 @@ Button::Button(
     Vector2 size)
 
     :
+    // Arguments.
     Entity(position),
     m_label(label),
-    m_rect({position.x - (size.x / 2.0f), position.y - (size.y / 2.0f), size.x, size.y}),
+    m_position(position),
+    m_size(size),
+
+    // Updated every frame in 'Update()'.
+    m_rect({m_position.x - (m_size.x / 2.0f), m_position.y - (m_size.y / 2.0f), m_size.x, m_size.y}),
+
+    // Set once here, but are still mutable.
     m_defaultTextColor(label->getTextColor()),
     m_currentTextColor(m_defaultTextColor),
     m_defaultBgColor(bgColor),
-    m_currentBgColor(m_defaultBgColor)
+    m_currentBgColor(m_defaultBgColor),
+    m_scale(1.0f)
 {
     this->m_label->setPosition(position);
 }
@@ -61,7 +69,21 @@ bool Button::isPressed()
 }
 
 void Button::Update()
-{
+{ 
+    // Update the rectangle, multiplying size elements by scale.
+    m_rect = {
+        m_position.x - ((m_size.x * m_scale) / 2.0f),
+        m_position.y - ((m_size.y * m_scale) / 2.0f),
+        m_size.x * m_scale,
+        m_size.y * m_scale
+    };
+
+    // Update the label's scale so that it's Update() step can multiply the font size by scale.
+    m_label->setScale(m_scale);
+
+    // Set the label's position to the button's position in case the button moves.
+    m_label->setPosition(m_position);
+
     // Update the color of the button's label if hovered.
     if (isHovered()) {
         float brightenFactor = 2.0f;
@@ -95,10 +117,10 @@ void Button::Update()
         m_currentBgColor = m_defaultBgColor;
         m_currentTextColor = m_defaultTextColor;
     }
-    m_label->setTextColor(m_currentTextColor);
+    m_label->setTextColor(m_currentTextColor); 
 
-    // Set the label's position to the button's position in case the button moves.
-    m_label->setPosition(m_position);
+    // Update the label.
+    m_label->Update();
 }
 
 void Button::Draw()

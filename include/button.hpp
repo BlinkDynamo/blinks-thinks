@@ -37,21 +37,40 @@ class Button : public Entity {
         void Update() override;
         void Draw() override;
 
-        // Class unique methods.
-        bool isHovered();
-        bool isPressed();
+        bool isHovered();           // Checks if 'mousePoint' (defined in 'include/main.hpp') is
+                                    // within the bounds of 'm_rect'.
+
+        bool isPressed();           // Checks if 'isHovered()', as well as 'mousePressed' (also 
+                                    // defined in 'include/main.hpp') are both true.
+
+        // Getters and setters.
+        void setScale(float scale) { m_scale = scale; }
 
     private:
-        // Arguments.
-        Label* m_label;
+        Label* m_label;             // The pointer to the label of the button. The button
+                                    // handles updating and drawing it's child label within
+                                    // it's own 'Update()' and 'Draw()' methods.
 
-        // Set during construction.
-        Rectangle m_rect;
+        Vector2 m_position;         // Deprecated. The parent 'Entity' position should be used.
 
-        Color m_defaultTextColor;
-        Color m_currentTextColor;
-        Color m_defaultBgColor;
-        Color m_currentBgColor;
+        Vector2 m_size;             // The area the button's rectangle will occupy. Used to
+                                    // calculate 'm_rect'.
+
+        Rectangle m_rect;           // The rectangle used for most button actions. This is
+                                    // calculated from 'm_size', 'm_position', and 'm_scale'.
+
+        Color m_defaultTextColor;   // What color the label's text should be when not hovered.
+
+        Color m_currentTextColor;   // What color the label's text should be drawn in the
+                                    // current frame.
+
+        Color m_defaultBgColor;     // What color the button's background should be when not
+                                    // hovered.
+
+        Color m_currentBgColor;     // What color the button's background should be in the
+                                    // current frame.
+
+        float m_scale;              // What 'm_rect' and the label's 'm_fontSize' are multiplied by.
 };
 
 Button makeUiButton(const char* text);

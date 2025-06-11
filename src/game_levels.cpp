@@ -174,6 +174,24 @@ Level3::Level3()
 
 void Level3::Update()
 {
+    // If the correct option is hovered, make it grow in scale. Otherwise, make it shrink until
+    // it becomes it's normal scale again.
+    static float currentScale = 1.00;
+    float scaleUpIncr = 0.05;
+    float scaleDownIncr = 0.10;
+    float maxScale = 3.00;
+    float minScale = 1.00;
+    if (m_correctAnswer->isHovered()) {
+        if (currentScale < maxScale) {
+            m_correctAnswer->setScale(currentScale);
+            currentScale += scaleUpIncr;
+        }
+    } 
+    else if (currentScale > minScale) {
+            m_correctAnswer->setScale(currentScale);
+            currentScale -= scaleDownIncr;
+    }
+    
     // If the correct option is chosen, move on to Level 3.
     Level::Update();
     if (m_correctAnswer->isPressed()) {
@@ -189,9 +207,5 @@ void Level3::Update()
                 currentLevel = new LevelLose();
             }
         }
-    }
-    // If the correct option is hovered, make it grow in size.
-    if (m_correctAnswer->isHovered()) {
-        // TODO.
     } 
 }

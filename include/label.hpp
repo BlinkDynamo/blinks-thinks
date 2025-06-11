@@ -26,15 +26,13 @@
 class Label : public Entity
 {
     public:
-        // Constructor and destructor.
         Label(
             const char* text,
-            int fontSize,
+            float fontSize,
             Color textColor,
             Color shadowColor,
             Vector2 position); 
 
-        // Core methods.
         void Update() override;
         void Draw() override;
 
@@ -51,24 +49,41 @@ class Label : public Entity
         Vector2 getTextDim() { return m_textDim; }
         void setTextDim(Vector2 textDim) { m_textDim = textDim; }
 
-        int getFontSize() { return m_fontSize; }
-        void setFontSize(int fontSize) { m_fontSize = fontSize; }
+        int getFontSize() { return m_baseFontSize; }
+        void setFontSize(int fontSize) { m_baseFontSize = fontSize; }
+
+        void setScale(float scale) { m_scale = scale; }
 
     private:
-        // Arguments.
-        const char* m_text;
-        int m_fontSize;
-        Color m_textColor;
-        Color m_shadowColor;
+        const char* m_text;             // The text that will be displayed.
+                                        
+        float m_scale;                  // The scaling factor that should be applied to the
+                                        // original font size.
+                                        
+        float m_baseFontSize;           // The size that the text is initially (unscaled).
+                                        
+        float m_scaledFontSize;         // The size that the text is after scaling is applied.
+                                        
+        Color m_textColor;              // The color that the text will be displayed.
+                                        
+        Color m_shadowColor;            // The color that the duplicated, offset text behind
+                                        // the main text will be.
+                                        
+        int m_letterSpacing;            // The pixels of spacing in between letters.
+                                        
+        Vector2 m_textDim;              // The text's dimensions. Calculated after font size,
+                                        // letter spacing, and scaling have all been applied.
+                                        
+        Vector2 m_origin;               // The horizontal and vertical center of the text.
+                                        // Calculated after font size, letter spacing, and
+                                        // scaling have all been applied.
 
-        // Set during construction.
-        int m_letterSpacing;
-        Vector2 m_textDim;
-        Vector2 m_origin;
-        Vector2 m_shadowOffset;
+        const Vector2 m_shadowOffset;   // The horizontal and vertical offset that the
+                                        // duplicated text (shadow) will be drawn at.
 
-        // Rotation.
-        float m_rotation;
-        float m_rotationSpeed;
-        float m_rotationDepth;
+        // Rotation algorithm: m_rotation = sin(GetTime() * m_rotationSpeed) * m_rotationDepth
+
+        float m_rotation;               // The rotation of the label (default is 0.0f).
+        float m_rotationSpeed;          // The speed the label will be rotated (default is 0.0f).
+        float m_rotationDepth;          // The depth the label will rotate (default is 0.0f).
 };
