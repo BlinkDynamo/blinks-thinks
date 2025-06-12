@@ -43,6 +43,8 @@ class Label : public Entity
             m_rotationDepth = depth;
         }
 
+        const char* getText() { return m_text; }
+
         Color getTextColor() { return m_textColor; }
         void setTextColor(Color textColor) { m_textColor = textColor; }
 

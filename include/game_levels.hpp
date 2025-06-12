@@ -72,4 +72,29 @@ class Level3 : public Level
 
     private:
         Button* m_correctAnswer = nullptr;
+
+        // For scaling the correct answer when hovered.
+        float currentScale;
+        const float scaleUpIncr;
+        const float scaleDownIncr;
+        const float maxScale;
+        const float minScale;
+};
+
+class Level4 : public Level
+{
+    public:
+        Level4(); 
+        void Update() override;
+};
+
+class Level5 : public Level
+{
+    public:
+        Level5(const char* duration); 
+        void Update() override;
+
+    private:
+        const char* m_duration;
+        Button* m_timer;
 };

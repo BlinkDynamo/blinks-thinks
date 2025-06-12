@@ -23,6 +23,9 @@
 #include "main.hpp"
 #include "game_levels.hpp"
 
+// Standard library.
+#include <cstdlib>
+
 // ------------------------------------------------------------------------------------------ //
 //                                       Title screen.                                        //
 // ------------------------------------------------------------------------------------------ //
@@ -74,20 +77,15 @@ void LevelLose::Update()
 // ------------------------------------------------------------------------------------------ //
 Level1::Level1()
 {
-    // Non-referenced objects.
-    (void)makeLabel("Level 1", 80, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 250})
-        ->setRotation(0.0f, 5.0f, 1.5f);
-
-    (void)makeLabel("What is the greatest number?", 40, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 150})
+    (void)makeLabel("Level 1", 80, ORANGE, BLACK, {screenWidthCenter, screenHeightCenter - 250});
+    (void)makeLabel("What is the largest number?", 40, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 150})
         ->setRotation(0.0f, 4.0f, 1.5f);
 
-    (void)makeTextButton("3", 70, GOLD, {screenWidthCenter - 150, screenHeightCenter + 180});
-    (void)makeTextButton("518", 60, BLUE, {screenWidthCenter, screenHeightCenter + 130});
-    (void)makeTextButton("0", 120, PINK, {screenWidthCenter + 150, screenHeightCenter + 150});
-    (void)makeTextButton("144", 180, LIME, {screenWidthCenter - 300, screenHeightCenter + 30});
-
-    // Referenced objects.
-    m_correctAnswer = makeTextButton("2869", 60, VIOLET, {screenWidthCenter + 300, screenHeightCenter + 150}); 
+    (void)makeTextButton("144", 60, LIME, {screenWidthCenter - 300, screenHeightCenter});
+    (void)makeTextButton("31", 80, GOLD, {screenWidthCenter - 150, screenHeightCenter});
+    (void)makeTextButton("50", 100, PINK, {screenWidthCenter, screenHeightCenter});
+    (void)makeTextButton("518", 60, BLUE, {screenWidthCenter + 150, screenHeightCenter});
+    m_correctAnswer = makeTextButton("2869", 60, VIOLET, {screenWidthCenter + 300, screenHeightCenter}); 
 }
 
 void Level1::Update()
@@ -115,20 +113,18 @@ void Level1::Update()
 // ------------------------------------------------------------------------------------------ //
 Level2::Level2()
 {
-    // Non-referenced objects.
-    (void)makeLabel("Level 2", 80, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 250})
-        ->setRotation(0.0f, 5.0f, 1.5f);
+    (void)makeLabel("Level  ", 80, ORANGE, BLACK, {screenWidthCenter - 4, screenHeightCenter - 250});
 
-    (void)makeLabel("What is the smallest number?", 40, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 150})
-        ->setRotation(0.0f, 4.0f, 1.5f);
+    m_correctAnswer = makeTextButton("2", 80, ORANGE, {screenWidthCenter + 122, screenHeightCenter - 250});
+
+    (void)makeLabel("What is the smallest number?", 40, RAYWHITE, BLACK,
+        {screenWidthCenter, screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
     
-    (void)makeTextButton("2869", 60, VIOLET, {screenWidthCenter + 300, screenHeightCenter + 150});
-    (void)makeTextButton("518", 60, BLUE, {screenWidthCenter - 300, screenHeightCenter + 30});
-    (void)makeTextButton("0", 120, PINK, {screenWidthCenter - 150, screenHeightCenter + 180});
-    (void)makeTextButton("144", 180, LIME, {screenWidthCenter, screenHeightCenter + 30});
-
-    // Referenced objects.
-    m_correctAnswer = makeTextButton("3", 70, GOLD, {screenWidthCenter + 150, screenHeightCenter + 150});
+    (void)makeTextButton("144", 60, LIME, {screenWidthCenter - 300, screenHeightCenter});
+    (void)makeTextButton("31", 80, GOLD, {screenWidthCenter - 150, screenHeightCenter});
+    (void)makeTextButton("2869", 60, VIOLET, {screenWidthCenter + 300, screenHeightCenter});
+    (void)makeTextButton("50", 100, PINK, {screenWidthCenter, screenHeightCenter});
+    (void)makeTextButton("518", 60, BLUE, {screenWidthCenter + 150, screenHeightCenter});
 }
 
 void Level2::Update()
@@ -155,48 +151,47 @@ void Level2::Update()
 //                                          Level 3.                                          //
 // ------------------------------------------------------------------------------------------ //
 Level3::Level3()
+    :
+    // For scaling the correct answer when hovered.
+    currentScale(1.00),
+    scaleUpIncr(0.05),
+    scaleDownIncr(0.10),
+    maxScale(2.5),
+    minScale(1.00)
 {
-    // Non-referenced objects.
-    (void)makeLabel("Level 3", 80, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 250})
-        ->setRotation(0.0f, 5.0f, 1.5f);
+    (void)makeLabel("Level 3", 80, ORANGE, BLACK, {screenWidthCenter, screenHeightCenter - 250});
 
-    (void)makeLabel("What is the largest number?", 40, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 150})
+    (void)makeLabel("What is the tallest number?", 40, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 150})
         ->setRotation(0.0f, 4.0f, 1.5f);
     
-    (void)makeTextButton("2869", 60, VIOLET, {screenWidthCenter + 300, screenHeightCenter + 150});
-    (void)makeTextButton("518", 60, BLUE, {screenWidthCenter - 300, screenHeightCenter + 30});
-    (void)makeTextButton("0", 120, PINK, {screenWidthCenter - 150, screenHeightCenter + 180});
-    (void)makeTextButton("144", 180, LIME, {screenWidthCenter, screenHeightCenter + 30});
-
-    // Referenced objects.
-    m_correctAnswer = makeTextButton("3", 70, GOLD, {screenWidthCenter + 150, screenHeightCenter + 150});
+    m_correctAnswer = makeTextButton("144", 60, LIME, {screenWidthCenter - 300, screenHeightCenter});
+    (void)makeTextButton("31", 80, GOLD, {screenWidthCenter - 150, screenHeightCenter});
+    (void)makeTextButton("2869", 60, VIOLET, {screenWidthCenter + 300, screenHeightCenter});
+    (void)makeTextButton("50", 100, PINK, {screenWidthCenter, screenHeightCenter});
+    (void)makeTextButton("518", 60, BLUE, {screenWidthCenter + 150, screenHeightCenter}); 
 }
 
 void Level3::Update()
 {
     // If the correct option is hovered, make it grow in scale. Otherwise, make it shrink until
     // it becomes it's normal scale again.
-    static float currentScale = 1.00;
-    float scaleUpIncr = 0.05;
-    float scaleDownIncr = 0.10;
-    float maxScale = 3.00;
-    float minScale = 1.00;
+    
     if (m_correctAnswer->isHovered()) {
         if (currentScale < maxScale) {
-            m_correctAnswer->setScale(currentScale);
             currentScale += scaleUpIncr;
+            m_correctAnswer->setScale(currentScale);
         }
     } 
     else if (currentScale > minScale) {
-            m_correctAnswer->setScale(currentScale);
             currentScale -= scaleDownIncr;
+            m_correctAnswer->setScale(currentScale);
     }
     
-    // If the correct option is chosen, move on to Level 3.
+    // If the correct option is chosen, move on to Level 4.
     Level::Update();
     if (m_correctAnswer->isPressed()) {
         delete currentLevel;
-        currentLevel = new LevelTitle();
+        currentLevel = new Level4();
     }
     else {
         // If any button is pressed after it's determined the correct answer WASN'T pressed,
@@ -208,4 +203,54 @@ void Level3::Update()
             }
         }
     } 
+}
+
+// ------------------------------------------------------------------------------------------ //
+//                                          Level 4.                                          //
+// ------------------------------------------------------------------------------------------ //
+Level4::Level4()
+{
+    (void)makeLabel("Level 4", 80, ORANGE, BLACK, {screenWidthCenter, screenHeightCenter - 250});
+
+    (void)makeLabel("How much time do you want for Level 5?", 40, RAYWHITE, BLACK,
+        {screenWidthCenter, screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
+    
+    (void)makeTextButton("10", 80, LIME, {screenWidthCenter - 300, screenHeightCenter});
+    (void)makeTextButton("20", 80, GOLD, {screenWidthCenter - 150, screenHeightCenter});
+    (void)makeTextButton("30", 80, VIOLET, {screenWidthCenter + 300, screenHeightCenter});
+    (void)makeTextButton("60", 80, PINK, {screenWidthCenter, screenHeightCenter});
+    (void)makeTextButton("120", 80, BLUE, {screenWidthCenter + 150, screenHeightCenter});
+}
+
+void Level4::Update()
+{
+    // If the correct option is chosen, move on to Level 3.
+    Level::Update();
+    
+    // Find the button that was pressed, and set the next level's duration to that button's label.
+    for (Button* button : getButtons()) {
+        if (button->isPressed()) {
+            delete currentLevel;
+            currentLevel = new Level5(button->getLabel()->getText());
+                
+        }
+    }
+}
+
+Level5::Level5(const char* duration)
+    :
+    m_duration(duration)
+{
+    (void)makeLabel("Level 5", 80, ORANGE, BLACK, {screenWidthCenter, screenHeightCenter - 250});
+
+    (void)makeLabel("Survive!", 40, RAYWHITE, BLACK,
+        {screenWidthCenter, screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
+    
+    m_timer = makeTextButton(m_duration, 80, LIME, {screenWidthCenter, screenHeightCenter}); 
+}
+
+void Level5::Update()
+{
+    // If the correct option is chosen, move on to Level 3.
+    Level::Update();
 }

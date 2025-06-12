@@ -44,6 +44,8 @@ class Button : public Entity {
                                     // defined in 'include/main.hpp') are both true.
 
         // Getters and setters.
+        Label* getLabel() { return m_label; }
+
         void setScale(float scale) { m_scale = scale; }
 
     private:
