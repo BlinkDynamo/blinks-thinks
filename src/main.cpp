@@ -32,11 +32,11 @@
 #include <cmath>
 
 // Mouse. These are external variables defined in 'include/main.hpp'.
-Vector2 mousePoint = { 0.0f, 0.0f };
-bool mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+Vector2 G_mousePoint = { 0.0f, 0.0f };
+bool G_mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
 
 // Level. Tracks what level should be drawn and updated.
-Level* currentLevel = nullptr;
+Level* G_currentLevel = nullptr;
 
 int main(void)
 {
@@ -49,11 +49,11 @@ int main(void)
     //Color BT_AQUAMARINE = { 75, 255, 205, 255 };
 
     // Window, Screen, and FPS.
-    InitWindow(screenWidth, screenHeight, "Blink's Thinks");
-    SetTargetFPS(frameRate);
+    InitWindow(G_screenWidth, G_screenHeight, "Blink's Thinks");
+    SetTargetFPS(G_frameRate);
 
-    // If currentLevel is not yet set, set it to the Title Screen.
-    if (currentLevel == nullptr) currentLevel = new LevelAnimRaylib();
+    // If G_currentLevel is not yet set, set it to the Title Screen.
+    if (G_currentLevel == nullptr) G_currentLevel = new LevelAnimRaylib();
 
     // Audio.
     InitAudioDevice();
@@ -69,13 +69,13 @@ int main(void)
         // ---------------------------------------------------------------------------------- //
 
         // Mouse. Remember, these are externs.
-        mousePoint = GetMousePosition();
-        mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT); 
+        G_mousePoint = GetMousePosition();
+        G_mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT); 
 
         // Update the music buffer with new stream data.
         UpdateMusicStream(title_theme);
 
-        currentLevel->Update();
+        G_currentLevel->Update();
 
         // ---------------------------------------------------------------------------------- //
         //                                       Draw.                                        //
@@ -83,7 +83,7 @@ int main(void)
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
-        currentLevel->Draw();
+        G_currentLevel->Draw();
 
         EndDrawing();
     }

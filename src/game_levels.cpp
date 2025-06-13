@@ -42,8 +42,8 @@ void LevelAnimRaylib::Update()
     Level::Update();
 
     if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
-        delete currentLevel;
-        currentLevel = new LevelAnimSelfCredit;
+        delete G_currentLevel;
+        G_currentLevel = new LevelAnimSelfCredit;
     }
 }
 
@@ -62,8 +62,8 @@ void LevelAnimSelfCredit::Update()
     Level::Update();
 
     if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
-        delete currentLevel;
-        currentLevel = new LevelTitle;
+        delete G_currentLevel;
+        G_currentLevel = new LevelTitle;
     }
 }
 
@@ -75,7 +75,7 @@ LevelTitle::LevelTitle()
     m_playButton(nullptr)
 {
     // Non-referenced objects.
-    (void)makeLabel("Blink's Thinks", 100, RAYWHITE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 100})
+    (void)makeLabel("Blink's Thinks", 100, RAYWHITE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 100})
         ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
@@ -87,8 +87,8 @@ void LevelTitle::Update()
     Level::Update();
 
     if (m_playButton->isPressed()) {
-        delete currentLevel;
-        currentLevel = new Level1();
+        delete G_currentLevel;
+        G_currentLevel = new Level1();
     }
 }
 
@@ -100,7 +100,7 @@ LevelLose::LevelLose()
     m_restartButton(nullptr)
 {
 // Non-referenced objects.
-    (void)makeLabel("Game over!", 100, RED, G_shadowColor, {screenWidthCenter, screenHeightCenter - 100})
+    (void)makeLabel("Game over!", 100, RED, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 100})
         ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
@@ -112,8 +112,8 @@ void LevelLose::Update()
     Level::Update();
 
     if (m_restartButton->isPressed()) {
-        delete currentLevel;
-        currentLevel = new Level1();
+        delete G_currentLevel;
+        G_currentLevel = new Level1();
     }
 }
 
@@ -124,15 +124,15 @@ Level1::Level1()
     :
     m_correctAnswer(nullptr)
 {
-    (void)makeLabel("Level 1", 80, ORANGE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 250});
-    (void)makeLabel("What is the largest number?", 40, RAYWHITE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 150})
+    (void)makeLabel("Level 1", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250});
+    (void)makeLabel("What is the largest number?", 40, RAYWHITE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 150})
         ->setRotation(0.0f, 4.0f, 1.5f);
 
-    (void)makeTextButton("144", 60, LIME, {screenWidthCenter - 300, screenHeightCenter});
-    (void)makeTextButton("31", 80, GOLD, {screenWidthCenter - 150, screenHeightCenter});
-    (void)makeTextButton("50", 100, PINK, {screenWidthCenter, screenHeightCenter});
-    (void)makeTextButton("518", 60, BLUE, {screenWidthCenter + 150, screenHeightCenter});
-    m_correctAnswer = makeTextButton("2869", 60, VIOLET, {screenWidthCenter + 300, screenHeightCenter}); 
+    (void)makeTextButton("144", 60, LIME, {G_screenWidthCenter - 300, G_screenHeightCenter});
+    (void)makeTextButton("31", 80, GOLD, {G_screenWidthCenter - 150, G_screenHeightCenter});
+    (void)makeTextButton("50", 100, PINK, {G_screenWidthCenter, G_screenHeightCenter});
+    (void)makeTextButton("518", 60, BLUE, {G_screenWidthCenter + 150, G_screenHeightCenter});
+    m_correctAnswer = makeTextButton("2869", 60, VIOLET, {G_screenWidthCenter + 300, G_screenHeightCenter}); 
 }
 
 void Level1::Update()
@@ -140,16 +140,16 @@ void Level1::Update()
     // If the correct option is chosen, move on to Level 2.
     Level::Update();
     if (m_correctAnswer->isPressed()) {
-        delete currentLevel;
-        currentLevel = new Level2();
+        delete G_currentLevel;
+        G_currentLevel = new Level2();
     }
     else {
         // If any button is pressed after it's determined the correct answer WASN'T pressed,
         // the player must have pressed the wrong button.
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
-                delete currentLevel;
-                currentLevel = new LevelLose();
+                delete G_currentLevel;
+                G_currentLevel = new LevelLose();
             }
         }
     }
@@ -162,18 +162,18 @@ Level2::Level2()
     :
     m_correctAnswer(nullptr)
 {
-    (void)makeLabel("Level  ", 80, ORANGE, G_shadowColor, {screenWidthCenter - 4, screenHeightCenter - 250});
+    (void)makeLabel("Level  ", 80, ORANGE, G_shadowColor, {G_screenWidthCenter - 4, G_screenHeightCenter - 250});
 
-    m_correctAnswer = makeTextButton("2", 80, ORANGE, {screenWidthCenter + 122, screenHeightCenter - 250});
+    m_correctAnswer = makeTextButton("2", 80, ORANGE, {G_screenWidthCenter + 122, G_screenHeightCenter - 250});
 
     (void)makeLabel("What is the smallest number?", 40, RAYWHITE, G_shadowColor,
-        {screenWidthCenter, screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
+        {G_screenWidthCenter, G_screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
     
-    (void)makeTextButton("144", 60, LIME, {screenWidthCenter - 300, screenHeightCenter});
-    (void)makeTextButton("31", 80, GOLD, {screenWidthCenter - 150, screenHeightCenter});
-    (void)makeTextButton("2869", 60, VIOLET, {screenWidthCenter + 300, screenHeightCenter});
-    (void)makeTextButton("50", 100, PINK, {screenWidthCenter, screenHeightCenter});
-    (void)makeTextButton("518", 60, BLUE, {screenWidthCenter + 150, screenHeightCenter});
+    (void)makeTextButton("144", 60, LIME, {G_screenWidthCenter - 300, G_screenHeightCenter});
+    (void)makeTextButton("31", 80, GOLD, {G_screenWidthCenter - 150, G_screenHeightCenter});
+    (void)makeTextButton("2869", 60, VIOLET, {G_screenWidthCenter + 300, G_screenHeightCenter});
+    (void)makeTextButton("50", 100, PINK, {G_screenWidthCenter, G_screenHeightCenter});
+    (void)makeTextButton("518", 60, BLUE, {G_screenWidthCenter + 150, G_screenHeightCenter});
 }
 
 void Level2::Update()
@@ -181,16 +181,16 @@ void Level2::Update()
     // If the correct option is chosen, move on to Level 3.
     Level::Update();
     if (m_correctAnswer->isPressed()) {
-        delete currentLevel;
-        currentLevel = new Level3();
+        delete G_currentLevel;
+        G_currentLevel = new Level3();
     }
     else {
         // If any button is pressed after it's determined the correct answer WASN'T pressed,
         // the player must have pressed the wrong button.
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
-                delete currentLevel;
-                currentLevel = new LevelLose();
+                delete G_currentLevel;
+                G_currentLevel = new LevelLose();
             }
         }
     }
@@ -209,16 +209,16 @@ Level3::Level3()
     maxScale(2.5),
     minScale(1.00)
 {
-    (void)makeLabel("Level 3", 80, ORANGE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 250});
+    (void)makeLabel("Level 3", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250});
 
-    (void)makeLabel("What is the tallest number?", 40, RAYWHITE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 150})
+    (void)makeLabel("What is the tallest number?", 40, RAYWHITE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 150})
         ->setRotation(0.0f, 4.0f, 1.5f);
     
-    m_correctAnswer = makeTextButton("144", 60, LIME, {screenWidthCenter - 300, screenHeightCenter});
-    (void)makeTextButton("31", 80, GOLD, {screenWidthCenter - 150, screenHeightCenter});
-    (void)makeTextButton("2869", 60, VIOLET, {screenWidthCenter + 300, screenHeightCenter});
-    (void)makeTextButton("50", 100, PINK, {screenWidthCenter, screenHeightCenter});
-    (void)makeTextButton("518", 60, BLUE, {screenWidthCenter + 150, screenHeightCenter}); 
+    m_correctAnswer = makeTextButton("144", 60, LIME, {G_screenWidthCenter - 300, G_screenHeightCenter});
+    (void)makeTextButton("31", 80, GOLD, {G_screenWidthCenter - 150, G_screenHeightCenter});
+    (void)makeTextButton("2869", 60, VIOLET, {G_screenWidthCenter + 300, G_screenHeightCenter});
+    (void)makeTextButton("50", 100, PINK, {G_screenWidthCenter, G_screenHeightCenter});
+    (void)makeTextButton("518", 60, BLUE, {G_screenWidthCenter + 150, G_screenHeightCenter}); 
 }
 
 void Level3::Update()
@@ -240,16 +240,16 @@ void Level3::Update()
     // If the correct option is chosen, move on to Level 4.
     Level::Update();
     if (m_correctAnswer->isPressed()) {
-        delete currentLevel;
-        currentLevel = new Level4();
+        delete G_currentLevel;
+        G_currentLevel = new Level4();
     }
     else {
         // If any button is pressed after it's determined the correct answer WASN'T pressed,
         // the player must have pressed the wrong button.
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
-                delete currentLevel;
-                currentLevel = new LevelLose();
+                delete G_currentLevel;
+                G_currentLevel = new LevelLose();
             }
         }
     } 
@@ -260,16 +260,16 @@ void Level3::Update()
 // ------------------------------------------------------------------------------------------ //
 Level4::Level4()
 {
-    (void)makeLabel("Level 4", 80, ORANGE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 250});
+    (void)makeLabel("Level 4", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250});
 
     (void)makeLabel("How much time do you want for Level 5?", 40, RAYWHITE, G_shadowColor,
-        {screenWidthCenter, screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
+        {G_screenWidthCenter, G_screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
     
-    (void)makeTextButton("10", 80, LIME, {screenWidthCenter - 300, screenHeightCenter});
-    (void)makeTextButton("20", 80, GOLD, {screenWidthCenter - 150, screenHeightCenter});
-    (void)makeTextButton("30", 80, VIOLET, {screenWidthCenter + 300, screenHeightCenter});
-    (void)makeTextButton("60", 80, PINK, {screenWidthCenter, screenHeightCenter});
-    (void)makeTextButton("120", 80, BLUE, {screenWidthCenter + 150, screenHeightCenter});
+    (void)makeTextButton("10", 80, LIME, {G_screenWidthCenter - 300, G_screenHeightCenter});
+    (void)makeTextButton("20", 80, GOLD, {G_screenWidthCenter - 150, G_screenHeightCenter});
+    (void)makeTextButton("30", 80, VIOLET, {G_screenWidthCenter + 300, G_screenHeightCenter});
+    (void)makeTextButton("60", 80, PINK, {G_screenWidthCenter, G_screenHeightCenter});
+    (void)makeTextButton("120", 80, BLUE, {G_screenWidthCenter + 150, G_screenHeightCenter});
 }
 
 void Level4::Update()
@@ -280,8 +280,8 @@ void Level4::Update()
     // Find the button that was pressed, and set the next level's duration to that button's label.
     for (Button* button : getButtons()) {
         if (button->isPressed()) {
-            delete currentLevel;
-            currentLevel = new Level5(button->getLabel()->getText()); 
+            delete G_currentLevel;
+            G_currentLevel = new Level5(button->getLabel()->getText()); 
         }
     }
 }
@@ -292,12 +292,12 @@ Level5::Level5(string duration)
     m_framesCounter(0),
     m_duration(duration)
 {
-    (void)makeLabel("Level 5", 80, ORANGE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 250});
+    (void)makeLabel("Level 5", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250});
 
     (void)makeLabel("Survive!", 40, RAYWHITE, G_shadowColor,
-        {screenWidthCenter, screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
+        {G_screenWidthCenter, G_screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
     
-    m_timer = makeLabel(m_duration, 80, LIME, G_shadowColor, {screenWidthCenter, screenHeightCenter}); 
+    m_timer = makeLabel(m_duration, 80, LIME, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter}); 
 }
 
 void Level5::Update()
@@ -320,8 +320,8 @@ void Level5::Update()
             m_timer->setText(m_duration);
         }
         else {
-            delete currentLevel;
-            currentLevel = new LevelTitle();
+            delete G_currentLevel;
+            G_currentLevel = new LevelTitle();
         }
     } 
 }

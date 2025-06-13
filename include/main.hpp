@@ -27,18 +27,18 @@
 #include <cstddef>
 
 // Resolution and framerate.
-constexpr int screenWidth = 900;
-constexpr int screenHeight = 600;
-constexpr float screenWidthCenter = screenWidth / 2.0f;
-constexpr float screenHeightCenter = screenHeight / 2.0f;
-constexpr size_t frameRate = 60;
+constexpr int G_screenWidth = 900;
+constexpr int G_screenHeight = 600;
+constexpr float G_screenWidthCenter = G_screenWidth / 2.0f;
+constexpr float G_screenHeightCenter = G_screenHeight / 2.0f;
+constexpr size_t G_frameRate = 60;
 
 // Colors.
 constexpr Color G_shadowColor = { 15, 15, 15, 200 };
 
 // Mouse.
-extern Vector2 mousePoint;
-extern bool mousePressed;
+extern Vector2 G_mousePoint;
+extern bool G_mousePressed;
 
 // Level.
-extern Level* currentLevel;
+extern Level* G_currentLevel;

@@ -33,5 +33,5 @@ void Overlay::Update()
 
 void Overlay::Draw()
 {
-    DrawRectangle(0, 0, screenWidth, screenHeight, m_color);
+    DrawRectangle(0, 0, G_screenWidth, G_screenHeight, m_color);
 }

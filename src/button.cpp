@@ -59,12 +59,12 @@ Button::~Button() {
 // ------------------------------------------------------------------------------------------ //
 bool Button::isHovered()
 {
-    return CheckCollisionPointRec(mousePoint, m_rect);
+    return CheckCollisionPointRec(G_mousePoint, m_rect);
 }
 
 bool Button::isPressed()
 {
-    return isHovered() && mousePressed;
+    return isHovered() && G_mousePressed;
 }
 
 void Button::Update()

@@ -47,8 +47,8 @@ void Background::Update()
 
 void Background::Draw()
 {
-    int cols = (screenWidth / m_squareSize) + 2;
-    int rows = (screenHeight / m_squareSize) + 2;
+    int cols = (G_screenWidth / m_squareSize) + 2;
+    int rows = (G_screenHeight / m_squareSize) + 2;
 
     float effectiveOffset = std::fmod(scrollOffset, 2 * m_squareSize);
 

@@ -32,7 +32,7 @@ Level::Level()
 {
     // Create a base simple background for all 'Level' objects for now.
     this->m_background = new Background(GRAY, { 200, 200, 200, 255 }, 50);
-    this->m_overlay = new Overlay({0, 0, 0, 150});
+    this->m_overlay = new Overlay({0, 0, 0, 0});
 }
 
 Level::~Level()
@@ -113,7 +113,7 @@ Button* Level::makeButton(Label* label, Color bgColor, Vector2 position, Vector2
 // Make a clickable UI button with dynamic label and background color at a fixed location.
 Button* Level::makeUiButton(string text)
 {
-    Vector2 position = { screenWidthCenter, screenHeightCenter + 100 };
+    Vector2 position = { G_screenWidthCenter, G_screenHeightCenter + 100 };
 
     Label* label = new Label(text, 40, WHITE, { 0, 0, 0, 0 }, position);
 
