@@ -22,6 +22,7 @@
 #include "level.hpp"
 #include "label.hpp"
 #include "button.hpp"
+#include "overlay.hpp"
 #include "main.hpp"
 
 Level::Level()
@@ -31,6 +32,7 @@ Level::Level()
 {
     // Create a base simple background for all 'Level' objects for now.
     this->m_background = new Background(GRAY, { 200, 200, 200, 255 }, 50);
+    this->m_overlay = new Overlay({0, 0, 0, 150});
 }
 
 Level::~Level()
@@ -46,6 +48,9 @@ Level::~Level()
 
     // Delete the 'Background' object.
     delete m_background;
+
+    // Delete the 'Overlay' object.
+    delete m_overlay;
 }
 
 void Level::Update()
@@ -68,6 +73,9 @@ void Level::Draw()
     for (const auto& entity : m_entities) {
         entity->Draw();
     }
+
+    // Draw the overlay.
+    m_overlay->Draw();
 }
 
 AnimRaylib* Level::makeAnimRaylib()
@@ -125,7 +133,7 @@ Button* Level::makeUiButton(string text)
 // Make clickable label by creating an invisible button in the shape and size of the label.
 Button* Level::makeTextButton(string text, int fontSize, Color textColor, Vector2 position)
 {
-    Label* label = new Label(text, fontSize, textColor, { 15, 15, 15, 200 }, position);
+    Label* label = new Label(text, fontSize, textColor, G_shadowColor, position);
 
     Button* button = new Button(
         label,

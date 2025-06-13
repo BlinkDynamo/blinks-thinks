@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   main.hpp - The entry point and program runtime.
+*   overlay.hpp - The library for creating and drawing overlays.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
 *
@@ -21,24 +21,18 @@
 #pragma once
 
 // Source.
-#include "level.hpp"
+#include "entity.hpp"
 
-// Standard library.
-#include <cstddef>
+class Overlay : public Entity
+{
+    public:
+        Overlay(Color color);
 
-// Resolution and framerate.
-constexpr int screenWidth = 900;
-constexpr int screenHeight = 600;
-constexpr float screenWidthCenter = screenWidth / 2.0f;
-constexpr float screenHeightCenter = screenHeight / 2.0f;
-constexpr size_t frameRate = 60;
+        void setColor(Color color) { m_color = color; }
 
-// Colors.
-constexpr Color G_shadowColor = { 15, 15, 15, 200 };
+        void Update() override;
+        void Draw() override;
 
-// Mouse.
-extern Vector2 mousePoint;
-extern bool mousePressed;
-
-// Level.
-extern Level* currentLevel;
+    private:
+        Color m_color;
+};

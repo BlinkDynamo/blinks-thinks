@@ -75,7 +75,7 @@ LevelTitle::LevelTitle()
     m_playButton(nullptr)
 {
     // Non-referenced objects.
-    (void)makeLabel("Blink's Thinks", 100, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 100})
+    (void)makeLabel("Blink's Thinks", 100, RAYWHITE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 100})
         ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
@@ -100,7 +100,7 @@ LevelLose::LevelLose()
     m_restartButton(nullptr)
 {
 // Non-referenced objects.
-    (void)makeLabel("Game over!", 100, RED, BLACK, {screenWidthCenter, screenHeightCenter - 100})
+    (void)makeLabel("Game over!", 100, RED, G_shadowColor, {screenWidthCenter, screenHeightCenter - 100})
         ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
@@ -124,8 +124,8 @@ Level1::Level1()
     :
     m_correctAnswer(nullptr)
 {
-    (void)makeLabel("Level 1", 80, ORANGE, BLACK, {screenWidthCenter, screenHeightCenter - 250});
-    (void)makeLabel("What is the largest number?", 40, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 150})
+    (void)makeLabel("Level 1", 80, ORANGE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 250});
+    (void)makeLabel("What is the largest number?", 40, RAYWHITE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 150})
         ->setRotation(0.0f, 4.0f, 1.5f);
 
     (void)makeTextButton("144", 60, LIME, {screenWidthCenter - 300, screenHeightCenter});
@@ -162,11 +162,11 @@ Level2::Level2()
     :
     m_correctAnswer(nullptr)
 {
-    (void)makeLabel("Level  ", 80, ORANGE, BLACK, {screenWidthCenter - 4, screenHeightCenter - 250});
+    (void)makeLabel("Level  ", 80, ORANGE, G_shadowColor, {screenWidthCenter - 4, screenHeightCenter - 250});
 
     m_correctAnswer = makeTextButton("2", 80, ORANGE, {screenWidthCenter + 122, screenHeightCenter - 250});
 
-    (void)makeLabel("What is the smallest number?", 40, RAYWHITE, BLACK,
+    (void)makeLabel("What is the smallest number?", 40, RAYWHITE, G_shadowColor,
         {screenWidthCenter, screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
     
     (void)makeTextButton("144", 60, LIME, {screenWidthCenter - 300, screenHeightCenter});
@@ -209,9 +209,9 @@ Level3::Level3()
     maxScale(2.5),
     minScale(1.00)
 {
-    (void)makeLabel("Level 3", 80, ORANGE, BLACK, {screenWidthCenter, screenHeightCenter - 250});
+    (void)makeLabel("Level 3", 80, ORANGE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 250});
 
-    (void)makeLabel("What is the tallest number?", 40, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 150})
+    (void)makeLabel("What is the tallest number?", 40, RAYWHITE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 150})
         ->setRotation(0.0f, 4.0f, 1.5f);
     
     m_correctAnswer = makeTextButton("144", 60, LIME, {screenWidthCenter - 300, screenHeightCenter});
@@ -260,9 +260,9 @@ void Level3::Update()
 // ------------------------------------------------------------------------------------------ //
 Level4::Level4()
 {
-    (void)makeLabel("Level 4", 80, ORANGE, BLACK, {screenWidthCenter, screenHeightCenter - 250});
+    (void)makeLabel("Level 4", 80, ORANGE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 250});
 
-    (void)makeLabel("How much time do you want for Level 5?", 40, RAYWHITE, BLACK,
+    (void)makeLabel("How much time do you want for Level 5?", 40, RAYWHITE, G_shadowColor,
         {screenWidthCenter, screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
     
     (void)makeTextButton("10", 80, LIME, {screenWidthCenter - 300, screenHeightCenter});
@@ -292,12 +292,12 @@ Level5::Level5(string duration)
     m_framesCounter(0),
     m_duration(duration)
 {
-    (void)makeLabel("Level 5", 80, ORANGE, BLACK, {screenWidthCenter, screenHeightCenter - 250});
+    (void)makeLabel("Level 5", 80, ORANGE, G_shadowColor, {screenWidthCenter, screenHeightCenter - 250});
 
-    (void)makeLabel("Survive!", 40, RAYWHITE, BLACK,
+    (void)makeLabel("Survive!", 40, RAYWHITE, G_shadowColor,
         {screenWidthCenter, screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
     
-    m_timer = makeLabel(m_duration, 80, LIME, BLACK, {screenWidthCenter, screenHeightCenter}); 
+    m_timer = makeLabel(m_duration, 80, LIME, G_shadowColor, {screenWidthCenter, screenHeightCenter}); 
 }
 
 void Level5::Update()

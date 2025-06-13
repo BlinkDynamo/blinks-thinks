@@ -25,6 +25,7 @@
 #include "button.hpp"
 #include "label.hpp"
 #include "background.hpp"
+#include "overlay.hpp"
 #include "animation.hpp"
 
 // Standard library.
@@ -86,6 +87,9 @@ class Level
         Background* m_background;           // Current background of the level. This background
                                             // will have it's 'Update()' and 'Draw()' methods
                                             // called once per frame.
+
+        Overlay* m_overlay;                 // Current overlay of the level. This overlay will
+                                            // have it's Draw() method called once per frame.
 
         vector<Entity*> m_entities;    // All entities made by factory methods are added
                                             // to here. All members of this vector will have
