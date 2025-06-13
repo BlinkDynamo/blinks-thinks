@@ -63,11 +63,6 @@ void AnimRaylib::Update()
 *
 ***********************************************************************************************/
 {
-    // If the skip key is pressed, mark the splash screen as finished.
-    if (IsKeyPressed(KEY_ENTER)) {
-        m_state = 4;
-    }
-
     switch (m_state)
     {
         case (0): {
@@ -240,11 +235,6 @@ bool AnimSelfCredit::isFinished()
 
 void AnimSelfCredit::Update()
 { 
-    // If the skip key is pressed, mark the splash screen as finished.
-    if (IsKeyPressed(KEY_ENTER)) {
-        m_state = State::FINISHED;
-    }
-
     m_framesCounter++;
 
     switch (m_state)
@@ -292,7 +282,8 @@ void AnimSelfCredit::Update()
 
 void AnimSelfCredit::Draw()
 { 
-    ClearBackground(m_bgColor);
+    // Draw a background rectangle.
+    DrawRectangle(screenWidthCenter - 300, screenHeightCenter - 30, 600, 100, m_bgColor);
     switch (m_state)
     {
         // Letters being added on every 2 frames.

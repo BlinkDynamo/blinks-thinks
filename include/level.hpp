@@ -25,6 +25,7 @@
 #include "button.hpp"
 #include "label.hpp"
 #include "background.hpp"
+#include "animation.hpp"
 
 // Standard library.
 #include <string>
@@ -55,7 +56,18 @@ class Level
        
         // ---------------------------------------------------------------------------------- //
         //                                  Factory methods.                                  //
+        //                                                                                    //
+        //  All of these factory methods are to be used inside level implementation code to   //
+        //  create objects that exist within a level. Any of these that are called in a       //
+        //  'Level' constructor will add that created object to 'm_entities'.                 //
+        //                                                                                    //
         // ---------------------------------------------------------------------------------- //
+
+        // Wrapper method to the 'AnimRaylib' constructor.
+        AnimRaylib* makeAnimRaylib();
+
+        // Wrapper method to the 'AnimSelfCredit' constructor.
+        AnimSelfCredit* makeAnimSelfCredit();
 
         // Wrapper method to the 'Label' constructor.
         Label* makeLabel(string text, int fontSize, Color textColor, Color shadowColor,

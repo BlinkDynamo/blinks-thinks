@@ -53,7 +53,7 @@ int main(void)
     SetTargetFPS(frameRate);
 
     // If currentLevel is not yet set, set it to the Title Screen.
-    if (currentLevel == nullptr) currentLevel = new LevelTitle();
+    if (currentLevel == nullptr) currentLevel = new LevelAnimRaylib();
 
     // Audio.
     InitAudioDevice();

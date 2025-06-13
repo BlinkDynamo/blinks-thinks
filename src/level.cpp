@@ -70,6 +70,20 @@ void Level::Draw()
     }
 }
 
+AnimRaylib* Level::makeAnimRaylib()
+{
+    AnimRaylib* animation = new AnimRaylib();
+    m_entities.push_back(animation);
+    return animation;
+}
+
+AnimSelfCredit* Level::makeAnimSelfCredit()
+{
+    AnimSelfCredit* animation = new AnimSelfCredit();
+    m_entities.push_back(animation);
+    return animation;
+}
+
 Label* Level::makeLabel(string text, int fontSize, Color textColor, Color shadowColor,
                Vector2 position)
 {

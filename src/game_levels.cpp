@@ -27,6 +27,42 @@
 #include <cstdlib>
 
 // ------------------------------------------------------------------------------------------ //
+//                                     Raylib animation.                                      //
+// ------------------------------------------------------------------------------------------ //
+LevelAnimRaylib::LevelAnimRaylib()
+{
+    m_animation = makeAnimRaylib();    
+}
+
+void LevelAnimRaylib::Update()
+{
+    Level::Update();
+
+    if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
+        delete currentLevel;
+        currentLevel = new LevelAnimSelfCredit;
+    }
+}
+
+// ------------------------------------------------------------------------------------------ //
+//                                   Self credit animation.                                   //
+// ------------------------------------------------------------------------------------------ //
+LevelAnimSelfCredit::LevelAnimSelfCredit()
+{
+    m_animation = makeAnimSelfCredit();
+}
+
+void LevelAnimSelfCredit::Update()
+{
+    Level::Update();
+
+    if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
+        delete currentLevel;
+        currentLevel = new LevelTitle;
+    }
+}
+
+// ------------------------------------------------------------------------------------------ //
 //                                       Title screen.                                        //
 // ------------------------------------------------------------------------------------------ //
 LevelTitle::LevelTitle()

@@ -29,6 +29,26 @@
 
 using std::string;
 
+class LevelAnimRaylib : public Level
+{
+    public:
+        LevelAnimRaylib();
+        void Update() override;
+
+    private:
+        AnimRaylib* m_animation = nullptr;
+};
+
+class LevelAnimSelfCredit : public Level
+{
+    public:
+        LevelAnimSelfCredit();
+        void Update() override;
+
+    private:
+        AnimSelfCredit* m_animation = nullptr;
+};
+
 class LevelTitle : public Level
 {
     public:
