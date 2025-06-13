@@ -25,11 +25,14 @@
 
 // Standard library.
 #include <cstdlib>
+#include <sstream>
 
 // ------------------------------------------------------------------------------------------ //
 //                                     Raylib animation.                                      //
 // ------------------------------------------------------------------------------------------ //
 LevelAnimRaylib::LevelAnimRaylib()
+    :
+    m_animation(nullptr)
 {
     m_animation = makeAnimRaylib();    
 }
@@ -48,6 +51,8 @@ void LevelAnimRaylib::Update()
 //                                   Self credit animation.                                   //
 // ------------------------------------------------------------------------------------------ //
 LevelAnimSelfCredit::LevelAnimSelfCredit()
+    :
+    m_animation(nullptr)
 {
     m_animation = makeAnimSelfCredit();
 }
@@ -66,6 +71,8 @@ void LevelAnimSelfCredit::Update()
 //                                       Title screen.                                        //
 // ------------------------------------------------------------------------------------------ //
 LevelTitle::LevelTitle()
+    :
+    m_playButton(nullptr)
 {
     // Non-referenced objects.
     (void)makeLabel("Blink's Thinks", 100, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 100})
@@ -89,6 +96,8 @@ void LevelTitle::Update()
 //                                        Lose screen.                                        //
 // ------------------------------------------------------------------------------------------ //
 LevelLose::LevelLose()
+    :
+    m_restartButton(nullptr)
 {
 // Non-referenced objects.
     (void)makeLabel("Game over!", 100, RED, BLACK, {screenWidthCenter, screenHeightCenter - 100})
@@ -112,6 +121,8 @@ void LevelLose::Update()
 //                                          Level 1.                                          //
 // ------------------------------------------------------------------------------------------ //
 Level1::Level1()
+    :
+    m_correctAnswer(nullptr)
 {
     (void)makeLabel("Level 1", 80, ORANGE, BLACK, {screenWidthCenter, screenHeightCenter - 250});
     (void)makeLabel("What is the largest number?", 40, RAYWHITE, BLACK, {screenWidthCenter, screenHeightCenter - 150})
@@ -148,6 +159,8 @@ void Level1::Update()
 //                                          Level 2.                                          //
 // ------------------------------------------------------------------------------------------ //
 Level2::Level2()
+    :
+    m_correctAnswer(nullptr)
 {
     (void)makeLabel("Level  ", 80, ORANGE, BLACK, {screenWidthCenter - 4, screenHeightCenter - 250});
 
@@ -188,6 +201,7 @@ void Level2::Update()
 // ------------------------------------------------------------------------------------------ //
 Level3::Level3()
     :
+    m_correctAnswer(nullptr),
     // For scaling the correct answer when hovered.
     currentScale(1.00),
     scaleUpIncr(0.05),
@@ -267,14 +281,15 @@ void Level4::Update()
     for (Button* button : getButtons()) {
         if (button->isPressed()) {
             delete currentLevel;
-            currentLevel = new Level5(button->getLabel()->getText());
-                
+            currentLevel = new Level5(button->getLabel()->getText()); 
         }
     }
 }
 
 Level5::Level5(string duration)
     :
+    m_timer(nullptr),
+    m_framesCounter(0),
     m_duration(duration)
 {
     (void)makeLabel("Level 5", 80, ORANGE, BLACK, {screenWidthCenter, screenHeightCenter - 250});
@@ -282,11 +297,31 @@ Level5::Level5(string duration)
     (void)makeLabel("Survive!", 40, RAYWHITE, BLACK,
         {screenWidthCenter, screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
     
-    m_timer = makeTextButton(m_duration, 80, LIME, {screenWidthCenter, screenHeightCenter}); 
+    m_timer = makeLabel(m_duration, 80, LIME, BLACK, {screenWidthCenter, screenHeightCenter}); 
 }
 
 void Level5::Update()
 {
-    // If the correct option is chosen, move on to Level 3.
     Level::Update();
+
+    m_framesCounter++; 
+    // Every 1 second, turn the string 'm_duration' into an int, decrement it by 1, then check
+    // if it's above 0. If it is, turn it back into a string, then set 'm_timer' to this value. 
+    if (m_framesCounter == 60) {
+        int i;
+        std::istringstream(m_duration) >> i;
+        i--;
+        if (i > 0) {
+            m_framesCounter = 0;
+
+            std::ostringstream oss;
+            oss << i;
+            m_duration = oss.str();
+            m_timer->setText(m_duration);
+        }
+        else {
+            delete currentLevel;
+            currentLevel = new LevelTitle();
+        }
+    } 
 }

@@ -49,6 +49,7 @@ class Label : public Entity
         }
 
         string getText() { return m_text; }
+        void setText(string text) { m_text = text; }
 
         Color getTextColor() { return m_textColor; }
         void setTextColor(Color textColor) { m_textColor = textColor; }

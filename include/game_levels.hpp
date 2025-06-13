@@ -36,7 +36,7 @@ class LevelAnimRaylib : public Level
         void Update() override;
 
     private:
-        AnimRaylib* m_animation = nullptr;
+        AnimRaylib* m_animation;
 };
 
 class LevelAnimSelfCredit : public Level
@@ -46,7 +46,7 @@ class LevelAnimSelfCredit : public Level
         void Update() override;
 
     private:
-        AnimSelfCredit* m_animation = nullptr;
+        AnimSelfCredit* m_animation;
 };
 
 class LevelTitle : public Level
@@ -56,7 +56,7 @@ class LevelTitle : public Level
         void Update() override;
 
     private:
-        Button* m_playButton = nullptr;
+        Button* m_playButton;
 };
 
 class LevelLose : public Level
@@ -66,7 +66,7 @@ class LevelLose : public Level
         void Update() override;
 
     private:
-        Button* m_restartButton = nullptr;
+        Button* m_restartButton;
 };
 
 class Level1 : public Level
@@ -76,7 +76,7 @@ class Level1 : public Level
         void Update() override;
 
     private:
-        Button* m_correctAnswer = nullptr;
+        Button* m_correctAnswer;
 };
 
 class Level2 : public Level
@@ -86,7 +86,7 @@ class Level2 : public Level
         void Update() override;
 
     private:
-        Button* m_correctAnswer = nullptr;
+        Button* m_correctAnswer;
 };
 
 class Level3 : public Level
@@ -96,7 +96,7 @@ class Level3 : public Level
         void Update() override;
 
     private:
-        Button* m_correctAnswer = nullptr;
+        Button* m_correctAnswer;
 
         // For scaling the correct answer when hovered.
         float currentScale;
@@ -120,6 +120,7 @@ class Level5 : public Level
         void Update() override;
 
     private:
+        Label* m_timer;
+        int m_framesCounter;
         string m_duration;
-        Button* m_timer;
 };
