@@ -304,7 +304,7 @@ void AnimSelfCredit::Draw()
             // Draw every character in 'text' sequentially, drawing a terminal cursor on the
             // last letter.
             for (int i = 0; i < m_lettersCount; i++) {
-                char c = m_text[i];
+                char c = m_text.c_str()[i];
                 char s[2] = { c, '\0' };
 
                 Vector2 charSize = MeasureTextEx(m_font, s, m_fontSize, m_spacing);

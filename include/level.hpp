@@ -30,6 +30,9 @@
 #include <string>
 #include <vector>
 
+using std::string;
+using std::vector;
+
 class Level
 {
     public:
@@ -48,35 +51,35 @@ class Level
                                             // 'Update()', but the option is there.
       
         // Getters and setters.
-        std::vector<Button*> getButtons() { return m_buttons; }
+        vector<Button*> getButtons() { return m_buttons; }
        
         // ---------------------------------------------------------------------------------- //
         //                                  Factory methods.                                  //
         // ---------------------------------------------------------------------------------- //
 
         // Wrapper method to the 'Label' constructor.
-        Label* makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
+        Label* makeLabel(string text, int fontSize, Color textColor, Color shadowColor,
                          Vector2 position);
 
         // Wrapper method to the 'Button' constructor.
         Button* makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size); 
 
         // Create a centered gray and black UI button with custom text.
-        Button* makeUiButton(const char* text);
+        Button* makeUiButton(string text);
 
         // Create a button with an invisible background, appearing to only be a clickable label.
-        Button* makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position);
+        Button* makeTextButton(string text, int fontSize, Color textColor, Vector2 position);
 
     private: 
         Background* m_background;           // Current background of the level. This background
                                             // will have it's 'Update()' and 'Draw()' methods
                                             // called once per frame.
 
-        std::vector<Entity*> m_entities;    // All entities made by factory methods are added
+        vector<Entity*> m_entities;    // All entities made by factory methods are added
                                             // to here. All members of this vector will have
                                             // their 'Update()' and 'Draw()' methods called
                                             // once per frame.
 
-        std::vector<Button*> m_buttons;     // All buttons made by factory methods are added to
+        vector<Button*> m_buttons;     // All buttons made by factory methods are added to
                                             // here.
 };

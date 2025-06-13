@@ -25,7 +25,7 @@
 #include <cmath>
 
 Label::Label(
-    const char* text,
+    string text,
     float fontSize,
     Color textColor,
     Color shadowColor,
@@ -45,7 +45,7 @@ Label::Label(
     
     // Updated every frame in Update().
     m_letterSpacing(m_baseFontSize / 10.0f),
-    m_textDim(MeasureTextEx(GetFontDefault(), m_text, m_baseFontSize, m_letterSpacing)),
+    m_textDim(MeasureTextEx(GetFontDefault(), m_text.c_str(), m_baseFontSize, m_letterSpacing)),
     m_origin({ m_textDim.x / 2.0f, m_textDim.y / 2.0f }),
 
     // Constants.
@@ -63,7 +63,7 @@ void Label::Update()
     m_scaledFontSize = m_baseFontSize * m_scale;
     
     m_letterSpacing = m_scaledFontSize / 10.0f;
-    m_textDim = MeasureTextEx(GetFontDefault(), m_text, m_scaledFontSize, m_letterSpacing);
+    m_textDim = MeasureTextEx(GetFontDefault(), m_text.c_str(), m_scaledFontSize, m_letterSpacing);
     m_origin = { m_textDim.x / 2.0f, m_textDim.y / 2.0f };
     m_rotation = sin(GetTime() * m_rotationSpeed) * m_rotationDepth;
 }
@@ -74,7 +74,7 @@ void Label::Draw()
     if (m_shadowColor.a != 0) {
         DrawTextPro(
             GetFontDefault(), 
-            m_text, 
+            m_text.c_str(), 
             { m_position.x + m_shadowOffset.x, m_position.y + m_shadowOffset.y }, 
             m_origin,
             m_rotation,
@@ -86,7 +86,7 @@ void Label::Draw()
     // Label.
     DrawTextPro(
         GetFontDefault(),
-        m_text,
+        m_text.c_str(),
         m_position,
         m_origin,
         m_rotation,

@@ -24,6 +24,11 @@
 // Source.
 #include "level.hpp"
 
+// Standard library.
+#include <string>
+
+using std::string;
+
 class LevelTitle : public Level
 {
     public:
@@ -91,10 +96,10 @@ class Level4 : public Level
 class Level5 : public Level
 {
     public:
-        Level5(const char* duration); 
+        Level5(string duration); 
         void Update() override;
 
     private:
-        const char* m_duration;
+        string m_duration;
         Button* m_timer;
 };

@@ -23,11 +23,16 @@
 // Source.
 #include "entity.hpp"
 
+// Standard library.
+#include <string>
+
+using std::string;
+
 class Label : public Entity
 {
     public:
         Label(
-            const char* text,
+            string text,
             float fontSize,
             Color textColor,
             Color shadowColor,
@@ -43,7 +48,7 @@ class Label : public Entity
             m_rotationDepth = depth;
         }
 
-        const char* getText() { return m_text; }
+        string getText() { return m_text; }
 
         Color getTextColor() { return m_textColor; }
         void setTextColor(Color textColor) { m_textColor = textColor; }
@@ -57,7 +62,7 @@ class Label : public Entity
         void setScale(float scale) { m_scale = scale; }
 
     private:
-        const char* m_text;             // The text that will be displayed.
+        string m_text;             // The text that will be displayed.
                                         
         float m_scale;                  // The scaling factor that should be applied to the
                                         // original font size.

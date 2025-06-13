@@ -23,6 +23,11 @@
 // Source.
 #include "entity.hpp"
 
+// Standard library.
+#include <string>
+
+using std::string;
+
 class AnimRaylib : public Entity
 {
     public:
@@ -74,7 +79,7 @@ class AnimSelfCredit : public Entity
         State m_state;
 
         // Text.
-        const char* m_text;
+        string m_text;
         int m_fontSize;
         float m_spacing;
         Font m_font;

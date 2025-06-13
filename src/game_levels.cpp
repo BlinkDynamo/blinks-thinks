@@ -237,7 +237,7 @@ void Level4::Update()
     }
 }
 
-Level5::Level5(const char* duration)
+Level5::Level5(string duration)
     :
     m_duration(duration)
 {

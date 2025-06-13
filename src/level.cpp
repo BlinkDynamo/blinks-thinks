@@ -24,8 +24,6 @@
 #include "button.hpp"
 #include "main.hpp"
 
-using std::vector;
-
 Level::Level()
     :
     m_entities{},
@@ -72,7 +70,7 @@ void Level::Draw()
     }
 }
 
-Label* Level::makeLabel(const char* text, int fontSize, Color textColor, Color shadowColor,
+Label* Level::makeLabel(string text, int fontSize, Color textColor, Color shadowColor,
                Vector2 position)
 {
     Label* label = new Label(text, fontSize, textColor, shadowColor, position);
@@ -91,7 +89,7 @@ Button* Level::makeButton(Label* label, Color bgColor, Vector2 position, Vector2
 }
 
 // Make a clickable UI button with dynamic label and background color at a fixed location.
-Button* Level::makeUiButton(const char* text)
+Button* Level::makeUiButton(string text)
 {
     Vector2 position = { screenWidthCenter, screenHeightCenter + 100 };
 
@@ -111,7 +109,7 @@ Button* Level::makeUiButton(const char* text)
 }
 
 // Make clickable label by creating an invisible button in the shape and size of the label.
-Button* Level::makeTextButton(const char* text, int fontSize, Color textColor, Vector2 position)
+Button* Level::makeTextButton(string text, int fontSize, Color textColor, Vector2 position)
 {
     Label* label = new Label(text, fontSize, textColor, { 15, 15, 15, 200 }, position);
 
