@@ -20,8 +20,8 @@
 
 #pragma once
 
-// Source.
-#include "level.hpp"
+// Raylib.
+#include "raylib.h"
 
 // Standard library.
 #include <cstddef>
@@ -35,10 +35,4 @@ constexpr size_t G_frameRate = 60;
 
 // Colors.
 constexpr Color G_shadowColor = { 15, 15, 15, 200 };
-
-// Mouse.
-extern Vector2 G_mousePoint;
-extern bool G_mousePressed;
-
-// Level.
-extern Level* G_currentLevel;
+constexpr Color G_aquamarineColor = { 75, 255, 205, 255 };

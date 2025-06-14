@@ -25,6 +25,9 @@
 #include "overlay.hpp"
 #include "main.hpp"
 
+// Global level pointer for game implementation.
+Level* G_currentLevel = nullptr;
+
 Level::Level()
     :
     m_entities{},
@@ -78,25 +81,15 @@ void Level::Draw()
     m_overlay->Draw();
 }
 
-AnimRaylib* Level::makeAnimRaylib()
-{
-    AnimRaylib* animation = new AnimRaylib();
-    m_entities.push_back(animation);
-    return animation;
-}
-
-AnimSelfCredit* Level::makeAnimSelfCredit()
-{
-    AnimSelfCredit* animation = new AnimSelfCredit();
-    m_entities.push_back(animation);
-    return animation;
-}
+// ------------------------------------------------------------------------------------------ //
+//                                      Factory methods.                                      //
+// ------------------------------------------------------------------------------------------ //
 
 Label* Level::makeLabel(string text, int fontSize, Color textColor, Color shadowColor,
                Vector2 position)
 {
     Label* label = new Label(text, fontSize, textColor, shadowColor, position);
-    m_entities.push_back(label);
+    addEntity(label);
     return label;
 }
 
@@ -104,9 +97,7 @@ Button* Level::makeButton(Label* label, Color bgColor, Vector2 position, Vector2
 {
     Button* button = new Button(label, bgColor, position, size);
 
-    m_entities.push_back(button);
-    m_buttons.push_back(button);
-
+    addEntity(button);
     return button;
 }
 
@@ -115,35 +106,31 @@ Button* Level::makeUiButton(string text)
 {
     Vector2 position = { G_screenWidthCenter, G_screenHeightCenter + 100 };
 
-    Label* label = new Label(text, 40, WHITE, { 0, 0, 0, 0 }, position);
+    Label* const label = new Label(text, 40, WHITE, { 0, 0, 0, 0 }, position);
 
-    Button* button = new Button(
+    Button* const button = new Button(
         label,
         DARKGRAY,
         position,
         {180,60}
     );
 
-    m_entities.push_back(button);
-    m_buttons.push_back(button);
-
+    addEntity(button);
     return button;
 }
 
 // Make clickable label by creating an invisible button in the shape and size of the label.
 Button* Level::makeTextButton(string text, int fontSize, Color textColor, Vector2 position)
 {
-    Label* label = new Label(text, fontSize, textColor, G_shadowColor, position);
+    Label* const label = new Label(text, fontSize, textColor, G_shadowColor, position);
 
-    Button* button = new Button(
+    Button* const button = new Button(
         label,
         { 0, 0, 0, 0 },
         position,
         label->getTextDim()
     );
     
-    m_entities.push_back(button);
-    m_buttons.push_back(button);
-
+    addEntity(button);
     return button;
 }

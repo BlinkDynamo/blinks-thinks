@@ -31,22 +31,11 @@
 // Standard library.
 #include <cmath>
 
-// Mouse. These are external variables defined in 'include/main.hpp'.
-Vector2 G_mousePoint = { 0.0f, 0.0f };
-bool G_mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
-
-// Level. Tracks what level should be drawn and updated.
-Level* G_currentLevel = nullptr;
-
 int main(void)
 {
     // -------------------------------------------------------------------------------------- //
     //                                    Initialization.                                     //
-    // -------------------------------------------------------------------------------------- //
-
-    // Colors.
-    //Color BT_SHADOW = { 15, 15, 15, 200 };
-    //Color BT_AQUAMARINE = { 75, 255, 205, 255 };
+    // -------------------------------------------------------------------------------------- // 
 
     // Window, Screen, and FPS.
     InitWindow(G_screenWidth, G_screenHeight, "Blink's Thinks");
@@ -67,10 +56,6 @@ int main(void)
         // ---------------------------------------------------------------------------------- //
         //                                      Update.                                       //
         // ---------------------------------------------------------------------------------- //
-
-        // Mouse. Remember, these are externs.
-        G_mousePoint = GetMousePosition();
-        G_mousePressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT); 
 
         // Update the music buffer with new stream data.
         UpdateMusicStream(title_theme);

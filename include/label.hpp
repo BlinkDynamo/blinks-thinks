@@ -63,7 +63,7 @@ class Label : public Entity
         void setScale(float scale) { m_scale = scale; }
 
     private:
-        string m_text;             // The text that will be displayed.
+        string m_text;                  // The text that will be displayed.
                                         
         float m_scale;                  // The scaling factor that should be applied to the
                                         // original font size.

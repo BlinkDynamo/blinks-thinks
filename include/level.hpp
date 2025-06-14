@@ -31,9 +31,12 @@
 // Standard library.
 #include <string>
 #include <vector>
+#include <type_traits>
 
 using std::string;
 using std::vector;
+using std::is_base_of;
+using std::is_base_of_v;
 
 class Level
 {
@@ -54,6 +57,25 @@ class Level
       
         // Getters and setters.
         vector<Button*> getButtons() { return m_buttons; }
+
+        Overlay* getOverlay() { return m_overlay; }
+
+        // Main entity management method. Takes an unknown 'Entity', asserts its subclass,
+        // adds that subclass pointer to 'm_entities', then returns the pointer. All factory
+        // methods use this to add the created object to 'm_entities'.
+        template <typename T>
+        T* addEntity(T* entity)
+        {
+            static_assert(is_base_of<Entity, T>::value, "T must derive from Entity.");
+            m_entities.push_back(entity); 
+            
+            // If 'entity' is a button, add it to 'm_buttons' as well. 
+            if constexpr (is_base_of<Button, T>::value) {
+                m_buttons.push_back(static_cast<Button*>(entity));
+            }
+
+            return entity;
+        }
        
         // ---------------------------------------------------------------------------------- //
         //                                  Factory methods.                                  //
@@ -63,12 +85,6 @@ class Level
         //  'Level' constructor will add that created object to 'm_entities'.                 //
         //                                                                                    //
         // ---------------------------------------------------------------------------------- //
-
-        // Wrapper method to the 'AnimRaylib' constructor.
-        AnimRaylib* makeAnimRaylib();
-
-        // Wrapper method to the 'AnimSelfCredit' constructor.
-        AnimSelfCredit* makeAnimSelfCredit();
 
         // Wrapper method to the 'Label' constructor.
         Label* makeLabel(string text, int fontSize, Color textColor, Color shadowColor,
@@ -83,7 +99,7 @@ class Level
         // Create a button with an invisible background, appearing to only be a clickable label.
         Button* makeTextButton(string text, int fontSize, Color textColor, Vector2 position);
 
-    private: 
+    private:
         Background* m_background;           // Current background of the level. This background
                                             // will have it's 'Update()' and 'Draw()' methods
                                             // called once per frame.
@@ -91,11 +107,14 @@ class Level
         Overlay* m_overlay;                 // Current overlay of the level. This overlay will
                                             // have it's Draw() method called once per frame.
 
-        vector<Entity*> m_entities;    // All entities made by factory methods are added
+        vector<Entity*> m_entities;         // All entities made by factory methods are added
                                             // to here. All members of this vector will have
                                             // their 'Update()' and 'Draw()' methods called
                                             // once per frame.
 
-        vector<Button*> m_buttons;     // All buttons made by factory methods are added to
+        vector<Button*> m_buttons;          // All buttons made by factory methods are added to
                                             // here.
 };
+
+// Global level pointer for game implementation.
+extern Level* G_currentLevel;

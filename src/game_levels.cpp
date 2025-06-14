@@ -34,7 +34,7 @@ LevelAnimRaylib::LevelAnimRaylib()
     :
     m_animation(nullptr)
 {
-    m_animation = makeAnimRaylib();    
+    m_animation = addEntity(new AnimRaylib()); 
 }
 
 void LevelAnimRaylib::Update()
@@ -54,7 +54,7 @@ LevelAnimSelfCredit::LevelAnimSelfCredit()
     :
     m_animation(nullptr)
 {
-    m_animation = makeAnimSelfCredit();
+    m_animation = addEntity(new AnimSelfCredit());
 }
 
 void LevelAnimSelfCredit::Update()
@@ -75,8 +75,10 @@ LevelTitle::LevelTitle()
     m_playButton(nullptr)
 {
     // Non-referenced objects.
-    (void)makeLabel("Blink's Thinks", 100, RAYWHITE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 100})
-        ->setRotation(0.0f, 5.0f, 2.5f);
+    (void)addEntity(new Label(
+        "Blink's Thinks", 100, RAYWHITE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 100})
+    )
+    ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
     m_playButton = makeUiButton("Play");
@@ -100,8 +102,10 @@ LevelLose::LevelLose()
     m_restartButton(nullptr)
 {
 // Non-referenced objects.
-    (void)makeLabel("Game over!", 100, RED, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 100})
-        ->setRotation(0.0f, 5.0f, 2.5f);
+    (void)addEntity(new Label(
+        "Game over!", 100, RED, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 100})
+    )
+    ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
     m_restartButton = makeUiButton("Restart");
@@ -124,9 +128,15 @@ Level1::Level1()
     :
     m_correctAnswer(nullptr)
 {
-    (void)makeLabel("Level 1", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250});
-    (void)makeLabel("What is the largest number?", 40, RAYWHITE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 150})
-        ->setRotation(0.0f, 4.0f, 1.5f);
+    (void)addEntity(new Label(
+        "Level 1", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250})
+    );
+    
+    (void)addEntity(new Label(
+        "What is the largest number?", 40, RAYWHITE, G_shadowColor, {G_screenWidthCenter,
+        G_screenHeightCenter - 150}
+    ))
+    ->setRotation(0.0f, 4.0f, 1.5f);
 
     (void)makeTextButton("144", 60, LIME, {G_screenWidthCenter - 300, G_screenHeightCenter});
     (void)makeTextButton("31", 80, GOLD, {G_screenWidthCenter - 150, G_screenHeightCenter});
@@ -162,12 +172,17 @@ Level2::Level2()
     :
     m_correctAnswer(nullptr)
 {
-    (void)makeLabel("Level  ", 80, ORANGE, G_shadowColor, {G_screenWidthCenter - 4, G_screenHeightCenter - 250});
+    (void)addEntity(new Label(
+        "Level  ", 80, ORANGE, G_shadowColor, {G_screenWidthCenter - 4, G_screenHeightCenter - 250})
+    );
 
     m_correctAnswer = makeTextButton("2", 80, ORANGE, {G_screenWidthCenter + 122, G_screenHeightCenter - 250});
 
-    (void)makeLabel("What is the smallest number?", 40, RAYWHITE, G_shadowColor,
-        {G_screenWidthCenter, G_screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
+    (void)addEntity(new Label(
+        "What is the smallest number?", 40, RAYWHITE, G_shadowColor, {G_screenWidthCenter,
+        G_screenHeightCenter - 150})
+    )
+    ->setRotation(0.0f, 4.0f, 1.5f);
     
     (void)makeTextButton("144", 60, LIME, {G_screenWidthCenter - 300, G_screenHeightCenter});
     (void)makeTextButton("31", 80, GOLD, {G_screenWidthCenter - 150, G_screenHeightCenter});
@@ -209,10 +224,15 @@ Level3::Level3()
     maxScale(2.5),
     minScale(1.00)
 {
-    (void)makeLabel("Level 3", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250});
+    (void)addEntity(new Label(
+        "Level 3", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250})
+    );
 
-    (void)makeLabel("What is the tallest number?", 40, RAYWHITE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 150})
-        ->setRotation(0.0f, 4.0f, 1.5f);
+    (void)addEntity(new Label(
+        "What is the tallest number?", 40, RAYWHITE, G_shadowColor, {G_screenWidthCenter,
+        G_screenHeightCenter - 150})
+    )
+    ->setRotation(0.0f, 4.0f, 1.5f);
     
     m_correctAnswer = makeTextButton("144", 60, LIME, {G_screenWidthCenter - 300, G_screenHeightCenter});
     (void)makeTextButton("31", 80, GOLD, {G_screenWidthCenter - 150, G_screenHeightCenter});
@@ -260,10 +280,15 @@ void Level3::Update()
 // ------------------------------------------------------------------------------------------ //
 Level4::Level4()
 {
-    (void)makeLabel("Level 4", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250});
+    (void)addEntity(new Label(
+        "Level 4", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250})
+    );
 
-    (void)makeLabel("How much time do you want for Level 5?", 40, RAYWHITE, G_shadowColor,
-        {G_screenWidthCenter, G_screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
+    (void)addEntity(new Label(
+        "How much time do you want for Level 5?", 40, RAYWHITE, G_shadowColor,
+        {G_screenWidthCenter, G_screenHeightCenter - 150})
+    )
+    ->setRotation(0.0f, 4.0f, 1.5f);
     
     (void)makeTextButton("10", 80, LIME, {G_screenWidthCenter - 300, G_screenHeightCenter});
     (void)makeTextButton("20", 80, GOLD, {G_screenWidthCenter - 150, G_screenHeightCenter});
@@ -292,34 +317,45 @@ Level5::Level5(string duration)
     m_framesCounter(0),
     m_duration(duration)
 {
-    (void)makeLabel("Level 5", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250});
+    (void)addEntity(new Label(
+        "Level 5", 80, ORANGE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 250})
+    );
 
-    (void)makeLabel("Survive!", 40, RAYWHITE, G_shadowColor,
-        {G_screenWidthCenter, G_screenHeightCenter - 150})->setRotation(0.0f, 4.0f, 1.5f);
+    (void)addEntity(new Label(
+        "Survive!", 40, RAYWHITE, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter - 150})
+    )
+    ->setRotation(0.0f, 4.0f, 1.5f);
     
-    m_timer = makeLabel(m_duration, 80, LIME, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter}); 
+    m_timer = addEntity(new Label(
+        m_duration, 80, LIME, G_shadowColor, {G_screenWidthCenter, G_screenHeightCenter})
+    );
 }
 
 void Level5::Update()
 {
     Level::Update();
 
+    // Every 60 frames (1 second)...
     m_framesCounter++; 
-    // Every 1 second, turn the string 'm_duration' into an int, decrement it by 1, then check
-    // if it's above 0. If it is, turn it back into a string, then set 'm_timer' to this value. 
-    if (m_framesCounter == 60) {
+    if (m_framesCounter == 60) { 
         int i;
         std::istringstream(m_duration) >> i;
-        i--;
+        // If there is still time left... 
         if (i > 0) {
+            // Reset the frames counter and decrement the time by 1. If the time ('i') just now reached 0,
+            // set the level overlay to green.
             m_framesCounter = 0;
-
+            i--;
+            if (i == 0) { getOverlay()->setColor({0, 100, 0, 100}); }
+            
+            // Turn 'i' back into a string, and set the text of m_timer to this.
             std::ostringstream oss;
             oss << i;
             m_duration = oss.str();
             m_timer->setText(m_duration);
         }
-        else {
+        // If there is no time left...
+        else { 
             delete G_currentLevel;
             G_currentLevel = new LevelTitle();
         }

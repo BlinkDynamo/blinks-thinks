@@ -20,7 +20,6 @@
 
 // Source.
 #include "button.hpp"
-#include "main.hpp"
 
 // Standard library.
 #include <cmath>
@@ -59,12 +58,12 @@ Button::~Button() {
 // ------------------------------------------------------------------------------------------ //
 bool Button::isHovered()
 {
-    return CheckCollisionPointRec(G_mousePoint, m_rect);
+    return CheckCollisionPointRec(GetMousePosition(), m_rect);
 }
 
 bool Button::isPressed()
 {
-    return isHovered() && G_mousePressed;
+    return isHovered() && IsMouseButtonPressed(0);
 }
 
 void Button::Update()
