@@ -85,26 +85,10 @@ void Level::Draw()
 //                                      Factory methods.                                      //
 // ------------------------------------------------------------------------------------------ //
 
-Label* Level::makeLabel(string text, int fontSize, Color textColor, Color shadowColor,
-               Vector2 position)
-{
-    Label* label = new Label(text, fontSize, textColor, shadowColor, position);
-    addEntity(label);
-    return label;
-}
-
-Button* Level::makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size)
-{
-    Button* button = new Button(label, bgColor, position, size);
-
-    addEntity(button);
-    return button;
-}
-
 // Make a clickable UI button with dynamic label and background color at a fixed location.
 Button* Level::makeUiButton(string text)
 {
-    Vector2 position = { G_screenWidthCenter, G_screenHeightCenter + 100 };
+    Vector2 position = { G_cntrW, G_cntrH + 100 };
 
     Label* const label = new Label(text, 40, WHITE, { 0, 0, 0, 0 }, position);
 

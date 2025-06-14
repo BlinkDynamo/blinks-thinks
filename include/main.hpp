@@ -27,10 +27,10 @@
 #include <cstddef>
 
 // Resolution and framerate.
-constexpr int G_screenWidth = 900;
-constexpr int G_screenHeight = 600;
-constexpr float G_screenWidthCenter = G_screenWidth / 2.0f;
-constexpr float G_screenHeightCenter = G_screenHeight / 2.0f;
+constexpr int G_w = 900;
+constexpr int G_h = 600;
+constexpr float G_cntrW = G_w / 2.0f;
+constexpr float G_cntrH = G_h / 2.0f;
 constexpr size_t G_frameRate = 60;
 
 // Colors.

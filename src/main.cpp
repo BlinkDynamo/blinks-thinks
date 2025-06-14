@@ -38,7 +38,7 @@ int main(void)
     // -------------------------------------------------------------------------------------- // 
 
     // Window, Screen, and FPS.
-    InitWindow(G_screenWidth, G_screenHeight, "Blink's Thinks");
+    InitWindow(G_w, G_h, "Blink's Thinks");
     SetTargetFPS(G_frameRate);
 
     // If G_currentLevel is not yet set, set it to the Title Screen.

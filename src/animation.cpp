@@ -28,8 +28,8 @@
 AnimRaylib::AnimRaylib()
     :
     Entity({0, 0}), // Set this to 0, 0 for now. Position is unused.
-    m_logoPositionX((G_screenWidth / 2) - 128),
-    m_logoPositionY((G_screenHeight / 2) - 128),
+    m_logoPositionX((G_w / 2) - 128),
+    m_logoPositionY((G_h / 2) - 128),
     m_topSideRecWidth(16),
     m_leftSideRecHeight(16),
     m_bottomSideRecWidth(16),
@@ -192,8 +192,8 @@ void AnimRaylib::Draw()
 
             DrawText(
                 TextSubtext("raylib", 0, m_lettersCount),
-                G_screenWidth/2 - 44,
-                G_screenHeight/2 + 48,
+                G_w/2 - 44,
+                G_h/2 + 48,
                 50,
                 Fade(BLACK, m_alpha));
 
@@ -283,7 +283,7 @@ void AnimSelfCredit::Update()
 void AnimSelfCredit::Draw()
 { 
     // Draw a background rectangle.
-    DrawRectangle(G_screenWidthCenter - 300, G_screenHeightCenter - 30, 600, 100, m_bgColor);
+    DrawRectangle(G_cntrW - 300, G_cntrH - 30, 600, 100, m_bgColor);
     switch (m_state)
     {
         // Letters being added on every 2 frames.
