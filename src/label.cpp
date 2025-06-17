@@ -29,10 +29,11 @@ Label::Label(
     float fontSize,
     Color textColor,
     Color shadowColor,
-    Vector2 position)
+    Vector2 position,
+    int layer)
 
     :
-    Entity(position),
+    Entity(position, layer),
 
     m_text(text),
     m_scale(1.0f),

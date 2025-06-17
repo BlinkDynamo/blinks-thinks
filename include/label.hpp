@@ -36,7 +36,8 @@ class Label : public Entity
             float fontSize,
             Color textColor,
             Color shadowColor,
-            Vector2 position); 
+            Vector2 position,
+            int layer); 
 
         void Update() override;
         void Draw() override;

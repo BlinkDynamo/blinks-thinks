@@ -30,6 +30,7 @@ class Button : public Entity {
             Label* label,
             Color bgColor,
             Vector2 position,
+            int layer,
             Vector2 size); 
 
         ~Button();

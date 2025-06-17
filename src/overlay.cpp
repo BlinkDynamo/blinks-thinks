@@ -24,7 +24,7 @@
 
 Overlay::Overlay(Color color)
     :
-    Entity({0, 0}), // Set this to 0, 0 for now. Position is unused.
+    Entity({0, 0}, 1000), // 1000 is the default layer of Overlays.
     m_color(color)
 {}
 
@@ -33,5 +33,5 @@ void Overlay::Update()
 
 void Overlay::Draw()
 {
-    DrawRectangle(0, 0, G_w, G_h, m_color);
+    DrawRectangle(m_position.x, m_position.y, G_w, G_h, m_color);
 }

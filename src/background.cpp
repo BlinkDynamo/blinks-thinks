@@ -34,7 +34,7 @@ Background::Background(
     int squareSize)
 
     :
-    Entity({0, 0}), // Set this to 0, 0 for now. Position is unused.
+    Entity({0, 0}, -1000), // -1000 is the default layer of Backgrounds.
     m_darkColor(darkColor),
     m_lightColor(lightColor),
     m_squareSize(squareSize)
@@ -47,18 +47,18 @@ void Background::Update()
 
 void Background::Draw()
 {
-    int cols = (G_w / m_squareSize) + 2;
-    int rows = (G_h / m_squareSize) + 2;
+    const int cols = (G_w / m_squareSize) + 2;
+    const int rows = (G_h / m_squareSize) + 2;
 
-    float effectiveOffset = std::fmod(scrollOffset, 2 * m_squareSize);
+    const float effectiveOffset = std::fmod(scrollOffset, 2 * m_squareSize);
 
     for (int y = -2; y < rows; y++) {
         for (int x = 0; x < cols; x++) {
-            bool isDark = (x + y) % 2 == 0;
-            Color color = isDark ? m_darkColor : m_lightColor;
+            const bool isDark = (x + y) % 2 == 0;
+            const Color color = isDark ? m_darkColor : m_lightColor;
 
-            float drawX = x * m_squareSize;
-            float drawY = y * m_squareSize + effectiveOffset;
+            const float drawX = x * m_squareSize;
+            const float drawY = y * m_squareSize + effectiveOffset;
 
             DrawRectangle(drawX, drawY, m_squareSize, m_squareSize, color);
         }

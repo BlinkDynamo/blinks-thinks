@@ -21,7 +21,8 @@
 // Source.
 #include "entity.hpp"
 
-Entity::Entity(Vector2 position)
+Entity::Entity(Vector2 position, int layer)
     :
-    m_position(position)
+    m_position(position),
+    m_layer(layer)
 {}

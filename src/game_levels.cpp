@@ -76,7 +76,7 @@ LevelTitle::LevelTitle()
 {
     // Non-referenced objects.
     (void)addEntity(new Label(
-        "Blink's Thinks", 100, RAYWHITE, G_shadowColor, {G_cntrW, G_cntrH - 100})
+        "Blink's Thinks", 100, RAYWHITE, G_shadowColor, {G_cntrW, G_cntrH - 100}, 0)
     )
     ->setRotation(0.0f, 5.0f, 2.5f);
 
@@ -103,7 +103,7 @@ LevelLose::LevelLose()
 {
 // Non-referenced objects.
     (void)addEntity(new Label(
-        "Game over!", 100, RED, G_shadowColor, {G_cntrW, G_cntrH - 100})
+        "Game over!", 100, RED, G_shadowColor, {G_cntrW, G_cntrH - 100}, 0)
     )
     ->setRotation(0.0f, 5.0f, 2.5f);
 
@@ -129,13 +129,13 @@ Level1::Level1()
     m_correctAnswer(nullptr)
 {
     (void)addEntity(new Label(
-        "Level 1", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250})
+        "Level 1", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250}, 0)
     );
     
     (void)addEntity(new Label(
         "What is the largest number?", 40, RAYWHITE, G_shadowColor, {G_cntrW,
-        G_cntrH - 150}
-    ))
+        G_cntrH - 150}, 0)
+    )
     ->setRotation(0.0f, 4.0f, 1.5f);
 
     (void)makeTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
@@ -173,14 +173,14 @@ Level2::Level2()
     m_correctAnswer(nullptr)
 {
     (void)addEntity(new Label(
-        "Level  ", 80, ORANGE, G_shadowColor, {G_cntrW - 4, G_cntrH - 250})
+        "Level  ", 80, ORANGE, G_shadowColor, {G_cntrW - 4, G_cntrH - 250}, 0)
     );
 
     m_correctAnswer = makeTextButton("2", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
 
     (void)addEntity(new Label(
         "What is the smallest number?", 40, RAYWHITE, G_shadowColor, {G_cntrW,
-        G_cntrH - 150})
+        G_cntrH - 150}, 0)
     )
     ->setRotation(0.0f, 4.0f, 1.5f);
     
@@ -225,12 +225,12 @@ Level3::Level3()
     minScale(1.00)
 {
     (void)addEntity(new Label(
-        "Level 3", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250})
+        "Level 3", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250}, 0)
     );
 
     (void)addEntity(new Label(
         "What is the tallest number?", 40, RAYWHITE, G_shadowColor, {G_cntrW,
-        G_cntrH - 150})
+        G_cntrH - 150}, 0)
     )
     ->setRotation(0.0f, 4.0f, 1.5f);
     
@@ -281,12 +281,12 @@ void Level3::Update()
 Level4::Level4()
 {
     (void)addEntity(new Label(
-        "Level 4", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250})
+        "Level 4", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250}, 0)
     );
 
     (void)addEntity(new Label(
         "How much time do you want for Level 5?", 40, RAYWHITE, G_shadowColor,
-        {G_cntrW, G_cntrH - 150})
+        {G_cntrW, G_cntrH - 150}, 0)
     )
     ->setRotation(0.0f, 4.0f, 1.5f);
     
@@ -318,16 +318,16 @@ Level5::Level5(string duration)
     m_duration(duration)
 {
     (void)addEntity(new Label(
-        "Level 5", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250})
+        "Level 5", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250}, 0)
     );
 
     (void)addEntity(new Label(
-        "Survive!", 40, RAYWHITE, G_shadowColor, {G_cntrW, G_cntrH - 150})
+        "Survive!", 40, RAYWHITE, G_shadowColor, {G_cntrW, G_cntrH - 150}, 0)
     )
     ->setRotation(0.0f, 4.0f, 1.5f);
     
     m_timer = addEntity(new Label(
-        m_duration, 80, LIME, G_shadowColor, {G_cntrW, G_cntrH - 50})
+        m_duration, 80, LIME, G_shadowColor, {G_cntrW, G_cntrH - 50}, 0)
     );
 }
 
@@ -346,7 +346,6 @@ void Level5::Update()
             // set the level overlay to green.
             m_framesCounter = 0;
             i--;
-            if (i == 0) { getOverlay()->setColor({0, 100, 0, 100}); }
             
             // Turn 'i' back into a string, and set the text of m_timer to this.
             std::ostringstream oss;

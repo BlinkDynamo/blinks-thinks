@@ -28,11 +28,12 @@ Button::Button(
     Label* label,
     Color bgColor,
     Vector2 position,
+    int layer,
     Vector2 size)
 
     :
     // Arguments.
-    Entity(position),
+    Entity(position, layer),
     m_label(label),
     m_size(size),
 

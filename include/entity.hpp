@@ -25,14 +25,22 @@
 
 class Entity {
     public:
-        Entity(Vector2 position);
+        Entity(Vector2 position, int layer);
         virtual ~Entity() = default;
 
         virtual void Update() = 0;
         virtual void Draw() = 0;
+
         virtual Vector2 getPosition() { return m_position; }
         virtual void setPosition(Vector2 position) { m_position = position; }
 
+        virtual int getLayer() { return m_layer; }
+        virtual void setLayer(int layer) { m_layer = layer; }
+
     protected:
-        Vector2 m_position;
+        Vector2 m_position;     // The X and Y coordinate position of the entity.
+
+        int m_layer;            // The layer in which the entity resides. This will determine
+                                // draw ordering. Higher numbers are drawn higher, and lower
+                                // numbers are drawn lower.
 }; 

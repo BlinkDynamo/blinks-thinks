@@ -27,7 +27,7 @@
 // ------------------------------------------------------------------------------------------ //
 AnimRaylib::AnimRaylib()
     :
-    Entity({0, 0}), // Set this to 0, 0 for now. Position is unused.
+    Entity({0, 0}, 0), // Both of these are unused. Set default values of 0.
     m_logoPositionX((G_w / 2) - 128),
     m_logoPositionY((G_h / 2) - 128),
     m_topSideRecWidth(16),
@@ -210,7 +210,7 @@ void AnimRaylib::Draw()
 // ------------------------------------------------------------------------------------------ //
 AnimSelfCredit::AnimSelfCredit()
     : 
-    Entity({0, 0}), // Set this to 0, 0 for now. Position is unused.
+    Entity({0, 0}, 0), // Both of these are unused. Set default values of 0.
     m_framesCounter(0),
     m_lettersCount(0),
     m_state(State::LETTERS_ADDING),
@@ -220,8 +220,8 @@ AnimSelfCredit::AnimSelfCredit()
     m_font(GetFontDefault()),
 
     m_textPos({ 
-        static_cast<float>(GetScreenWidth()/2 - 240), 
-        static_cast<float>(GetScreenHeight()/2)
+        static_cast<float>(G_cntrW - 240), 
+        static_cast<float>(G_cntrH)
     }),
 
     m_bgColor({ 30, 30, 30, 255}),

@@ -58,23 +58,29 @@ class Level
         // Getters and setters.
         vector<Button*> getButtons() { return m_buttons; }
 
-        Overlay* getOverlay() { return m_overlay; }
-
         // Main entity management method. Takes an unknown 'Entity', asserts its subclass,
         // adds that subclass pointer to 'm_entities', then returns the pointer. All factory
         // methods use this to add the created object to 'm_entities'.
         template <typename T>
-        T* addEntity(T* entity)
+        T* addEntity(T* newEntity)
         {
             static_assert(is_base_of<Entity, T>::value, "T must derive from Entity.");
-            m_entities.push_back(entity); 
+
             
-            // If 'entity' is a button, add it to 'm_buttons' as well. 
+            // Insert the new entity in the correct position according to it's layer.
+            auto it = m_entities.begin();
+            while (it != m_entities.end() && (*it)->getLayer() <= newEntity->getLayer()) {
+                ++it;
+            }
+            m_entities.insert(it, newEntity); 
+            
+            // If 'entity' is a button, add it to 'm_buttons' as well. 'm_buttons' does not
+            // handle any drawing, so sorting by layer is not relevant or needed.
             if constexpr (is_base_of<Button, T>::value) {
-                m_buttons.push_back(static_cast<Button*>(entity));
+                m_buttons.push_back(static_cast<Button*>(newEntity));
             }
 
-            return entity;
+            return newEntity;
         }
        
         // ---------------------------------------------------------------------------------- //
@@ -86,31 +92,18 @@ class Level
         //                                                                                    //
         // ---------------------------------------------------------------------------------- //
 
-        // Wrapper method to the 'Label' constructor.
-        Label* makeLabel(string text, int fontSize, Color textColor, Color shadowColor,
-                         Vector2 position);
-
-        // Wrapper method to the 'Button' constructor.
-        Button* makeButton(Label* label, Color bgColor, Vector2 position, Vector2 size); 
-
         // Create a centered gray and black UI button with custom text.
         Button* makeUiButton(string text);
 
         // Create a button with an invisible background, appearing to only be a clickable label.
         Button* makeTextButton(string text, int fontSize, Color textColor, Vector2 position);
 
-    private:
-        Background* m_background;           // Current background of the level. This background
-                                            // will have it's 'Update()' and 'Draw()' methods
-                                            // called once per frame.
-
-        Overlay* m_overlay;                 // Current overlay of the level. This overlay will
-                                            // have it's Draw() method called once per frame.
-
+    private: 
         vector<Entity*> m_entities;         // All entities made by factory methods are added
-                                            // to here. All members of this vector will have
-                                            // their 'Update()' and 'Draw()' methods called
-                                            // once per frame.
+                                            // to here, organized by their parent Entity's
+                                            // 'm_layer' in order from least to greatest. All 
+                                            // members of this vector will have their 'Update()'
+                                            // and 'Draw()' methods called once per frame.
 
         vector<Button*> m_buttons;          // All buttons made by factory methods are added to
                                             // here.

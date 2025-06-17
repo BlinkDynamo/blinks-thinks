@@ -34,8 +34,7 @@ Level::Level()
     m_buttons{}
 {
     // Create a base simple background for all 'Level' objects for now.
-    this->m_background = new Background(GRAY, { 200, 200, 200, 255 }, 50);
-    this->m_overlay = new Overlay({0, 0, 0, 0});
+    addEntity(new Background(GRAY, { 200, 200, 200, 255 }, 50));
 }
 
 Level::~Level()
@@ -48,19 +47,10 @@ Level::~Level()
 
     // Only clearing the vector m_buttons is needed, as all were deleted in the prior step.
     m_buttons.clear();
-
-    // Delete the 'Background' object.
-    delete m_background;
-
-    // Delete the 'Overlay' object.
-    delete m_overlay;
 }
 
 void Level::Update()
 {
-    // Update the background.
-    m_background->Update();
-
     // Update each 'Entity' object in 'entities'.
     for (const auto& entity : m_entities) {
         entity->Update();
@@ -69,16 +59,10 @@ void Level::Update()
 
 void Level::Draw()
 {
-    // Draw the background.
-    m_background->Draw();
-
     // Draw each 'Entity' object in 'entities'.
     for (const auto& entity : m_entities) {
         entity->Draw();
     }
-
-    // Draw the overlay.
-    m_overlay->Draw();
 }
 
 // ------------------------------------------------------------------------------------------ //
@@ -88,14 +72,16 @@ void Level::Draw()
 // Make a clickable UI button with dynamic label and background color at a fixed location.
 Button* Level::makeUiButton(string text)
 {
-    Vector2 position = { G_cntrW, G_cntrH + 100 };
+    constexpr Vector2 position = { G_cntrW, G_cntrH + 100 };
+    constexpr int layer = 0;
 
-    Label* const label = new Label(text, 40, WHITE, { 0, 0, 0, 0 }, position);
+    Label* const label = new Label(text, 40, WHITE, { 0, 0, 0, 0 }, position, layer);
 
     Button* const button = new Button(
         label,
         DARKGRAY,
         position,
+        layer,
         {180,60}
     );
 
@@ -106,12 +92,15 @@ Button* Level::makeUiButton(string text)
 // Make clickable label by creating an invisible button in the shape and size of the label.
 Button* Level::makeTextButton(string text, int fontSize, Color textColor, Vector2 position)
 {
-    Label* const label = new Label(text, fontSize, textColor, G_shadowColor, position);
+    constexpr int layer = 0;
+
+    Label* const label = new Label(text, fontSize, textColor, G_shadowColor, position, layer);
 
     Button* const button = new Button(
         label,
         { 0, 0, 0, 0 },
         position,
+        layer,
         label->getTextDim()
     );
     
