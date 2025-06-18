@@ -25,9 +25,6 @@
 #include "overlay.hpp"
 #include "main.hpp"
 
-// Global level pointer for game implementation.
-Level* G_currentLevel = nullptr;
-
 Level::Level()
     :
     m_entities{},
@@ -63,47 +60,4 @@ void Level::Draw()
     for (const auto& entity : m_entities) {
         entity->Draw();
     }
-}
-
-// ------------------------------------------------------------------------------------------ //
-//                                      Factory methods.                                      //
-// ------------------------------------------------------------------------------------------ //
-
-// Make a clickable UI button with dynamic label and background color at a fixed location.
-Button* Level::makeUiButton(string text)
-{
-    constexpr Vector2 position = { G_cntrW, G_cntrH + 100 };
-    constexpr int layer = 0;
-
-    Label* const label = new Label(text, 40, WHITE, { 0, 0, 0, 0 }, position, layer);
-
-    Button* const button = new Button(
-        label,
-        DARKGRAY,
-        position,
-        layer,
-        {180,60}
-    );
-
-    addEntity(button);
-    return button;
-}
-
-// Make clickable label by creating an invisible button in the shape and size of the label.
-Button* Level::makeTextButton(string text, int fontSize, Color textColor, Vector2 position)
-{
-    constexpr int layer = 0;
-
-    Label* const label = new Label(text, fontSize, textColor, G_shadowColor, position, layer);
-
-    Button* const button = new Button(
-        label,
-        { 0, 0, 0, 0 },
-        position,
-        layer,
-        label->getTextDim()
-    );
-    
-    addEntity(button);
-    return button;
 }

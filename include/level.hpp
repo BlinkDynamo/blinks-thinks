@@ -36,7 +36,6 @@
 using std::string;
 using std::vector;
 using std::is_base_of;
-using std::is_base_of_v;
 
 class Level
 {
@@ -81,22 +80,7 @@ class Level
             }
 
             return newEntity;
-        }
-       
-        // ---------------------------------------------------------------------------------- //
-        //                                  Factory methods.                                  //
-        //                                                                                    //
-        //  All of these factory methods are to be used inside level implementation code to   //
-        //  create objects that exist within a level. Any of these that are called in a       //
-        //  'Level' constructor will add that created object to 'm_entities'.                 //
-        //                                                                                    //
-        // ---------------------------------------------------------------------------------- //
-
-        // Create a centered gray and black UI button with custom text.
-        Button* makeUiButton(string text);
-
-        // Create a button with an invisible background, appearing to only be a clickable label.
-        Button* makeTextButton(string text, int fontSize, Color textColor, Vector2 position);
+        } 
 
     private: 
         vector<Entity*> m_entities;         // All entities made by factory methods are added
@@ -108,6 +92,3 @@ class Level
         vector<Button*> m_buttons;          // All buttons made by factory methods are added to
                                             // here.
 };
-
-// Global level pointer for game implementation.
-extern Level* G_currentLevel;

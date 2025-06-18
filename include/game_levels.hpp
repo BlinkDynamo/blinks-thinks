@@ -29,7 +29,37 @@
 
 using std::string;
 
-class LevelAnimRaylib : public Level
+// Global level pointer for game implementation.
+extern Level* G_currentLevel;
+
+// ------------------------------------------------------------------------------------------ //
+//                                GameLevel class definition.                                 //
+// ------------------------------------------------------------------------------------------ //
+class GameLevel : public Level
+{
+    public:
+        GameLevel();
+
+        // ---------------------------------------------------------------------------------- //
+        //                                  Factory methods.                                  //
+        //                                                                                    //
+        //  All of these factory methods are to be used inside level implementation code to   //
+        //  create objects that exist within a level. Any of these that are called in a       //
+        //  'Level' constructor will add that created object to 'm_entities'.                 //
+        //                                                                                    //
+        // ---------------------------------------------------------------------------------- //
+
+        // Create a centered gray and black UI button with custom text.
+        Button* makeUiButton(string text);
+
+        // Create a button with an invisible background, appearing to only be a clickable label.
+        Button* makeTextButton(string text, int fontSize, Color textColor, Vector2 position);
+};
+
+// ------------------------------------------------------------------------------------------ //
+//                              Individual GameLevel subclasses.                              //
+// ------------------------------------------------------------------------------------------ //
+class LevelAnimRaylib : public GameLevel
 {
     public:
         LevelAnimRaylib();
@@ -39,7 +69,7 @@ class LevelAnimRaylib : public Level
         AnimRaylib* m_animation;
 };
 
-class LevelAnimSelfCredit : public Level
+class LevelAnimSelfCredit : public GameLevel
 {
     public:
         LevelAnimSelfCredit();
@@ -49,7 +79,7 @@ class LevelAnimSelfCredit : public Level
         AnimSelfCredit* m_animation;
 };
 
-class LevelTitle : public Level
+class LevelTitle : public GameLevel
 {
     public:
         LevelTitle();
@@ -59,7 +89,7 @@ class LevelTitle : public Level
         Button* m_playButton;
 };
 
-class LevelLose : public Level
+class LevelLose : public GameLevel
 {
     public:
         LevelLose();
@@ -69,7 +99,7 @@ class LevelLose : public Level
         Button* m_restartButton;
 };
 
-class Level1 : public Level
+class Level1 : public GameLevel
 {
     public:
         Level1();
@@ -79,7 +109,7 @@ class Level1 : public Level
         Button* m_correctAnswer;
 };
 
-class Level2 : public Level
+class Level2 : public GameLevel
 {
     public:
         Level2(); 
@@ -89,7 +119,7 @@ class Level2 : public Level
         Button* m_correctAnswer;
 };
 
-class Level3 : public Level
+class Level3 : public GameLevel
 {
     public:
         Level3(); 
@@ -106,14 +136,14 @@ class Level3 : public Level
         const float minScale;
 };
 
-class Level4 : public Level
+class Level4 : public GameLevel
 {
     public:
         Level4(); 
         void Update() override;
 };
 
-class Level5 : public Level
+class Level5 : public GameLevel
 {
     public:
         Level5(string duration); 
