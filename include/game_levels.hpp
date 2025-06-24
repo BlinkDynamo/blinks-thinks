@@ -38,8 +38,6 @@ extern Level* G_currentLevel;
 class GameLevel : public Level
 {
     public:
-        GameLevel();
-
         // ---------------------------------------------------------------------------------- //
         //                                  Factory methods.                                  //
         //                                                                                    //
@@ -50,10 +48,10 @@ class GameLevel : public Level
         // ---------------------------------------------------------------------------------- //
 
         // Create a centered gray and black UI button with custom text.
-        Button* makeUiButton(string text);
+        Button* addUiButton(string text);
 
         // Create a button with an invisible background, appearing to only be a clickable label.
-        Button* makeTextButton(string text, int fontSize, Color textColor, Vector2 position);
+        Button* addTextButton(string text, int fontSize, Color textColor, Vector2 position);
 };
 
 // ------------------------------------------------------------------------------------------ //
@@ -150,7 +148,21 @@ class Level5 : public GameLevel
         void Update() override;
 
     private:
-        Label* m_timer;
         int m_framesCounter;
+
+        // Countdown timer.
+        Button* m_timer;
         string m_duration;
+
+        // All moving obstacles (numbers).
+        Button* m_obstacleOne;
+        Button* m_obstacleTwo;
+        Button* m_obstacleThree;
+        Button* m_obstacleFour;
+        Button* m_obstacleFive;
+        Button* m_obstacleSix;
+        Button* m_obstacleSeven;
+        Button* m_obstacleEight;
+        Button* m_obstacleNine;
+        Button* m_obstacleTen;
 };

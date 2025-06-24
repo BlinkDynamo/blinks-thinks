@@ -31,15 +31,11 @@
 Level* G_currentLevel = nullptr;
 
 // ------------------------------------------------------------------------------------------ //
-//                                GameLevel class definition.                                 //
+//                                GameLevel class definitions.                                //
 // ------------------------------------------------------------------------------------------ //
-GameLevel::GameLevel()
-{
-
-}
 
 // Make a clickable UI button with dynamic label and background color at a fixed location.
-Button* GameLevel::makeUiButton(string text)
+Button* GameLevel::addUiButton(string text)
 {
     constexpr Vector2 position = { G_cntrW, G_cntrH + 100 };
     constexpr int layer = 0;
@@ -59,7 +55,7 @@ Button* GameLevel::makeUiButton(string text)
 }
 
 // Make clickable label by creating an invisible button in the shape and size of the label.
-Button* GameLevel::makeTextButton(string text, int fontSize, Color textColor, Vector2 position)
+Button* GameLevel::addTextButton(string text, int fontSize, Color textColor, Vector2 position)
 {
     constexpr int layer = 0;
 
@@ -136,7 +132,7 @@ LevelTitle::LevelTitle()
     ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
-    m_playButton = makeUiButton("Play");
+    m_playButton = addUiButton("Play");
 }
 
 void LevelTitle::Update()
@@ -163,7 +159,7 @@ LevelLose::LevelLose()
     ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
-    m_restartButton = makeUiButton("Restart");
+    m_restartButton = addUiButton("Restart");
 }
 
 void LevelLose::Update()
@@ -193,11 +189,11 @@ Level1::Level1()
     )
     ->setRotation(0.0f, 4.0f, 1.5f);
 
-    (void)makeTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
-    (void)makeTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    (void)makeTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
-    (void)makeTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50});
-    m_correctAnswer = makeTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50}); 
+    (void)addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
+    (void)addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
+    (void)addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
+    (void)addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50});
+    m_correctAnswer = addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50}); 
 }
 
 void Level1::Update()
@@ -231,7 +227,7 @@ Level2::Level2()
         "Level  ", 80, ORANGE, G_shadowColor, {G_cntrW - 4, G_cntrH - 250}, 0)
     );
 
-    m_correctAnswer = makeTextButton("2", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
+    m_correctAnswer = addTextButton("2", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
 
     (void)addEntity(new Label(
         "What is the smallest number?", 40, RAYWHITE, G_shadowColor, {G_cntrW,
@@ -239,11 +235,11 @@ Level2::Level2()
     )
     ->setRotation(0.0f, 4.0f, 1.5f);
     
-    (void)makeTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
-    (void)makeTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    (void)makeTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50});
-    (void)makeTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
-    (void)makeTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50});
+    (void)addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
+    (void)addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
+    (void)addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50});
+    (void)addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
+    (void)addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50});
 }
 
 void Level2::Update()
@@ -289,11 +285,11 @@ Level3::Level3()
     )
     ->setRotation(0.0f, 4.0f, 1.5f);
     
-    m_correctAnswer = makeTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
-    (void)makeTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    (void)makeTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50});
-    (void)makeTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
-    (void)makeTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50}); 
+    m_correctAnswer = addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
+    (void)addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
+    (void)addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50});
+    (void)addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
+    (void)addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50}); 
 }
 
 void Level3::Update()
@@ -345,16 +341,16 @@ Level4::Level4()
     )
     ->setRotation(0.0f, 4.0f, 1.5f);
     
-    (void)makeTextButton("10", 80, LIME, {G_cntrW - 300, G_cntrH + 50});
-    (void)makeTextButton("20", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    (void)makeTextButton("30", 80, VIOLET, {G_cntrW + 300, G_cntrH + 50});
-    (void)makeTextButton("60", 80, PINK, {G_cntrW, G_cntrH + 50});
-    (void)makeTextButton("120", 80, BLUE, {G_cntrW + 150, G_cntrH + 50});
+    (void)addTextButton("1", 80, LIME, {G_cntrW - 300, G_cntrH + 50});
+    (void)addTextButton("3", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
+    (void)addTextButton("5", 80, VIOLET, {G_cntrW + 300, G_cntrH + 50});
+    (void)addTextButton("10", 80, PINK, {G_cntrW, G_cntrH + 50});
+    (void)addTextButton("15", 80, BLUE, {G_cntrW + 150, G_cntrH + 50});
 }
 
 void Level4::Update()
 {
-    // If the correct option is chosen, move on to Level 3.
+    // If the correct option is chosen, move on to Level 5.
     Level::Update();
     
     // Find the button that was pressed, and set the next level's duration to that button's label.
@@ -368,27 +364,46 @@ void Level4::Update()
 
 Level5::Level5(string duration)
     :
-    m_timer(nullptr),
     m_framesCounter(0),
-    m_duration(duration)
+    m_timer(nullptr),
+    m_duration(duration),
+    m_obstacleOne(nullptr),
+    m_obstacleTwo(nullptr),
+    m_obstacleThree(nullptr),
+    m_obstacleFour(nullptr),
+    m_obstacleFive(nullptr),
+    m_obstacleSix(nullptr),
+    m_obstacleSeven(nullptr),
+    m_obstacleEight(nullptr),
+    m_obstacleNine(nullptr),
+    m_obstacleTen(nullptr)
 {
+    // Main title, information, and countdown timer.
     (void)addEntity(new Label(
-        "Level 5", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250}, 0)
+        "Level  ", 80, ORANGE, G_shadowColor, {G_cntrW - 4, G_cntrH - 250}, 0)
     );
 
+    (void)addTextButton("5", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
+
     (void)addEntity(new Label(
-        "Survive!", 40, RAYWHITE, G_shadowColor, {G_cntrW, G_cntrH - 150}, 0)
+        "Don't touch any numbers for", 40, RAYWHITE, G_shadowColor, {G_cntrW, G_cntrH - 150}, 0)
     )
     ->setRotation(0.0f, 4.0f, 1.5f);
     
-    m_timer = addEntity(new Label(
-        m_duration, 80, LIME, G_shadowColor, {G_cntrW, G_cntrH - 50}, 0)
-    );
+    m_timer = addTextButton(m_duration, 80, RED, {G_cntrW, G_cntrH - 65});
+
+    (void)addEntity(new Label(
+        "more seconds", 40, RAYWHITE, G_shadowColor, {G_cntrW, G_cntrH}, 0)
+    )
+    ->setRotation(0.0f, 4.0f, 1.5f);
+
+    // All obstacles.
+    // TODO. 
 }
 
 void Level5::Update()
 {
-    Level::Update();
+    GameLevel::Update();
 
     // Every 60 frames (1 second)...
     m_framesCounter++; 
@@ -397,8 +412,7 @@ void Level5::Update()
         std::istringstream(m_duration) >> i;
         // If there is still time left... 
         if (i > 0) {
-            // Reset the frames counter and decrement the time by 1. If the time ('i') just now reached 0,
-            // set the level overlay to green.
+            // Reset the frames counter and decrement the time by 1.
             m_framesCounter = 0;
             i--;
             
@@ -406,12 +420,19 @@ void Level5::Update()
             std::ostringstream oss;
             oss << i;
             m_duration = oss.str();
-            m_timer->setText(m_duration);
+            m_timer->getLabel()->setText(m_duration);
         }
         // If there is no time left...
         else { 
             delete G_currentLevel;
             G_currentLevel = new LevelTitle();
-        }
+        } 
     } 
+
+    for (Button* button : getButtons()) {
+        if (button->isHovered()) {
+            delete G_currentLevel;
+            G_currentLevel = new LevelLose();
+        }
+    }
 }
