@@ -60,6 +60,8 @@ Label::Label(
 
 void Label::Update()
 { 
+    Entity::Update();
+
     // Update the scaled font size in case scale has changed since last frame. 
     m_scaledFontSize = m_baseFontSize * m_scale;
     

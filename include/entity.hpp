@@ -25,17 +25,23 @@
 
 class Entity {
     public:
-        Entity(Vector2 position, int layer);
+        // Entities by default are placed on layer 0 with a speed of {0, 0}. Position is needed.
+        Entity(Vector2 position, int layer = 0, Vector2 speed = {0, 0});
         virtual ~Entity() = default;
 
-        virtual void Update() = 0;
+        // 'Update()' only does a simple update of 'm_position', but 'Draw()' is pure virtual.
+        virtual void Update();
         virtual void Draw() = 0;
 
+        // Getters and setters.
         virtual Vector2 getPosition() { return m_position; }
         virtual void setPosition(Vector2 position) { m_position = position; }
 
         virtual int getLayer() { return m_layer; }
         virtual void setLayer(int layer) { m_layer = layer; }
+
+        virtual Vector2 getSpeed() { return m_speed; }
+        virtual void setSpeed(Vector2 speed) { m_speed = speed; }
 
     protected:
         Vector2 m_position;     // The X and Y coordinate position of the entity.
@@ -43,4 +49,6 @@ class Entity {
         int m_layer;            // The layer in which the entity resides. This will determine
                                 // draw ordering. Higher numbers are drawn higher, and lower
                                 // numbers are drawn lower.
-}; 
+
+        Vector2 m_speed;        // The X and Y movement speed per frame of the entity.
+};

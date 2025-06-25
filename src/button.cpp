@@ -69,6 +69,8 @@ bool Button::isPressed()
 
 void Button::Update()
 { 
+    Entity::Update();
+
     // Update the rectangle, multiplying size elements by scale.
     m_rect = {
         m_position.x - ((m_size.x * m_scale) / 2.0f),
