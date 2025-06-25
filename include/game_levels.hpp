@@ -47,6 +47,10 @@ class GameLevel : public Level
         //                                                                                    //
         // ---------------------------------------------------------------------------------- //
 
+        // Create a simple label with a background shadow.
+        Label* addSimpleLabel(string text, float fontSize, Color textColor, Vector2 position,
+                              int layer);
+
         // Create a centered gray and black UI button with custom text.
         Button* addUiButton(string text);
 
@@ -84,6 +88,7 @@ class LevelTitle : public GameLevel
         void Update() override;
 
     private:
+        const Color m_aquamarine;
         Button* m_playButton;
 };
 

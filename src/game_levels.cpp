@@ -34,6 +34,16 @@ Level* G_currentLevel = nullptr;
 //                                GameLevel class definitions.                                //
 // ------------------------------------------------------------------------------------------ //
 
+// Create a simple label with a background shadow.
+Label* GameLevel::addSimpleLabel(string text, float fontSize, Color textColor, Vector2 position,
+                                 int layer)
+{
+    constexpr Color shadowColor = { 15, 15, 15, 200 };
+    Label* const label = new Label(text, fontSize, textColor, shadowColor, position, layer);
+    addEntity(label);
+    return label;
+}
+
 // Make a clickable UI button with dynamic label and background color at a fixed location.
 Button* GameLevel::addUiButton(string text)
 {
@@ -57,9 +67,10 @@ Button* GameLevel::addUiButton(string text)
 // Make clickable label by creating an invisible button in the shape and size of the label.
 Button* GameLevel::addTextButton(string text, int fontSize, Color textColor, Vector2 position)
 {
+    constexpr Color shadowColor = { 15, 15, 15, 200 };
     constexpr int layer = 0;
 
-    Label* const label = new Label(text, fontSize, textColor, G_shadowColor, position, layer);
+    Label* const label = new Label(text, fontSize, textColor, shadowColor, position, layer);
 
     Button* const button = new Button(
         label,
@@ -123,13 +134,12 @@ void LevelAnimSelfCredit::Update()
 // ------------------------------------------------------------------------------------------ //
 LevelTitle::LevelTitle()
     :
+    m_aquamarine({ 75, 255, 205, 255 }),
     m_playButton(nullptr)
 {
     // Non-referenced objects.
-    (void)addEntity(new Label(
-        "Blink's Thinks", 100, RAYWHITE, G_shadowColor, {G_cntrW, G_cntrH - 100}, 0)
-    )
-    ->setRotation(0.0f, 5.0f, 2.5f);
+    addSimpleLabel("Blink's Thinks", 100, m_aquamarine, {G_cntrW, G_cntrH - 100}, 0)
+        ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
     m_playButton = addUiButton("Play");
@@ -153,10 +163,8 @@ LevelLose::LevelLose()
     m_restartButton(nullptr)
 {
 // Non-referenced objects.
-    (void)addEntity(new Label(
-        "Game over!", 100, RED, G_shadowColor, {G_cntrW, G_cntrH - 100}, 0)
-    )
-    ->setRotation(0.0f, 5.0f, 2.5f);
+    addSimpleLabel("Game over!", 100, RED, {G_cntrW, G_cntrH - 100}, 0)
+        ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
     m_restartButton = addUiButton("Restart");
@@ -179,20 +187,15 @@ Level1::Level1()
     :
     m_correctAnswer(nullptr)
 {
-    (void)addEntity(new Label(
-        "Level 1", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250}, 0)
-    );
+    addSimpleLabel("Level 1", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
     
-    (void)addEntity(new Label(
-        "What is the largest number?", 40, RAYWHITE, G_shadowColor, {G_cntrW,
-        G_cntrH - 150}, 0)
-    )
-    ->setRotation(0.0f, 4.0f, 1.5f);
+    addSimpleLabel("What is the largest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+        ->setRotation(0.0f, 4.0f, 1.5f);
 
-    (void)addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
-    (void)addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    (void)addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
-    (void)addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50});
+    addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
+    addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
+    addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
+    addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50});
     m_correctAnswer = addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50}); 
 }
 
@@ -223,23 +226,18 @@ Level2::Level2()
     :
     m_correctAnswer(nullptr)
 {
-    (void)addEntity(new Label(
-        "Level  ", 80, ORANGE, G_shadowColor, {G_cntrW - 4, G_cntrH - 250}, 0)
-    );
+    addSimpleLabel("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
 
     m_correctAnswer = addTextButton("2", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
 
-    (void)addEntity(new Label(
-        "What is the smallest number?", 40, RAYWHITE, G_shadowColor, {G_cntrW,
-        G_cntrH - 150}, 0)
-    )
-    ->setRotation(0.0f, 4.0f, 1.5f);
+    addSimpleLabel("What is the smallest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+        ->setRotation(0.0f, 4.0f, 1.5f);
     
-    (void)addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
-    (void)addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    (void)addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50});
-    (void)addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
-    (void)addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50});
+    addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
+    addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
+    addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50});
+    addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
+    addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50});
 }
 
 void Level2::Update()
@@ -275,21 +273,16 @@ Level3::Level3()
     maxScale(2.5),
     minScale(1.00)
 {
-    (void)addEntity(new Label(
-        "Level 3", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250}, 0)
-    );
+    addSimpleLabel("Level 3", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
 
-    (void)addEntity(new Label(
-        "What is the tallest number?", 40, RAYWHITE, G_shadowColor, {G_cntrW,
-        G_cntrH - 150}, 0)
-    )
+    addSimpleLabel("What is the tallest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
     ->setRotation(0.0f, 4.0f, 1.5f);
     
     m_correctAnswer = addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
-    (void)addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    (void)addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50});
-    (void)addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
-    (void)addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50}); 
+    addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
+    addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50});
+    addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
+    addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50}); 
 }
 
 void Level3::Update()
@@ -331,19 +324,14 @@ void Level3::Update()
 // ------------------------------------------------------------------------------------------ //
 Level4::Level4()
 {
-    (void)addEntity(new Label(
-        "Level 4", 80, ORANGE, G_shadowColor, {G_cntrW, G_cntrH - 250}, 0)
-    );
+    addSimpleLabel("Level 4", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
 
-    (void)addEntity(new Label(
-        "How much time do you want for Level 5?", 40, RAYWHITE, G_shadowColor,
-        {G_cntrW, G_cntrH - 150}, 0)
-    )
-    ->setRotation(0.0f, 4.0f, 1.5f);
+    addSimpleLabel("How much time do you want for Level 5?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+        ->setRotation(0.0f, 4.0f, 1.5f);
     
-    (void)addTextButton("2 seconds", 60, LIME, {G_cntrW, G_cntrH - 50});
-    (void)addTextButton("5 seconds", 60, VIOLET, {G_cntrW, G_cntrH + 50});
-    (void)addTextButton("10 seconds", 60, BLUE, {G_cntrW, G_cntrH + 150});
+    addTextButton("2 seconds", 60, LIME, {G_cntrW, G_cntrH - 50});
+    addTextButton("5 seconds", 60, VIOLET, {G_cntrW, G_cntrH + 50});
+    addTextButton("10 seconds", 60, BLUE, {G_cntrW, G_cntrH + 150});
 }
 
 void Level4::Update()
@@ -371,37 +359,35 @@ Level5::Level5(string duration)
     m_duration(duration)
 {
     // Main title, information, and countdown timer.
-    (void)addEntity(new Label(
-        "Level  ", 80, ORANGE, G_shadowColor, {G_cntrW - 4, G_cntrH - 250}, 0)
-    );
+    addSimpleLabel("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
 
-    (void)addTextButton("5", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
+    addTextButton("5", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
 
-    (void)addEntity(new Label(
-        "Don't touch any numbers for", 40, RAYWHITE, G_shadowColor, {G_cntrW, G_cntrH - 150}, 0)
-    )
-    ->setRotation(0.0f, 4.0f, 1.5f);
+    addSimpleLabel("Don't touch any numbers for", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+        ->setRotation(0.0f, 4.0f, 1.5f);
     
     m_timer = addTextButton(m_duration, 80, RED, {G_cntrW, G_cntrH - 65});
 
-    (void)addEntity(new Label(
-        "more seconds", 40, RAYWHITE, G_shadowColor, {G_cntrW, G_cntrH}, 0)
-    )
-    ->setRotation(0.0f, 4.0f, 1.5f);
+    addSimpleLabel("more seconds", 40, RAYWHITE, {G_cntrW, G_cntrH}, 0)
+        ->setRotation(0.0f, 4.0f, 1.5f);
 
     // All obstacles.
+    string longNumOne = "762967340328811348866734234450240332396217777462684390";
+    string longNumTwo = "239427620310921174648449330989407894927458570770003111";
+    string longNumThree = "230459256723665565627118580006023666643111673444567710";
 
     addTextButton("68", 120, RED, {G_cntrW - 270, G_cntrH - 500})->setSpeed({0, 12});
-    addTextButton("762967340328811348866734234450240332396217777462684390", 160, RED, {G_cntrW - 3050, G_cntrH + 250})->setSpeed({3, -1}); 
-    addTextButton("239427620310921174648449330989407894927458570770003111", 160, RED, {G_cntrW + 3050, G_cntrH - 230})->setSpeed({-3, 1}); 
+    addTextButton(longNumOne, 160, RED, {G_cntrW - 3050, G_cntrH + 250})->setSpeed({3, -1}); 
+    addTextButton(longNumTwo, 160, RED, {G_cntrW + 3050, G_cntrH - 230})->setSpeed({-3, 1}); 
     addTextButton("8043001", 120, RED, {G_cntrW - 200, G_cntrH + 1200})->setSpeed({0, -5}); 
     addTextButton("3", 120, RED, {G_cntrW + 600, G_cntrH})->setSpeed({-1, 0});
     addTextButton("762", 160, RED, {G_cntrW - 1300, G_cntrH})->setSpeed({2, 0}); 
     addTextButton("12", 120, RED, {G_cntrW + 1800, G_cntrH - 600})->setSpeed({-8, 4});
     addTextButton("5000006", 120, RED, {G_cntrW + 200, G_cntrH - 3000})->setSpeed({0, 7}); 
     addTextButton("3078", 80, RED, {G_cntrW - 250, G_cntrH - 3100})->setSpeed({0, 7}); 
-    addTextButton("230459256723665565627118580006023666643111673444567710", 150, RED, {G_cntrW + 4550, G_cntrH - 150})->setSpeed({-4, 0}); 
-    //addTextButton("6", 80, RED, {G_cntrW + 1400, G_cntrH})->setSpeed({-4, 0});
+    addTextButton(longNumThree, 150, RED, {G_cntrW + 4550, G_cntrH - 150})->setSpeed({-4, 0}); 
+    addTextButton("7877878447232634", 150, RED, {G_cntrW, G_cntrH + 800})->setSpeed({0, -1}); 
+    addTextButton("64", 120, RED, {G_cntrW + 3000, G_cntrH + 700})->setSpeed({-5, -1});
 }
 
 void Level5::Update()
@@ -431,7 +417,8 @@ void Level5::Update()
             G_currentLevel = new LevelTitle();
         } 
     } 
-
+    
+    // The lose condition can be this simple because all buttons on level 5 will be numbers.
     for (Button* button : getButtons()) {
         if (button->isHovered()) {
             delete G_currentLevel;

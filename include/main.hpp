@@ -34,5 +34,3 @@ constexpr float G_cntrH = G_h / 2.0f;
 constexpr size_t G_frameRate = 60;
 
 // Colors.
-constexpr Color G_shadowColor = { 15, 15, 15, 200 };
-constexpr Color G_aquamarineColor = { 75, 255, 205, 255 };
