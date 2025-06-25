@@ -341,11 +341,9 @@ Level4::Level4()
     )
     ->setRotation(0.0f, 4.0f, 1.5f);
     
-    (void)addTextButton("1", 80, LIME, {G_cntrW - 300, G_cntrH + 50});
-    (void)addTextButton("3", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    (void)addTextButton("5", 80, VIOLET, {G_cntrW + 300, G_cntrH + 50});
-    (void)addTextButton("10", 80, PINK, {G_cntrW, G_cntrH + 50});
-    (void)addTextButton("15", 80, BLUE, {G_cntrW + 150, G_cntrH + 50});
+    (void)addTextButton("2 seconds", 60, LIME, {G_cntrW, G_cntrH - 50});
+    (void)addTextButton("5 seconds", 60, VIOLET, {G_cntrW, G_cntrH + 50});
+    (void)addTextButton("10 seconds", 60, BLUE, {G_cntrW, G_cntrH + 150});
 }
 
 void Level4::Update()
@@ -356,8 +354,12 @@ void Level4::Update()
     // Find the button that was pressed, and set the next level's duration to that button's label.
     for (Button* button : getButtons()) {
         if (button->isPressed()) {
+            // Save the chosen button's text to a string, then remove the " seconds" substring.
+            string chosenTime = button->getLabel()->getText();
+            chosenTime.erase(chosenTime.find(" seconds"), chosenTime.length());
+
             delete G_currentLevel;
-            G_currentLevel = new Level5(button->getLabel()->getText()); 
+            G_currentLevel = new Level5(chosenTime); 
         }
     }
 }
@@ -366,17 +368,7 @@ Level5::Level5(string duration)
     :
     m_framesCounter(0),
     m_timer(nullptr),
-    m_duration(duration),
-    m_obstacleOne(nullptr),
-    m_obstacleTwo(nullptr),
-    m_obstacleThree(nullptr),
-    m_obstacleFour(nullptr),
-    m_obstacleFive(nullptr),
-    m_obstacleSix(nullptr),
-    m_obstacleSeven(nullptr),
-    m_obstacleEight(nullptr),
-    m_obstacleNine(nullptr),
-    m_obstacleTen(nullptr)
+    m_duration(duration)
 {
     // Main title, information, and countdown timer.
     (void)addEntity(new Label(
@@ -398,7 +390,18 @@ Level5::Level5(string duration)
     ->setRotation(0.0f, 4.0f, 1.5f);
 
     // All obstacles.
-    // TODO. 
+
+    addTextButton("68", 120, RED, {G_cntrW - 270, G_cntrH - 500})->setSpeed({0, 12});
+    addTextButton("762967340328811348866734234450240332396217777462684390", 160, RED, {G_cntrW - 3050, G_cntrH + 250})->setSpeed({3, -1}); 
+    addTextButton("239427620310921174648449330989407894927458570770003111", 160, RED, {G_cntrW + 3050, G_cntrH - 230})->setSpeed({-3, 1}); 
+    addTextButton("8043001", 120, RED, {G_cntrW - 200, G_cntrH + 1200})->setSpeed({0, -5}); 
+    addTextButton("3", 120, RED, {G_cntrW + 600, G_cntrH})->setSpeed({-1, 0});
+    addTextButton("762", 160, RED, {G_cntrW - 1300, G_cntrH})->setSpeed({2, 0}); 
+    addTextButton("12", 120, RED, {G_cntrW + 1800, G_cntrH - 600})->setSpeed({-8, 4});
+    addTextButton("5000006", 120, RED, {G_cntrW + 200, G_cntrH - 3000})->setSpeed({0, 7}); 
+    addTextButton("3078", 80, RED, {G_cntrW - 250, G_cntrH - 3100})->setSpeed({0, 7}); 
+    addTextButton("230459256723665565627118580006023666643111673444567710", 150, RED, {G_cntrW + 4550, G_cntrH - 150})->setSpeed({-4, 0}); 
+    //addTextButton("6", 80, RED, {G_cntrW + 1400, G_cntrH})->setSpeed({-4, 0});
 }
 
 void Level5::Update()

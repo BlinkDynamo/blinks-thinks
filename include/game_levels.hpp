@@ -152,17 +152,5 @@ class Level5 : public GameLevel
 
         // Countdown timer.
         Button* m_timer;
-        string m_duration;
-
-        // All moving obstacles (numbers).
-        Button* m_obstacleOne;
-        Button* m_obstacleTwo;
-        Button* m_obstacleThree;
-        Button* m_obstacleFour;
-        Button* m_obstacleFive;
-        Button* m_obstacleSix;
-        Button* m_obstacleSeven;
-        Button* m_obstacleEight;
-        Button* m_obstacleNine;
-        Button* m_obstacleTen;
+        string m_duration; 
 };
