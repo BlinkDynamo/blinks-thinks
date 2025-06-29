@@ -22,12 +22,12 @@
 
 // Source.
 #include "entity.hpp"
-#include "button.hpp"
-#include "text.hpp"
+#include "animation.hpp"
 #include "background.hpp"
 #include "overlay.hpp"
-#include "animation.hpp"
-#include "rect.hpp"
+#include "text.hpp"
+#include "label.hpp"
+#include "button.hpp"
 
 using BlinkEngine::Text;
 

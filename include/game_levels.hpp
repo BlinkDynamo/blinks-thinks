@@ -25,8 +25,8 @@
 #include "level.hpp"
 
 using BlinkEngine::Level;
+using BlinkEngine::Label;
 using BlinkEngine::Button;
-using BlinkEngine::Rect;
 using BlinkEngine::AnimRaylib;
 using BlinkEngine::AnimSelfCredit;
 
@@ -145,7 +145,7 @@ class Level6 : public BlinkEngine::Level
 
     private:
         Button* m_buttonInHand;
-        Rect* m_submitBox;
+        Label* m_submitBox;
         Button* m_submitButton;
 
         int m_greatestNumber; 

@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   rect.cpp - The library for creating, drawing, and interacting with a simple rectangle.
+*   label.cpp - The library for creating, drawing, and interacting with a simple rectangle.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
 *
@@ -25,9 +25,9 @@
 
 namespace BlinkEngine
 {
-    class Rect : public Entity {
+    class Label : public Entity {
         public:
-            Rect(
+            Label(
                 Color lineColor,
                 Color fillColor,
                 Vector2 position,

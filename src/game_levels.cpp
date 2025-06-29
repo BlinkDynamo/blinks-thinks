@@ -382,7 +382,7 @@ Level6::Level6()
         ->setRotation(0.0f, 4.0f, 1.5f);
 
     // Submit box.
-    m_submitBox = addEntity(new Rect(BLACK, WHITE, {G_cntrW, G_cntrH - 25}, {250, 150}, 6, -10));
+    m_submitBox = addEntity(new Label(BLACK, WHITE, {G_cntrW, G_cntrH - 25}, {250, 150}, 6, -10));
 
     // Submit button.
     m_submitButton = addUiButton("Submit");

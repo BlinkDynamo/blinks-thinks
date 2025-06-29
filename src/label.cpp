@@ -1,6 +1,6 @@
 /***********************************************************************************************
 *
-*   rect.cpp - The library for creating, drawing, and interacting with a simple rectangle.
+*   label.cpp - The library for creating, drawing, and interacting with a simple rectangle.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
 *
@@ -19,14 +19,14 @@
 ***********************************************************************************************/
 
 // Source.
-#include "rect.hpp"
+#include "label.hpp"
 
-using BlinkEngine::Rect;
+using BlinkEngine::Label;
 
 // Standard library.
 #include <cmath>
 
-Rect::Rect(
+Label::Label(
     Color lineColor,
     Color fillColor,
     Vector2 position,
@@ -52,17 +52,17 @@ Rect::Rect(
 // ------------------------------------------------------------------------------------------ //
 //                                          Methods.                                          //
 // ------------------------------------------------------------------------------------------ //
-bool Rect::isHovered()
+bool Label::isHovered()
 {
     return CheckCollisionPointRec(GetMousePosition(), m_rectangle);
 }
 
-bool Rect::isPressed()
+bool Label::isPressed()
 {
     return isHovered() && IsMouseButtonPressed(0);
 }
 
-void Rect::Update()
+void Label::Update()
 { 
     Entity::Update();
 
@@ -75,7 +75,7 @@ void Rect::Update()
     };
 }
 
-void Rect::Draw()
+void Label::Draw()
 {
     // Draw the filled portion.
     DrawRectangleRec(m_rectangle, m_fillColor);
