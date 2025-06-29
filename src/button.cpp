@@ -38,7 +38,7 @@ Button::Button(
     m_size(size),
 
     // Updated every frame in 'Update()'.
-    m_rect({m_position.x - (m_size.x / 2.0f), m_position.y - (m_size.y / 2.0f), m_size.x, m_size.y}),
+    m_rectangle({m_position.x - (m_size.x / 2.0f), m_position.y - (m_size.y / 2.0f), m_size.x, m_size.y}),
 
     // Set once here, but are still mutable.
     m_defaultTextColor(label->getTextColor()),
@@ -59,7 +59,7 @@ Button::~Button() {
 // ------------------------------------------------------------------------------------------ //
 bool Button::isHovered()
 {
-    return CheckCollisionPointRec(GetMousePosition(), m_rect);
+    return CheckCollisionPointRec(GetMousePosition(), m_rectangle);
 }
 
 bool Button::isPressed()
@@ -72,7 +72,7 @@ void Button::Update()
     Entity::Update();
 
     // Update the rectangle, multiplying size elements by scale.
-    m_rect = {
+    m_rectangle = {
         m_position.x - ((m_size.x * m_scale) / 2.0f),
         m_position.y - ((m_size.y * m_scale) / 2.0f),
         m_size.x * m_scale,
@@ -127,6 +127,6 @@ void Button::Update()
 void Button::Draw()
 {
     // Draw the rectangle and label.
-    DrawRectangleRec(m_rect, m_currentBgColor);
+    DrawRectangleRec(m_rectangle, m_currentBgColor);
     m_label->Draw(); 
 }

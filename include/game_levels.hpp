@@ -32,36 +32,7 @@ using std::string;
 // Global level pointer for game implementation.
 extern Level* G_currentLevel;
 
-// ------------------------------------------------------------------------------------------ //
-//                                GameLevel class definition.                                 //
-// ------------------------------------------------------------------------------------------ //
-class GameLevel : public Level
-{
-    public:
-        // ---------------------------------------------------------------------------------- //
-        //                                  Factory methods.                                  //
-        //                                                                                    //
-        //  All of these factory methods are to be used inside level implementation code to   //
-        //  create objects that exist within a level. Any of these that are called in a       //
-        //  'Level' constructor will add that created object to 'm_entities'.                 //
-        //                                                                                    //
-        // ---------------------------------------------------------------------------------- //
-
-        // Create a simple label with a background shadow.
-        Label* addSimpleLabel(string text, float fontSize, Color textColor, Vector2 position,
-                              int layer);
-
-        // Create a centered gray and black UI button with custom text.
-        Button* addUiButton(string text);
-
-        // Create a button with an invisible background, appearing to only be a clickable label.
-        Button* addTextButton(string text, int fontSize, Color textColor, Vector2 position);
-};
-
-// ------------------------------------------------------------------------------------------ //
-//                              Individual GameLevel subclasses.                              //
-// ------------------------------------------------------------------------------------------ //
-class LevelAnimRaylib : public GameLevel
+class LevelAnimRaylib : public Level
 {
     public:
         LevelAnimRaylib();
@@ -71,7 +42,7 @@ class LevelAnimRaylib : public GameLevel
         AnimRaylib* m_animation;
 };
 
-class LevelAnimSelfCredit : public GameLevel
+class LevelAnimSelfCredit : public Level
 {
     public:
         LevelAnimSelfCredit();
@@ -81,7 +52,7 @@ class LevelAnimSelfCredit : public GameLevel
         AnimSelfCredit* m_animation;
 };
 
-class LevelTitle : public GameLevel
+class LevelTitle : public Level
 {
     public:
         LevelTitle();
@@ -92,7 +63,7 @@ class LevelTitle : public GameLevel
         Button* m_playButton;
 };
 
-class LevelLose : public GameLevel
+class LevelLose : public Level
 {
     public:
         LevelLose();
@@ -102,7 +73,7 @@ class LevelLose : public GameLevel
         Button* m_restartButton;
 };
 
-class Level1 : public GameLevel
+class Level1 : public Level
 {
     public:
         Level1();
@@ -112,7 +83,7 @@ class Level1 : public GameLevel
         Button* m_correctAnswer;
 };
 
-class Level2 : public GameLevel
+class Level2 : public Level
 {
     public:
         Level2(); 
@@ -122,7 +93,7 @@ class Level2 : public GameLevel
         Button* m_correctAnswer;
 };
 
-class Level3 : public GameLevel
+class Level3 : public Level
 {
     public:
         Level3(); 
@@ -139,14 +110,14 @@ class Level3 : public GameLevel
         const float minScale;
 };
 
-class Level4 : public GameLevel
+class Level4 : public Level
 {
     public:
         Level4(); 
         void Update() override;
 };
 
-class Level5 : public GameLevel
+class Level5 : public Level
 {
     public:
         Level5(string duration); 
@@ -158,4 +129,18 @@ class Level5 : public GameLevel
         // Countdown timer.
         Button* m_timer;
         string m_duration; 
+};
+
+class Level6 : public Level
+{
+    public:
+        Level6();
+        void Update() override;
+
+    private:
+        Button* m_buttonInHand;
+        Rect* m_submitBox;
+        Button* m_submitButton;
+
+        int m_greatestNumber; 
 };

@@ -31,65 +31,6 @@
 Level* G_currentLevel = nullptr;
 
 // ------------------------------------------------------------------------------------------ //
-//                                GameLevel class definitions.                                //
-// ------------------------------------------------------------------------------------------ //
-
-// Create a simple label with a background shadow.
-Label* GameLevel::addSimpleLabel(string text, float fontSize, Color textColor, Vector2 position,
-                                 int layer)
-{
-    constexpr Color shadowColor = { 15, 15, 15, 200 };
-    Label* const label = new Label(text, fontSize, textColor, shadowColor, position, layer);
-    addEntity(label);
-    return label;
-}
-
-// Make a clickable UI button with dynamic label and background color at a fixed location.
-Button* GameLevel::addUiButton(string text)
-{
-    constexpr Vector2 position = { G_cntrW, G_cntrH + 100 };
-    constexpr int layer = 0;
-
-    Label* const label = new Label(text, 40, WHITE, { 0, 0, 0, 0 }, position, layer);
-
-    Button* const button = new Button(
-        label,
-        DARKGRAY,
-        position,
-        layer,
-        {180,60}
-    );
-
-    addEntity(button);
-    return button;
-}
-
-// Make clickable label by creating an invisible button in the shape and size of the label.
-Button* GameLevel::addTextButton(string text, int fontSize, Color textColor, Vector2 position)
-{
-    constexpr Color shadowColor = { 15, 15, 15, 200 };
-    constexpr int layer = 0;
-
-    Label* const label = new Label(text, fontSize, textColor, shadowColor, position, layer);
-
-    Button* const button = new Button(
-        label,
-        { 0, 0, 0, 0 },
-        position,
-        layer,
-        label->getTextDim()
-    );
-    
-    addEntity(button);
-    return button;
-}
-
-// ------------------------------------------------------------------------------------------ //
-//                              Individual GameLevel subclasses.                              //
-// ------------------------------------------------------------------------------------------ //
-
-
-// ------------------------------------------------------------------------------------------ //
 //                                     Raylib animation.                                      //
 // ------------------------------------------------------------------------------------------ //
 LevelAnimRaylib::LevelAnimRaylib()
@@ -99,8 +40,7 @@ LevelAnimRaylib::LevelAnimRaylib()
     m_animation = addEntity(new AnimRaylib()); 
 }
 
-void LevelAnimRaylib::Update()
-{
+void LevelAnimRaylib::Update() {
     Level::Update();
 
     if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
@@ -392,7 +332,7 @@ Level5::Level5(string duration)
 
 void Level5::Update()
 {
-    GameLevel::Update();
+    Level::Update();
 
     // Every 60 frames (1 second)...
     m_framesCounter++; 
@@ -414,7 +354,7 @@ void Level5::Update()
         // If there is no time left...
         else { 
             delete G_currentLevel;
-            G_currentLevel = new LevelTitle();
+            G_currentLevel = new Level6();
         } 
     } 
     
@@ -423,6 +363,69 @@ void Level5::Update()
         if (button->isHovered()) {
             delete G_currentLevel;
             G_currentLevel = new LevelLose();
+        }
+    }
+}
+
+Level6::Level6()
+    :
+    m_buttonInHand(nullptr),
+    m_submitBox(nullptr),
+    m_submitButton(nullptr)
+{
+    // Main title and instructions.
+    addSimpleLabel("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
+
+    addTextButton("6", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
+
+    addSimpleLabel("Put the greatest number into the box", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+        ->setRotation(0.0f, 4.0f, 1.5f);
+
+    // Submit box.
+    m_submitBox = addEntity(new Rect(BLACK, WHITE, {G_cntrW, G_cntrH - 25}, {250, 150}, 6, -10));
+
+    // Submit button.
+    m_submitButton = addUiButton("Submit");
+
+    addTextButton("1", 80, LIME, {G_cntrW - 300, G_cntrH + 150});
+    addTextButton("5", 80, GOLD, {G_cntrW - 100, G_cntrH + 150});
+    addTextButton("8", 80, VIOLET, {G_cntrW + 100, G_cntrH + 150});
+    addTextButton("3", 80, PINK, {G_cntrW + 300, G_cntrH + 150});
+}
+
+void Level6::Update()
+{
+    Level::Update();
+
+    // The number-dragging can be this simple because all buttons on level 5 will be numbers 
+    // besides the 'Submit' button.
+    for (Button* button : getButtons()) {
+        if (button->isPressed() && button != m_submitButton) {
+            // point 'm_buttonInHand' to the button that was just pressed, setting it back to
+            // 'nullptr' if the mouse is released.
+            m_buttonInHand = button; 
+        }
+    }
+
+    // If the mouse is pressed and a button is in hand, move it to the cursor's position.    
+    if (IsMouseButtonDown(0) && m_buttonInHand != nullptr) {
+        m_buttonInHand->setPosition(GetMousePosition());
+    }
+    else {
+        m_buttonInHand = nullptr;
+    }
+
+    // On submission, check that each number in order of left to right creates 'm_greatestNumber'.
+    if (m_submitButton->isPressed()) {
+        vector<Button*> numbersInBox;
+        for (Button* button : getButtons()) {
+            if (CheckCollisionRecs(button->getRectangle(), m_submitBox->getRectangle())) {
+                auto it = numbersInBox.begin();
+                while (it != numbersInBox.end() && (*it)->getPosition().x <= button->getPosition().x) {
+                    ++it;
+                }
+                numbersInBox.insert(it, button);
+            }
         }
     }
 }

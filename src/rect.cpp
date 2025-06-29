@@ -42,7 +42,7 @@ Rect::Rect(
     m_thickness(thickness),
 
     // Updated every frame in 'Update()'.
-    m_rect({m_position.x - (m_size.x / 2.0f), m_position.y - (m_size.y / 2.0f), m_size.x, m_size.y}),
+    m_rectangle({m_position.x - (m_size.x / 2.0f), m_position.y - (m_size.y / 2.0f), m_size.x, m_size.y}),
 
     m_scale(1.0f)
 {}
@@ -52,7 +52,7 @@ Rect::Rect(
 // ------------------------------------------------------------------------------------------ //
 bool Rect::isHovered()
 {
-    return CheckCollisionPointRec(GetMousePosition(), m_rect);
+    return CheckCollisionPointRec(GetMousePosition(), m_rectangle);
 }
 
 bool Rect::isPressed()
@@ -65,7 +65,7 @@ void Rect::Update()
     Entity::Update();
 
     // Update the rectangle, multiplying size elements by scale.
-    m_rect = {
+    m_rectangle = {
         m_position.x - ((m_size.x * m_scale) / 2.0f),
         m_position.y - ((m_size.y * m_scale) / 2.0f),
         m_size.x * m_scale,
@@ -76,15 +76,15 @@ void Rect::Update()
 void Rect::Draw()
 {
     // Draw the filled portion.
-    DrawRectangleRec(m_rect, m_fillColor);
+    DrawRectangleRec(m_rectangle, m_fillColor);
 
     // Draw the four lines of the rect if an above-zero thickness is specified.
     if (m_thickness > 0) {
-        DrawRectangle(m_rect.x, m_rect.y, m_thickness, m_rect.height, m_lineColor); // Left column.
-        DrawRectangle(m_rect.x + m_rect.width - m_thickness, m_rect.y, m_thickness, m_rect.height,
-                      m_lineColor); // Right column.
-        DrawRectangle(m_rect.x, m_rect.y, m_rect.width, m_thickness, m_lineColor); // Top row.
-        DrawRectangle(m_rect.x, m_rect.y + m_rect.height - m_thickness, m_rect.width, m_thickness,
-                      m_lineColor); // Bottom row.
+        DrawRectangle(m_rectangle.x, m_rectangle.y, m_thickness, m_rectangle.height, m_lineColor); // Left column.
+        DrawRectangle(m_rectangle.x + m_rectangle.width - m_thickness, m_rectangle.y,
+                      m_thickness, m_rectangle.height, m_lineColor); // Right column.
+        DrawRectangle(m_rectangle.x, m_rectangle.y, m_rectangle.width, m_thickness, m_lineColor); // Top row.
+        DrawRectangle(m_rectangle.x, m_rectangle.y + m_rectangle.height - m_thickness,
+                      m_rectangle.width, m_thickness, m_lineColor); // Bottom row.
     }
 }

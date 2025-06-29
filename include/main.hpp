@@ -32,5 +32,3 @@ constexpr int G_h = 600;
 constexpr float G_cntrW = G_w / 2.0f;
 constexpr float G_cntrH = G_h / 2.0f;
 constexpr size_t G_frameRate = 60;
-
-// Colors.

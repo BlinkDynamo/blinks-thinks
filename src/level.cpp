@@ -61,3 +61,53 @@ void Level::Draw()
         entity->Draw();
     }
 }
+
+// Create a simple label with a background shadow.
+Label* Level::addSimpleLabel(string text, float fontSize, Color textColor, Vector2 position,
+                                 int layer)
+{
+    constexpr Color shadowColor = { 15, 15, 15, 200 };
+    Label* const label = new Label(text, fontSize, textColor, shadowColor, position, layer);
+    addEntity(label);
+    return label;
+}
+
+// Make a clickable UI button with dynamic label and background color at a fixed location.
+Button* Level::addUiButton(string text)
+{
+    constexpr Vector2 position = { G_cntrW, G_cntrH + 100 };
+    constexpr int layer = 0;
+
+    Label* const label = new Label(text, 40, WHITE, { 0, 0, 0, 0 }, position, layer);
+
+    Button* const button = new Button(
+        label,
+        DARKGRAY,
+        position,
+        layer,
+        {180,60}
+    );
+
+    addEntity(button);
+    return button;
+}
+
+// Make clickable label by creating an invisible button in the shape and size of the label.
+Button* Level::addTextButton(string text, int fontSize, Color textColor, Vector2 position)
+{
+    constexpr Color shadowColor = { 15, 15, 15, 200 };
+    constexpr int layer = 0;
+
+    Label* const label = new Label(text, fontSize, textColor, shadowColor, position, layer);
+
+    Button* const button = new Button(
+        label,
+        { 0, 0, 0, 0 },
+        position,
+        layer,
+        label->getTextDim()
+    );
+    
+    addEntity(button);
+    return button;
+}

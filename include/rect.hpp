@@ -45,18 +45,20 @@ class Rect : public Entity {
         // Getters and setters.
         void setScale(float scale) { m_scale = scale; }
 
+        Rectangle getRectangle() { return m_rectangle; }
+
     private:
         Color m_lineColor;
         
         Color m_fillColor; 
 
         Vector2 m_size;             // The area the button's rectangle will occupy. Used to
-                                    // calculate 'm_rect'.
+                                    // calculate 'm_rectangle'.
 
         int m_thickness;            // The thickness of the shape's line.
 
-        Rectangle m_rect;           // The rectangle used for most button actions. This is
+        Rectangle m_rectangle;      // The rectangle used for most button actions. This is
                                     // calculated from 'm_size', 'm_position', and 'm_scale'. 
 
-        float m_scale;              // What 'm_rect' and the label's 'm_fontSize' are multiplied by.
+        float m_scale;              // What 'm_rectangle' and the label's 'm_fontSize' are multiplied by.
 };

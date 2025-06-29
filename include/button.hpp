@@ -39,13 +39,15 @@ class Button : public Entity {
         void Draw() override;
 
         bool isHovered();           // Checks if 'mousePoint' (defined in 'include/main.hpp') is
-                                    // within the bounds of 'm_rect'.
+                                    // within the bounds of 'm_rectangle'.
 
         bool isPressed();           // Checks if 'isHovered()', as well as 'mousePressed' (also 
                                     // defined in 'include/main.hpp') are both true.
-
+        
         // Getters and setters.
         Label* getLabel() { return m_label; }
+
+        Rectangle getRectangle() { return m_rectangle; }
 
         void setScale(float scale) { m_scale = scale; }
 
@@ -55,9 +57,9 @@ class Button : public Entity {
                                     // it's own 'Update()' and 'Draw()' methods.
 
         Vector2 m_size;             // The area the button's rectangle will occupy. Used to
-                                    // calculate 'm_rect'.
+                                    // calculate 'm_rectangle'.
 
-        Rectangle m_rect;           // The rectangle used for most button actions. This is
+        Rectangle m_rectangle;      // The rectangle used for most button actions. This is
                                     // calculated from 'm_size', 'm_position', and 'm_scale'.
 
         Color m_defaultTextColor;   // What color the label's text should be when not hovered.
@@ -71,5 +73,5 @@ class Button : public Entity {
         Color m_currentBgColor;     // What color the button's background should be in the
                                     // current frame.
 
-        float m_scale;              // What 'm_rect' and the label's 'm_fontSize' are multiplied by.
+        float m_scale;              // What 'm_rectangle' and the label's 'm_fontSize' are multiplied by.
 };
