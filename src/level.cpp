@@ -88,9 +88,9 @@ Button* Level::addUiButton(string text)
     Button* const button = new Button(
         textObj,
         DARKGRAY,
+        {180,60},
         position,
-        layer,
-        {180,60}
+        layer
     );
 
     addEntity(button);
@@ -108,9 +108,9 @@ Button* Level::addTextButton(string text, int fontSize, Color textColor, Vector2
     Button* const button = new Button(
         textObj,
         { 0, 0, 0, 0 },
+        textObj->getTextDim(),
         position,
-        layer,
-        textObj->getTextDim()
+        layer
     );
     
     addEntity(button);

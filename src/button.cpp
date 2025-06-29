@@ -30,9 +30,9 @@ using BlinkEngine::Text;
 Button::Button(
     Text* textObj,
     Color bgColor,
+    Vector2 size,
     Vector2 position,
-    int layer,
-    Vector2 size)
+    int layer)
 
     :
     // Arguments.
