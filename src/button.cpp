@@ -22,12 +22,13 @@
 #include "button.hpp"
 
 using BlinkEngine::Button;
+using BlinkEngine::Text;
 
 // Standard library.
 #include <cmath>
 
 Button::Button(
-    Label* label,
+    Text* textObj,
     Color bgColor,
     Vector2 position,
     int layer,
@@ -36,24 +37,24 @@ Button::Button(
     :
     // Arguments.
     Entity(position, layer),
-    m_label(label),
+    m_textObj(textObj),
     m_size(size),
 
     // Updated every frame in 'Update()'.
     m_rectangle({m_position.x - (m_size.x / 2.0f), m_position.y - (m_size.y / 2.0f), m_size.x, m_size.y}),
 
     // Set once here, but are still mutable.
-    m_defaultTextColor(label->getTextColor()),
+    m_defaultTextColor(textObj->getTextColor()),
     m_currentTextColor(m_defaultTextColor),
     m_defaultBgColor(bgColor),
     m_currentBgColor(m_defaultBgColor),
     m_scale(1.0f)
 {
-    this->m_label->setPosition(m_position);
+    this->m_textObj->setPosition(m_position);
 }
 
 Button::~Button() {
-    delete m_label;
+    delete m_textObj;
 }
 
 // ------------------------------------------------------------------------------------------ //
@@ -81,17 +82,17 @@ void Button::Update()
         m_size.y * m_scale
     };
 
-    // Update the label's scale so that it's Update() step can multiply the font size by scale.
-    m_label->setScale(m_scale);
+    // Update the text object's scale so that it's Update() step can scale the font size.
+    m_textObj->setScale(m_scale);
 
-    // Set the label's position to the button's position in case the button moves.
-    m_label->setPosition(m_position);
+    // Set the text object's position to the button's position in case the button moves.
+    m_textObj->setPosition(m_position);
 
-    // Update the color of the button's label if hovered.
+    // Update the color of the button's text object if hovered.
     if (isHovered()) {
         float brightenFactor = 2.0f;
 
-        // If the background is visible, brighten the background and darken the label.
+        // If the background is visible, brighten the background and darken the text object.
         if (m_defaultBgColor.a != 0) {
             m_currentBgColor = { 
                 static_cast<unsigned char>(fmin(m_defaultBgColor.r * brightenFactor, 255)),
@@ -106,7 +107,7 @@ void Button::Update()
                 m_defaultTextColor.a
             };
         }
-        // Otherwise only brighten the label.
+        // Otherwise only brighten the text object.
         else { 
             m_currentTextColor = { 
                 static_cast<unsigned char>(fmin(m_defaultTextColor.r * brightenFactor, 255)),
@@ -120,15 +121,15 @@ void Button::Update()
         m_currentBgColor = m_defaultBgColor;
         m_currentTextColor = m_defaultTextColor;
     }
-    m_label->setTextColor(m_currentTextColor); 
+    m_textObj->setTextColor(m_currentTextColor); 
 
-    // Update the label.
-    m_label->Update();
+    // Update the text object.
+    m_textObj->Update();
 }
 
 void Button::Draw()
 {
-    // Draw the rectangle and label.
+    // Draw the rectangle and text object.
     DrawRectangleRec(m_rectangle, m_currentBgColor);
-    m_label->Draw(); 
+    m_textObj->Draw(); 
 }

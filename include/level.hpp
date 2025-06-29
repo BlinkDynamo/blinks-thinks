@@ -23,11 +23,13 @@
 // Source.
 #include "entity.hpp"
 #include "button.hpp"
-#include "label.hpp"
+#include "text.hpp"
 #include "background.hpp"
 #include "overlay.hpp"
 #include "animation.hpp"
 #include "rect.hpp"
+
+using BlinkEngine::Text;
 
 // Standard library.
 #include <string>
@@ -94,14 +96,14 @@ namespace BlinkEngine
             //                                                                                //
             // ------------------------------------------------------------------------------ //
 
-            // Create a simple label with a background shadow.
-            Label* addSimpleLabel(string text, float fontSize, Color textColor, Vector2 position,
+            // Create a simple text with a background shadow.
+            Text* addSimpleText(string text, float fontSize, Color textColor, Vector2 position,
                                   int layer);
 
             // Create a centered gray and black UI button with custom text.
             Button* addUiButton(string text);
 
-            // Create a button with no background, appearing to only be a clickable label.
+            // Create a button with no background, appearing to only be a clickable text.
             Button* addTextButton(string text, int fontSize, Color textColor, Vector2 position);
 
         private: 

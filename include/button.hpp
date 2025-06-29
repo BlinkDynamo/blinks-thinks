@@ -22,14 +22,14 @@
 
 // Source.
 #include "entity.hpp"
-#include "label.hpp"
+#include "text.hpp"
 
 namespace BlinkEngine
 {
     class Button : public Entity {
         public:
             Button(
-                Label* label,
+                Text* textObj,
                 Color bgColor,
                 Vector2 position,
                 int layer,
@@ -46,16 +46,16 @@ namespace BlinkEngine
                                         // are both true.
             
             // Getters and setters.
-            Label* getLabel() { return m_label; }
+            Text* getTextObj() { return m_textObj; }
 
             Rectangle getRectangle() { return m_rectangle; }
 
             void setScale(float scale) { m_scale = scale; }
 
         private:
-            Label* m_label;             // The pointer to the label of the button. The button
-                                        // handles updating and drawing it's child label within
-                                        // it's own 'Update()' and 'Draw()' methods.
+            Text* m_textObj;            // The pointer to the text object of the button. The
+                                        // button handles updating and drawing it's child text
+                                        // within it's own 'Update()' and 'Draw()' methods.
 
             Vector2 m_size;             // The area the button's rectangle will occupy. Used to
                                         // calculate 'm_rectangle'.
@@ -63,10 +63,11 @@ namespace BlinkEngine
             Rectangle m_rectangle;      // The rectangle used for most button actions. This is
                                         // calculated from 'm_size', 'm_position', and 'm_scale'.
 
-            Color m_defaultTextColor;   // What color the label's text should be when not hovered.
+            Color m_defaultTextColor;   // What color the text object's text should be when not
+                                        // hovered.
 
-            Color m_currentTextColor;   // What color the label's text should be drawn in the
-                                        // current frame.
+            Color m_currentTextColor;   // What color the text object's text should be drawn in
+                                        // the current frame.
 
             Color m_defaultBgColor;     // What color the button's background should be when not
                                         // hovered.
@@ -74,7 +75,7 @@ namespace BlinkEngine
             Color m_currentBgColor;     // What color the button's background should be in the
                                         // current frame.
 
-            float m_scale;              // What 'm_rectangle' and the label's 'm_fontSize' are
-                                        // multiplied by.
+            float m_scale;              // What 'm_rectangle' and the text object's 'm_fontSize'
+                                        // are multiplied by.
     };
 }

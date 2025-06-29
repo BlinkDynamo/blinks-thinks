@@ -1,6 +1,6 @@
 /***********************************************************************************************
 * 
-*   label.hpp - The library for creating and drawing formatted text.
+*   text.hpp - The library for creating and drawing formatted text.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
 *
@@ -30,11 +30,11 @@ using std::string;
 
 namespace BlinkEngine
 {
-    class Label : public Entity
+    class Text : public Entity
     {
         public:
-            Label(
-                string text,
+            Text(
+                string textString,
                 float fontSize,
                 Color textColor,
                 Color shadowColor,
@@ -51,8 +51,8 @@ namespace BlinkEngine
                 m_rotationDepth = depth;
             }
 
-            string getText() { return m_text; }
-            void setText(string text) { m_text = text; }
+            string getTextString() { return m_textString; }
+            void setTextString(string textString) { m_textString = textString; }
 
             Color getTextColor() { return m_textColor; }
             void setTextColor(Color textColor) { m_textColor = textColor; }
@@ -66,7 +66,7 @@ namespace BlinkEngine
             void setScale(float scale) { m_scale = scale; }
 
         private:
-            string m_text;                  // The text that will be displayed.
+            string m_textString;            // The text that will be displayed.
                                             
             float m_scale;                  // The scaling factor that should be applied to the
                                             // original font size.
@@ -94,7 +94,7 @@ namespace BlinkEngine
 
             // Rotation algorithm: m_rotation = sin(GetTime() * m_rotationSpeed) * m_rotationDepth
 
-            float m_rotation;               // The rotation of the label (default is 0.0f).
+            float m_rotation;               // The rotation of the text (default is 0.0f).
             float m_rotationSpeed;          // The speed of rotation (default is 0.0f).
             float m_rotationDepth;          // The depth of rotation (default is 0.0f).
     };

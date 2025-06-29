@@ -78,7 +78,7 @@ LevelTitle::LevelTitle()
     m_playButton(nullptr)
 {
     // Non-referenced objects.
-    addSimpleLabel("Blink's Thinks", 100, m_aquamarine, {G_cntrW, G_cntrH - 100}, 0)
+    addSimpleText("Blink's Thinks", 100, m_aquamarine, {G_cntrW, G_cntrH - 100}, 0)
         ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
@@ -103,7 +103,7 @@ LevelLose::LevelLose()
     m_restartButton(nullptr)
 {
 // Non-referenced objects.
-    addSimpleLabel("Game over!", 100, RED, {G_cntrW, G_cntrH - 100}, 0)
+    addSimpleText("Game over!", 100, RED, {G_cntrW, G_cntrH - 100}, 0)
         ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
@@ -127,9 +127,9 @@ Level1::Level1()
     :
     m_correctAnswer(nullptr)
 {
-    addSimpleLabel("Level 1", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
+    addSimpleText("Level 1", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
     
-    addSimpleLabel("What is the largest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("What is the largest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
 
     addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
@@ -166,11 +166,11 @@ Level2::Level2()
     :
     m_correctAnswer(nullptr)
 {
-    addSimpleLabel("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
+    addSimpleText("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
 
     m_correctAnswer = addTextButton("2", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
 
-    addSimpleLabel("What is the smallest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("What is the smallest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
     
     addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
@@ -213,9 +213,9 @@ Level3::Level3()
     maxScale(2.5),
     minScale(1.00)
 {
-    addSimpleLabel("Level 3", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
+    addSimpleText("Level 3", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
 
-    addSimpleLabel("What is the tallest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("What is the tallest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
     ->setRotation(0.0f, 4.0f, 1.5f);
     
     m_correctAnswer = addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
@@ -264,9 +264,9 @@ void Level3::Update()
 // ------------------------------------------------------------------------------------------ //
 Level4::Level4()
 {
-    addSimpleLabel("Level 4", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
+    addSimpleText("Level 4", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
 
-    addSimpleLabel("How much time do you want for Level 5?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("How much time do you want for Level 5?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
     
     addTextButton("2 seconds", 60, LIME, {G_cntrW, G_cntrH - 50});
@@ -283,7 +283,7 @@ void Level4::Update()
     for (Button* button : getButtons()) {
         if (button->isPressed()) {
             // Save the chosen button's text to a string, then remove the " seconds" substring.
-            string chosenTime = button->getLabel()->getText();
+            string chosenTime = button->getTextObj()->getTextString();
             chosenTime.erase(chosenTime.find(" seconds"), chosenTime.length());
 
             delete G_currentLevel;
@@ -299,16 +299,16 @@ Level5::Level5(string duration)
     m_duration(duration)
 {
     // Main title, information, and countdown timer.
-    addSimpleLabel("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
+    addSimpleText("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
 
     addTextButton("5", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
 
-    addSimpleLabel("Don't touch any numbers for", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("Don't touch any numbers for", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
     
     m_timer = addTextButton(m_duration, 80, RED, {G_cntrW, G_cntrH - 65});
 
-    addSimpleLabel("more seconds", 40, RAYWHITE, {G_cntrW, G_cntrH}, 0)
+    addSimpleText("more seconds", 40, RAYWHITE, {G_cntrW, G_cntrH}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
 
     // All obstacles.
@@ -349,7 +349,7 @@ void Level5::Update()
             std::ostringstream oss;
             oss << i;
             m_duration = oss.str();
-            m_timer->getLabel()->setText(m_duration);
+            m_timer->getTextObj()->setTextString(m_duration);
         }
         // If there is no time left...
         else { 
@@ -374,11 +374,11 @@ Level6::Level6()
     m_submitButton(nullptr)
 {
     // Main title and instructions.
-    addSimpleLabel("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
+    addSimpleText("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
 
     addTextButton("6", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
 
-    addSimpleLabel("Put the greatest number into the box", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("Put the greatest number into the box", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
 
     // Submit box.
