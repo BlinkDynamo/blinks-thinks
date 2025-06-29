@@ -23,42 +23,46 @@
 // Source.
 #include "entity.hpp"
 
-class Rect : public Entity {
-    public:
-        Rect(
-            Color lineColor,
-            Color fillColor,
-            Vector2 position,
-            Vector2 size,
-            int thickness,
-            int layer); 
+namespace BlinkEngine
+{
+    class Rect : public Entity {
+        public:
+            Rect(
+                Color lineColor,
+                Color fillColor,
+                Vector2 position,
+                Vector2 size,
+                int thickness,
+                int layer); 
 
-        void Update() override;
-        void Draw() override;
+            void Update() override;
+            void Draw() override;
 
-        bool isHovered();           // Checks if 'mousePoint' (defined in 'include/main.hpp') is
-                                    // within the bounds of 'm_rect'.
+            bool isHovered();           // Checks if 'mousePoint' (defined in 'include/main.hpp')
+                                        // is within the bounds of 'm_rect'.
 
-        bool isPressed();           // Checks if 'isHovered()', as well as 'mousePressed' (also 
-                                    // defined in 'include/main.hpp') are both true.
+            bool isPressed();           // Checks if 'isHovered()', as well as 'mousePressed'
+                                        // (also defined in 'include/main.hpp') are both true.
 
-        // Getters and setters.
-        void setScale(float scale) { m_scale = scale; }
+            // Getters and setters.
+            void setScale(float scale) { m_scale = scale; }
 
-        Rectangle getRectangle() { return m_rectangle; }
+            Rectangle getRectangle() { return m_rectangle; }
 
-    private:
-        Color m_lineColor;
-        
-        Color m_fillColor; 
+        private:
+            Color m_lineColor;
+            
+            Color m_fillColor; 
 
-        Vector2 m_size;             // The area the button's rectangle will occupy. Used to
-                                    // calculate 'm_rectangle'.
+            Vector2 m_size;             // The area the button's rectangle will occupy. Used to
+                                        // calculate 'm_rectangle'.
 
-        int m_thickness;            // The thickness of the shape's line.
+            int m_thickness;            // The thickness of the shape's line.
 
-        Rectangle m_rectangle;      // The rectangle used for most button actions. This is
-                                    // calculated from 'm_size', 'm_position', and 'm_scale'. 
+            Rectangle m_rectangle;      // The rectangle used for most button actions. This is
+                                        // calculated from 'm_size', 'm_position', and 'm_scale'. 
 
-        float m_scale;              // What 'm_rectangle' and the label's 'm_fontSize' are multiplied by.
-};
+            float m_scale;              // What 'm_rectangle' and the label's 'm_fontSize' are
+                                        // multiplied by.
+    };
+}

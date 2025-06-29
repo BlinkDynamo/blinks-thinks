@@ -21,6 +21,8 @@
 // Source.
 #include "label.hpp"
 
+using BlinkEngine::Label;
+
 // Standard library.
 #include <cmath>
 

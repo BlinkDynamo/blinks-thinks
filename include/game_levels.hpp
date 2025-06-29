@@ -24,6 +24,12 @@
 // Source.
 #include "level.hpp"
 
+using BlinkEngine::Level;
+using BlinkEngine::Button;
+using BlinkEngine::Rect;
+using BlinkEngine::AnimRaylib;
+using BlinkEngine::AnimSelfCredit;
+
 // Standard library.
 #include <string>
 
@@ -32,7 +38,7 @@ using std::string;
 // Global level pointer for game implementation.
 extern Level* G_currentLevel;
 
-class LevelAnimRaylib : public Level
+class LevelAnimRaylib : public BlinkEngine::Level
 {
     public:
         LevelAnimRaylib();
@@ -42,7 +48,7 @@ class LevelAnimRaylib : public Level
         AnimRaylib* m_animation;
 };
 
-class LevelAnimSelfCredit : public Level
+class LevelAnimSelfCredit : public BlinkEngine::Level
 {
     public:
         LevelAnimSelfCredit();
@@ -52,7 +58,7 @@ class LevelAnimSelfCredit : public Level
         AnimSelfCredit* m_animation;
 };
 
-class LevelTitle : public Level
+class LevelTitle : public BlinkEngine::Level
 {
     public:
         LevelTitle();
@@ -63,7 +69,7 @@ class LevelTitle : public Level
         Button* m_playButton;
 };
 
-class LevelLose : public Level
+class LevelLose : public BlinkEngine::Level
 {
     public:
         LevelLose();
@@ -73,7 +79,7 @@ class LevelLose : public Level
         Button* m_restartButton;
 };
 
-class Level1 : public Level
+class Level1 : public BlinkEngine::Level
 {
     public:
         Level1();
@@ -83,7 +89,7 @@ class Level1 : public Level
         Button* m_correctAnswer;
 };
 
-class Level2 : public Level
+class Level2 : public BlinkEngine::Level
 {
     public:
         Level2(); 
@@ -93,7 +99,7 @@ class Level2 : public Level
         Button* m_correctAnswer;
 };
 
-class Level3 : public Level
+class Level3 : public BlinkEngine::Level
 {
     public:
         Level3(); 
@@ -110,14 +116,14 @@ class Level3 : public Level
         const float minScale;
 };
 
-class Level4 : public Level
+class Level4 : public BlinkEngine::Level
 {
     public:
         Level4(); 
         void Update() override;
 };
 
-class Level5 : public Level
+class Level5 : public BlinkEngine::Level
 {
     public:
         Level5(string duration); 
@@ -131,7 +137,7 @@ class Level5 : public Level
         string m_duration; 
 };
 
-class Level6 : public Level
+class Level6 : public BlinkEngine::Level
 {
     public:
         Level6();

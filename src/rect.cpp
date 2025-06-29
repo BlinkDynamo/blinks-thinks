@@ -21,6 +21,8 @@
 // Source.
 #include "rect.hpp"
 
+using BlinkEngine::Rect;
+
 // Standard library.
 #include <cmath>
 

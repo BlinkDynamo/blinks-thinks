@@ -23,20 +23,23 @@
 // Source.
 #include "entity.hpp"
 
-class Background : public Entity
+namespace BlinkEngine
 {
-    public:
-        Background(
-            Color darkColor,
-            Color lightColor,
-            int squareSize);
+    class Background : public Entity
+    {
+        public:
+            Background(
+                Color darkColor,
+                Color lightColor,
+                int squareSize);
 
-        void Update() override;
-        void Draw() override;
+            void Update() override;
+            void Draw() override;
 
-    private:
-        // Arguments.
-        Color m_darkColor;
-        Color m_lightColor;
-        int m_squareSize;
-};
+        private:
+            // Arguments.
+            Color m_darkColor;
+            Color m_lightColor;
+            int m_squareSize;
+    };
+}

@@ -22,6 +22,8 @@
 #include "background.hpp"
 #include "main.hpp"
 
+using BlinkEngine::Background;
+
 // Standard library.
 #include <cmath>
 

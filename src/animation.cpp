@@ -22,6 +22,9 @@
 #include "animation.hpp"
 #include "main.hpp"
 
+using BlinkEngine::AnimRaylib;
+using BlinkEngine::AnimSelfCredit;
+
 // ------------------------------------------------------------------------------------------ //
 //                                   Raylib splash screen.                                    //
 // ------------------------------------------------------------------------------------------ //

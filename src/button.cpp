@@ -21,6 +21,8 @@
 // Source.
 #include "button.hpp"
 
+using BlinkEngine::Button;
+
 // Standard library.
 #include <cmath>
 

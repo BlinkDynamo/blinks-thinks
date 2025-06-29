@@ -25,6 +25,11 @@
 #include "overlay.hpp"
 #include "main.hpp"
 
+using BlinkEngine::Level;
+using BlinkEngine::Label;
+using BlinkEngine::Button;
+using BlinkEngine::Overlay;
+
 Level::Level()
     :
     m_entities{},

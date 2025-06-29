@@ -21,6 +21,8 @@
 // Source.
 #include "entity.hpp"
 
+using BlinkEngine::Entity;
+
 Entity::Entity(Vector2 position, int layer, Vector2 speed)
     :
     m_position(position),

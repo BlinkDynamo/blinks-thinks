@@ -28,67 +28,70 @@
 
 using std::string;
 
-class AnimRaylib : public Entity
+namespace BlinkEngine
 {
-    public:
-        AnimRaylib();
-        bool isFinished();
-        void Update() override;
-        void Draw() override;
+    class AnimRaylib : public Entity
+    {
+        public:
+            AnimRaylib();
+            bool isFinished();
+            void Update() override;
+            void Draw() override;
 
-    private:
-        // Position.
-        int m_logoPositionX;
-        int m_logoPositionY;
+        private:
+            // Position.
+            int m_logoPositionX;
+            int m_logoPositionY;
 
-        // Size.
-        int m_topSideRecWidth;
-        int m_leftSideRecHeight;
-        int m_bottomSideRecWidth;
-        int m_rightSideRecHeight;
+            // Size.
+            int m_topSideRecWidth;
+            int m_leftSideRecHeight;
+            int m_bottomSideRecWidth;
+            int m_rightSideRecHeight;
 
-        // Counters and state machines.
-        int m_framesCounter;
-        int m_lettersCount;
-        int m_state;
+            // Counters and state machines.
+            int m_framesCounter;
+            int m_lettersCount;
+            int m_state;
 
-        float m_alpha;
-};
+            float m_alpha;
+    };
 
-class AnimSelfCredit : public Entity
-{
-    public:
-        AnimSelfCredit();
-        bool isFinished();
-        void Draw() override;
-        void Update() override;
+    class AnimSelfCredit : public Entity
+    {
+        public:
+            AnimSelfCredit();
+            bool isFinished();
+            void Draw() override;
+            void Update() override;
 
-    private:
-        // Counters.
-        int m_framesCounter;
-        int m_lettersCount;
-       
-        // State of the animation.
-        enum class State {
-            LETTERS_ADDING,
-            LETTERS_REMOVING,
-            CURSOR_BLINKING,
-            BLANK_SCREEN_DELAY,
-            FINISHED
-        };
-        State m_state;
+        private:
+            // Counters.
+            int m_framesCounter;
+            int m_lettersCount;
+           
+            // State of the animation.
+            enum class State {
+                LETTERS_ADDING,
+                LETTERS_REMOVING,
+                CURSOR_BLINKING,
+                BLANK_SCREEN_DELAY,
+                FINISHED
+            };
+            State m_state;
 
-        // Text.
-        string m_text;
-        int m_fontSize;
-        float m_spacing;
-        Font m_font;
-        Vector2 m_textPos;
+            // Text.
+            string m_text;
+            int m_fontSize;
+            float m_spacing;
+            Font m_font;
+            Vector2 m_textPos;
 
-        // Colors.
-        Color m_bgColor;
+            // Colors.
+            Color m_bgColor;
 
-        // Other.
-        int m_shortDelay;
+            // Other.
+            int m_shortDelay;
 
-};
+    };
+}
