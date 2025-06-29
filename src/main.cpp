@@ -20,12 +20,6 @@
 
 // Source.
 #include "main.hpp"
-#include "animation.hpp"
-#include "background.hpp"
-#include "button.hpp"
-#include "label.hpp"
-#include "level.hpp"
-
 #include "game_levels.hpp"
 
 // Standard library.
