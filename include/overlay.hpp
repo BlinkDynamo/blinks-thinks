@@ -28,7 +28,7 @@ namespace BlinkEngine
     class Overlay : public Entity
     {
         public:
-            Overlay(Color color);
+            Overlay(Color color, Vector2 position = {0, 0}, int layer = 1000);
 
             void setColor(Color color) { m_color = color; }
 

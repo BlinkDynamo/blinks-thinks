@@ -27,8 +27,11 @@ namespace BlinkEngine
 {
     class Entity {
         public:
-            // Entities by default are placed on layer 0 with a speed of {0, 0}.
-            Entity(Vector2 position, int layer = 0, Vector2 speed = {0, 0});
+            Entity(
+                Vector2 position = m_defaultPosition,
+                int layer = m_defaultLayer,
+                Vector2 speed = m_defaultSpeed
+            );
             virtual ~Entity() = default;
 
             // 'Update()' only does an update of 'm_position', but 'Draw()' is pure virtual.
@@ -52,6 +55,11 @@ namespace BlinkEngine
                                     // draw ordering. Higher numbers are drawn higher, and lower
                                     // numbers are drawn lower.
 
-            Vector2 m_speed;        // The X and Y movement speed per frame of the entity.
+            Vector2 m_speed;        // The X and Y movement speed per frame of the entity. 
+
+        // Constructor default arguments.
+        static constexpr Vector2 m_defaultPosition = {0, 0};
+        static constexpr int m_defaultLayer = 0;
+        static constexpr Vector2 m_defaultSpeed = {0, 0};
     };
 }

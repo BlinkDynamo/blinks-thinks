@@ -38,8 +38,8 @@ namespace BlinkEngine
                 float fontSize,
                 Color textColor,
                 Color shadowColor,
-                Vector2 position,
-                int layer); 
+                Vector2 position = {0, 0},
+                int layer = 0); 
 
             void Update() override;
             void Draw() override;

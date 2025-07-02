@@ -29,9 +29,9 @@ using BlinkEngine::Label;
 Label::Label(
     Color lineColor,
     Color fillColor,
-    Vector2 position,
     Vector2 size,
     int thickness,
+    Vector2 position,
     int layer)
 
     :

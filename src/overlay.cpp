@@ -24,9 +24,9 @@
 
 using BlinkEngine::Overlay;
 
-Overlay::Overlay(Color color)
+Overlay::Overlay(Color color, Vector2 position, int layer)
     :
-    Entity({0, 0}, 1000), // 1000 is the default layer of Overlays.
+    Entity(position, layer),
     m_color(color)
 {}
 

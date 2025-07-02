@@ -148,5 +148,5 @@ class Level6 : public BlinkEngine::Level
         Label* m_submitBox;
         Button* m_submitButton;
 
-        int m_greatestNumber; 
+        //int m_greatestNumber; 
 };
