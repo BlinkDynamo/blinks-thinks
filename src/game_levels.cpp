@@ -371,14 +371,15 @@ Level6::Level6()
     :
     m_buttonInHand(nullptr),
     m_submitBox(nullptr),
-    m_submitButton(nullptr)
+    m_submitButton(nullptr),
+    m_greatestNumber("86531")
 {
     // Main title and instructions.
     addSimpleText("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
 
     addTextButton("6", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
 
-    addSimpleText("Put the greatest number into the box", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("Fit the greatest number into the box", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
 
     // Submit box.
@@ -415,9 +416,12 @@ void Level6::Update()
         m_buttonInHand = nullptr;
     }
 
-    // On submission, check that each number in order of left to right creates 'm_greatestNumber'.
+    // On submission, add every button inside of the submission box to a vector, then organize
+    // their text object's text strings in the same order that they exist spatially. Save this
+    // created number to a string and check if it matches 'm_greatestNumber'.
     if (m_submitButton->isPressed()) {
-        vector<Button*> numbersInBox;
+        vector<Button*> numbersInBox; // For buttons that are inside of the submission box.
+        string finalSubmission; // The final submission to match against 'm_greatestNumber'.
         for (Button* button : getButtons()) {
             if (CheckCollisionRecs(button->getRectangle(), m_submitBox->getRectangle())) {
                 auto it = numbersInBox.begin();
@@ -427,5 +431,24 @@ void Level6::Update()
                 numbersInBox.insert(it, button);
             }
         }
+        for (Button* button : numbersInBox) {
+            finalSubmission += button->getTextObj()->getTextString();
+        }
+
+        if (finalSubmission == m_greatestNumber) {
+            delete G_currentLevel;
+            G_currentLevel = new Level7();
+        }
+        else {
+            delete G_currentLevel;
+            G_currentLevel = new LevelLose();
+        }
     }
+}
+
+Level7::Level7() {}
+
+void Level7::Update()
+{
+    Level::Update();
 }
