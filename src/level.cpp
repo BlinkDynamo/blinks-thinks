@@ -37,27 +37,30 @@ Level::Level()
 {
     // Create a base simple background for all 'Level' objects for now.
     addEntity(new Background(GRAY, { 200, 200, 200, 255 }, 50));
-}
 
-Level::~Level()
-{
-    // Delete all 'Entity' objects in 'entities', then clear the vector.
-    for (Entity* entity : m_entities) {
-        delete entity;
+    // Display the current version number in the bottom right.
+    addEntity(new Text("v" + G_gameVersion, 20, RAYWHITE, {0, 0, 0, 0}, {G_w - 40, 20}, 1000));
     }
-    m_entities.clear();
 
-    // Only clearing the vector m_buttons is needed, as all were deleted in the prior step.
-    m_buttons.clear();
-}
+    Level::~Level()
+    {
+        // Delete all 'Entity' objects in 'entities', then clear the vector.
+        for (Entity* entity : m_entities) {
+            delete entity;
+        }
+        m_entities.clear();
 
-void Level::Update()
-{
-    // Update each 'Entity' object in 'entities'.
-    for (const auto& entity : m_entities) {
-        entity->Update();
+        // Only clearing the vector m_buttons is needed, as all were deleted in the prior step.
+        m_buttons.clear();
     }
-}
+
+    void Level::Update()
+    {
+        // Update each 'Entity' object in 'entities'.
+        for (const auto& entity : m_entities) {
+            entity->Update();
+        }
+    }
 
 void Level::Draw()
 {

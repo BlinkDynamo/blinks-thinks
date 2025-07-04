@@ -25,6 +25,13 @@
 
 // Standard library.
 #include <cstddef>
+#include <string>
+
+using std::string;
+
+// Version.
+constexpr string G_gameVersion = "0.0.7";
+constexpr string G_gameName = "Blink's Thinks";
 
 // Resolution and framerate.
 constexpr int G_w = 900;
