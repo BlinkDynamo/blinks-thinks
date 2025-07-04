@@ -372,7 +372,7 @@ Level6::Level6()
     m_buttonInHand(nullptr),
     m_submitBox(nullptr),
     m_submitButton(nullptr),
-    m_greatestNumber("86531")
+    m_correctNumber("86531")
 {
     // Main title and instructions.
     addSimpleText("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
@@ -388,18 +388,17 @@ Level6::Level6()
     // Submit button.
     m_submitButton = addUiButton("Submit");
 
-    addTextButton("1", 80, LIME, {G_cntrW - 300, G_cntrH + 150});
-    addTextButton("5", 80, GOLD, {G_cntrW - 100, G_cntrH + 150});
-    addTextButton("8", 80, VIOLET, {G_cntrW + 100, G_cntrH + 150});
-    addTextButton("3", 80, PINK, {G_cntrW + 300, G_cntrH + 150});
+    addTextButton("1", 80, LIME, {G_cntrW - 275, G_cntrH});
+    addTextButton("5", 80, GOLD, {G_cntrW - 225, G_cntrH + 175});
+    addTextButton("8", 80, VIOLET, {G_cntrW + 225, G_cntrH + 175});
+    addTextButton("3", 80, PINK, {G_cntrW + 275, G_cntrH});
 }
 
 void Level6::Update()
 {
     Level::Update();
 
-    // The number-dragging can be this simple because all buttons on level 5 will be numbers 
-    // besides the 'Submit' button.
+    // The number-dragging can be this simple because all buttons are numbers except the 'Submit' button.
     for (Button* button : getButtons()) {
         if (button->isPressed() && button != m_submitButton) {
             // point 'm_buttonInHand' to the button that was just pressed, setting it back to
@@ -418,7 +417,7 @@ void Level6::Update()
 
     // On submission, add every button inside of the submission box to a vector, then organize
     // their text object's text strings in the same order that they exist spatially. Save this
-    // created number to a string and check if it matches 'm_greatestNumber'.
+    // created number to a string and check if it matches 'm_correctNumber'.
     if (m_submitButton->isPressed()) {
         vector<Button*> numbersInBox; // For buttons that are inside of the submission box.
         string finalSubmission; // The final submission to match against 'm_greatestNumber'.
@@ -435,7 +434,7 @@ void Level6::Update()
             finalSubmission += button->getTextObj()->getTextString();
         }
 
-        if (finalSubmission == m_greatestNumber) {
+        if (finalSubmission == m_correctNumber) {
             delete G_currentLevel;
             G_currentLevel = new Level7();
         }
@@ -446,9 +445,80 @@ void Level6::Update()
     }
 }
 
-Level7::Level7() {}
+Level7::Level7()
+:
+    m_buttonInHand(nullptr),
+    m_submitBox(nullptr),
+    m_submitButton(nullptr),
+    m_correctNumber("7")
+{ 
+    // Main title and instructions.
+    addSimpleText("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
+
+    addTextButton("7", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
+
+    addSimpleText("Put the hungry number in the box", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+        ->setRotation(0.0f, 4.0f, 1.5f);
+    
+    // Submit box.
+    m_submitBox = addEntity(new Label(BLACK, WHITE, {250, 150}, 6, {G_cntrW, G_cntrH - 25}, -10));
+
+    // Submit button.
+    m_submitButton = addUiButton("Submit");
+
+    addTextButton("5", 80, LIME, {G_cntrW - 275, G_cntrH});
+    addTextButton("6", 80, GOLD, {G_cntrW - 225, G_cntrH + 175});
+    addTextButton("8", 80, VIOLET, {G_cntrW + 225, G_cntrH + 175});
+    addTextButton("10", 80, PINK, {G_cntrW + 275, G_cntrH});
+}
 
 void Level7::Update()
 {
     Level::Update();
+
+    // The number-dragging can be this simple because all buttons are numbers except the 'Submit' button.
+    for (Button* button : getButtons()) {
+        if (button->isPressed() && button != m_submitButton) {
+            // point 'm_buttonInHand' to the button that was just pressed, setting it back to
+            // 'nullptr' if the mouse is released.
+            m_buttonInHand = button; 
+        }
+    }
+
+    // If the mouse is pressed and a button is in hand, move it to the cursor's position.    
+    if (IsMouseButtonDown(0) && m_buttonInHand != nullptr) {
+        m_buttonInHand->setPosition(GetMousePosition());
+    }
+    else {
+        m_buttonInHand = nullptr;
+    }
+
+    // On submission, add every button inside of the submission box to a vector, then organize
+    // their text object's text strings in the same order that they exist spatially. Save this
+    // created number to a string and check if it matches 'm_correctNumber'.
+    if (m_submitButton->isPressed()) {
+        vector<Button*> numbersInBox; // For buttons that are inside of the submission box.
+        string finalSubmission; // The final submission to match against 'm_correctNumber'.
+        for (Button* button : getButtons()) {
+            if (CheckCollisionRecs(button->getRectangle(), m_submitBox->getRectangle())) {
+                auto it = numbersInBox.begin();
+                while (it != numbersInBox.end() && (*it)->getPosition().x <= button->getPosition().x) {
+                    ++it;
+                }
+                numbersInBox.insert(it, button);
+            }
+        } 
+        for (Button* button : numbersInBox) {
+            finalSubmission += button->getTextObj()->getTextString();
+        }
+  
+        if (finalSubmission == m_correctNumber) {
+            delete G_currentLevel;
+            G_currentLevel = new Level7();
+        }
+        else {
+            delete G_currentLevel;
+            G_currentLevel = new LevelLose();
+        }
+    }
 }

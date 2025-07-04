@@ -148,7 +148,7 @@ class Level6 : public BlinkEngine::Level
         Label* m_submitBox;
         Button* m_submitButton;
 
-        string m_greatestNumber; 
+        string m_correctNumber; 
 };
 
 class Level7 : public BlinkEngine::Level
@@ -158,4 +158,9 @@ class Level7 : public BlinkEngine::Level
         void Update() override;
 
     private: 
+        Button* m_buttonInHand;
+        Label* m_submitBox;
+        Button* m_submitButton;
+
+        string m_correctNumber;
 };
