@@ -19,10 +19,11 @@
 ***********************************************************************************************/
 
 // Source.
+#include "game.hpp"
 #include "background.hpp"
-#include "main.hpp"
 
 using BlinkEngine::Background;
+using BlinkEngine::Game;
 
 // Standard library.
 #include <cmath>
@@ -49,8 +50,8 @@ void Background::Update()
 
 void Background::Draw()
 {
-    const int cols = (G_w / m_squareSize) + 2;
-    const int rows = (G_h / m_squareSize) + 2;
+    const int cols = (Game::getW() / m_squareSize) + 2;
+    const int rows = (Game::getH() / m_squareSize) + 2;
 
     const float effectiveOffset = std::fmod(scrollOffset, 2 * m_squareSize);
 

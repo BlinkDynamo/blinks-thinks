@@ -20,8 +20,9 @@
 
 // Source.
 #include "animation.hpp"
-#include "main.hpp"
+#include "game.hpp"
 
+using BlinkEngine::Game;
 using BlinkEngine::AnimRaylib;
 using BlinkEngine::AnimSelfCredit;
 
@@ -31,8 +32,8 @@ using BlinkEngine::AnimSelfCredit;
 AnimRaylib::AnimRaylib()
     :
     Entity({0, 0}, 0), // Both of these are unused. Set default values of 0.
-    m_logoPositionX((G_w / 2) - 128),
-    m_logoPositionY((G_h / 2) - 128),
+    m_logoPositionX((Game::getCW()) - 128),
+    m_logoPositionY((Game::getCH()) - 128),
     m_topSideRecWidth(16),
     m_leftSideRecHeight(16),
     m_bottomSideRecWidth(16),
@@ -195,8 +196,8 @@ void AnimRaylib::Draw()
 
             DrawText(
                 TextSubtext("raylib", 0, m_lettersCount),
-                G_w/2 - 44,
-                G_h/2 + 48,
+                Game::getCW() - 44,
+                Game::getCH() + 48,
                 50,
                 Fade(BLACK, m_alpha));
 
@@ -223,12 +224,12 @@ AnimSelfCredit::AnimSelfCredit()
     m_font(GetFontDefault()),
 
     m_textPos({ 
-        static_cast<float>(G_cntrW - 240), 
-        static_cast<float>(G_cntrH)
+        static_cast<float>(Game::getCW() - 240), 
+        static_cast<float>(Game::getCH())
     }),
 
     m_bgColor({ 30, 30, 30, 255}),
-    m_shortDelay(1 * G_frameRate)
+    m_shortDelay(1 * Game::getFrameRate())
 {}
 
 bool AnimSelfCredit::isFinished()
@@ -286,7 +287,7 @@ void AnimSelfCredit::Update()
 void AnimSelfCredit::Draw()
 { 
     // Draw a background rectangle.
-    DrawRectangle(G_cntrW - 300, G_cntrH - 30, 600, 100, m_bgColor);
+    DrawRectangle(Game::getCW() - 300, Game::getCH() - 30, 600, 100, m_bgColor);
     switch (m_state)
     {
         // Letters being added on every 2 frames.

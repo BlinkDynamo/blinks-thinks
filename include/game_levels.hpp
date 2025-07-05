@@ -35,9 +35,6 @@ using BlinkEngine::AnimSelfCredit;
 
 using std::string;
 
-// Global level pointer for game implementation.
-extern Level* G_currentLevel;
-
 class LevelAnimRaylib : public BlinkEngine::Level
 {
     public:

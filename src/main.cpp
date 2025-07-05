@@ -19,7 +19,7 @@
 ***********************************************************************************************/
 
 // Source.
-#include "main.hpp"
+#include "game.hpp"
 #include "game_levels.hpp"
 
 // Standard library.
@@ -27,55 +27,8 @@
 
 int main(void)
 {
-    // -------------------------------------------------------------------------------------- //
-    //                                    Initialization.                                     //
-    // -------------------------------------------------------------------------------------- // 
-
-    // Window, Screen, and FPS.
-    InitWindow(G_w, G_h, "Blink's Thinks");
-    SetTargetFPS(G_frameRate);
-
-    // If G_currentLevel is not yet set, set it to the Title Screen.
-    if (G_currentLevel == nullptr) G_currentLevel = new LevelAnimRaylib();
-
-    // Audio.
-    InitAudioDevice();
-    SetAudioStreamBufferSizeDefault(4096);
-    Music title_theme = LoadMusicStream("res/music/title_theme.ogg");
-    PlayMusicStream(title_theme); 
-
-    // Main Event Loop.
-    while (!WindowShouldClose())
-    {
-        // ---------------------------------------------------------------------------------- //
-        //                                      Update.                                       //
-        // ---------------------------------------------------------------------------------- //
-
-        // Update the music buffer with new stream data.
-        UpdateMusicStream(title_theme);
-
-        G_currentLevel->Update();
-
-        // ---------------------------------------------------------------------------------- //
-        //                                       Draw.                                        //
-        // ---------------------------------------------------------------------------------- //
-        BeginDrawing();
-
-        ClearBackground(RAYWHITE);
-        G_currentLevel->Draw();
-
-        EndDrawing();
-    }
-
-    // ------------------------------------------------------------------------------------------ //
-    //                                     De-initialization.                                     //
-    // ------------------------------------------------------------------------------------------ //
-
-    // Audio.
-    UnloadMusicStream(title_theme);
-    CloseAudioDevice();
-
-    // Close window and program exit.
-    CloseWindow();
+    BlinkEngine::Game& gameInstance = BlinkEngine::Game::getInstance();
+    gameInstance.setCurrentLevel(new LevelAnimRaylib());
+    gameInstance.Run();
     return 0;
 }

@@ -20,15 +20,14 @@
 ***********************************************************************************************/
 
 // Source.
-#include "main.hpp"
+#include "game.hpp"
 #include "game_levels.hpp"
+
+using BlinkEngine::Game;
 
 // Standard library.
 #include <cstdlib>
 #include <sstream>
-
-// Global level pointer for game implementation.
-Level* G_currentLevel = nullptr;
 
 // ------------------------------------------------------------------------------------------ //
 //                                     Raylib animation.                                      //
@@ -44,8 +43,8 @@ void LevelAnimRaylib::Update() {
     Level::Update();
 
     if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
-        delete G_currentLevel;
-        G_currentLevel = new LevelAnimSelfCredit;
+        delete Game::getInstance().getCurrentLevel();
+        Game::getInstance().setCurrentLevel(new LevelAnimSelfCredit());
     }
 }
 
@@ -64,8 +63,8 @@ void LevelAnimSelfCredit::Update()
     Level::Update();
 
     if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
-        delete G_currentLevel;
-        G_currentLevel = new LevelTitle;
+        delete Game::getInstance().getCurrentLevel();
+        Game::getInstance().setCurrentLevel(new LevelTitle());
     }
 }
 
@@ -78,7 +77,7 @@ LevelTitle::LevelTitle()
     m_playButton(nullptr)
 {
     // Non-referenced objects.
-    addSimpleText("Blink's Thinks", 100, m_aquamarine, {G_cntrW, G_cntrH - 100}, 0)
+    addSimpleText("Blink's Thinks", 100, m_aquamarine, {Game::getInstance().getCW(), Game::getInstance().getCH() - 100}, 0)
         ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
@@ -90,8 +89,8 @@ void LevelTitle::Update()
     Level::Update();
 
     if (m_playButton->isPressed()) {
-        delete G_currentLevel;
-        G_currentLevel = new Level1();
+        delete Game::getInstance().getCurrentLevel();
+        Game::getInstance().setCurrentLevel(new Level1());
     }
 }
 
@@ -103,7 +102,7 @@ LevelLose::LevelLose()
     m_restartButton(nullptr)
 {
 // Non-referenced objects.
-    addSimpleText("Game over!", 100, RED, {G_cntrW, G_cntrH - 100}, 0)
+    addSimpleText("Game over!", 100, RED, {Game::getInstance().getCW(), Game::getInstance().getCH() - 100}, 0)
         ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
@@ -115,8 +114,8 @@ void LevelLose::Update()
     Level::Update();
 
     if (m_restartButton->isPressed()) {
-        delete G_currentLevel;
-        G_currentLevel = new Level1();
+        delete Game::getInstance().getCurrentLevel();
+        Game::getInstance().setCurrentLevel(new Level1());
     }
 }
 
@@ -127,16 +126,16 @@ Level1::Level1()
     :
     m_correctAnswer(nullptr)
 {
-    addSimpleText("Level 1", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
+    addSimpleText("Level 1", 80, ORANGE, {Game::getInstance().getCW(), Game::getInstance().getCH() - 250}, 0);
     
-    addSimpleText("What is the largest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("What is the largest number?", 40, RAYWHITE, {Game::getInstance().getCW(), Game::getInstance().getCH() - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
 
-    addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
-    addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
-    addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50});
-    m_correctAnswer = addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50}); 
+    addTextButton("144", 60, LIME, {Game::getInstance().getCW() - 300, Game::getInstance().getCH() + 50});
+    addTextButton("31", 80, GOLD, {Game::getInstance().getCW() - 150, Game::getInstance().getCH() + 50});
+    addTextButton("50", 100, PINK, {Game::getInstance().getCW(), Game::getInstance().getCH() + 50});
+    addTextButton("518", 60, BLUE, {Game::getInstance().getCW() + 150, Game::getInstance().getCH() + 50});
+    m_correctAnswer = addTextButton("2869", 60, VIOLET, {Game::getInstance().getCW() + 300, Game::getInstance().getCH() + 50}); 
 }
 
 void Level1::Update()
@@ -144,16 +143,16 @@ void Level1::Update()
     // If the correct option is chosen, move on to Level 2.
     Level::Update();
     if (m_correctAnswer->isPressed()) {
-        delete G_currentLevel;
-        G_currentLevel = new Level2();
+        delete Game::getInstance().getCurrentLevel();
+        Game::getInstance().setCurrentLevel(new Level2());
     }
     else {
         // If any button is pressed after it's determined the correct answer WASN'T pressed,
         // the player must have pressed the wrong button.
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
-                delete G_currentLevel;
-                G_currentLevel = new LevelLose();
+                delete Game::getInstance().getCurrentLevel();
+                Game::getInstance().setCurrentLevel(new LevelLose());
             }
         }
     }
@@ -166,18 +165,18 @@ Level2::Level2()
     :
     m_correctAnswer(nullptr)
 {
-    addSimpleText("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
+    addSimpleText("Level  ", 80, ORANGE, {Game::getInstance().getCW() - 4, Game::getInstance().getCH() - 250}, 0);
 
-    m_correctAnswer = addTextButton("2", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
+    m_correctAnswer = addTextButton("2", 80, ORANGE, {Game::getInstance().getCW() + 122, Game::getInstance().getCH() - 250});
 
-    addSimpleText("What is the smallest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("What is the smallest number?", 40, RAYWHITE, {Game::getInstance().getCW(), Game::getInstance().getCH() - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
     
-    addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
-    addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50});
-    addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
-    addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50});
+    addTextButton("144", 60, LIME, {Game::getInstance().getCW() - 300, Game::getInstance().getCH() + 50});
+    addTextButton("31", 80, GOLD, {Game::getInstance().getCW() - 150, Game::getInstance().getCH() + 50});
+    addTextButton("2869", 60, VIOLET, {Game::getInstance().getCW() + 300, Game::getInstance().getCH() + 50});
+    addTextButton("50", 100, PINK, {Game::getInstance().getCW(), Game::getInstance().getCH() + 50});
+    addTextButton("518", 60, BLUE, {Game::getInstance().getCW() + 150, Game::getInstance().getCH() + 50});
 }
 
 void Level2::Update()
@@ -185,16 +184,16 @@ void Level2::Update()
     // If the correct option is chosen, move on to Level 3.
     Level::Update();
     if (m_correctAnswer->isPressed()) {
-        delete G_currentLevel;
-        G_currentLevel = new Level3();
+        delete Game::getInstance().getCurrentLevel();
+        Game::getInstance().setCurrentLevel(new Level3());
     }
     else {
         // If any button is pressed after it's determined the correct answer WASN'T pressed,
         // the player must have pressed the wrong button.
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
-                delete G_currentLevel;
-                G_currentLevel = new LevelLose();
+                delete Game::getInstance().getCurrentLevel();
+                Game::getInstance().setCurrentLevel(new LevelLose());
             }
         }
     }
@@ -213,16 +212,16 @@ Level3::Level3()
     maxScale(2.5),
     minScale(1.00)
 {
-    addSimpleText("Level 3", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
+    addSimpleText("Level 3", 80, ORANGE, {Game::getInstance().getCW(), Game::getInstance().getCH() - 250}, 0);
 
-    addSimpleText("What is the tallest number?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("What is the tallest number?", 40, RAYWHITE, {Game::getInstance().getCW(), Game::getInstance().getCH() - 150}, 0)
     ->setRotation(0.0f, 4.0f, 1.5f);
     
-    m_correctAnswer = addTextButton("144", 60, LIME, {G_cntrW - 300, G_cntrH + 50});
-    addTextButton("31", 80, GOLD, {G_cntrW - 150, G_cntrH + 50});
-    addTextButton("2869", 60, VIOLET, {G_cntrW + 300, G_cntrH + 50});
-    addTextButton("50", 100, PINK, {G_cntrW, G_cntrH + 50});
-    addTextButton("518", 60, BLUE, {G_cntrW + 150, G_cntrH + 50}); 
+    m_correctAnswer = addTextButton("144", 60, LIME, {Game::getInstance().getCW() - 300, Game::getInstance().getCH() + 50});
+    addTextButton("31", 80, GOLD, {Game::getInstance().getCW() - 150, Game::getInstance().getCH() + 50});
+    addTextButton("2869", 60, VIOLET, {Game::getInstance().getCW() + 300, Game::getInstance().getCH() + 50});
+    addTextButton("50", 100, PINK, {Game::getInstance().getCW(), Game::getInstance().getCH() + 50});
+    addTextButton("518", 60, BLUE, {Game::getInstance().getCW() + 150, Game::getInstance().getCH() + 50}); 
 }
 
 void Level3::Update()
@@ -244,16 +243,16 @@ void Level3::Update()
     // If the correct option is chosen, move on to Level 4.
     Level::Update();
     if (m_correctAnswer->isPressed()) {
-        delete G_currentLevel;
-        G_currentLevel = new Level4();
+        delete Game::getInstance().getCurrentLevel();
+        Game::getInstance().setCurrentLevel(new Level4());
     }
     else {
         // If any button is pressed after it's determined the correct answer WASN'T pressed,
         // the player must have pressed the wrong button.
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
-                delete G_currentLevel;
-                G_currentLevel = new LevelLose();
+                delete Game::getInstance().getCurrentLevel();
+                Game::getInstance().setCurrentLevel(new LevelLose());
             }
         }
     } 
@@ -264,14 +263,14 @@ void Level3::Update()
 // ------------------------------------------------------------------------------------------ //
 Level4::Level4()
 {
-    addSimpleText("Level 4", 80, ORANGE, {G_cntrW, G_cntrH - 250}, 0);
+    addSimpleText("Level 4", 80, ORANGE, {Game::getInstance().getCW(), Game::getInstance().getCH() - 250}, 0);
 
-    addSimpleText("How much time do you want for Level 5?", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("How much time do you want for Level 5?", 40, RAYWHITE, {Game::getInstance().getCW(), Game::getInstance().getCH() - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
     
-    addTextButton("2 seconds", 60, LIME, {G_cntrW, G_cntrH - 50});
-    addTextButton("5 seconds", 60, VIOLET, {G_cntrW, G_cntrH + 50});
-    addTextButton("10 seconds", 60, BLUE, {G_cntrW, G_cntrH + 150});
+    addTextButton("2 seconds", 60, LIME, {Game::getInstance().getCW(), Game::getInstance().getCH() - 50});
+    addTextButton("5 seconds", 60, VIOLET, {Game::getInstance().getCW(), Game::getInstance().getCH() + 50});
+    addTextButton("10 seconds", 60, BLUE, {Game::getInstance().getCW(), Game::getInstance().getCH() + 150});
 }
 
 void Level4::Update()
@@ -286,8 +285,8 @@ void Level4::Update()
             string chosenTime = button->getTextObj()->getTextString();
             chosenTime.erase(chosenTime.find(" seconds"), chosenTime.length());
 
-            delete G_currentLevel;
-            G_currentLevel = new Level5(chosenTime); 
+            delete Game::getInstance().getCurrentLevel();
+            Game::getInstance().setCurrentLevel(new Level5(chosenTime));
         }
     }
 }
@@ -299,16 +298,16 @@ Level5::Level5(string duration)
     m_duration(duration)
 {
     // Main title, information, and countdown timer.
-    addSimpleText("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
+    addSimpleText("Level  ", 80, ORANGE, {Game::getInstance().getCW() - 4, Game::getInstance().getCH() - 250}, 0);
 
-    addTextButton("5", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
+    addTextButton("5", 80, ORANGE, {Game::getInstance().getCW() + 122, Game::getInstance().getCH() - 250});
 
-    addSimpleText("Don't touch any numbers for", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("Don't touch any numbers for", 40, RAYWHITE, {Game::getInstance().getCW(), Game::getInstance().getCH() - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
     
-    m_timer = addTextButton(m_duration, 80, RED, {G_cntrW, G_cntrH - 65});
+    m_timer = addTextButton(m_duration, 80, RED, {Game::getInstance().getCW(), Game::getInstance().getCH() - 65});
 
-    addSimpleText("more seconds", 40, RAYWHITE, {G_cntrW, G_cntrH}, 0)
+    addSimpleText("more seconds", 40, RAYWHITE, {Game::getInstance().getCW(), Game::getInstance().getCH()}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
 
     // All obstacles.
@@ -316,18 +315,18 @@ Level5::Level5(string duration)
     string longNumTwo = "239427620310921174648449330989407894927458570770003111";
     string longNumThree = "230459256723665565627118580006023666643111673444567710";
 
-    addTextButton("68", 120, RED, {G_cntrW - 270, G_cntrH - 500})->setSpeed({0, 12});
-    addTextButton(longNumOne, 160, RED, {G_cntrW - 3050, G_cntrH + 250})->setSpeed({3, -1}); 
-    addTextButton(longNumTwo, 160, RED, {G_cntrW + 3050, G_cntrH - 230})->setSpeed({-3, 1}); 
-    addTextButton("8043001", 120, RED, {G_cntrW - 200, G_cntrH + 1200})->setSpeed({0, -5}); 
-    addTextButton("3", 120, RED, {G_cntrW + 600, G_cntrH})->setSpeed({-1, 0});
-    addTextButton("762", 160, RED, {G_cntrW - 1300, G_cntrH})->setSpeed({2, 0}); 
-    addTextButton("12", 120, RED, {G_cntrW + 1800, G_cntrH - 600})->setSpeed({-8, 4});
-    addTextButton("5000006", 120, RED, {G_cntrW + 200, G_cntrH - 3000})->setSpeed({0, 7}); 
-    addTextButton("3078", 80, RED, {G_cntrW - 250, G_cntrH - 3100})->setSpeed({0, 7}); 
-    addTextButton(longNumThree, 150, RED, {G_cntrW + 4550, G_cntrH - 150})->setSpeed({-4, 0}); 
-    addTextButton("7877878447232634", 150, RED, {G_cntrW, G_cntrH + 800})->setSpeed({0, -1}); 
-    addTextButton("64", 120, RED, {G_cntrW + 3000, G_cntrH + 700})->setSpeed({-5, -1});
+    addTextButton("68", 120, RED, {Game::getInstance().getCW() - 270, Game::getInstance().getCH() - 500})->setSpeed({0, 12});
+    addTextButton(longNumOne, 160, RED, {Game::getInstance().getCW() - 3050, Game::getInstance().getCH() + 250})->setSpeed({3, -1}); 
+    addTextButton(longNumTwo, 160, RED, {Game::getInstance().getCW() + 3050, Game::getInstance().getCH() - 230})->setSpeed({-3, 1}); 
+    addTextButton("8043001", 120, RED, {Game::getInstance().getCW() - 200, Game::getInstance().getCH() + 1200})->setSpeed({0, -5}); 
+    addTextButton("3", 120, RED, {Game::getInstance().getCW() + 600, Game::getInstance().getCH()})->setSpeed({-1, 0});
+    addTextButton("762", 160, RED, {Game::getInstance().getCW() - 1300, Game::getInstance().getCH()})->setSpeed({2, 0}); 
+    addTextButton("12", 120, RED, {Game::getInstance().getCW() + 1800, Game::getInstance().getCH() - 600})->setSpeed({-8, 4});
+    addTextButton("5000006", 120, RED, {Game::getInstance().getCW() + 200, Game::getInstance().getCH() - 3000})->setSpeed({0, 7}); 
+    addTextButton("3078", 80, RED, {Game::getInstance().getCW() - 250, Game::getInstance().getCH() - 3100})->setSpeed({0, 7}); 
+    addTextButton(longNumThree, 150, RED, {Game::getInstance().getCW() + 4550, Game::getInstance().getCH() - 150})->setSpeed({-4, 0}); 
+    addTextButton("7877878447232634", 150, RED, {Game::getInstance().getCW(), Game::getInstance().getCH() + 800})->setSpeed({0, -1}); 
+    addTextButton("64", 120, RED, {Game::getInstance().getCW() + 3000, Game::getInstance().getCH() + 700})->setSpeed({-5, -1});
 }
 
 void Level5::Update()
@@ -353,16 +352,16 @@ void Level5::Update()
         }
         // If there is no time left...
         else { 
-            delete G_currentLevel;
-            G_currentLevel = new Level6();
+            delete Game::getInstance().getCurrentLevel();
+            Game::getInstance().setCurrentLevel(new Level6());
         } 
     } 
     
     // The lose condition can be this simple because all buttons on level 5 will be numbers.
     for (Button* button : getButtons()) {
         if (button->isHovered()) {
-            delete G_currentLevel;
-            G_currentLevel = new LevelLose();
+            delete Game::getInstance().getCurrentLevel();
+            Game::getInstance().setCurrentLevel(new LevelLose());
         }
     }
 }
@@ -375,23 +374,23 @@ Level6::Level6()
     m_correctNumber("86531")
 {
     // Main title and instructions.
-    addSimpleText("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
+    addSimpleText("Level  ", 80, ORANGE, {Game::getInstance().getCW() - 4, Game::getInstance().getCH() - 250}, 0);
 
-    addTextButton("6", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
+    addTextButton("6", 80, ORANGE, {Game::getInstance().getCW() + 122, Game::getInstance().getCH() - 250});
 
-    addSimpleText("Fit the greatest number into the box", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("Fit the greatest number into the box", 40, RAYWHITE, {Game::getInstance().getCW(), Game::getInstance().getCH() - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
 
     // Submit box.
-    m_submitBox = addEntity(new Label(BLACK, WHITE, {250, 150}, 6, {G_cntrW, G_cntrH - 25}, -10));
+    m_submitBox = addEntity(new Label(BLACK, WHITE, {250, 150}, 6, {Game::getInstance().getCW(), Game::getInstance().getCH() - 25}, -10));
 
     // Submit button.
     m_submitButton = addUiButton("Submit");
 
-    addTextButton("1", 80, LIME, {G_cntrW - 275, G_cntrH});
-    addTextButton("5", 80, GOLD, {G_cntrW - 225, G_cntrH + 175});
-    addTextButton("8", 80, VIOLET, {G_cntrW + 225, G_cntrH + 175});
-    addTextButton("3", 80, PINK, {G_cntrW + 275, G_cntrH});
+    addTextButton("1", 80, LIME, {Game::getInstance().getCW() - 275, Game::getInstance().getCH()});
+    addTextButton("5", 80, GOLD, {Game::getInstance().getCW() - 225, Game::getInstance().getCH() + 175});
+    addTextButton("8", 80, VIOLET, {Game::getInstance().getCW() + 225, Game::getInstance().getCH() + 175});
+    addTextButton("3", 80, PINK, {Game::getInstance().getCW() + 275, Game::getInstance().getCH()});
 }
 
 void Level6::Update()
@@ -435,12 +434,12 @@ void Level6::Update()
         }
 
         if (finalSubmission == m_correctNumber) {
-            delete G_currentLevel;
-            G_currentLevel = new Level7();
+            delete Game::getInstance().getCurrentLevel();
+            Game::getInstance().setCurrentLevel(new Level7());
         }
         else {
-            delete G_currentLevel;
-            G_currentLevel = new LevelLose();
+            delete Game::getInstance().getCurrentLevel();
+            Game::getInstance().setCurrentLevel(new LevelLose());
         }
     }
 }
@@ -453,23 +452,23 @@ Level7::Level7()
     m_correctNumber("7")
 { 
     // Main title and instructions.
-    addSimpleText("Level  ", 80, ORANGE, {G_cntrW - 4, G_cntrH - 250}, 0);
+    addSimpleText("Level  ", 80, ORANGE, {Game::getInstance().getCW() - 4, Game::getInstance().getCH() - 250}, 0);
 
-    addTextButton("7", 80, ORANGE, {G_cntrW + 122, G_cntrH - 250});
+    addTextButton("7", 80, ORANGE, {Game::getInstance().getCW() + 122, Game::getInstance().getCH() - 250});
 
-    addSimpleText("Put the hungry number in the box", 40, RAYWHITE, {G_cntrW, G_cntrH - 150}, 0)
+    addSimpleText("Put the hungry number in the box", 40, RAYWHITE, {Game::getInstance().getCW(), Game::getInstance().getCH() - 150}, 0)
         ->setRotation(0.0f, 4.0f, 1.5f);
-    
+
     // Submit box.
-    m_submitBox = addEntity(new Label(BLACK, WHITE, {250, 150}, 6, {G_cntrW, G_cntrH - 25}, -10));
+    m_submitBox = addEntity(new Label(BLACK, WHITE, {250, 150}, 6, {Game::getInstance().getCW(), Game::getInstance().getCH() - 25}, -10));
 
     // Submit button.
     m_submitButton = addUiButton("Submit");
 
-    addTextButton("5", 80, LIME, {G_cntrW - 275, G_cntrH});
-    addTextButton("6", 80, GOLD, {G_cntrW - 225, G_cntrH + 175});
-    addTextButton("8", 80, VIOLET, {G_cntrW + 225, G_cntrH + 175});
-    addTextButton("10", 80, PINK, {G_cntrW + 275, G_cntrH});
+    addTextButton("5", 80, LIME, {Game::getInstance().getCW() - 275, Game::getInstance().getCH()});
+    addTextButton("6", 80, GOLD, {Game::getInstance().getCW() - 225, Game::getInstance().getCH() + 175});
+    addTextButton("8", 80, VIOLET, {Game::getInstance().getCW() + 225, Game::getInstance().getCH() + 175});
+    addTextButton("10", 80, PINK, {Game::getInstance().getCW() + 275, Game::getInstance().getCH()});
 }
 
 void Level7::Update()
@@ -513,12 +512,12 @@ void Level7::Update()
         }
   
         if (finalSubmission == m_correctNumber) {
-            delete G_currentLevel;
-            G_currentLevel = new Level7();
+            delete Game::getInstance().getCurrentLevel();
+            Game::getInstance().setCurrentLevel(new Level7());
         }
         else {
-            delete G_currentLevel;
-            G_currentLevel = new LevelLose();
+            delete Game::getInstance().getCurrentLevel();
+            Game::getInstance().setCurrentLevel(new LevelLose());
         }
     }
 }

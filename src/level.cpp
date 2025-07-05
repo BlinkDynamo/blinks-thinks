@@ -19,12 +19,13 @@
 ***********************************************************************************************/
 
 // Source.
+#include "game.hpp"
 #include "level.hpp"
 #include "text.hpp"
 #include "button.hpp"
 #include "overlay.hpp"
-#include "main.hpp"
 
+using BlinkEngine::Game;
 using BlinkEngine::Level;
 using BlinkEngine::Text;
 using BlinkEngine::Button;
@@ -39,7 +40,7 @@ Level::Level()
     addEntity(new Background(GRAY, { 200, 200, 200, 255 }, 50));
 
     // Display the current version number in the bottom right.
-    addEntity(new Text("v" + G_gameVersion, 20, RAYWHITE, {0, 0, 0, 0}, {G_w - 40, 20}, 1000));
+    addEntity(new Text("v" + Game::getGameVersion(), 20, RAYWHITE, {0, 0, 0, 0}, {Game::getW() - 40, 20}, 1000));
     }
 
     Level::~Level()
@@ -83,7 +84,7 @@ Text* Level::addSimpleText(string text, float fontSize, Color textColor, Vector2
 // Make a clickable UI button with dynamic text and background color at a fixed location.
 Button* Level::addUiButton(string text)
 {
-    constexpr Vector2 position = { G_cntrW, G_cntrH + 100 };
+    constexpr Vector2 position = { Game::getCW(), Game::getCH() + 100 };
     constexpr int layer = 0;
 
     Text* const textObj = new Text(text, 40, WHITE, { 0, 0, 0, 0 }, position, layer);

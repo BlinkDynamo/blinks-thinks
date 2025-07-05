@@ -19,10 +19,11 @@
 ***********************************************************************************************/
 
 // Source.
+#include "game.hpp"
 #include "overlay.hpp"
-#include "main.hpp"
 
 using BlinkEngine::Overlay;
+using BlinkEngine::Game;
 
 Overlay::Overlay(Color color, Vector2 position, int layer)
     :
@@ -35,5 +36,5 @@ void Overlay::Update()
 
 void Overlay::Draw()
 {
-    DrawRectangle(m_position.x, m_position.y, G_w, G_h, m_color);
+    DrawRectangle(m_position.x, m_position.y, Game::getW(), Game::getH(), m_color);
 }
