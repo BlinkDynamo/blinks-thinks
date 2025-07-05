@@ -42,7 +42,7 @@ void Game::Run()
     // -------------------------------------------------------------------------------------- // 
 
     // Window, Screen, and FPS.
-    InitWindow(m_w, m_h, m_gameName.c_str());
+    InitWindow(m_w, m_h, m_gameName);
     SetTargetFPS(m_frameRate);
 
     // Audio.

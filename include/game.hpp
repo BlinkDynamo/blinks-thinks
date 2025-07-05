@@ -62,8 +62,8 @@ namespace BlinkEngine
             Game(); // Private constructor.
             
             // Version.
-            static constexpr string m_gameVersion = "0.0.7";
-            static constexpr string m_gameName = "Blink's Thinks";
+            static constexpr const char* m_gameVersion = "0.0.7";
+            static constexpr const char* m_gameName = "Blink's Thinks";
 
             // Resolution and framerate.
             static constexpr int m_w = 900;
