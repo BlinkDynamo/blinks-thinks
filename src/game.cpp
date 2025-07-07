@@ -33,6 +33,8 @@ Game& Game::getInstance()
 }
 
 Game::Game()
+    :
+    m_currentMusicPitch(1.0)
 {}
 
 Game::~Game()
@@ -74,7 +76,10 @@ void Game::Run()
         // ---------------------------------------------------------------------------------- //
         //                                      Update.                                       //
         // ---------------------------------------------------------------------------------- //
-        if (m_currentMusic != nullptr) UpdateMusicStream(*m_currentMusic);
+        if (m_currentMusic != nullptr) {
+            SetMusicPitch(*m_currentMusic, m_currentMusicPitch);
+            UpdateMusicStream(*m_currentMusic);
+        }
         if (m_currentLevel != nullptr) m_currentLevel->Update();
 
         // ---------------------------------------------------------------------------------- //

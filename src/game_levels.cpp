@@ -90,7 +90,7 @@ LevelTitle::LevelTitle()
 void LevelTitle::Update()
 {
     Level::Update();
-
+    
     if (m_playButton->isPressed()) {
         delete Game::getInstance().getCurrentLevel();
         Game::getInstance().setCurrentLevel(new Level1());
@@ -109,16 +109,25 @@ LevelLose::LevelLose()
         ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
-    m_restartButton = addUiButton("Restart");
+    m_restartButton = addUiButton("Restart"); 
 }
 
 void LevelLose::Update()
 {
     Level::Update();
+    Game& game = Game::getInstance();
+
+    // Hacky solution. Fix this.
+    constexpr float epsilon = 0.0001f;
+    if (game.getCurrentMusicPitch() > 0.7f + epsilon) {
+        // Pitch down the current music track.
+        SetMusicPitch(*game.getCurrentMusic(), game.getCurrentMusicPitch());
+        game.setCurrentMusicPitch(game.getCurrentMusicPitch() - 0.01);
+    }
 
     if (m_restartButton->isPressed()) {
-        delete Game::getInstance().getCurrentLevel();
-        Game::getInstance().setCurrentLevel(new Level1());
+        delete game.getCurrentLevel();
+        game.setCurrentLevel(new Level1());
     }
 }
 
@@ -149,19 +158,28 @@ void Level1::Update()
 {
     // If the correct option is chosen, move on to Level 2.
     Level::Update();
+    Game& game = Game::getInstance(); 
+
     if (m_correctAnswer->isPressed()) {
-        delete Game::getInstance().getCurrentLevel();
-        Game::getInstance().setCurrentLevel(new Level2());
+        delete game.getCurrentLevel();
+        game.setCurrentLevel(new Level2());
     }
     else {
         // If any button is pressed after it's determined the correct answer WASN'T pressed,
         // the player must have pressed the wrong button.
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
-                delete Game::getInstance().getCurrentLevel();
-                Game::getInstance().setCurrentLevel(new LevelLose());
+                delete game.getCurrentLevel();
+                game.setCurrentLevel(new LevelLose());
             }
         }
+    }
+    // Hacky solution. Fix this.
+    constexpr float epsilon = 0.0001f;
+    // Pitch back up the current music track if it's below 1.0.
+    if (game.getCurrentMusicPitch() < 1.0 - epsilon) {
+        SetMusicPitch(*game.getCurrentMusic(), game.getCurrentMusicPitch());
+        game.setCurrentMusicPitch(game.getCurrentMusicPitch() + 0.02);
     }
 }
 

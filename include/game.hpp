@@ -61,6 +61,12 @@ namespace BlinkEngine
             void setCurrentLevel(Level* level) { m_currentLevel = level; }
 
             void setCurrentMusic(string trackName);
+            Music* getCurrentMusic() { return m_currentMusic; }
+
+            void setCurrentMusicPitch(float pitch) { m_currentMusicPitch = pitch; }
+            float getCurrentMusicPitch() { return m_currentMusicPitch; }
+
+            //void playMusicTrack(string trackName);
 
         private: 
             Game();
@@ -85,5 +91,8 @@ namespace BlinkEngine
 
             // The current song being played.
             Music* m_currentMusic;
+
+            // The pitch that the current song is being played at (normal is 1.0).
+            float m_currentMusicPitch;
     };
 }
