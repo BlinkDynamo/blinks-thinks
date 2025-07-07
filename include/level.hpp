@@ -42,6 +42,9 @@ using std::is_base_of;
 
 namespace BlinkEngine
 {
+    // Forward declare 'Game' to let the compiler know it's defined elsewhere.
+    class Game;
+
     class Level
     {
         public:
@@ -113,5 +116,7 @@ namespace BlinkEngine
 
             vector<Button*> m_buttons;          // All buttons made by factory methods are added
                                                 // to here.
+        protected:
+            Game& m_game;
     };
 }

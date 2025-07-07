@@ -34,7 +34,8 @@ using BlinkEngine::Overlay;
 Level::Level()
     :
     m_entities{},
-    m_buttons{}
+    m_buttons{},
+    m_game(Game::getInstance())
 {
     // Create a base simple background for all 'Level' objects for now.
     addEntity(new Background(GRAY, { 200, 200, 200, 255 }, 50));
