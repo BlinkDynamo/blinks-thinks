@@ -35,6 +35,21 @@ Game& Game::getInstance()
 Game::Game()
 {}
 
+Game::~Game()
+{
+    for (const auto& [name, music] : m_musicTracks) {
+        UnloadMusicStream(music);
+    }
+}
+
+void Game::setCurrentMusic(string trackName)
+{
+    // If there is a track currently playing, stop it first.
+    if (m_currentMusic != nullptr) StopMusicStream(*m_currentMusic);
+    m_currentMusic = &m_musicTracks[trackName];
+    PlayMusicStream(*m_currentMusic);
+}
+
 void Game::Run()
 {
     // -------------------------------------------------------------------------------------- //
@@ -45,11 +60,13 @@ void Game::Run()
     InitWindow(m_w, m_h, m_gameName);
     SetTargetFPS(m_frameRate);
 
-    // Audio.
+    // Setup the audio device.
     InitAudioDevice();
     SetAudioStreamBufferSizeDefault(4096);
-    Music title_theme = LoadMusicStream("res/music/title_theme.ogg");
-    PlayMusicStream(title_theme); 
+
+    // Load all music tracks into 'm_musicTracks'.
+    m_musicTracks["title_theme"] = LoadMusicStream("res/music/title_theme.ogg");
+    m_musicTracks["no_stopping_now"] = LoadMusicStream("res/music/no_stopping_now.ogg");
 
     // Main Event Loop.
     while (!WindowShouldClose())
@@ -57,20 +74,15 @@ void Game::Run()
         // ---------------------------------------------------------------------------------- //
         //                                      Update.                                       //
         // ---------------------------------------------------------------------------------- //
-
-        // Update the music buffer with new stream data.
-        UpdateMusicStream(title_theme);
-
+        if (m_currentMusic != nullptr) UpdateMusicStream(*m_currentMusic);
         if (m_currentLevel != nullptr) m_currentLevel->Update();
 
         // ---------------------------------------------------------------------------------- //
         //                                       Draw.                                        //
         // ---------------------------------------------------------------------------------- //
         BeginDrawing();
-
         ClearBackground(RAYWHITE);
         if (m_currentLevel != nullptr) m_currentLevel->Draw();
-
         EndDrawing();
     }
 
@@ -79,7 +91,7 @@ void Game::Run()
     // -------------------------------------------------------------------------------------- //
 
     // Audio.
-    UnloadMusicStream(title_theme);
+    UnloadMusicStream(*m_currentMusic);
     CloseAudioDevice();
 
     // Close window and program exit.

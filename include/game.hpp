@@ -27,8 +27,10 @@ using BlinkEngine::Level;
 
 // Standard library.
 #include <string>
+#include <unordered_map>
 
 using std::string;
+using std::unordered_map;
 
 namespace BlinkEngine
 {
@@ -58,8 +60,11 @@ namespace BlinkEngine
             Level* getCurrentLevel() { return m_currentLevel; }
             void setCurrentLevel(Level* level) { m_currentLevel = level; }
 
+            void setCurrentMusic(string trackName);
+
         private: 
-            Game(); // Private constructor.
+            Game();
+            ~Game();
             
             // Version.
             static constexpr const char* m_gameVersion = "0.0.7";
@@ -74,5 +79,11 @@ namespace BlinkEngine
 
             // The current level being updated, drawn, and interacted with.
             Level* m_currentLevel;
+
+            // All music tracks loaded on construction and referenced by their track names.
+            unordered_map<string, Music> m_musicTracks;
+
+            // The current song being played.
+            Music* m_currentMusic;
     };
 }

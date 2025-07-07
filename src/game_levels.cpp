@@ -82,6 +82,9 @@ LevelTitle::LevelTitle()
 
     // Class-referenced objects. 
     m_playButton = addUiButton("Play");
+
+    // Set the music track.
+    Game::getInstance().setCurrentMusic("title_theme");
 }
 
 void LevelTitle::Update()
@@ -136,6 +139,10 @@ Level1::Level1()
     addTextButton("50", 100, PINK, {Game::getInstance().getCW(), Game::getInstance().getCH() + 50});
     addTextButton("518", 60, BLUE, {Game::getInstance().getCW() + 150, Game::getInstance().getCH() + 50});
     m_correctAnswer = addTextButton("2869", 60, VIOLET, {Game::getInstance().getCW() + 300, Game::getInstance().getCH() + 50}); 
+
+    // Set the music track. 
+    Game::getInstance().setCurrentMusic("no_stopping_now");
+
 }
 
 void Level1::Update()
