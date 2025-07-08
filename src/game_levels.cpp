@@ -118,7 +118,7 @@ void LevelLose::Update()
 
     // Hacky solution. Fix this.
     constexpr float epsilon = 0.0001f;
-    if (m_game.getCurrentMusicPitch() > 0.7f + epsilon) {
+    if (m_game.getCurrentMusicPitch() > 0.8f + epsilon) {
         // Pitch down the current music track.
         SetMusicPitch(*m_game.getCurrentMusic(), m_game.getCurrentMusicPitch());
         m_game.setCurrentMusicPitch(m_game.getCurrentMusicPitch() - 0.01);

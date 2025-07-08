@@ -36,10 +36,16 @@ namespace BlinkEngine
             void Update() override;
             void Draw() override;
 
+            // Getters and setters.
+            static float getScrollOffset() { return m_scrollOffset; }
+            static void setScrollOffset(float scrollOffset) { m_scrollOffset = scrollOffset; }
+
         private:
             // Arguments.
             Color m_darkColor;
             Color m_lightColor;
             int m_squareSize;
+
+            static float m_scrollOffset;
     };
 }

@@ -28,8 +28,7 @@ using BlinkEngine::Game;
 // Standard library.
 #include <cmath>
 
-// Global scroll offset to sync animations between 'Background' objects.
-float scrollOffset = 0.0f;
+float Background::m_scrollOffset = 0.0f;
 
 Background::Background(
     Color darkColor, 
@@ -45,7 +44,7 @@ Background::Background(
 
 void Background::Update()
 {
-    scrollOffset += GetFrameTime() * 30.0f;
+    setScrollOffset(getScrollOffset() + GetFrameTime() * 60.0f);
 }
 
 void Background::Draw()
@@ -53,7 +52,7 @@ void Background::Draw()
     const int cols = (Game::getW() / m_squareSize) + 2;
     const int rows = (Game::getH() / m_squareSize) + 2;
 
-    const float effectiveOffset = std::fmod(scrollOffset, 2 * m_squareSize);
+    const float effectiveOffset = std::fmod(getScrollOffset(), 2 * m_squareSize);
 
     for (int y = -2; y < rows; y++) {
         for (int x = 0; x < cols; x++) {

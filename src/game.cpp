@@ -76,10 +76,7 @@ void Game::Run()
         // ---------------------------------------------------------------------------------- //
         //                                      Update.                                       //
         // ---------------------------------------------------------------------------------- //
-        if (m_currentMusic != nullptr) {
-            SetMusicPitch(*m_currentMusic, m_currentMusicPitch);
-            UpdateMusicStream(*m_currentMusic);
-        }
+        if (m_currentMusic != nullptr) UpdateMusicStream(*m_currentMusic);
         if (m_currentLevel != nullptr) m_currentLevel->Update();
 
         // ---------------------------------------------------------------------------------- //
