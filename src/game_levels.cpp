@@ -157,6 +157,15 @@ void Level1::Update()
 {
     // If the correct option is chosen, move on to Level 2.
     Level::Update();
+    
+    // Hacky solution. Fix this.
+    constexpr float epsilon = 0.0001f;
+    // Pitch back up the current music track if it's below 1.0. Since the player will always
+    // restart at level 1, this only needs to be handled here.
+    if (m_game.getCurrentMusicPitch() < 1.0 - epsilon) {
+        SetMusicPitch(*m_game.getCurrentMusic(), m_game.getCurrentMusicPitch());
+        m_game.setCurrentMusicPitch(m_game.getCurrentMusicPitch() + 0.02);
+    }
 
     if (m_correctAnswer->isPressed()) {
         delete m_game.getCurrentLevel();
@@ -171,14 +180,7 @@ void Level1::Update()
                 m_game.setCurrentLevel(new LevelLose());
             }
         }
-    }
-    // Hacky solution. Fix this.
-    constexpr float epsilon = 0.0001f;
-    // Pitch back up the current music track if it's below 1.0.
-    if (m_game.getCurrentMusicPitch() < 1.0 - epsilon) {
-        SetMusicPitch(*m_game.getCurrentMusic(), m_game.getCurrentMusicPitch());
-        m_game.setCurrentMusicPitch(m_game.getCurrentMusicPitch() + 0.02);
-    }
+    } 
 }
 
 // ------------------------------------------------------------------------------------------ //
