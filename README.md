@@ -1,4 +1,4 @@
-# ![Blink's Thinks](img/blinks-thinks.png)
+# ![Blink's Thinks](res/img/title_text.png)
 
 ## Index
 * [Description](#description)
