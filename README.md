@@ -20,10 +20,10 @@ in a separate branch, 'gh-pages'. GitHub Workflows re-compiles the game to this 
 push.
 
 ## Play Online
-To play the most recent commit of the game hosted on GitHub Pages, go ![here](blinkdynamo.github.io/blinks-thinks/).
+To play the most recent commit of the game hosted on GitHub Pages, go [here](https://blinkdynamo.github.io/blinks-thinks/).
 
 ## Mission Statement
-I got inspired to start this project when I saw some ![tsoding](https://github.com/tsoding)
+I got inspired to start this project when I saw some [tsoding](https://github.com/tsoding)
 making web assembly games with raylib and hosting them on GitHub pages. I wanted to make
 something simple, but with character. This isn't an 'example' project or template code-- this
 is my creative work (code, design, music, etc). I hope this project falls somewhere between
