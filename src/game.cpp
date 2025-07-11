@@ -39,9 +39,14 @@ Game::Game()
 
 Game::~Game()
 {
+    // Audio.
     for (const auto& [name, music] : m_musicTracks) {
         UnloadMusicStream(music);
     }
+    CloseAudioDevice();
+
+    // Close window and program exit.
+    CloseWindow();
 }
 
 void Game::setCurrentMusic(string trackName)
@@ -86,16 +91,5 @@ void Game::Run()
         ClearBackground(RAYWHITE);
         if (m_currentLevel != nullptr) m_currentLevel->Draw();
         EndDrawing();
-    }
-
-    // -------------------------------------------------------------------------------------- //
-    //                                     De-initialization.                                 //
-    // -------------------------------------------------------------------------------------- //
-
-    // Audio.
-    UnloadMusicStream(*m_currentMusic);
-    CloseAudioDevice();
-
-    // Close window and program exit.
-    CloseWindow();
+    } 
 }
