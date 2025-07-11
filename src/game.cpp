@@ -21,10 +21,10 @@
 // Source.
 #include "game.hpp"
 
+using BlinkEngine::Game;
+
 // Standard library.
 #include <cmath>
-
-using BlinkEngine::Game;
 
 Game& Game::getInstance()
 {
@@ -35,29 +35,6 @@ Game& Game::getInstance()
 Game::Game()
     :
     m_currentMusicPitch(1.0)
-{}
-
-Game::~Game()
-{
-    // Audio.
-    for (const auto& [name, music] : m_musicTracks) {
-        UnloadMusicStream(music);
-    }
-    CloseAudioDevice();
-
-    // Close window and program exit.
-    CloseWindow();
-}
-
-void Game::setCurrentMusic(string trackName)
-{
-    // If there is a track currently playing, stop it first.
-    if (m_currentMusic != nullptr) StopMusicStream(*m_currentMusic);
-    m_currentMusic = &m_musicTracks[trackName];
-    PlayMusicStream(*m_currentMusic);
-}
-
-void Game::Run()
 {
     // -------------------------------------------------------------------------------------- //
     //                                    Initialization.                                     //
@@ -73,8 +50,30 @@ void Game::Run()
 
     // Load all music tracks into 'm_musicTracks'.
     m_musicTracks["title_theme"] = LoadMusicStream("res/music/title_theme.ogg");
-    m_musicTracks["no_stopping_now"] = LoadMusicStream("res/music/no_stopping_now.ogg");
+    m_musicTracks["no_stopping_now"] = LoadMusicStream("res/music/no_stopping_now.ogg"); 
+}
 
+Game::~Game()
+{
+    // Audio.
+    for (const auto& [name, music] : m_musicTracks) {
+        UnloadMusicStream(music);
+    }
+    CloseAudioDevice();
+
+    // Close window and program exit.
+    CloseWindow();
+}
+
+void Game::setCurrentMusicByName(string trackName)
+{
+    // If there is a track currently playing, stop it first.
+    if (m_currentMusic != nullptr) StopMusicStream(*m_currentMusic);
+    m_currentMusic = &m_musicTracks[trackName];
+}
+
+void Game::Run()
+{
     // Main Event Loop.
     while (!WindowShouldClose())
     {

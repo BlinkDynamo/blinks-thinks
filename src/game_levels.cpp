@@ -28,6 +28,7 @@ using BlinkEngine::Game;
 // Standard library.
 #include <cstdlib>
 #include <sstream>
+#include <iostream>
 
 // ------------------------------------------------------------------------------------------ //
 //                                     Raylib animation.                                      //
@@ -36,15 +37,19 @@ LevelAnimRaylib::LevelAnimRaylib()
     :
     m_animation(nullptr)
 {
+    // Set the music track and play it.
+    m_game.setCurrentMusicByName("title_theme"); 
+    PlayMusicStream(*m_game.getCurrentMusic());
+
     m_animation = addEntity(new AnimRaylib()); 
 }
 
 void LevelAnimRaylib::Update() {
-    Level::Update();
+    Level::Update(); 
 
     if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
         delete m_game.getCurrentLevel();
-        m_game.setCurrentLevel(new LevelAnimSelfCredit());
+        m_game.setCurrentLevel(new LevelTitle());
     }
 }
 
@@ -81,15 +86,12 @@ LevelTitle::LevelTitle()
         ->setRotation(0.0f, 5.0f, 2.5f);
 
     // Class-referenced objects. 
-    m_playButton = addUiButton("Play");
-
-    // Set the music track.
-    m_game.setCurrentMusic("title_theme");
+    m_playButton = addUiButton("Play"); 
 }
 
 void LevelTitle::Update()
 {
-    Level::Update();
+    Level::Update(); 
     
     if (m_playButton->isPressed()) {
         delete m_game.getCurrentLevel();
@@ -149,8 +151,8 @@ Level1::Level1()
     m_correctAnswer = addTextButton("2869", 60, VIOLET, {m_game.getCW() + 300, m_game.getCH() + 50}); 
 
     // Set the music track. 
-    m_game.setCurrentMusic("no_stopping_now");
-
+    m_game.setCurrentMusicByName("no_stopping_now");
+    PlayMusicStream(*m_game.getCurrentMusic());
 }
 
 void Level1::Update()

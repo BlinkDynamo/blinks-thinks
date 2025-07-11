@@ -60,13 +60,14 @@ namespace BlinkEngine
             Level* getCurrentLevel() { return m_currentLevel; }
             void setCurrentLevel(Level* level) { m_currentLevel = level; }
 
-            void setCurrentMusic(string trackName);
             Music* getCurrentMusic() { return m_currentMusic; }
+            void setCurrentMusic(Music* music) { m_currentMusic = music; }
 
             void setCurrentMusicPitch(float pitch) { m_currentMusicPitch = pitch; }
             float getCurrentMusicPitch() { return m_currentMusicPitch; }
-
-            //void playMusicTrack(string trackName);
+ 
+            // Methods.
+            void setCurrentMusicByName(string trackName);
 
         private: 
             Game();
