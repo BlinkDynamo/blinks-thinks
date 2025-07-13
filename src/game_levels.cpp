@@ -74,10 +74,13 @@ void LevelAnimSelfCredit::Update()
 LevelTitle::LevelTitle()
     :
     m_aquamarine({ 75, 255, 205, 255 }),
-    m_playButton(addUiButton("Play"))
+    m_playButton(addUiButton("Play")),
+    m_gameTitleText{
+        .textPtr = addSimpleText("Blink's Thinks", 100, m_aquamarine, {m_game.getCW(), m_game.getCH() - 100}, 0),
+        .currentScale = 1.0
+    }
 {
-    addSimpleText("Blink's Thinks", 100, m_aquamarine, {m_game.getCW(), m_game.getCH() - 100}, 0)
-        ->setRotation(0.0f, 5.0f, 2.5f);
+    this->m_gameTitleText.textPtr->addAnimRotate(0.0f, 5.0f, 2.5f);
 }
 
 void LevelTitle::Update()
@@ -98,7 +101,7 @@ LevelLose::LevelLose()
     m_restartButton(addUiButton("Restart"))
 {
     addSimpleText("Game over!", 100, RED, {m_game.getCW(), m_game.getCH() - 100}, 0)
-        ->setRotation(0.0f, 5.0f, 2.5f);
+        ->addAnimRotate(0.0f, 5.0f, 2.5f);
 }
 
 void LevelLose::Update()
@@ -129,7 +132,7 @@ Level1::Level1()
     addSimpleText("Level 1", 80, ORANGE, {m_game.getCW(), m_game.getCH() - 250}, 0);
     
     addSimpleText("What is the largest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
-        ->setRotation(0.0f, 4.0f, 1.5f);
+        ->addAnimRotate(0.0f, 4.0f, 1.5f);
 
     addTextButton("144", 60, LIME, {m_game.getCW() - 300, m_game.getCH() + 50});
     addTextButton("31", 80, GOLD, {m_game.getCW() - 150, m_game.getCH() + 50});
@@ -178,7 +181,7 @@ Level2::Level2()
     addSimpleText("Level  ", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
 
     addSimpleText("What is the smallest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
-        ->setRotation(0.0f, 4.0f, 1.5f);
+        ->addAnimRotate(0.0f, 4.0f, 1.5f);
     
     addTextButton("144", 60, LIME, {m_game.getCW() - 300, m_game.getCH() + 50});
     addTextButton("31", 80, GOLD, {m_game.getCW() - 150, m_game.getCH() + 50});
@@ -210,18 +213,15 @@ void Level2::Update()
 // ------------------------------------------------------------------------------------------ //
 Level3::Level3()
     :
-    m_correctAnswer(m_correctAnswer = addTextButton("144", 60, LIME, {m_game.getCW() - 300, m_game.getCH() + 50})),
-    // For scaling the correct answer when hovered.
-    currentScale(1.00),
-    scaleUpIncr(0.05),
-    scaleDownIncr(0.10),
-    maxScale(2.5),
-    minScale(1.00)
+    m_correctAnswer{
+        .buttonPtr = addTextButton("144", 60, LIME, {m_game.getCW() - 300, m_game.getCH() + 50}),
+        .currentScale = 1.0
+    } 
 {
     addSimpleText("Level 3", 80, ORANGE, {m_game.getCW(), m_game.getCH() - 250}, 0);
 
     addSimpleText("What is the tallest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
-    ->setRotation(0.0f, 4.0f, 1.5f);
+    ->addAnimRotate(0.0f, 4.0f, 1.5f);
     
     addTextButton("31", 80, GOLD, {m_game.getCW() - 150, m_game.getCH() + 50});
     addTextButton("2869", 60, VIOLET, {m_game.getCW() + 300, m_game.getCH() + 50});
@@ -233,19 +233,19 @@ void Level3::Update()
 {
     // If the correct option is hovered, make it grow in scale. Otherwise, make it shrink until
     // it becomes it's normal scale again. 
-    if (m_correctAnswer->isHovered()) {
-        if (currentScale < maxScale) {
-            currentScale += scaleUpIncr;
-            m_correctAnswer->setScale(currentScale);
+    if (m_correctAnswer.buttonPtr->isHovered()) {
+        if (m_correctAnswer.currentScale < m_correctAnswer.maxScale) {
+            m_correctAnswer.currentScale += m_correctAnswer.scaleUpIncr;
+            m_correctAnswer.buttonPtr->setScale(m_correctAnswer.currentScale);
         }
     } 
-    else if (currentScale > minScale) {
-            currentScale -= scaleDownIncr;
-            m_correctAnswer->setScale(currentScale);
+    else if (m_correctAnswer.currentScale > m_correctAnswer.minScale) {
+            m_correctAnswer.currentScale -= m_correctAnswer.scaleDownIncr;
+            m_correctAnswer.buttonPtr->setScale(m_correctAnswer.currentScale);
     }
     
     Level::Update();
-    if (m_correctAnswer->isPressed()) {
+    if (m_correctAnswer.buttonPtr->isPressed()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new Level4());
     }
@@ -267,11 +267,11 @@ Level4::Level4()
     addSimpleText("Level 4", 80, ORANGE, {m_game.getCW(), m_game.getCH() - 250}, 0);
 
     addSimpleText("How much time do you want for Level 5?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
-        ->setRotation(0.0f, 4.0f, 1.5f);
+        ->addAnimRotate(0.0f, 4.0f, 1.5f);
 
-    addTextButton("2", 60, LIME, {m_game.getCW(), m_game.getCH() - 50});
-    addTextButton("5", 60, VIOLET, {m_game.getCW(), m_game.getCH() + 50});
-    addTextButton("10", 60, BLUE, {m_game.getCW(), m_game.getCH() + 150});
+    addTextButton("2 seconds", 60, LIME, {m_game.getCW(), m_game.getCH() - 50});
+    addTextButton("5 seconds", 60, VIOLET, {m_game.getCW(), m_game.getCH() + 50});
+    addTextButton("10 seconds", 60, BLUE, {m_game.getCW(), m_game.getCH() + 150});
 }
 
 void Level4::Update()
@@ -281,6 +281,7 @@ void Level4::Update()
     for (Button* button : getButtons()) {
         if (button->isPressed()) {
             string chosenTime = button->getTextObj()->getTextString();
+            chosenTime.erase(chosenTime.find(" seconds"), chosenTime.length());
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new Level5(chosenTime));
         }
@@ -299,10 +300,10 @@ Level5::Level5(string duration)
     addTextButton("5", 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
 
     addSimpleText("Don't touch any numbers for", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
-        ->setRotation(0.0f, 4.0f, 1.5f);
+        ->addAnimRotate(0.0f, 4.0f, 1.5f);
 
     addSimpleText("more seconds", 40, RAYWHITE, {m_game.getCW(), m_game.getCH()}, 0)
-        ->setRotation(0.0f, 4.0f, 1.5f);
+        ->addAnimRotate(0.0f, 4.0f, 1.5f);
 
     // All obstacles.
     string longNumOne = "762967340328811348866734234450240332396217777462684390";
@@ -373,7 +374,7 @@ Level6::Level6()
     addTextButton("6", 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
 
     addSimpleText("Fit the greatest number into the box", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
-        ->setRotation(0.0f, 4.0f, 1.5f);
+        ->addAnimRotate(0.0f, 4.0f, 1.5f);
 
     addTextButton("1", 80, LIME, {m_game.getCW() - 275, m_game.getCH()});
     addTextButton("5", 80, GOLD, {m_game.getCW() - 225, m_game.getCH() + 175});
@@ -441,7 +442,7 @@ Level7::Level7()
     addTextButton("7", 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
 
     addSimpleText("Put the hungry number in the box", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
-        ->setRotation(0.0f, 4.0f, 1.5f);
+        ->addAnimRotate(0.0f, 4.0f, 1.5f);
 
     addTextButton("5", 80, LIME, {m_game.getCW() - 275, m_game.getCH()});
     addTextButton("6", 80, GOLD, {m_game.getCW() - 225, m_game.getCH() + 175});

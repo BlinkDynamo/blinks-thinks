@@ -64,6 +64,24 @@ class LevelTitle : public BlinkEngine::Level
     private:
         const Color m_aquamarine;
         Button* m_playButton;
+
+        class GameTitleText
+        {
+            public:
+                Text* textPtr;
+
+                float currentScale;
+
+                static constexpr float scaleIncr = 0.05;
+                static constexpr float maxScale = 1.2;
+                static constexpr float minScale = 1.0;
+
+                static constexpr float initialRotation = 0.0;
+                static constexpr float rotationSpeed = 5.0;
+                static constexpr float rotationDepth = 2.5;
+
+        };
+        GameTitleText m_gameTitleText;
 };
 
 class LevelLose : public BlinkEngine::Level
@@ -103,14 +121,19 @@ class Level3 : public BlinkEngine::Level
         void Update() override;
 
     private:
-        Button* m_correctAnswer;
+        class CorrectAnswer
+        {
+            public:
+                Button* buttonPtr;
 
-        // For scaling the correct answer when hovered.
-        float currentScale;
-        const float scaleUpIncr;
-        const float scaleDownIncr;
-        const float maxScale;
-        const float minScale;
+                float currentScale;
+
+                static constexpr float scaleUpIncr = 0.05;
+                static constexpr float scaleDownIncr = 0.10;
+                static constexpr float maxScale = 2.5;
+                static constexpr float minScale = 1.0;
+        };
+        CorrectAnswer m_correctAnswer;
 };
 
 class Level4 : public BlinkEngine::Level

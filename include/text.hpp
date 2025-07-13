@@ -44,13 +44,13 @@ namespace BlinkEngine
             void Update() override;
             void Draw() override;
 
-            // Getters and setters.
-            void setRotation(float rotation, float speed, float depth) {
+            void addAnimRotate(float rotation, float speed, float depth) {
                 m_rotation = rotation;
                 m_rotationSpeed = speed;
                 m_rotationDepth = depth;
             }
 
+            // Getters and setters.
             string getTextString() { return m_textString; }
             void setTextString(string textString) { m_textString = textString; }
 
