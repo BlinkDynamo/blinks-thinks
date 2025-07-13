@@ -129,9 +129,8 @@ class Level5 : public BlinkEngine::Level
     private:
         int m_framesCounter;
 
-        // Countdown timer.
-        Button* m_timer;
         string m_duration; 
+        Button* m_timer;
 };
 
 class Level6 : public BlinkEngine::Level
