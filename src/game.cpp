@@ -36,10 +36,6 @@ Game::Game()
     :
     m_currentMusicPitch(1.0)
 {
-    // -------------------------------------------------------------------------------------- //
-    //                                    Initialization.                                     //
-    // -------------------------------------------------------------------------------------- // 
-
     // Window, Screen, and FPS.
     InitWindow(m_w, m_h, m_gameName);
     SetTargetFPS(m_frameRate);
@@ -55,26 +51,17 @@ Game::Game()
 
 Game::~Game()
 {
-    // Audio.
+    // Unload all the music tracks.
     for (const auto& [name, music] : m_musicTracks) {
         UnloadMusicStream(music);
     }
+
     CloseAudioDevice();
-
-    // Close window and program exit.
     CloseWindow();
-}
-
-void Game::setCurrentMusicByName(string trackName)
-{
-    // If there is a track currently playing, stop it first.
-    if (m_currentMusic != nullptr) StopMusicStream(*m_currentMusic);
-    m_currentMusic = &m_musicTracks[trackName];
 }
 
 void Game::Run()
 {
-    // Main Event Loop.
     while (!WindowShouldClose())
     {
         // ---------------------------------------------------------------------------------- //
@@ -87,8 +74,10 @@ void Game::Run()
         //                                       Draw.                                        //
         // ---------------------------------------------------------------------------------- //
         BeginDrawing();
+
         ClearBackground(RAYWHITE);
         if (m_currentLevel != nullptr) m_currentLevel->Draw();
+
         EndDrawing();
-    } 
+    }
 }

@@ -63,16 +63,18 @@ namespace BlinkEngine
             Music* getCurrentMusic() { return m_currentMusic; }
             void setCurrentMusic(Music* music) { m_currentMusic = music; }
 
+            void setCurrentMusicByName(string trackName)
+            {
+                m_currentMusic = &m_musicTracks[trackName];
+            }
+
             void setCurrentMusicPitch(float pitch) { m_currentMusicPitch = pitch; }
             float getCurrentMusicPitch() { return m_currentMusicPitch; }
- 
-            // Methods.
-            void setCurrentMusicByName(string trackName);
 
-        private: 
+        private:
             Game();
             ~Game();
-            
+
             // Version.
             static constexpr const char* m_gameVersion = "0.0.8";
             static constexpr const char* m_gameName = "Blink's Thinks";
