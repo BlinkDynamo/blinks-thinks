@@ -28,6 +28,7 @@ using BlinkEngine::Level;
 // Standard library.
 #include <string>
 #include <unordered_map>
+#include <random>
 
 using std::string;
 using std::unordered_map;
@@ -44,7 +45,10 @@ namespace BlinkEngine
             Game(Game&&) = delete;
             Game& operator=(Game&&) = delete;
 
+            // Methods.
             void Run();
+
+            int randomIntInRange(int min, int max);
 
             // Getters and setters.
             static constexpr string getGameVersion() { return m_gameVersion; }
@@ -97,5 +101,25 @@ namespace BlinkEngine
 
             // The pitch that the current song is being played at (normal is 1.0).
             float m_currentMusicPitch;
+
+            // Random number generator class.
+            class Random
+            {
+                public:
+                    Random()
+                        : m_rng(std::random_device{}()) {}
+
+                    int intInRange(int min, int max)
+                    {
+                        std::uniform_int_distribution<int> dist(min, max);
+                        return dist(m_rng);
+                    }
+
+                private:
+                    std::mt19937 m_rng;
+            };
+            
+            // Random number generator object.
+            Random m_random;
     };
 }

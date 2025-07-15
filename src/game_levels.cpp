@@ -123,23 +123,45 @@ void LevelLose::Update()
 // ------------------------------------------------------------------------------------------ //
 //                                          Level 1.                                          //
 // ------------------------------------------------------------------------------------------ //
-Level1::Level1()
-    :
-    m_correctAnswer(addTextButton("2869", 60, VIOLET, {m_game.getCW() + 300, m_game.getCH() + 50}))
+Level1::Level1() 
 {
     addSimpleText("Level 1", 80, ORANGE, {m_game.getCW(), m_game.getCH() - 250}, 0);
     
     addSimpleText("What is the largest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
         ->addAnimRotate(0.0f, 4.0f, 1.5f);
+   
+    const int numChoices = 5;
+    const int minVal= 2;
+    const int maxVal= 500;
 
-    addTextButton("144", 60, LIME, {m_game.getCW() - 300, m_game.getCH() + 50});
-    addTextButton("31", 80, GOLD, {m_game.getCW() - 150, m_game.getCH() + 50});
-    addTextButton("50", 100, PINK, {m_game.getCW(), m_game.getCH() + 50});
-    addTextButton("518", 60, BLUE, {m_game.getCW() + 150, m_game.getCH() + 50});
+    // This will be determined dynamically at a later date. For now it's hard coded.
+    const int fontSize = 80;
+
+    float buttonX = m_game.getCW() - 300;
+    const float buttonXOffsetPerIter = 150;
+
+    int largestVal = 0;
+
+    for (int i = 0; i < numChoices; i++) {
+        // The buttons' Y value will flip-flop between iterations of being positioned higher and
+        // lower inside the level.
+        float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
+
+        int choiceVal = m_game.randomIntInRange(minVal, maxVal);
+
+        Button* button = addTextButton(std::to_string(choiceVal), fontSize, BLUE,
+                                       {buttonX, buttonY});
+        buttonX += buttonXOffsetPerIter;
+
+        if (choiceVal > largestVal) {
+            largestVal = choiceVal;
+            m_correctAnswer = button;
+        }
+    }
 
     // Set the music track. 
     m_game.setCurrentMusicByName("no_stopping_now");
-    PlayMusicStream(*m_game.getCurrentMusic());
+    PlayMusicStream(*m_game.getCurrentMusic()); 
 }
 
 void Level1::Update()

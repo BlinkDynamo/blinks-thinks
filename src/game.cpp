@@ -81,3 +81,8 @@ void Game::Run()
         EndDrawing();
     }
 }
+
+int Game::randomIntInRange(int min, int max)
+{
+    return m_random.intInRange(min, max);
+}
