@@ -28,7 +28,6 @@ using BlinkEngine::Game;
 // Standard library.
 #include <cstdlib>
 #include <sstream>
-#include <iostream>
 
 // ------------------------------------------------------------------------------------------ //
 //                                     Raylib animation.                                      //
@@ -108,10 +107,9 @@ void LevelLose::Update()
 {
     Level::Update();
 
-    // Hacky solution. Fix this.
+    // Pitch down the current music track.
     constexpr float epsilon = 0.0001f;
     if (m_game.getCurrentMusicPitch() > 0.8f + epsilon) {
-        // Pitch down the current music track.
         SetMusicPitch(*m_game.getCurrentMusic(), m_game.getCurrentMusicPitch());
         m_game.setCurrentMusicPitch(m_game.getCurrentMusicPitch() - 0.01);
     }
@@ -148,10 +146,9 @@ void Level1::Update()
 {
     Level::Update();
     
-    // Hacky solution. Fix this.
-    constexpr float epsilon = 0.0001f;
     // Pitch back up the current music track if it's below 1.0. Since the player will always
     // restart at level 1, this only needs to be handled here.
+    constexpr float epsilon = 0.0001f; 
     if (m_game.getCurrentMusicPitch() < 1.0 - epsilon) {
         SetMusicPitch(*m_game.getCurrentMusic(), m_game.getCurrentMusicPitch());
         m_game.setCurrentMusicPitch(m_game.getCurrentMusicPitch() + 0.02);
