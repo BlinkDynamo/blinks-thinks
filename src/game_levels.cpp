@@ -25,9 +25,6 @@
 
 using BlinkEngine::Game;
 
-// Standard library.
-#include <sstream>
-
 using std::to_string;
 
 // ------------------------------------------------------------------------------------------ //
@@ -396,24 +393,17 @@ void Level5::Update()
 {
     Level::Update();
 
-    // Every 60 frames (1 second)...
+    // Update the timer once per 60 frames.
     m_framesCounter++; 
     if (m_framesCounter == 60) { 
-        int durationAsInt;
-        std::istringstream(m_duration) >> durationAsInt;
-        // If there is still time left... 
+        int durationAsInt = TextToInteger(m_duration.c_str());
         if (durationAsInt > 0) {
-            // Reset the frames counter and decrement the time by 1.
             m_framesCounter = 0;
             --durationAsInt;
             
-            // Turn 'i' back into a string, and set the text of m_timer to this.
-            std::ostringstream oss;
-            oss << durationAsInt;
-            m_duration = oss.str();
+            m_duration = to_string(durationAsInt);
             m_timer->getTextObj()->setTextString(m_duration);
         }
-        // If there is no time left...
         else { 
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new Level6());
