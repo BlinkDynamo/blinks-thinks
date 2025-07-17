@@ -43,7 +43,11 @@ LevelAnimRaylib::LevelAnimRaylib()
 void LevelAnimRaylib::Update() {
     Level::Update(); 
 
-    if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
+    if (m_animation->isFinished()) {
+        delete m_game.getCurrentLevel();
+        m_game.setCurrentLevel(new LevelAnimSelfCredit());
+    }
+    else if (IsKeyPressed(KEY_ENTER)) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new LevelTitle());
     }
