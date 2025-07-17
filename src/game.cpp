@@ -84,5 +84,6 @@ void Game::Run()
 
 int Game::randomIntInRange(int min, int max)
 {
-    return m_random.intInRange(min, max);
+    std::uniform_int_distribution<int> distribution(min, max);
+    return distribution(m_randomGenerator);
 }

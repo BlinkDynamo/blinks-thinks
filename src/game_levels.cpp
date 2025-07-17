@@ -141,13 +141,21 @@ Level1::Level1()
     const float buttonXOffsetPerIter = 150;
 
     int largestVal = 0;
+    vector<int> choiceVals;
 
     for (int i = 0; i < numChoices; i++) {
+        // Get a unique choice value and store it in 'choiceVals' for future checking.
+        int choiceVal = m_game.randomIntInRange(minVal, maxVal);
+
+        while (find(choiceVals.begin(), choiceVals.end(), choiceVal) != choiceVals.end()) {
+            choiceVal = m_game.randomIntInRange(minVal, maxVal);
+        }
+        choiceVals.push_back(choiceVal);
+        
+
         // The buttons' Y value will flip-flop between iterations of being positioned higher and
         // lower inside the level.
         float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
-
-        int choiceVal = m_game.randomIntInRange(minVal, maxVal);
 
         Button* button = addTextButton(std::to_string(choiceVal), fontSize, BLUE,
                                        {buttonX, buttonY});
