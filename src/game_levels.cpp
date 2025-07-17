@@ -26,8 +26,9 @@
 using BlinkEngine::Game;
 
 // Standard library.
-#include <cstdlib>
 #include <sstream>
+
+using std::to_string;
 
 // ------------------------------------------------------------------------------------------ //
 //                                     Raylib animation.                                      //
@@ -129,14 +130,16 @@ void LevelLose::Update()
 // ------------------------------------------------------------------------------------------ //
 Level1::Level1() 
 {
-    addSimpleText("Level 1", 80, ORANGE, {m_game.getCW(), m_game.getCH() - 250}, 0);
+    addSimpleText("Level  ", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
+    int levelVal = 1;
+    m_correctAnswer = addTextButton(to_string(levelVal), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
     
     addSimpleText("What is the largest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
         ->addAnimRotate(0.0f, 4.0f, 1.5f);
    
     const int numChoices = 5;
-    const int minVal= 2;
-    const int maxVal= 500;
+    const int minVal= 1;
+    const int maxVal= 25;
 
     // This will be determined dynamically at a later date. For now it's hard coded.
     const int fontSize = 80;
@@ -144,8 +147,9 @@ Level1::Level1()
     float buttonX = m_game.getCW() - 300;
     const float buttonXOffsetPerIter = 150;
 
-    int largestVal = 0;
-    vector<int> choiceVals;
+    vector<int> choiceVals; 
+    choiceVals.push_back(levelVal);    
+    int largestVal = levelVal;
 
     for (int i = 0; i < numChoices; i++) {
         // Get a unique choice value and store it in 'choiceVals' for future checking.
@@ -161,7 +165,7 @@ Level1::Level1()
         // lower inside the level.
         float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
 
-        Button* button = addTextButton(std::to_string(choiceVal), fontSize, BLUE,
+        Button* button = addTextButton(to_string(choiceVal), fontSize, BLUE,
                                        {buttonX, buttonY});
         buttonX += buttonXOffsetPerIter;
 
@@ -206,19 +210,52 @@ void Level1::Update()
 //                                          Level 2.                                          //
 // ------------------------------------------------------------------------------------------ //
 Level2::Level2()
-    :
-    m_correctAnswer(addTextButton("2", 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250}))
 {
     addSimpleText("Level  ", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
 
     addSimpleText("What is the smallest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
         ->addAnimRotate(0.0f, 4.0f, 1.5f);
-    
-    addTextButton("144", 60, LIME, {m_game.getCW() - 300, m_game.getCH() + 50});
-    addTextButton("31", 80, GOLD, {m_game.getCW() - 150, m_game.getCH() + 50});
-    addTextButton("2869", 60, VIOLET, {m_game.getCW() + 300, m_game.getCH() + 50});
-    addTextButton("50", 100, PINK, {m_game.getCW(), m_game.getCH() + 50});
-    addTextButton("518", 60, BLUE, {m_game.getCW() + 150, m_game.getCH() + 50});
+   
+    const int numChoices = 5;
+    const int minVal= 1;
+    const int maxVal= 25;
+
+    // This will be determined dynamically at a later date. For now it's hard coded.
+    const int fontSize = 80;
+
+    float buttonX = m_game.getCW() - 300;
+    const float buttonXOffsetPerIter = 150;
+
+    vector<int> choiceVals;
+
+    int levelVal = 2;
+    m_correctAnswer = addTextButton(to_string(levelVal), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
+    choiceVals.push_back(levelVal);
+    int smallestVal = levelVal;
+
+    for (int i = 0; i < numChoices; i++) {
+        // Get a unique choice value and store it in 'choiceVals' for future checking.
+        int choiceVal = m_game.randomIntInRange(minVal, maxVal);
+
+        while (find(choiceVals.begin(), choiceVals.end(), choiceVal) != choiceVals.end()) {
+            choiceVal = m_game.randomIntInRange(minVal, maxVal);
+        }
+        choiceVals.push_back(choiceVal);
+        
+
+        // The buttons' Y value will flip-flop between iterations of being positioned higher and
+        // lower inside the level.
+        float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
+
+        Button* button = addTextButton(to_string(choiceVal), fontSize, BLUE,
+                                       {buttonX, buttonY});
+        buttonX += buttonXOffsetPerIter;
+
+        if (choiceVal < smallestVal) {
+            smallestVal = choiceVal;
+            m_correctAnswer = button;
+        }
+    } 
 }
 
 void Level2::Update()
