@@ -491,7 +491,7 @@ void Level6::Update()
         string finalSubmission; // The final submission to match against 'm_greatestNumber'.
         for (Button* button : getButtons()) {
             if (CheckCollisionRecs(button->getRectangle(), m_submitBox->getRectangle())) {
-                auto it = numbersInBox.begin();
+                vector<Button*>::iterator it = numbersInBox.begin();
                 while (it != numbersInBox.end() && (*it)->getPosition().x <= button->getPosition().x) {
                     ++it;
                 }
@@ -561,7 +561,7 @@ void Level7::Update()
         string finalSubmission; // The final submission to match against 'm_correctNumber'.
         for (Button* button : getButtons()) {
             if (CheckCollisionRecs(button->getRectangle(), m_submitBox->getRectangle())) {
-                auto it = numbersInBox.begin();
+                vector<Button*>::iterator it = numbersInBox.begin();
                 while (it != numbersInBox.end() && (*it)->getPosition().x <= button->getPosition().x) {
                     ++it;
                 }
