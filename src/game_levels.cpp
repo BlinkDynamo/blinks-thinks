@@ -25,6 +25,9 @@
 
 using BlinkEngine::Game;
 
+// Standard library.
+#include <algorithm>
+
 using std::to_string;
 
 // ------------------------------------------------------------------------------------------ //
@@ -279,19 +282,41 @@ void Level2::Update()
 Level3::Level3()
     :
     m_correctAnswer{
-        .buttonPtr = addTextButton("144", 60, LIME, {m_game.getCW() - 300, m_game.getCH() + 50}),
+        .buttonPtr = nullptr,
         .currentScale = 1.0
     } 
 {
-    addSimpleText("Level 3", 80, ORANGE, {m_game.getCW(), m_game.getCH() - 250}, 0);
+    addSimpleText("Level  ", 80, ORANGE, {m_game.getCW(), m_game.getCH() - 250}, 0);
 
     addSimpleText("What is the tallest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
     ->addAnimRotate(0.0f, 4.0f, 1.5f);
-    
-    addTextButton("31", 80, GOLD, {m_game.getCW() - 150, m_game.getCH() + 50});
-    addTextButton("2869", 60, VIOLET, {m_game.getCW() + 300, m_game.getCH() + 50});
-    addTextButton("50", 100, PINK, {m_game.getCW(), m_game.getCH() + 50});
-    addTextButton("518", 60, BLUE, {m_game.getCW() + 150, m_game.getCH() + 50}); 
+     
+    answerChoices[levelNum] = addTextButton(
+        to_string(levelNum), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250}
+    );
+
+    buttonX = m_game.getCW() - 300;
+
+    for (int i = 0; i < numChoices; i++) {
+        // Get a unique choice value and store it in 'choiceVals' for future checking.
+        int choiceVal = m_game.randomIntInRange(minVal, maxVal);
+
+        while (answerChoices.find(choiceVal) != answerChoices.end()) {
+            choiceVal = m_game.randomIntInRange(minVal, maxVal);
+        }
+        
+        // The buttons' Y value will flip-flop between iterations of being positioned higher and
+        // lower inside the level.
+        float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
+ 
+        answerChoices[choiceVal] = addTextButton(
+                to_string(choiceVal), fontSize, BLUE, {buttonX, buttonY}
+        );
+
+        buttonX += buttonXOffsetPerIter; 
+    } 
+
+    m_correctAnswer.buttonPtr = answerChoices[m_game.randomIntInRange(1, numChoices)];
 }
 
 void Level3::Update()
