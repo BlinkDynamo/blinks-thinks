@@ -77,12 +77,10 @@ void LevelAnimSelfCredit::Update()
 // ------------------------------------------------------------------------------------------ //
 LevelTitle::LevelTitle()
     :
-    m_aquamarine({ 75, 255, 205, 255 }),
-    m_playButton(addUiButton("Play")),
     m_gameTitleText{
-        .textPtr = addSimpleText("Blink's Thinks", 100, m_aquamarine, {m_game.getCW(), m_game.getCH() - 100}, 0),
-        .currentScale = 1.0
-    }
+        .textPtr = addSimpleText("Blink's Thinks", 100, m_gameTitleText.textColor, {m_game.getCW(), m_game.getCH() - 100}, 0)
+    },
+    m_playButton(addUiButton("Play"))
 {
     this->m_gameTitleText.textPtr->addAnimRotate(0.0f, 5.0f, 2.5f);
 }

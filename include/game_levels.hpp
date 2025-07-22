@@ -62,26 +62,22 @@ class LevelTitle : public BlinkEngine::Level
         void Update() override;
 
     private:
-        const Color m_aquamarine;
-        Button* m_playButton;
 
         class GameTitleText
         {
             public:
                 Text* textPtr;
-
-                float currentScale;
-
-                static constexpr float scaleIncr = 0.05;
-                static constexpr float maxScale = 1.2;
-                static constexpr float minScale = 1.0;
-
+ 
                 static constexpr float initialRotation = 0.0;
                 static constexpr float rotationSpeed = 5.0;
                 static constexpr float rotationDepth = 2.5;
 
+                static constexpr Color textColor = { 75, 255, 205, 255 };
+
         };
         GameTitleText m_gameTitleText;
+
+        Button* m_playButton;
 };
 
 class LevelLose : public BlinkEngine::Level
