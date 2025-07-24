@@ -73,7 +73,6 @@ class LevelTitle : public BlinkEngine::Level
                 static constexpr float rotationDepth = 2.5;
 
                 static constexpr Color textColor = { 75, 255, 205, 255 };
-
         };
         GameTitleText m_gameTitleText;
 
@@ -117,19 +116,19 @@ class Level3 : public BlinkEngine::Level
         void Update() override;
 
     private:
-        static constexpr int levelNum = 3;
+        static constexpr int m_levelNum = 3;
 
-        static constexpr int numChoices = 5;
-        static constexpr int minVal= 1;
-        static constexpr int maxVal= 25;
+        static constexpr int m_numChoices = 5;
+        static constexpr int m_minVal= 1;
+        static constexpr int m_maxVal= 25;
 
         // This will be determined dynamically at a later date. For now it's hard coded.
-        static constexpr int fontSize = 80;
+        static constexpr int m_fontSize = 80;
 
-        float buttonX;
-        static constexpr float buttonXOffsetPerIter = 150;
+        float m_buttonX;
+        static constexpr float m_buttonXOffsetPerIter = 150;
 
-        unordered_map<int, Button*> answerChoices;
+        unordered_map<int, Button*> m_answerChoices;
 
         class CorrectAnswer
         {

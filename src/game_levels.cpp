@@ -26,6 +26,7 @@
 using BlinkEngine::Game;
 
 // Standard library.
+#include <iterator>
 #include <algorithm>
 
 using std::to_string;
@@ -289,32 +290,36 @@ Level3::Level3()
     addSimpleText("What is the tallest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
     ->addAnimRotate(0.0f, 4.0f, 1.5f);
      
-    answerChoices[levelNum] = addTextButton(
-        to_string(levelNum), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250}
+    m_answerChoices[m_levelNum] = addTextButton(
+        to_string(m_levelNum), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250}
     );
 
-    buttonX = m_game.getCW() - 300;
+    m_buttonX = m_game.getCW() - 300;
 
-    for (int i = 0; i < numChoices; i++) {
+    for (int i = 0; i < m_numChoices; i++) {
         // Get a unique choice value and store it in 'choiceVals' for future checking.
-        int choiceVal = m_game.randomIntInRange(minVal, maxVal);
+        int choiceVal = m_game.randomIntInRange(m_minVal, m_maxVal);
 
-        while (answerChoices.find(choiceVal) != answerChoices.end()) {
-            choiceVal = m_game.randomIntInRange(minVal, maxVal);
+        while (m_answerChoices.find(choiceVal) != m_answerChoices.end()) {
+            choiceVal = m_game.randomIntInRange(m_minVal, m_maxVal);
         }
         
         // The buttons' Y value will flip-flop between iterations of being positioned higher and
         // lower inside the level.
         float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
  
-        answerChoices[choiceVal] = addTextButton(
-                to_string(choiceVal), fontSize, BLUE, {buttonX, buttonY}
+        m_answerChoices[choiceVal] = addTextButton(
+                to_string(choiceVal), m_fontSize, BLUE, {m_buttonX, buttonY}
         );
 
-        buttonX += buttonXOffsetPerIter; 
+        m_buttonX += m_buttonXOffsetPerIter; 
     } 
-
-    m_correctAnswer.buttonPtr = answerChoices[m_game.randomIntInRange(1, numChoices)];
+   
+    // Choose a random member of 'm_answerChoices' to be the correct answer. 
+    int randomIndex = m_game.randomIntInRange(0, m_answerChoices.size() - 1);
+    unordered_map<int, Button*>::iterator it = m_answerChoices.begin();
+    std::advance(it, randomIndex);
+    m_correctAnswer.buttonPtr = it->second;
 }
 
 void Level3::Update()
