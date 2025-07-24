@@ -316,7 +316,7 @@ Level3::Level3()
     } 
    
     // Choose a random member of 'm_answerChoices' to be the correct answer. 
-    int randomIndex = m_game.randomIntInRange(0, m_answerChoices.size() - 1);
+    int randomIndex = m_game.randomIntInRange(0, static_cast<int>(m_answerChoices.size()) - 1);
     unordered_map<int, Button*>::iterator it = m_answerChoices.begin();
     std::advance(it, randomIndex);
     m_correctAnswer.buttonPtr = it->second;
