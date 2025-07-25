@@ -84,7 +84,7 @@ namespace BlinkEngine
             ~Game();
 
             // Version.
-            static constexpr const char* m_gameVersion = "0.0.8";
+            static constexpr const char* m_gameVersion = "0.0.9";
             static constexpr const char* m_gameName = "Blink's Thinks";
 
             // Resolution and framerate.
