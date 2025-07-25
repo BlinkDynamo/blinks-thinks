@@ -48,7 +48,11 @@ namespace BlinkEngine
             // Methods.
             void Run();
 
+            // Returns a random int from a defined range inclusively.
             int randomIntInRange(int min, int max);
+            
+            // Returns a random Raylib-defined color from an array of colors that brighten well.
+            Color randomBrightColor();
 
             // Getters and setters.
             static constexpr string getGameVersion() { return m_gameVersion; }

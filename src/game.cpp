@@ -87,3 +87,10 @@ int Game::randomIntInRange(int min, int max)
     std::uniform_int_distribution<int> distribution(min, max);
     return distribution(m_randomGenerator);
 }
+
+Color Game::randomBrightColor()
+{
+    constexpr size_t nBrightColors = 8;
+    constexpr Color brightRaylibColors[nBrightColors] = {GOLD, ORANGE, PINK, RED, LIME, SKYBLUE, PURPLE, VIOLET};
+    return brightRaylibColors[randomIntInRange(0, nBrightColors - 1)];
+}

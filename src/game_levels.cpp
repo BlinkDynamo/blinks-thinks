@@ -164,7 +164,7 @@ Level1::Level1()
         // lower inside the level.
         float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
 
-        Button* button = addTextButton(to_string(choiceVal), fontSize, BLUE,
+        Button* button = addTextButton(to_string(choiceVal), fontSize, m_game.randomBrightColor(),
                                        {buttonX, buttonY});
         buttonX += buttonXOffsetPerIter;
 
@@ -246,7 +246,7 @@ Level2::Level2()
         // lower inside the level.
         float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
 
-        Button* button = addTextButton(to_string(choiceVal), fontSize, BLUE,
+        Button* button = addTextButton(to_string(choiceVal), fontSize, m_game.randomBrightColor(),
                                        {buttonX, buttonY});
         buttonX += buttonXOffsetPerIter;
 
@@ -309,7 +309,7 @@ Level3::Level3()
         float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
  
         m_answerChoices[choiceVal] = addTextButton(
-                to_string(choiceVal), m_fontSize, BLUE, {m_buttonX, buttonY}
+                to_string(choiceVal), m_fontSize, m_game.randomBrightColor(), {m_buttonX, buttonY}
         );
 
         m_buttonX += m_buttonXOffsetPerIter; 
@@ -462,10 +462,10 @@ Level6::Level6()
     addSimpleText("Fit the greatest number into the box", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
         ->addAnimRotate(0.0f, 4.0f, 1.5f);
 
-    addTextButton("1", 80, LIME, {m_game.getCW() - 275, m_game.getCH()});
-    addTextButton("5", 80, GOLD, {m_game.getCW() - 225, m_game.getCH() + 175});
-    addTextButton("8", 80, VIOLET, {m_game.getCW() + 225, m_game.getCH() + 175});
-    addTextButton("3", 80, PINK, {m_game.getCW() + 275, m_game.getCH()});
+    addTextButton("1", 80, m_game.randomBrightColor(), {m_game.getCW() - 275, m_game.getCH()});
+    addTextButton("5", 80, m_game.randomBrightColor(), {m_game.getCW() - 225, m_game.getCH() + 175});
+    addTextButton("8", 80, m_game.randomBrightColor(), {m_game.getCW() + 225, m_game.getCH() + 175});
+    addTextButton("3", 80, m_game.randomBrightColor(), {m_game.getCW() + 275, m_game.getCH()});
 }
 
 void Level6::Update()
@@ -530,10 +530,10 @@ Level7::Level7()
     addSimpleText("Put the hungry number in the box", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
         ->addAnimRotate(0.0f, 4.0f, 1.5f);
 
-    addTextButton("5", 80, LIME, {m_game.getCW() - 275, m_game.getCH()});
-    addTextButton("6", 80, GOLD, {m_game.getCW() - 225, m_game.getCH() + 175});
-    addTextButton("8", 80, VIOLET, {m_game.getCW() + 225, m_game.getCH() + 175});
-    addTextButton("10", 80, PINK, {m_game.getCW() + 275, m_game.getCH()});
+    addTextButton("5", 80, m_game.randomBrightColor(), {m_game.getCW() - 275, m_game.getCH()});
+    addTextButton("6", 80, m_game.randomBrightColor(), {m_game.getCW() - 225, m_game.getCH() + 175});
+    addTextButton("8", 80, m_game.randomBrightColor(), {m_game.getCW() + 225, m_game.getCH() + 175});
+    addTextButton("10", 80, m_game.randomBrightColor(), {m_game.getCW() + 275, m_game.getCH()});
 }
 
 void Level7::Update()
