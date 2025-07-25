@@ -129,47 +129,45 @@ void LevelLose::Update()
 // ------------------------------------------------------------------------------------------ //
 Level1::Level1() 
 {
+    static constexpr int levelNum = 1;
+    static constexpr int numChoices = 5;
+    static constexpr int minNum= 1;
+    static constexpr int maxNum= 25;
+    static constexpr int fontSize = 80;
+    static constexpr float buttonXOffsetPerIter = 150;
+
+    float buttonX = m_game.getCW() - 300;
+
     addSimpleText("Level  ", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
-    int levelVal = 1;
-    m_correctAnswer = addTextButton(to_string(levelVal), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
+    m_correctAnswer = addTextButton(to_string(levelNum), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
     
     addSimpleText("What is the largest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
         ->addAnimRotate(0.0f, 4.0f, 1.5f);
    
-    const int numChoices = 5;
-    const int minVal= 1;
-    const int maxVal= 25;
-
-    // This will be determined dynamically at a later date. For now it's hard coded.
-    const int fontSize = 80;
-
-    float buttonX = m_game.getCW() - 300;
-    const float buttonXOffsetPerIter = 150;
-
-    vector<int> choiceVals; 
-    choiceVals.push_back(levelVal);    
-    int largestVal = levelVal;
+    vector<int> choiceNums; 
+    choiceNums.push_back(levelNum);    
+    int largestNum = levelNum;
 
     for (int i = 0; i < numChoices; i++) {
-        // Get a unique choice value and store it in 'choiceVals' for future checking.
-        int choiceVal = m_game.randomIntInRange(minVal, maxVal);
+        // Get a unique choice value and store it in 'choiceNums' for future checking.
+        int choiceNum = m_game.randomIntInRange(minNum, maxNum);
 
-        while (find(choiceVals.begin(), choiceVals.end(), choiceVal) != choiceVals.end()) {
-            choiceVal = m_game.randomIntInRange(minVal, maxVal);
+        while (find(choiceNums.begin(), choiceNums.end(), choiceNum) != choiceNums.end()) {
+            choiceNum = m_game.randomIntInRange(minNum, maxNum);
         }
-        choiceVals.push_back(choiceVal);
+        choiceNums.push_back(choiceNum);
         
 
         // The buttons' Y value will flip-flop between iterations of being positioned higher and
         // lower inside the level.
         float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
 
-        Button* button = addTextButton(to_string(choiceVal), fontSize, m_game.randomBrightColor(),
+        Button* button = addTextButton(to_string(choiceNum), fontSize, m_game.randomBrightColor(),
                                        {buttonX, buttonY});
         buttonX += buttonXOffsetPerIter;
 
-        if (choiceVal > largestVal) {
-            largestVal = choiceVal;
+        if (choiceNum > largestNum) {
+            largestNum = choiceNum;
             m_correctAnswer = button;
         }
     }
@@ -210,48 +208,46 @@ void Level1::Update()
 // ------------------------------------------------------------------------------------------ //
 Level2::Level2()
 {
+    static constexpr int levelNum = 2;
+    static constexpr int numChoices = 5;
+    static constexpr int minNum= 1;
+    static constexpr int maxNum= 25;
+    static constexpr int fontSize = 80;
+    static constexpr float buttonXOffsetPerIter = 150;
+
+    float buttonX = m_game.getCW() - 300;
+
     addSimpleText("Level  ", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
 
     addSimpleText("What is the smallest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
         ->addAnimRotate(0.0f, 4.0f, 1.5f);
-   
-    const int numChoices = 5;
-    const int minVal= 1;
-    const int maxVal= 25;
+    
+    vector<int> choiceNums;
 
-    // This will be determined dynamically at a later date. For now it's hard coded.
-    const int fontSize = 80;
-
-    float buttonX = m_game.getCW() - 300;
-    const float buttonXOffsetPerIter = 150;
-
-    vector<int> choiceVals;
-
-    int levelVal = 2;
-    m_correctAnswer = addTextButton(to_string(levelVal), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
-    choiceVals.push_back(levelVal);
-    int smallestVal = levelVal;
+    m_correctAnswer = addTextButton(to_string(levelNum), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
+    choiceNums.push_back(levelNum);
+    int smallestNum = levelNum;
 
     for (int i = 0; i < numChoices; i++) {
-        // Get a unique choice value and store it in 'choiceVals' for future checking.
-        int choiceVal = m_game.randomIntInRange(minVal, maxVal);
+        // Get a unique choice value and store it in 'choiceNums' for future checking.
+        int choiceNum = m_game.randomIntInRange(minNum, maxNum);
 
-        while (find(choiceVals.begin(), choiceVals.end(), choiceVal) != choiceVals.end()) {
-            choiceVal = m_game.randomIntInRange(minVal, maxVal);
+        while (find(choiceNums.begin(), choiceNums.end(), choiceNum) != choiceNums.end()) {
+            choiceNum = m_game.randomIntInRange(minNum, maxNum);
         }
-        choiceVals.push_back(choiceVal);
+        choiceNums.push_back(choiceNum);
         
 
         // The buttons' Y value will flip-flop between iterations of being positioned higher and
         // lower inside the level.
         float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
 
-        Button* button = addTextButton(to_string(choiceVal), fontSize, m_game.randomBrightColor(),
+        Button* button = addTextButton(to_string(choiceNum), fontSize, m_game.randomBrightColor(),
                                        {buttonX, buttonY});
         buttonX += buttonXOffsetPerIter;
 
-        if (choiceVal < smallestVal) {
-            smallestVal = choiceVal;
+        if (choiceNum < smallestNum) {
+            smallestNum = choiceNum;
             m_correctAnswer = button;
         }
     } 
@@ -285,45 +281,52 @@ Level3::Level3()
         .currentScale = 1.0
     } 
 {
+    static constexpr int levelNum = 3;
+    static constexpr int numChoices = 5;
+    static constexpr int minNum= 1;
+    static constexpr int maxNum= 25;
+    static constexpr int fontSize = 80;
+    static constexpr float buttonXOffsetPerIter = 150;
+
+    float buttonX = m_game.getCW() - 300;
+
     addSimpleText("Level  ", 80, ORANGE, {m_game.getCW(), m_game.getCH() - 250}, 0);
 
     addSimpleText("What is the tallest number?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
     ->addAnimRotate(0.0f, 4.0f, 1.5f);
      
-    m_answerChoices[m_levelNum] = addTextButton(
-        to_string(m_levelNum), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250}
+    m_answerChoices[levelNum] = addTextButton(
+        to_string(levelNum), 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250}
     );
 
-    m_buttonX = m_game.getCW() - 300;
+    for (int i = 0; i < numChoices; i++) {
+        // Get a unique choice value and store it in 'choiceNums' for future checking.
+        int choiceNum = m_game.randomIntInRange(minNum, maxNum);
 
-    for (int i = 0; i < m_numChoices; i++) {
-        // Get a unique choice value and store it in 'choiceVals' for future checking.
-        int choiceVal = m_game.randomIntInRange(m_minVal, m_maxVal);
-
-        while (m_answerChoices.find(choiceVal) != m_answerChoices.end()) {
-            choiceVal = m_game.randomIntInRange(m_minVal, m_maxVal);
+        while (m_answerChoices.find(choiceNum) != m_answerChoices.end()) {
+            choiceNum = m_game.randomIntInRange(minNum, maxNum);
         }
         
         // The buttons' Y value will flip-flop between iterations of being positioned higher and
         // lower inside the level.
         float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
  
-        m_answerChoices[choiceVal] = addTextButton(
-                to_string(choiceVal), m_fontSize, m_game.randomBrightColor(), {m_buttonX, buttonY}
+        m_answerChoices[choiceNum] = addTextButton(
+                to_string(choiceNum), fontSize, m_game.randomBrightColor(), {buttonX, buttonY}
         );
 
-        m_buttonX += m_buttonXOffsetPerIter; 
+        buttonX += buttonXOffsetPerIter; 
     } 
    
     // Choose a random member of 'm_answerChoices' to be the correct answer. 
-    int randomIndex = m_game.randomIntInRange(0, static_cast<int>(m_answerChoices.size()) - 1);
+    const int randomIndex = m_game.randomIntInRange(0, static_cast<int>(m_answerChoices.size()) - 1);
     unordered_map<int, Button*>::iterator it = m_answerChoices.begin();
     std::advance(it, randomIndex);
     m_correctAnswer.buttonPtr = it->second;
 }
 
 void Level3::Update()
-{
+{ 
     // If the correct option is hovered, make it grow in scale. Otherwise, make it shrink until
     // it becomes it's normal scale again. 
     if (m_correctAnswer.buttonPtr->isHovered()) {
@@ -362,9 +365,9 @@ Level4::Level4()
     addSimpleText("How much time do you want for Level 5?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
         ->addAnimRotate(0.0f, 4.0f, 1.5f);
 
-    addTextButton("2 seconds", 60, LIME, {m_game.getCW(), m_game.getCH() - 50});
-    addTextButton("5 seconds", 60, VIOLET, {m_game.getCW(), m_game.getCH() + 50});
-    addTextButton("10 seconds", 60, BLUE, {m_game.getCW(), m_game.getCH() + 150});
+    addTextButton("2 seconds", 60, m_game.randomBrightColor(), {m_game.getCW(), m_game.getCH() - 50});
+    addTextButton("5 seconds", 60, m_game.randomBrightColor(), {m_game.getCW(), m_game.getCH() + 50});
+    addTextButton("10 seconds", 60, m_game.randomBrightColor(), {m_game.getCW(), m_game.getCH() + 150});
 }
 
 void Level4::Update()
@@ -399,9 +402,9 @@ Level5::Level5(string duration)
         ->addAnimRotate(0.0f, 4.0f, 1.5f);
 
     // All obstacles.
-    string longNumOne = "762967340328811348866734234450240332396217777462684390";
-    string longNumTwo = "239427620310921174648449330989407894927458570770003111";
-    string longNumThree = "230459256723665565627118580006023666643111673444567710";
+    const string longNumOne = "762967340328811348866734234450240332396217777462684390";
+    const string longNumTwo = "239427620310921174648449330989407894927458570770003111";
+    const string longNumThree = "230459256723665565627118580006023666643111673444567710";
 
     addTextButton("68", 120, RED, {m_game.getCW() - 270, m_game.getCH() - 500})->setSpeed({0, 12});
     addTextButton(longNumOne, 160, RED, {m_game.getCW() - 3050, m_game.getCH() + 250})->setSpeed({3, -1}); 

@@ -116,18 +116,6 @@ class Level3 : public BlinkEngine::Level
         void Update() override;
 
     private:
-        static constexpr int m_levelNum = 3;
-
-        static constexpr int m_numChoices = 5;
-        static constexpr int m_minVal= 1;
-        static constexpr int m_maxVal= 25;
-
-        // This will be determined dynamically at a later date. For now it's hard coded.
-        static constexpr int m_fontSize = 80;
-
-        float m_buttonX;
-        static constexpr float m_buttonXOffsetPerIter = 150;
-
         unordered_map<int, Button*> m_answerChoices;
 
         class CorrectAnswer
