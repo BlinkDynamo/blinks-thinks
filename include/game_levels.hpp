@@ -164,7 +164,8 @@ class Level6 : public BlinkEngine::Level
         Label* m_submitBox;
         Button* m_submitButton;
 
-        string m_correctNumber; 
+        static constexpr int m_totalNumberChoices = 5;
+        vector<Button*> m_correctNumberLayout;
 };
 
 class Level7 : public BlinkEngine::Level
