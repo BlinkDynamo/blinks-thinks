@@ -89,6 +89,16 @@ class LevelLose : public BlinkEngine::Level
         Button* m_restartButton;
 };
 
+class LevelSectionIntroNumbers : public BlinkEngine::Level
+{
+    public:
+        LevelSectionIntroNumbers();
+        void Update() override;
+
+    private:
+        int m_framesCounter;
+};
+
 class Level1 : public BlinkEngine::Level
 {
     public:
@@ -160,12 +170,7 @@ class Level6 : public BlinkEngine::Level
         void Update() override;
 
     private:
-        Button* m_buttonInHand;
-        Label* m_submitBox;
         Button* m_submitButton;
-
-        static constexpr int m_totalNumberChoices = 5;
-        vector<Button*> m_correctNumberLayout;
 };
 
 class Level7 : public BlinkEngine::Level
@@ -178,6 +183,39 @@ class Level7 : public BlinkEngine::Level
         Button* m_buttonInHand;
         Label* m_submitBox;
         Button* m_submitButton;
-
         string m_correctNumber;
+};
+
+class Level8 : public BlinkEngine::Level
+{
+    public:
+        Level8();
+        void Update() override;
+
+    private:
+        Button* m_submitButton;
+};
+
+class Level9 : public BlinkEngine::Level
+{
+    public:
+        Level9();
+        void Update() override;
+
+    private:
+        Button* m_buttonInHand;
+        Label* m_submitBox;
+        Button* m_submitButton;
+        static constexpr int m_totalNumberChoices = 5;
+        vector<Button*> m_correctNumberLayout;
+};
+
+class Level10 : public BlinkEngine::Level
+{
+    public:
+        Level10();
+        void Update() override;
+
+    private:
+        Button* m_submitButton;
 };

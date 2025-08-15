@@ -92,7 +92,7 @@ void LevelTitle::Update()
     
     if (m_playButton->isPressed()) {
         delete m_game.getCurrentLevel();
-        m_game.setCurrentLevel(new Level1());
+        m_game.setCurrentLevel(new LevelSectionIntroNumbers());
     }
 }
 
@@ -119,6 +119,29 @@ void LevelLose::Update()
     }
 
     if (m_restartButton->isPressed()) {
+        delete m_game.getCurrentLevel();
+        m_game.setCurrentLevel(new LevelSectionIntroNumbers());
+    }
+}
+
+// ------------------------------------------------------------------------------------------ //
+//                               Section Introduction: Numbers.                               //
+// ------------------------------------------------------------------------------------------ //
+LevelSectionIntroNumbers::LevelSectionIntroNumbers()
+    : m_framesCounter(0)
+{
+    addSimpleText("Levels 1-10: Numbers", 60, GREEN, {m_game.getCW(), m_game.getCH() - 100}, 0);
+
+    // Set the music track. 
+    m_game.setCurrentMusicByName("no_stopping_now");
+    PlayMusicStream(*m_game.getCurrentMusic());
+}
+
+void LevelSectionIntroNumbers::Update()
+{
+    Level::Update();   
+    ++m_framesCounter;
+    if (m_framesCounter == 3 * m_game.getFrameRate()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new Level1());
     }
@@ -170,11 +193,7 @@ Level1::Level1()
             largestNum = choiceNum;
             m_correctAnswer = button;
         }
-    }
-
-    // Set the music track. 
-    m_game.setCurrentMusicByName("no_stopping_now");
-    PlayMusicStream(*m_game.getCurrentMusic()); 
+    } 
 }
 
 void Level1::Update()
@@ -193,14 +212,14 @@ void Level1::Update()
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new Level2());
     }
-    else { 
+    else {
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
                 delete m_game.getCurrentLevel();
                 m_game.setCurrentLevel(new LevelLose());
             }
         }
-    } 
+    }
 }
 
 // ------------------------------------------------------------------------------------------ //
@@ -236,7 +255,6 @@ Level2::Level2()
             choiceNum = m_game.randomIntInRange(minNum, maxNum);
         }
         choiceNums.push_back(choiceNum);
-        
 
         // The buttons' Y value will flip-flop between iterations of being positioned higher and
         // lower inside the level.
@@ -250,7 +268,7 @@ Level2::Level2()
             smallestNum = choiceNum;
             m_correctAnswer = button;
         }
-    } 
+    }
 }
 
 void Level2::Update()
@@ -261,7 +279,7 @@ void Level2::Update()
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new Level3());
     }
-    else { 
+    else {
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
                 delete m_game.getCurrentLevel();
@@ -279,7 +297,7 @@ Level3::Level3()
     m_correctAnswer{
         .buttonPtr = nullptr,
         .currentScale = 1.0
-    } 
+    }
 {
     constexpr int levelNum = 3;
     constexpr int numChoices = 5;
@@ -306,18 +324,18 @@ Level3::Level3()
         while (m_answerChoices.find(choiceNum) != m_answerChoices.end()) {
             choiceNum = m_game.randomIntInRange(minNum, maxNum);
         }
-        
+
         // The buttons' Y value will flip-flop between iterations of being positioned higher and
         // lower inside the level.
         float buttonY = (i % 2) ? m_game.getCH() - 25 : m_game.getCH() + 175;
- 
+
         m_answerChoices[choiceNum] = addTextButton(
                 to_string(choiceNum), fontSize, m_game.randomBrightColor(), {buttonX, buttonY}
         );
 
         buttonX += buttonXOffsetPerIter; 
-    } 
-   
+    }
+
     // Choose a random member of 'm_answerChoices' to be the correct answer. 
     const int randomIndex = m_game.randomIntInRange(0, static_cast<int>(m_answerChoices.size()) - 1);
     unordered_map<int, Button*>::iterator it = m_answerChoices.begin();
@@ -326,7 +344,7 @@ Level3::Level3()
 }
 
 void Level3::Update()
-{ 
+{
     // If the correct option is hovered, make it grow in scale. Otherwise, make it shrink until
     // it becomes it's normal scale again. 
     if (m_correctAnswer.buttonPtr->isHovered()) {
@@ -334,25 +352,25 @@ void Level3::Update()
             m_correctAnswer.currentScale += m_correctAnswer.scaleUpIncr;
             m_correctAnswer.buttonPtr->setScale(m_correctAnswer.currentScale);
         }
-    } 
+    }
     else if (m_correctAnswer.currentScale > m_correctAnswer.minScale) {
             m_correctAnswer.currentScale -= m_correctAnswer.scaleDownIncr;
             m_correctAnswer.buttonPtr->setScale(m_correctAnswer.currentScale);
     }
-    
+
     Level::Update();
     if (m_correctAnswer.buttonPtr->isPressed()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new Level4());
     }
-    else { 
+    else {
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
                 delete m_game.getCurrentLevel();
                 m_game.setCurrentLevel(new LevelLose());
             }
         }
-    } 
+    }
 }
 
 // ------------------------------------------------------------------------------------------ //
@@ -407,16 +425,16 @@ Level5::Level5(string duration)
     const string longNumThree = "230459256723665565627118580006023666643111673444567710";
 
     addTextButton("68", 120, RED, {m_game.getCW() - 270, m_game.getCH() - 500})->setSpeed({0, 12});
-    addTextButton(longNumOne, 160, RED, {m_game.getCW() - 3050, m_game.getCH() + 250})->setSpeed({3, -1}); 
-    addTextButton(longNumTwo, 160, RED, {m_game.getCW() + 3050, m_game.getCH() - 230})->setSpeed({-3, 1}); 
-    addTextButton("8043001", 120, RED, {m_game.getCW() - 200, m_game.getCH() + 1200})->setSpeed({0, -5}); 
+    addTextButton(longNumOne, 160, RED, {m_game.getCW() - 3050, m_game.getCH() + 250})->setSpeed({3, -1});
+    addTextButton(longNumTwo, 160, RED, {m_game.getCW() + 3050, m_game.getCH() - 230})->setSpeed({-3, 1});
+    addTextButton("8043001", 120, RED, {m_game.getCW() - 200, m_game.getCH() + 1200})->setSpeed({0, -5});
     addTextButton("3", 120, RED, {m_game.getCW() + 600, m_game.getCH()})->setSpeed({-1, 0});
-    addTextButton("762", 160, RED, {m_game.getCW() - 1300, m_game.getCH()})->setSpeed({2, 0}); 
+    addTextButton("762", 160, RED, {m_game.getCW() - 1300, m_game.getCH()})->setSpeed({2, 0});
     addTextButton("12", 120, RED, {m_game.getCW() + 1800, m_game.getCH() - 600})->setSpeed({-8, 4});
-    addTextButton("5000006", 120, RED, {m_game.getCW() + 200, m_game.getCH() - 3000})->setSpeed({0, 7}); 
-    addTextButton("3078", 80, RED, {m_game.getCW() - 250, m_game.getCH() - 3100})->setSpeed({0, 7}); 
-    addTextButton(longNumThree, 150, RED, {m_game.getCW() + 4550, m_game.getCH() - 150})->setSpeed({-4, 0}); 
-    addTextButton("7877878447232634", 150, RED, {m_game.getCW(), m_game.getCH() + 800})->setSpeed({0, -1}); 
+    addTextButton("5000006", 120, RED, {m_game.getCW() + 200, m_game.getCH() - 3000})->setSpeed({0, 7});
+    addTextButton("3078", 80, RED, {m_game.getCW() - 250, m_game.getCH() - 3100})->setSpeed({0, 7});
+    addTextButton(longNumThree, 150, RED, {m_game.getCW() + 4550, m_game.getCH() - 150})->setSpeed({-4, 0});
+    addTextButton("7877878447232634", 150, RED, {m_game.getCW(), m_game.getCH() + 800})->setSpeed({0, -1});
     addTextButton("64", 120, RED, {m_game.getCW() + 3000, m_game.getCH() + 700})->setSpeed({-5, -1});
 }
 
@@ -435,11 +453,11 @@ void Level5::Update()
             m_duration = to_string(durationAsInt);
             m_timer->getTextObj()->setTextString(m_duration);
         }
-        else { 
+        else {
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new Level6());
-        } 
-    } 
+        }
+    }
 
     // The lose condition can be this simple because all buttons on level 5 will be numbers.
     for (Button* button : getButtons()) {
@@ -452,98 +470,21 @@ void Level5::Update()
 
 Level6::Level6()
     :
-    m_buttonInHand(nullptr),
-    m_submitBox(addEntity(new Label(BLACK, WHITE, {250, 150}, 6, {m_game.getCW(), m_game.getCH() - 25}, -10))),
-    m_submitButton(addUiButton("Submit"))
+    m_submitButton(addUiButton("Next"))
 {
     //
     // Main title and instructions.
     //
-    addSimpleText("Level  ", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
-
-    addSimpleText("Fit the greatest number into the box", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
-        ->addAnimRotate(0.0f, 4.0f, 1.5f);
-    
-    //
-    // Button creation.
-    //
-    m_correctNumberLayout.reserve(m_totalNumberChoices);
-
-    Button* numberInLevelTitle = addTextButton("6", 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
-    this->m_correctNumberLayout.push_back(numberInLevelTitle);
-
-    while (m_correctNumberLayout.size() < m_totalNumberChoices) {
-        int choiceValue = m_game.randomIntInRange(1, 9);
-        Color color = m_game.randomBrightColor();
-        Vector2 pos = {m_game.getCW(), m_game.getCH()};
-        Button* newestButton = addTextButton(to_string(choiceValue), 80, color, pos); 
-        m_correctNumberLayout.push_back(newestButton);
-    }
-
-    sort(m_correctNumberLayout.begin(), m_correctNumberLayout.end(),
-        [](Button* a, Button* b) {
-            return a->getTextObj()->getTextString() > b->getTextObj()->getTextString();
-        }
-    );
+    addSimpleText("Level 6", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
 }
 
 void Level6::Update()
 {
-    Level::Update();
+    Level::Update(); 
 
-    // The number-dragging can be this simple because all buttons are numbers except the 'Submit' button.
-    for (Button* button : getButtons()) {
-        if (button->isPressed() && button != m_submitButton) { 
-            m_buttonInHand = button; 
-        }
-    }
-
-    if (IsMouseButtonDown(0) && m_buttonInHand != nullptr) {
-        m_buttonInHand->setPosition(GetMousePosition());
-    }
-    else {
-        m_buttonInHand = nullptr;
-    }
-
-    // 
-    // On submission, add every button inside of the submission box to a vector, then organize
-    // their text object's text strings in the same order that they exist spatially. Save this
-    // created number to a string and check if it matches 'm_correctNumber'.
-    //
     if (m_submitButton->isPressed()) {
-
-        vector<Button*> numbersInBox; // For buttons that are inside of the submission box.
-        numbersInBox.reserve(m_totalNumberChoices);
-
-        for (Button* button : getButtons()) {
-            if (CheckCollisionRecs(button->getRectangle(), m_submitBox->getRectangle())) {
-                vector<Button*>::iterator it = numbersInBox.begin();
-                while (it != numbersInBox.end() && (*it)->getPosition().x <= button->getPosition().x) {
-                    ++it;
-                }
-                numbersInBox.insert(it, button);
-            }
-        }
-       
-        // Assume true and override if proven false. 
-        bool largestNumberWasChosen = true;
-        vector<Button*>::iterator choiceIt = numbersInBox.begin();
-        vector<Button*>::iterator answerIt = m_correctNumberLayout.begin();
-        for (; choiceIt != numbersInBox.end() && answerIt != m_correctNumberLayout.end(); ++choiceIt, ++answerIt) {
-            if ((*choiceIt)->getTextObj()->getTextString() != (*answerIt)->getTextObj()->getTextString()) {
-                largestNumberWasChosen = false;
-            }
-        }
-
-        if (largestNumberWasChosen) {
-            delete m_game.getCurrentLevel();
-            m_game.setCurrentLevel(new Level7());
-        }
-        else {
-            delete m_game.getCurrentLevel();
-            m_game.setCurrentLevel(new LevelLose());
-        }
-
+        delete m_game.getCurrentLevel();
+        m_game.setCurrentLevel(new Level7());
     }
 }
 
@@ -553,7 +494,7 @@ Level7::Level7()
     m_submitBox(addEntity(new Label(BLACK, WHITE, {250, 150}, 6, {m_game.getCW(), m_game.getCH() - 25}, -10))),
     m_submitButton(addUiButton("Submit")),
     m_correctNumber("7")
-{ 
+{
     addSimpleText("Level  ", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
 
     addTextButton("7", 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
@@ -576,7 +517,7 @@ void Level7::Update()
         if (button->isPressed() && button != m_submitButton) {
             // point 'm_buttonInHand' to the button that was just pressed, setting it back to
             // 'nullptr' if the mouse is released.
-            m_buttonInHand = button; 
+            m_buttonInHand = button;
         }
     }
 
@@ -601,18 +542,154 @@ void Level7::Update()
                 }
                 numbersInBox.insert(it, button);
             }
-        } 
+        }
         for (Button* button : numbersInBox) {
             finalSubmission += button->getTextObj()->getTextString();
         }
-  
+
         if (finalSubmission == m_correctNumber) {
             delete m_game.getCurrentLevel();
-            m_game.setCurrentLevel(new Level7());
+            m_game.setCurrentLevel(new Level8());
         }
         else {
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new LevelLose());
         }
+    }
+}
+
+Level8::Level8()
+    :
+    m_submitButton(addUiButton("Next"))
+{
+    //
+    // Main title and instructions.
+    //
+    addSimpleText("Level 8", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
+}
+
+void Level8::Update()
+{
+    Level::Update(); 
+
+    if (m_submitButton->isPressed()) {
+        delete m_game.getCurrentLevel();
+        m_game.setCurrentLevel(new Level9());
+    }
+}
+
+Level9::Level9()
+    :
+    m_buttonInHand(nullptr),
+    m_submitBox(addEntity(new Label(BLACK, WHITE, {250, 150}, 9, {m_game.getCW(), m_game.getCH() - 25}, -10))),
+    m_submitButton(addUiButton("Submit"))
+{
+    //
+    // Main title and instructions.
+    //
+    addSimpleText("Level  ", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
+
+    addSimpleText("Fit the greatest number into the box", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
+        ->addAnimRotate(0.0f, 4.0f, 1.5f);
+
+    //
+    // Button creation.
+    //
+    m_correctNumberLayout.reserve(m_totalNumberChoices);
+
+    Button* numberInLevelTitle = addTextButton("9", 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
+    this->m_correctNumberLayout.push_back(numberInLevelTitle);
+
+    while (m_correctNumberLayout.size() < m_totalNumberChoices) {
+        int choiceValue = m_game.randomIntInRange(1, 9);
+        Color color = m_game.randomBrightColor();
+        Vector2 pos = {m_game.getCW(), m_game.getCH()};
+        Button* newestButton = addTextButton(to_string(choiceValue), 80, color, pos); 
+        m_correctNumberLayout.push_back(newestButton);
+    }
+
+    sort(m_correctNumberLayout.begin(), m_correctNumberLayout.end(),
+        [](Button* a, Button* b) {
+            return a->getTextObj()->getTextString() > b->getTextObj()->getTextString();
+        }
+    );
+}
+
+void Level9::Update()
+{
+    Level::Update();
+
+    // The number-dragging can be this simple because all buttons are numbers except the 'Submit' button.
+    for (Button* button : getButtons()) {
+        if (button->isPressed() && button != m_submitButton) { 
+            m_buttonInHand = button; 
+        }
+    }
+
+    if (IsMouseButtonDown(0) && m_buttonInHand != nullptr) {
+        m_buttonInHand->setPosition(GetMousePosition());
+    }
+    else {
+        m_buttonInHand = nullptr;
+    }
+
+    //
+    // On submission, add every button inside of the submission box to a vector, then organize
+    // their text object's text strings in the same order that they exist spatially. Save this
+    // created number to a string and check if it matches 'm_correctNumber'.
+    //
+    if (m_submitButton->isPressed()) {
+
+        vector<Button*> numbersInBox; // For buttons that are inside of the submission box.
+        numbersInBox.reserve(m_totalNumberChoices);
+
+        for (Button* button : getButtons()) {
+            if (CheckCollisionRecs(button->getRectangle(), m_submitBox->getRectangle())) {
+                vector<Button*>::iterator it = numbersInBox.begin();
+                while (it != numbersInBox.end() && (*it)->getPosition().x <= button->getPosition().x) {
+                    ++it;
+                }
+                numbersInBox.insert(it, button);
+            }
+        }
+
+        // Assume true and override if proven false. 
+        bool largestNumberWasChosen = true;
+        vector<Button*>::iterator choiceIt = numbersInBox.begin();
+        vector<Button*>::iterator answerIt = m_correctNumberLayout.begin();
+        for (; choiceIt != numbersInBox.end() && answerIt != m_correctNumberLayout.end(); ++choiceIt, ++answerIt) {
+            if ((*choiceIt)->getTextObj()->getTextString() != (*answerIt)->getTextObj()->getTextString()) {
+                largestNumberWasChosen = false;
+            }
+        }
+
+        if (largestNumberWasChosen) {
+            delete m_game.getCurrentLevel();
+            m_game.setCurrentLevel(new Level10());
+        }
+        else {
+            delete m_game.getCurrentLevel();
+            m_game.setCurrentLevel(new LevelLose());
+        }
+    }
+}
+
+Level10::Level10()
+    :
+    m_submitButton(addUiButton("Next"))
+{
+    //
+    // Main title and instructions.
+    //
+    addSimpleText("Level 10", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
+}
+
+void Level10::Update()
+{
+    Level::Update();
+
+    if (m_submitButton->isPressed()) {
+        delete m_game.getCurrentLevel();
+        m_game.setCurrentLevel(new LevelTitle());
     }
 }
