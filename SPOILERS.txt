@@ -1,0 +1,218 @@
+This text file documents the entire playthrough of the game.
+
+It is used by me for storyboarding and planning out the flow of the game.
+
+Development of this game is done with a documentation-first approach:
+    * Features are documented precisely first, then implemented in code.
+    * All code of the game is expected to follow the documentation that defines it.
+
+READING THIS FILE AFTER THIS POINT WILL SPOIL GAMEPLAY. GO TO LINE 100 TO START.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Blink's Think's v0.1.0
+
+--- SPECIAL LEVELS ---
+
+[LOSE]
+Shows the animated title "Game Over!", along with a 'Restart' button.
+
+[WIN]
+Shows the animated tile "You Win!", along with a 'Title Screen' button.
+
+
+--- GAME START ---
+
+[INTRO]
+Shows the raylib animation, followed by a self credit animation. Is skippable by pressing 'Enter'. "Title Theme" music begins here.
+
+[TITLE]
+Shows the animated title "Blink's Thinks", along with a 'Play' button.
+
+--- SECTION 1: NUMBERS ---
+
+[SECTION 1 TITLE]
+Introduces the first section of the game. Displays the text "Section 1: Numbers".
+Continues to level 1 after a loading bar expires.
+
+[LEVEL 1]
+Question: "What is the largest number?"
+
+Win Condition: The number greatest in value is clicked.
+
+The music changes to "Numbers Theme".
+
+[LEVEL 2]
+Question: "What is the smallest number?"
+
+Win Condition: 
+    * The number smallest in value is clicked. This will likely be the level number.
+
+Lose Condition: 
+    * Any number that is not the smallest in value is clicked.
+
+[LEVEL 3]
+Question: What is the tallest number? 
+
+Win Condition:
+    * The number that enlarges when hovered is clicked after it has grown taller 
+      (in physical size) than all other numbers.
+Lose Condition:
+    * Any number that doesn't enlarge is clicked.
+    * The number that does enlarge is clicked before it becomes taller than all other numbers.
+
+[LEVEL 4]
+Question: "How much time do you want for Level 5?"
+
+Win Condition: None.
+Lose Condition: None.
+
+Any option is fine. Strategically the shortest amount of time is best, but all times have a
+winnable solution.
+
+[LEVEL 5]
+Question: "Don't touch any numbers for (insert chosen time) more seconds"
+
+Win Condition:
+    * Dodge numbers until the timer reaches 0.
+
+Lose Condition:
+    * Touch any number before the timer reaches 0.
+
+[LEVEL 6]
+Question: "What is the first number of something delicious?"
+
+Win Condition:
+    * The number 3 is clicked.
+
+Lose Condition:
+    * Any number that is not 3 is clicked.
+
+[LEVEL 7]
+Question: "Feed the hungry number"
+
+Win Condition:
+    * Drag the number 7 on top of the number 9.
+
+Lose Condition:
+    * Click any number that is not 7 or 9.
+    * Drag 7 into any number that is not 9, and vice versa.
+
+[LEVEL 8]
+Question: "Which number comes next?"
+
+Win Condition:
+    * The next number in the displayed Fibbonacci sequence is clicked.
+
+Lose Condition: 
+    * Any number that would not be the next number in the displayed Fibbonacci sequence is clicked.
+
+[LEVEL 9]
+Question: "Create the largest number"
+
+Win Condition: 
+    * 'Submit' is pressed with all numbers on the screen in order from largest to smallest, left to right,
+      inside of the centered box.
+
+Lose Condition:
+    * 'Submit' is pressed with any numbers outside of the box.
+    * 'Submit' is pressed, and the numbers on the screen are not ordered largest to smallest, left to right.
+
+[LEVEL 10]
+Question: "Create the largest number"
+
+Win Condition:
+    * Drag all of the numbers on the screen, including the level number, inside the box.
+      This time (shown by the immovable '0x' text predicating the box) the player must make the
+      largest hexidecimal number.
+
+After completing this level successfully, advance to the [WIN] level.
+
+--- END ---
