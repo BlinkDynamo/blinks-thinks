@@ -129,12 +129,12 @@ void LevelLose::Update()
 // ------------------------------------------------------------------------------------------ //
 Level1::Level1() 
 {
-    static constexpr int levelNum = 1;
-    static constexpr int numChoices = 5;
-    static constexpr int minNum= 1;
-    static constexpr int maxNum= 25;
-    static constexpr int fontSize = 80;
-    static constexpr float buttonXOffsetPerIter = 150;
+    constexpr int levelNum = 1;
+    constexpr int numChoices = 5;
+    constexpr int minNum= 1;
+    constexpr int maxNum= 25;
+    constexpr int fontSize = 80;
+    constexpr float buttonXOffsetPerIter = 150;
 
     float buttonX = m_game.getCW() - 300;
 
@@ -208,12 +208,12 @@ void Level1::Update()
 // ------------------------------------------------------------------------------------------ //
 Level2::Level2()
 {
-    static constexpr int levelNum = 2;
-    static constexpr int numChoices = 5;
-    static constexpr int minNum= 1;
-    static constexpr int maxNum= 25;
-    static constexpr int fontSize = 80;
-    static constexpr float buttonXOffsetPerIter = 150;
+    constexpr int levelNum = 2;
+    constexpr int numChoices = 5;
+    constexpr int minNum= 1;
+    constexpr int maxNum= 25;
+    constexpr int fontSize = 80;
+    constexpr float buttonXOffsetPerIter = 150;
 
     float buttonX = m_game.getCW() - 300;
 
@@ -281,12 +281,12 @@ Level3::Level3()
         .currentScale = 1.0
     } 
 {
-    static constexpr int levelNum = 3;
-    static constexpr int numChoices = 5;
-    static constexpr int minNum= 1;
-    static constexpr int maxNum= 25;
-    static constexpr int fontSize = 80;
-    static constexpr float buttonXOffsetPerIter = 150;
+    constexpr int levelNum = 3;
+    constexpr int numChoices = 5;
+    constexpr int minNum= 1;
+    constexpr int maxNum= 25;
+    constexpr int fontSize = 80;
+    constexpr float buttonXOffsetPerIter = 150;
 
     float buttonX = m_game.getCW() - 300;
 
