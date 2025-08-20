@@ -170,7 +170,7 @@ class Level6 : public BlinkEngine::Level
         void Update() override;
 
     private:
-        Button* m_submitButton;
+        Button* m_correctChoice;
 };
 
 class Level7 : public BlinkEngine::Level

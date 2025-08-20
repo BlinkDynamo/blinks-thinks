@@ -48,10 +48,12 @@ void LevelAnimRaylib::Update() {
     if (m_animation->isFinished()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new LevelAnimSelfCredit());
+        return;
     }
     else if (IsKeyPressed(KEY_ENTER)) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new LevelTitle());
+        return;
     }
 }
 
@@ -70,6 +72,7 @@ void LevelAnimSelfCredit::Update()
     if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new LevelTitle());
+        return;
     }
 }
 
@@ -93,6 +96,7 @@ void LevelTitle::Update()
     if (m_playButton->isPressed()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new LevelSectionIntroNumbers());
+        return;
     }
 }
 
@@ -121,6 +125,7 @@ void LevelLose::Update()
     if (m_restartButton->isPressed()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new LevelSectionIntroNumbers());
+        return;
     }
 }
 
@@ -144,6 +149,7 @@ void LevelSectionIntroNumbers::Update()
     if (m_framesCounter == 3 * m_game.getFrameRate()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new Level1());
+        return;
     }
 }
 
@@ -211,12 +217,14 @@ void Level1::Update()
     if (m_correctAnswer->isPressed()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new Level2());
+        return;
     }
     else {
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
                 delete m_game.getCurrentLevel();
                 m_game.setCurrentLevel(new LevelLose());
+                return;
             }
         }
     }
@@ -278,12 +286,14 @@ void Level2::Update()
     if (m_correctAnswer->isPressed()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new Level3());
+        return;
     }
     else {
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
                 delete m_game.getCurrentLevel();
                 m_game.setCurrentLevel(new LevelLose());
+                return;
             }
         }
     }
@@ -362,12 +372,14 @@ void Level3::Update()
     if (m_correctAnswer.buttonPtr->isPressed()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new Level4());
+        return;
     }
     else {
         for (Button* button : getButtons()) {
             if (button->isPressed()) {
                 delete m_game.getCurrentLevel();
                 m_game.setCurrentLevel(new LevelLose());
+                return;
             }
         }
     }
@@ -398,6 +410,7 @@ void Level4::Update()
             chosenTime.erase(chosenTime.find(" seconds"), chosenTime.length());
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new Level5(chosenTime));
+            return;
         }
     }
 }
@@ -456,6 +469,7 @@ void Level5::Update()
         else {
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new Level6());
+            return;
         }
     }
 
@@ -464,27 +478,46 @@ void Level5::Update()
         if (button->isHovered()) {
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new LevelLose());
+            return;
         }
     }
 }
 
 Level6::Level6()
     :
-    m_submitButton(addUiButton("Next"))
+    m_correctChoice(addTextButton("3", 80, m_game.randomBrightColor(), {m_game.getCW() - 225, m_game.getCH() + 175}))
 {
     //
     // Main title and instructions.
     //
-    addSimpleText("Level 6", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
+    addSimpleText("Level  ", 80, ORANGE, {m_game.getCW() - 4, m_game.getCH() - 250}, 0);
+    addTextButton("6", 80, ORANGE, {m_game.getCW() + 122, m_game.getCH() - 250});
+
+    addSimpleText("What is the first number of something delicious?", 40, RAYWHITE, {m_game.getCW(), m_game.getCH() - 150}, 0)
+        ->addAnimRotate(0.0f, 4.0f, 1.5f);
+
+    addTextButton("5", 80, m_game.randomBrightColor(), {m_game.getCW() - 275, m_game.getCH()});
+    addTextButton("7", 80, m_game.randomBrightColor(), {m_game.getCW() + 225, m_game.getCH() + 175});
+    addTextButton("9", 80, m_game.randomBrightColor(), {m_game.getCW() + 275, m_game.getCH()});
 }
 
 void Level6::Update()
 {
     Level::Update(); 
 
-    if (m_submitButton->isPressed()) {
-        delete m_game.getCurrentLevel();
-        m_game.setCurrentLevel(new Level7());
+    for (Button* button : getButtons()) {
+        if (button->isPressed()) {
+            if (button == m_correctChoice) {
+                delete m_game.getCurrentLevel();
+                m_game.setCurrentLevel(new Level7());
+                return;
+            }
+            else {
+                delete m_game.getCurrentLevel();
+                m_game.setCurrentLevel(new LevelLose());
+                return;
+            }
+        }
     }
 }
 
@@ -550,10 +583,12 @@ void Level7::Update()
         if (finalSubmission == m_correctNumber) {
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new Level8());
+            return;
         }
         else {
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new LevelLose());
+            return;
         }
     }
 }
@@ -575,6 +610,7 @@ void Level8::Update()
     if (m_submitButton->isPressed()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new Level9());
+        return;
     }
 }
 
@@ -666,10 +702,12 @@ void Level9::Update()
         if (largestNumberWasChosen) {
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new Level10());
+            return;
         }
         else {
             delete m_game.getCurrentLevel();
             m_game.setCurrentLevel(new LevelLose());
+            return;
         }
     }
 }
@@ -691,5 +729,6 @@ void Level10::Update()
     if (m_submitButton->isPressed()) {
         delete m_game.getCurrentLevel();
         m_game.setCurrentLevel(new LevelTitle());
+        return;
     }
 }
