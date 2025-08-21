@@ -28,74 +28,74 @@
 
 using std::string;
 
-namespace BlinkEngine
+namespace engine
 {
-    class Text : public Entity
+    class text : public entity
     {
         public:
-            Text(
-                string textString,
-                float fontSize,
-                Color textColor,
-                Color shadowColor,
+            text(
+                string text_str,
+                float font_size,
+                Color text_color,
+                Color shadow_color,
                 Vector2 position = {0, 0},
                 int layer = 0); 
 
-            void Update() override;
-            void Draw() override;
+            void update() override;
+            void draw() override;
 
-            void addAnimRotate(float rotation, float speed, float depth) {
+            void add_anim_rotate(float rotation, float speed, float depth) {
                 m_rotation = rotation;
-                m_rotationSpeed = speed;
-                m_rotationDepth = depth;
+                m_rotation_speed = speed;
+                m_rotation_depth = depth;
             }
 
             // Getters and setters.
-            string getTextString() { return m_textString; }
-            void setTextString(string textString) { m_textString = textString; }
+            string get_text_str() { return m_text_str; }
+            void set_text_str(string text_str) { m_text_str = text_str; }
 
-            Color getTextColor() { return m_textColor; }
-            void setTextColor(Color textColor) { m_textColor = textColor; }
+            Color get_text_color() { return m_text_color; }
+            void set_text_color(Color text_color) { m_text_color = text_color; }
 
-            Vector2 getTextDim() { return m_textDim; }
-            void setTextDim(Vector2 textDim) { m_textDim = textDim; }
+            Vector2 get_text_dim() { return m_text_dim; }
+            void set_text_dim(Vector2 text_dim) { m_text_dim = text_dim; }
 
-            int getFontSize() { return m_baseFontSize; }
-            void setFontSize(int fontSize) { m_baseFontSize = fontSize; }
+            int get_font_size() { return m_base_font_size; }
+            void set_font_size(int font_size) { m_base_font_size = font_size; }
 
-            void setScale(float scale) { m_scale = scale; }
+            void set_scale(float scale) { m_scale = scale; }
 
         private:
-            string m_textString;            // The text that will be displayed.
+            string m_text_str;              // The text that will be displayed.
                                             
             float m_scale;                  // The scaling factor that should be applied to the
                                             // original font size.
                                             
-            float m_baseFontSize;           // The size that the text is initially (unscaled).
+            float m_base_font_size;         // The size that the text is initially (unscaled).
                                             
-            float m_scaledFontSize;         // The size that the text is after scaling is applied.
+            float m_scaled_font_size;       // The size that the text is after scaling is applied.
                                             
-            Color m_textColor;              // The color that the text will be displayed.
+            Color m_text_color;             // The color that the text will be displayed.
                                             
-            Color m_shadowColor;            // The color that the duplicated, offset text behind
+            Color m_shadow_color;           // The color that the duplicated, offset text behind
                                             // the main text will be.
                                             
-            int m_letterSpacing;            // The pixels of spacing in between letters.
+            int m_letter_spacing;           // The pixels of spacing in between letters.
                                             
-            Vector2 m_textDim;              // The text's dimensions. Calculated after font size,
+            Vector2 m_text_dim;             // The text's dimensions. Calculated after font size,
                                             // letter spacing, and scaling have all been applied.
                                             
             Vector2 m_origin;               // The horizontal and vertical center of the text.
                                             // Calculated after font size, letter spacing, and
                                             // scaling have all been applied.
 
-            const Vector2 m_shadowOffset;   // The horizontal and vertical offset that the
+            const Vector2 m_shadow_offset;  // The horizontal and vertical offset that the
                                             // duplicated text (shadow) will be drawn at.
 
-            // Rotation algorithm: m_rotation = sin(GetTime() * m_rotationSpeed) * m_rotationDepth
+            // Rotation algorithm: m_rotation = sin(GetTime() * m_rotation_speed) * m_rotation_depth
 
             float m_rotation;               // The rotation of the text (default is 0.0f).
-            float m_rotationSpeed;          // The speed of rotation (default is 0.0f).
-            float m_rotationDepth;          // The depth of rotation (default is 0.0f).
+            float m_rotation_speed;         // The speed of rotation (default is 0.0f).
+            float m_rotation_depth;         // The depth of rotation (default is 0.0f).
     };
 }

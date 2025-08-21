@@ -21,14 +21,14 @@
 // Source.
 #include "label.hpp"
 
-using BlinkEngine::Label;
+using engine::label;
 
 // Standard library.
 #include <cmath>
 
-Label::Label(
-    Color lineColor,
-    Color fillColor,
+label::label(
+    Color line_color,
+    Color fill_color,
     Vector2 size,
     int thickness,
     Vector2 position,
@@ -36,14 +36,14 @@ Label::Label(
 
     :
     // Arguments.
-    Entity(position, layer),
+    entity(position, layer),
 
-    m_lineColor(lineColor),
-    m_fillColor(fillColor),
+    m_line_color(line_color),
+    m_fill_color(fill_color),
     m_size(size),
     m_thickness(thickness),
 
-    // Updated every frame in 'Update()'.
+    // Updated every frame in 'update()'.
     m_rectangle({m_position.x - (m_size.x / 2.0f), m_position.y - (m_size.y / 2.0f), m_size.x, m_size.y}),
 
     m_scale(1.0f)
@@ -52,21 +52,21 @@ Label::Label(
 // ------------------------------------------------------------------------------------------ //
 //                                          Methods.                                          //
 // ------------------------------------------------------------------------------------------ //
-bool Label::isHovered()
+bool label::is_hovered()
 {
     return CheckCollisionPointRec(GetMousePosition(), m_rectangle);
 }
 
-bool Label::isPressed()
+bool label::is_pressed()
 {
-    return isHovered() && IsMouseButtonPressed(0);
+    return is_hovered() && IsMouseButtonPressed(0);
 }
 
-void Label::Update()
+void label::update()
 { 
-    Entity::Update();
+    entity::update();
 
-    // Update the rectangle, multiplying size elements by scale.
+    // update the rectangle, multiplying size elements by scale.
     m_rectangle = {
         m_position.x - ((m_size.x * m_scale) / 2.0f),
         m_position.y - ((m_size.y * m_scale) / 2.0f),
@@ -75,18 +75,18 @@ void Label::Update()
     };
 }
 
-void Label::Draw()
+void label::draw()
 {
-    // Draw the filled portion.
-    DrawRectangleRec(m_rectangle, m_fillColor);
+    // draw the filled portion.
+    DrawRectangleRec(m_rectangle, m_fill_color);
 
-    // Draw the four lines of the rect if an above-zero thickness is specified.
+    // draw the four lines of the rect if an above-zero thickness is specified.
     if (m_thickness > 0) {
-        DrawRectangle(m_rectangle.x, m_rectangle.y, m_thickness, m_rectangle.height, m_lineColor); // Left column.
+        DrawRectangle(m_rectangle.x, m_rectangle.y, m_thickness, m_rectangle.height, m_line_color); // Left column.
         DrawRectangle(m_rectangle.x + m_rectangle.width - m_thickness, m_rectangle.y,
-                      m_thickness, m_rectangle.height, m_lineColor); // Right column.
-        DrawRectangle(m_rectangle.x, m_rectangle.y, m_rectangle.width, m_thickness, m_lineColor); // Top row.
+                      m_thickness, m_rectangle.height, m_line_color); // Right column.
+        DrawRectangle(m_rectangle.x, m_rectangle.y, m_rectangle.width, m_thickness, m_line_color); // Top row.
         DrawRectangle(m_rectangle.x, m_rectangle.y + m_rectangle.height - m_thickness,
-                      m_rectangle.width, m_thickness, m_lineColor); // Bottom row.
+                      m_rectangle.width, m_thickness, m_line_color); // Bottom row.
     }
 }

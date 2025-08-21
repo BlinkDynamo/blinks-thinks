@@ -22,19 +22,19 @@
 #include "game.hpp"
 #include "overlay.hpp"
 
-using BlinkEngine::Overlay;
-using BlinkEngine::Game;
+using engine::overlay;
+using engine::game;
 
-Overlay::Overlay(Color color, Vector2 position, int layer)
+overlay::overlay(Color color, Vector2 position, int layer)
     :
-    Entity(position, layer),
+    entity(position, layer),
     m_color(color)
 {}
 
-void Overlay::Update()
+void overlay::update()
 {}
 
-void Overlay::Draw()
+void overlay::draw()
 {
-    DrawRectangle(m_position.x, m_position.y, Game::getW(), Game::getH(), m_color);
+    DrawRectangle(m_position.x, m_position.y, game::get_w(), game::get_h(), m_color);
 }

@@ -23,17 +23,17 @@
 // Source.
 #include "entity.hpp"
 
-namespace BlinkEngine
+namespace engine
 {
-    class Overlay : public Entity
+    class overlay : public entity
     {
         public:
-            Overlay(Color color, Vector2 position = {0, 0}, int layer = 1000);
+            overlay(Color color, Vector2 position = {0, 0}, int layer = 1000);
 
-            void setColor(Color color) { m_color = color; }
+            void set_color(Color color) { m_color = color; }
 
-            void Update() override;
-            void Draw() override;
+            void update() override;
+            void draw() override;
 
         private:
             Color m_color;

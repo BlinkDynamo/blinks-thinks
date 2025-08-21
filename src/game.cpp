@@ -21,38 +21,38 @@
 // Source.
 #include "game.hpp"
 
-using BlinkEngine::Game;
+using engine::game;
 
 // Standard library.
 #include <cmath>
 
-Game& Game::getInstance()
+game& game::get_instance()
 {
-    static Game instance;
+    static game instance;
     return instance;
 }
 
-Game::Game()
+game::game()
     :
-    m_currentMusicPitch(1.0)
+    m_current_music_pitch(1.0)
 {
     // Window, Screen, and FPS.
-    InitWindow(m_w, m_h, m_gameName);
-    SetTargetFPS(m_frameRate);
+    InitWindow(m_w, m_h, m_game_name);
+    SetTargetFPS(m_frame_rate);
 
     // Setup the audio device.
     InitAudioDevice();
     SetAudioStreamBufferSizeDefault(4096);
 
-    // Load all music tracks into 'm_musicTracks'.
-    m_musicTracks["title_theme"] = LoadMusicStream("res/music/title_theme.ogg");
-    m_musicTracks["no_stopping_now"] = LoadMusicStream("res/music/no_stopping_now.ogg"); 
+    // Load all music tracks into 'm_music_tracks'.
+    m_music_tracks["title_theme"] = LoadMusicStream("res/music/title_theme.ogg");
+    m_music_tracks["no_stopping_now"] = LoadMusicStream("res/music/no_stopping_now.ogg"); 
 }
 
-Game::~Game()
+game::~game()
 {
     // Unload all the music tracks.
-    for (const auto& [name, music] : m_musicTracks) {
+    for (const auto& [name, music] : m_music_tracks) {
         UnloadMusicStream(music);
     }
 
@@ -60,37 +60,37 @@ Game::~Game()
     CloseWindow();
 }
 
-void Game::Run()
+void game::run()
 {
     while (!WindowShouldClose())
     {
         // ---------------------------------------------------------------------------------- //
-        //                                      Update.                                       //
+        //                                      update.                                       //
         // ---------------------------------------------------------------------------------- //
-        if (m_currentMusic != nullptr) UpdateMusicStream(*m_currentMusic);
-        if (m_currentLevel != nullptr) m_currentLevel->Update();
+        if (m_current_music != nullptr) UpdateMusicStream(*m_current_music);
+        if (m_current_level != nullptr) m_current_level->update();
 
         // ---------------------------------------------------------------------------------- //
-        //                                       Draw.                                        //
+        //                                       draw.                                        //
         // ---------------------------------------------------------------------------------- //
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
-        if (m_currentLevel != nullptr) m_currentLevel->Draw();
+        if (m_current_level != nullptr) m_current_level->draw();
 
         EndDrawing();
     }
 }
 
-int Game::randomIntInRange(int min, int max)
+int game::random_int_in_range(int min, int max)
 {
     std::uniform_int_distribution<int> distribution(min, max);
-    return distribution(m_randomGenerator);
+    return distribution(m_random_generator);
 }
 
-Color Game::randomBrightColor()
+Color game::random_bright_color()
 {
-    constexpr size_t nBrightColors = 8;
-    constexpr Color brightRaylibColors[nBrightColors] = {GOLD, ORANGE, PINK, RED, LIME, SKYBLUE, PURPLE, VIOLET};
-    return brightRaylibColors[randomIntInRange(0, nBrightColors - 1)];
+    constexpr size_t n_bright_colors = 8;
+    constexpr Color bright_raylib_colors[n_bright_colors] = {GOLD, ORANGE, PINK, RED, LIME, SKYBLUE, PURPLE, VIOLET};
+    return bright_raylib_colors[random_int_in_range(0, n_bright_colors - 1)];
 }

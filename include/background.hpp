@@ -23,29 +23,29 @@
 // Source.
 #include "entity.hpp"
 
-namespace BlinkEngine
+namespace engine
 {
-    class Background : public Entity
+    class background : public entity
     {
         public:
-            Background(
-                Color darkColor,
-                Color lightColor,
-                int squareSize);
+            background(
+                Color dark_color,
+                Color light_color,
+                int square_size);
 
-            void Update() override;
-            void Draw() override;
+            void update() override;
+            void draw() override;
 
             // Getters and setters.
-            static float getScrollOffset() { return m_scrollOffset; }
-            static void setScrollOffset(float scrollOffset) { m_scrollOffset = scrollOffset; }
+            static float get_scroll_offset() { return m_scroll_offset; }
+            static void set_scroll_offset(float scroll_offset) { m_scroll_offset = scroll_offset; }
 
         private:
             // Arguments.
-            Color m_darkColor;
-            Color m_lightColor;
-            int m_squareSize;
+            Color m_dark_color;
+            Color m_light_color;
+            int m_square_size;
 
-            static float m_scrollOffset;
+            static float m_scroll_offset;
     };
 }

@@ -22,34 +22,34 @@
 #include "animation.hpp"
 #include "game.hpp"
 
-using BlinkEngine::Game;
-using BlinkEngine::AnimRaylib;
-using BlinkEngine::AnimSelfCredit;
+using engine::game;
+using engine::anim_raylib;
+using engine::anim_self_credit;
 
 // ------------------------------------------------------------------------------------------ //
 //                                   Raylib splash screen.                                    //
 // ------------------------------------------------------------------------------------------ //
-AnimRaylib::AnimRaylib()
+anim_raylib::anim_raylib()
     :
-    Entity({0, 0}, 0), // Both of these are unused. Set default values of 0.
-    m_logoPositionX((Game::getCW()) - 128),
-    m_logoPositionY((Game::getCH()) - 128),
-    m_topSideRecWidth(16),
-    m_leftSideRecHeight(16),
-    m_bottomSideRecWidth(16),
-    m_rightSideRecHeight(16),
-    m_framesCounter(0),
-    m_lettersCount(0),
+    entity({0, 0}, 0), // Both of these are unused. Set default values of 0.
+    m_logo_position_x((game::get_cw()) - 128),
+    m_logo_position_y((game::get_ch()) - 128),
+    m_top_side_rec_width(16),
+    m_left_side_rec_height(16),
+    m_bottom_side_rec_width(16),
+    m_right_side_rec_height(16),
+    m_frame_counter(0),
+    m_letters_count(0),
     m_state(0),
     m_alpha(1.0f)
 {}
 
-bool AnimRaylib::isFinished()
+bool anim_raylib::isFinished()
 {
     return (m_state == 4);
 }
 
-void AnimRaylib::Update()
+void anim_raylib::update()
 /***********************************************************************************************
 *
 *   Original animation courtesy of Ramon Santamaria (@raysan5)
@@ -70,39 +70,39 @@ void AnimRaylib::Update()
     switch (m_state)
     {
         case (0): {
-            m_framesCounter++;
+            m_frame_counter++;
 
-            if (m_framesCounter == 120)
+            if (m_frame_counter == 120)
             {
                 m_state = 1;
-                m_framesCounter = 0;      // Reset counter... will be used later...
+                m_frame_counter = 0;      // Reset counter... will be used later...
             }
         } break;
 
         case (1): {
-            m_topSideRecWidth += 4;
-            m_leftSideRecHeight += 4;
+            m_top_side_rec_width += 4;
+            m_left_side_rec_height += 4;
 
-            if (m_topSideRecWidth == 256) m_state = 2;
+            if (m_top_side_rec_width == 256) m_state = 2;
         } break;
 
         case (2): {
-        m_bottomSideRecWidth += 4;
-        m_rightSideRecHeight += 4;
+        m_bottom_side_rec_width += 4;
+        m_right_side_rec_height += 4;
 
-        if (m_bottomSideRecWidth == 256) m_state = 3;
+        if (m_bottom_side_rec_width == 256) m_state = 3;
         } break;
 
         case (3): { 
-            m_framesCounter++;
+            m_frame_counter++;
 
-            if (m_framesCounter/12)
+            if (m_frame_counter/12)
             {
-                m_lettersCount++;
-                m_framesCounter = 0;
+                m_letters_count++;
+                m_frame_counter = 0;
             }
 
-            if (m_lettersCount >= 10)
+            if (m_letters_count >= 10)
             {
                 m_alpha -= 0.02f;
 
@@ -118,7 +118,7 @@ void AnimRaylib::Update()
     }
 }
 
-void AnimRaylib::Draw()
+void anim_raylib::draw()
 /***********************************************************************************************
 *
 *   Original animation courtesy of Ramon Santamaria (@raysan5)
@@ -141,50 +141,50 @@ void AnimRaylib::Draw()
     switch (m_state)
     {
         case (0): {
-            if ((m_framesCounter / 15) % 2) {
-                DrawRectangle(m_logoPositionX, m_logoPositionY, 16, 16, BLACK);
+            if ((m_frame_counter / 15) % 2) {
+                DrawRectangle(m_logo_position_x, m_logo_position_y, 16, 16, BLACK);
             }
         } break;
 
         case (1): {
-            DrawRectangle(m_logoPositionX, m_logoPositionY, m_topSideRecWidth, 16, BLACK);
-            DrawRectangle(m_logoPositionX, m_logoPositionY, 16, m_leftSideRecHeight, BLACK);
+            DrawRectangle(m_logo_position_x, m_logo_position_y, m_top_side_rec_width, 16, BLACK);
+            DrawRectangle(m_logo_position_x, m_logo_position_y, 16, m_left_side_rec_height, BLACK);
         } break;
 
         case (2): {
-            DrawRectangle(m_logoPositionX, m_logoPositionY, m_topSideRecWidth, 16, BLACK);
-            DrawRectangle(m_logoPositionX, m_logoPositionY, 16, m_leftSideRecHeight, BLACK);
+            DrawRectangle(m_logo_position_x, m_logo_position_y, m_top_side_rec_width, 16, BLACK);
+            DrawRectangle(m_logo_position_x, m_logo_position_y, 16, m_left_side_rec_height, BLACK);
 
-            DrawRectangle(m_logoPositionX + 240, m_logoPositionY, 16, m_rightSideRecHeight, BLACK);
-            DrawRectangle(m_logoPositionX, m_logoPositionY + 240, m_bottomSideRecWidth, 16, BLACK);
+            DrawRectangle(m_logo_position_x + 240, m_logo_position_y, 16, m_right_side_rec_height, BLACK);
+            DrawRectangle(m_logo_position_x, m_logo_position_y + 240, m_bottom_side_rec_width, 16, BLACK);
         } break;
 
         case (3): {
             DrawRectangle(
-                m_logoPositionX,
-                m_logoPositionY,
-                m_topSideRecWidth,
+                m_logo_position_x,
+                m_logo_position_y,
+                m_top_side_rec_width,
                 16,
                 Fade(BLACK, m_alpha));
 
             DrawRectangle(
-                m_logoPositionX,
-                m_logoPositionY + 16,
+                m_logo_position_x,
+                m_logo_position_y + 16,
                 16,
-                m_leftSideRecHeight - 32,
+                m_left_side_rec_height - 32,
                 Fade(BLACK, m_alpha));
 
             DrawRectangle(
-                m_logoPositionX + 240,
-                m_logoPositionY + 16,
+                m_logo_position_x + 240,
+                m_logo_position_y + 16,
                 16,
-                m_rightSideRecHeight - 32,
+                m_right_side_rec_height - 32,
                 Fade(BLACK, m_alpha));
 
             DrawRectangle(
-                m_logoPositionX,
-                m_logoPositionY + 240,
-                m_bottomSideRecWidth, 16,
+                m_logo_position_x,
+                m_logo_position_y + 240,
+                m_bottom_side_rec_width, 16,
                 Fade(BLACK, m_alpha));
 
             DrawRectangle(
@@ -195,9 +195,9 @@ void AnimRaylib::Draw()
                 Fade(RAYWHITE, m_alpha));
 
             DrawText(
-                TextSubtext("raylib", 0, m_lettersCount),
-                Game::getCW() - 44,
-                Game::getCH() + 48,
+                TextSubtext("raylib", 0, m_letters_count),
+                game::get_cw() - 44,
+                game::get_ch() + 48,
                 50,
                 Fade(BLACK, m_alpha));
 
@@ -212,118 +212,117 @@ void AnimRaylib::Draw()
 // ------------------------------------------------------------------------------------------ //
 //                                 Self credit splash screen.                                 //
 // ------------------------------------------------------------------------------------------ //
-AnimSelfCredit::AnimSelfCredit()
+anim_self_credit::anim_self_credit()
     : 
-    Entity({0, 0}, 0), // Both of these are unused. Set default values of 0.
-    m_framesCounter(0),
-    m_lettersCount(0),
-    m_state(State::LETTERS_ADDING),
+    entity({0, 0}, 0), // Both of these are unused. Set default values of 0.
+    m_frame_counter(0),
+    m_letters_count(0),
+    m_state(state::LETTERS_ADDING),
     m_text("A game by Josh Hayden"),
-    m_fontSize(40),
+    m_font_size(40),
     m_spacing(4.0f),
     m_font(GetFontDefault()),
 
-    m_textPos({ 
-        static_cast<float>(Game::getCW() - 240), 
-        static_cast<float>(Game::getCH())
+    m_text_position({ 
+        static_cast<float>(game::get_cw() - 240), 
+        static_cast<float>(game::get_ch())
     }),
 
-    m_bgColor({ 30, 30, 30, 255}),
-    m_shortDelay(1 * Game::getFrameRate())
+    m_bg_color({ 30, 30, 30, 255})
 {}
 
-bool AnimSelfCredit::isFinished()
+bool anim_self_credit::isFinished()
 {
-    return (m_state == State::FINISHED);
+    return (m_state == state::FINISHED);
 }
 
-void AnimSelfCredit::Update()
+void anim_self_credit::update()
 { 
-    m_framesCounter++;
+    m_frame_counter++;
 
     switch (m_state)
     {
         // Letters being added on every 3 frames.
-        case State::LETTERS_ADDING: {
-            if (m_lettersCount < 21) {
-                if (m_framesCounter / 3) {
-                    m_lettersCount++;
-                    m_framesCounter = 0;
+        case state::LETTERS_ADDING: {
+            if (m_letters_count < 21) {
+                if (m_frame_counter / 3) {
+                    m_letters_count++;
+                    m_frame_counter = 0;
                 }
             }
             // If done spelling, wait for 1 second, then move to m_state 1.
-            else if (m_framesCounter/m_shortDelay) {  
-                    m_state = State::LETTERS_REMOVING; 
-                    m_framesCounter = 0;
+            else if (m_frame_counter / 60) {  
+                    m_state = state::LETTERS_REMOVING; 
+                    m_frame_counter = 0;
             }
         } break;
 
         // Letters being removed on every 3 frames.
-        case State::LETTERS_REMOVING: {
-            if (m_lettersCount > 0) {
-                if (m_framesCounter / 3) {
-                    m_lettersCount--;
-                    m_framesCounter = 0;
+        case state::LETTERS_REMOVING: {
+            if (m_letters_count > 0) {
+                if (m_frame_counter / 3) {
+                    m_letters_count--;
+                    m_frame_counter = 0;
                 }
             }
             // If done removing letters, wait for 1 second, then move to m_state 2.
-            else if (m_framesCounter / m_shortDelay) {
-                    m_state = State::CURSOR_BLINKING; 
+            else if (m_frame_counter / 60) {
+                    m_state = state::CURSOR_BLINKING; 
             }
         } break;
 
-        case State::CURSOR_BLINKING: {
-            m_state = State::BLANK_SCREEN_DELAY; 
+        case state::CURSOR_BLINKING: {
+            m_state = state::BLANK_SCREEN_DELAY; 
         } break;
 
-        case State::BLANK_SCREEN_DELAY: {
-            m_state = State::FINISHED;
+        case state::BLANK_SCREEN_DELAY: {
+            m_state = state::FINISHED;
         } break;
 
-        case State::FINISHED: {} break;
+        case state::FINISHED: {} break;
     }
 }
 
-void AnimSelfCredit::Draw()
+void anim_self_credit::draw()
 { 
-    // Draw a background rectangle.
-    DrawRectangle(Game::getCW() - 300, Game::getCH() - 30, 600, 100, m_bgColor);
+    // draw a background rectangle.
+    DrawRectangle(game::get_cw() - 300, game::get_ch() - 30, 600, 100, m_bg_color);
     switch (m_state)
     {
         // Letters being added on every 2 frames.
-        case State::LETTERS_ADDING: 
-        case State::LETTERS_REMOVING: { 
-            float x = m_textPos.x;
-            float y = m_textPos.y;
+        case state::LETTERS_ADDING: 
+        case state::LETTERS_REMOVING: { 
+            float x = m_text_position.x;
+            float y = m_text_position.y;
 
-            // Draw every character in 'text' sequentially, drawing a terminal cursor on the
+            // draw every character in 'text' sequentially, drawing a terminal cursor on the
             // last letter.
-            for (int i = 0; i < m_lettersCount; i++) {
+            for (int i = 0; i < m_letters_count; i++) {
                 char c = m_text.c_str()[i];
                 char s[2] = { c, '\0' };
 
-                Vector2 charSize = MeasureTextEx(m_font, s, m_fontSize, m_spacing);
+                Vector2 char_size = MeasureTextEx(m_font, s, m_font_size, m_spacing);
 
-                bool isLast = (i == m_lettersCount - 1);
+                bool is_last = (i == m_letters_count - 1);
 
-                if (isLast) {
+                if (is_last) {
                     DrawRectangle(
                         static_cast<int>(x), 
                         static_cast<int>(y), 
-                        static_cast<int>(charSize.x), 
-                        m_fontSize, 
+                        static_cast<int>(char_size.x), 
+                        m_font_size, 
                         DARKBLUE
                     );
                 }
 
-                DrawTextEx(m_font, s, { x, y }, m_fontSize, m_spacing, isLast ? WHITE : SKYBLUE);
-                x += charSize.x + m_spacing;
+                DrawTextEx(m_font, s, { x, y }, m_font_size, m_spacing, is_last ? WHITE : SKYBLUE);
+                x += char_size.x + m_spacing;
             }
         } break;
 
-        case State::CURSOR_BLINKING:
-        case State::BLANK_SCREEN_DELAY: 
-        case State::FINISHED: {
+        case state::CURSOR_BLINKING:
+        case state::BLANK_SCREEN_DELAY: 
+        case state::FINISHED: {
             return;
         } break;
     }

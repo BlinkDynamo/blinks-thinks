@@ -23,36 +23,36 @@
 // Source.
 #include "entity.hpp"
 
-namespace BlinkEngine
+namespace engine
 {
-    class Label : public Entity {
+    class label : public entity {
         public:
-            Label(
-                Color lineColor,
-                Color fillColor,
+            label(
+                Color line_color,
+                Color fill_color,
                 Vector2 size,
                 int thickness,
                 Vector2 position = {0, 0},
                 int layer = 0); 
 
-            void Update() override;
-            void Draw() override;
+            void update() override;
+            void draw() override;
 
-            bool isHovered();           // Checks if 'mousePoint' (defined in 'include/main.hpp')
+            bool is_hovered();           // Checks if 'mousePoint' (defined in 'include/main.hpp')
                                         // is within the bounds of 'm_rect'.
 
-            bool isPressed();           // Checks if 'isHovered()', as well as 'mousePressed'
+            bool is_pressed();           // Checks if 'is_hovered()', as well as 'mousePressed'
                                         // (also defined in 'include/main.hpp') are both true.
 
             // Getters and setters.
-            void setScale(float scale) { m_scale = scale; }
+            void set_scale(float scale) { m_scale = scale; }
 
-            Rectangle getRectangle() { return m_rectangle; }
+            Rectangle get_rectangle() { return m_rectangle; }
 
         private:
-            Color m_lineColor;
+            Color m_line_color;
             
-            Color m_fillColor; 
+            Color m_fill_color; 
 
             Vector2 m_size;             // The area the button's rectangle will occupy. Used to
                                         // calculate 'm_rectangle'.

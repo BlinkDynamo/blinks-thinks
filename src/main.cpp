@@ -27,8 +27,8 @@
 
 int main(void)
 {
-    BlinkEngine::Game& gameInstance = BlinkEngine::Game::getInstance();
-    gameInstance.setCurrentLevel(new LevelAnimRaylib());
-    gameInstance.Run();
+    engine::game& game_instance = engine::game::get_instance();
+    game_instance.set_current_level(new intro_raylib());
+    game_instance.run();
     return 0;
 }

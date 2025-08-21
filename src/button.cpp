@@ -21,60 +21,60 @@
 // Source.
 #include "button.hpp"
 
-using BlinkEngine::Button;
-using BlinkEngine::Text;
+using engine::button;
+using engine::text;
 
 // Standard library.
 #include <cmath>
 
-Button::Button(
-    Text* textObj,
-    Color bgColor,
+button::button(
+    text* text_obj,
+    Color bg_color,
     Vector2 size,
     Vector2 position,
     int layer)
 
     :
     // Arguments.
-    Entity(position, layer),
-    m_textObj(textObj),
+    entity(position, layer),
+    m_text_obj(text_obj),
     m_size(size),
 
-    // Updated every frame in 'Update()'.
+    // Updated every frame in 'update()'.
     m_rectangle({m_position.x - (m_size.x / 2.0f), m_position.y - (m_size.y / 2.0f), m_size.x, m_size.y}),
 
     // Set once here, but are still mutable.
-    m_defaultTextColor(textObj->getTextColor()),
-    m_currentTextColor(m_defaultTextColor),
-    m_defaultBgColor(bgColor),
-    m_currentBgColor(m_defaultBgColor),
+    m_default_text_color(text_obj->get_text_color()),
+    m_current_text_color(m_default_text_color),
+    m_default_bg_color(bg_color),
+    m_current_bg_color(m_default_bg_color),
     m_scale(1.0f)
 {
-    this->m_textObj->setPosition(m_position);
+    this->m_text_obj->set_position(m_position);
 }
 
-Button::~Button() {
-    delete m_textObj;
+button::~button() {
+    delete m_text_obj;
 }
 
 // ------------------------------------------------------------------------------------------ //
 //                                          Methods.                                          //
 // ------------------------------------------------------------------------------------------ //
-bool Button::isHovered()
+bool button::is_hovered()
 {
     return CheckCollisionPointRec(GetMousePosition(), m_rectangle);
 }
 
-bool Button::isPressed()
+bool button::is_pressed()
 {
-    return isHovered() && IsMouseButtonPressed(0);
+    return is_hovered() && IsMouseButtonPressed(0);
 }
 
-void Button::Update()
+void button::update()
 { 
-    Entity::Update();
+    entity::update();
 
-    // Update the rectangle, multiplying size elements by scale.
+    // update the rectangle, multiplying size elements by scale.
     m_rectangle = {
         m_position.x - ((m_size.x * m_scale) / 2.0f),
         m_position.y - ((m_size.y * m_scale) / 2.0f),
@@ -82,54 +82,54 @@ void Button::Update()
         m_size.y * m_scale
     };
 
-    // Update the text object's scale so that it's Update() step can scale the font size.
-    m_textObj->setScale(m_scale);
+    // update the text object's scale so that it's update() step can scale the font size.
+    m_text_obj->set_scale(m_scale);
 
     // Set the text object's position to the button's position in case the button moves.
-    m_textObj->setPosition(m_position);
+    m_text_obj->set_position(m_position);
 
-    // Update the color of the button's text object if hovered.
-    if (isHovered()) {
+    // update the color of the button's text object if hovered.
+    if (is_hovered()) {
         float brightenFactor = 2.0f;
 
         // If the background is visible, brighten the background and darken the text object.
-        if (m_defaultBgColor.a != 0) {
-            m_currentBgColor = { 
-                static_cast<unsigned char>(fmin(m_defaultBgColor.r * brightenFactor, 255)),
-                static_cast<unsigned char>(fmin(m_defaultBgColor.g * brightenFactor, 255)),
-                static_cast<unsigned char>(fmin(m_defaultBgColor.b * brightenFactor, 255)),
-                m_defaultBgColor.a
+        if (m_default_bg_color.a != 0) {
+            m_current_bg_color = { 
+                static_cast<unsigned char>(fmin(m_default_bg_color.r * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(m_default_bg_color.g * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(m_default_bg_color.b * brightenFactor, 255)),
+                m_default_bg_color.a
             };
-            m_currentTextColor = { 
-                static_cast<unsigned char>(fmin(m_defaultTextColor.r / brightenFactor, 0)),
-                static_cast<unsigned char>(fmin(m_defaultTextColor.g / brightenFactor, 0)),
-                static_cast<unsigned char>(fmin(m_defaultTextColor.b / brightenFactor, 0)),
-                m_defaultTextColor.a
+            m_current_text_color = { 
+                static_cast<unsigned char>(fmin(m_default_text_color.r / brightenFactor, 0)),
+                static_cast<unsigned char>(fmin(m_default_text_color.g / brightenFactor, 0)),
+                static_cast<unsigned char>(fmin(m_default_text_color.b / brightenFactor, 0)),
+                m_default_text_color.a
             };
         }
         // Otherwise only brighten the text object.
         else { 
-            m_currentTextColor = { 
-                static_cast<unsigned char>(fmin(m_defaultTextColor.r * brightenFactor, 255)),
-                static_cast<unsigned char>(fmin(m_defaultTextColor.g * brightenFactor, 255)),
-                static_cast<unsigned char>(fmin(m_defaultTextColor.b * brightenFactor, 255)),
-                m_defaultTextColor.a
+            m_current_text_color = { 
+                static_cast<unsigned char>(fmin(m_default_text_color.r * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(m_default_text_color.g * brightenFactor, 255)),
+                static_cast<unsigned char>(fmin(m_default_text_color.b * brightenFactor, 255)),
+                m_default_text_color.a
             };
         }
     }
     else {
-        m_currentBgColor = m_defaultBgColor;
-        m_currentTextColor = m_defaultTextColor;
+        m_current_bg_color = m_default_bg_color;
+        m_current_text_color = m_default_text_color;
     }
-    m_textObj->setTextColor(m_currentTextColor); 
+    m_text_obj->set_text_color(m_current_text_color); 
 
-    // Update the text object.
-    m_textObj->Update();
+    // update the text object.
+    m_text_obj->update();
 }
 
-void Button::Draw()
+void button::draw()
 {
-    // Draw the rectangle and text object.
-    DrawRectangleRec(m_rectangle, m_currentBgColor);
-    m_textObj->Draw(); 
+    // draw the rectangle and text object.
+    DrawRectangleRec(m_rectangle, m_current_bg_color);
+    m_text_obj->draw(); 
 }

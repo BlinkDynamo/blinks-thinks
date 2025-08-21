@@ -22,47 +22,47 @@
 #include "game.hpp"
 #include "background.hpp"
 
-using BlinkEngine::Background;
-using BlinkEngine::Game;
+using engine::background;
+using engine::game;
 
 // Standard library.
 #include <cmath>
 
-float Background::m_scrollOffset = 0.0f;
+float background::m_scroll_offset = 0.0f;
 
-Background::Background(
-    Color darkColor, 
-    Color lightColor,
-    int squareSize)
+background::background(
+    Color dark_color, 
+    Color light_color,
+    int square_size)
 
     :
-    Entity({0, 0}, -1000), // -1000 is the default layer of Backgrounds.
-    m_darkColor(darkColor),
-    m_lightColor(lightColor),
-    m_squareSize(squareSize)
+    entity({0, 0}, -1000), // -1000 is the default layer of Backgrounds.
+    m_dark_color(dark_color),
+    m_light_color(light_color),
+    m_square_size(square_size)
 {}
 
-void Background::Update()
+void background::update()
 {
-    setScrollOffset(getScrollOffset() + GetFrameTime() * 60.0f);
+    set_scroll_offset(get_scroll_offset() + GetFrameTime() * 60.0f);
 }
 
-void Background::Draw()
+void background::draw()
 {
-    const int cols = (Game::getW() / m_squareSize) + 2;
-    const int rows = (Game::getH() / m_squareSize) + 2;
+    const int cols = (game::get_w() / m_square_size) + 2;
+    const int rows = (game::get_h() / m_square_size) + 2;
 
-    const float effectiveOffset = std::fmod(getScrollOffset(), 2 * m_squareSize);
+    const float effectiveOffset = std::fmod(get_scroll_offset(), 2 * m_square_size);
 
     for (int y = -2; y < rows; y++) {
         for (int x = 0; x < cols; x++) {
             const bool isDark = (x + y) % 2 == 0;
-            const Color color = isDark ? m_darkColor : m_lightColor;
+            const Color color = isDark ? m_dark_color : m_light_color;
 
-            const float drawX = x * m_squareSize;
-            const float drawY = y * m_squareSize + effectiveOffset;
+            const float drawX = x * m_square_size;
+            const float drawY = y * m_square_size + effectiveOffset;
 
-            DrawRectangle(drawX, drawY, m_squareSize, m_squareSize, color);
+            DrawRectangle(drawX, drawY, m_square_size, m_square_size, color);
         }
     }
 }

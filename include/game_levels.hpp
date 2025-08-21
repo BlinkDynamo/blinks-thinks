@@ -1,6 +1,6 @@
 /***********************************************************************************************
 * 
-*   game_levels.hpp - The implementation of the Level class. All levels used in the game are
+*   game_levels.hpp - The implementation of the level class. All levels used in the game are
 *                     defined here.
 *
 *   Copyright (c) 2025 Josh Hayden (@BlinkDynamo)
@@ -24,198 +24,198 @@
 // Source.
 #include "level.hpp"
 
-using BlinkEngine::Level;
-using BlinkEngine::Label;
-using BlinkEngine::Button;
-using BlinkEngine::AnimRaylib;
-using BlinkEngine::AnimSelfCredit;
+using engine::level;
+using engine::label;
+using engine::button;
+using engine::anim_raylib;
+using engine::anim_self_credit;
 
 // Standard library.
 #include <string>
 
 using std::string;
 
-class LevelAnimRaylib : public BlinkEngine::Level
+class intro_raylib : public engine::level
 {
     public:
-        LevelAnimRaylib();
-        void Update() override;
+        intro_raylib();
+        void update() override;
 
     private:
-        AnimRaylib* m_animation;
+        anim_raylib* m_animation;
 };
 
-class LevelAnimSelfCredit : public BlinkEngine::Level
+class intro_self_credit : public engine::level
 {
     public:
-        LevelAnimSelfCredit();
-        void Update() override;
+        intro_self_credit();
+        void update() override;
 
     private:
-        AnimSelfCredit* m_animation;
+        anim_self_credit* m_animation;
 };
 
-class LevelTitle : public BlinkEngine::Level
+class level_title : public engine::level
 {
     public:
-        LevelTitle();
-        void Update() override;
+        level_title();
+        void update() override;
 
     private:
 
-        class GameTitleText
+        class game_title_text
         {
             public:
-                Text* textPtr;
+                text* text_obj;
  
-                static constexpr float initialRotation = 0.0;
-                static constexpr float rotationSpeed = 5.0;
-                static constexpr float rotationDepth = 2.5;
+                static constexpr float initial_rotation = 0.0;
+                static constexpr float rotation_speed = 5.0;
+                static constexpr float rotation_depth = 2.5;
 
-                static constexpr Color textColor = { 75, 255, 205, 255 };
+                static constexpr Color text_color = { 75, 255, 205, 255 };
         };
-        GameTitleText m_gameTitleText;
+        game_title_text m_game_title_text;
 
-        Button* m_playButton;
+        button* m_play_button;
 };
 
-class LevelLose : public BlinkEngine::Level
+class level_lose : public engine::level
 {
     public:
-        LevelLose();
-        void Update() override;
+        level_lose();
+        void update() override;
 
     private:
-        Button* m_restartButton;
+        button* m_restart_button;
 };
 
-class LevelSectionIntroNumbers : public BlinkEngine::Level
+class intro_section_one : public engine::level
 {
     public:
-        LevelSectionIntroNumbers();
-        void Update() override;
+        intro_section_one();
+        void update() override;
 
     private:
-        int m_framesCounter;
+        int m_frames_counter;
 };
 
-class Level1 : public BlinkEngine::Level
+class level_one : public engine::level
 {
     public:
-        Level1();
-        void Update() override;
+        level_one();
+        void update() override;
 
     private:
-        Button* m_correctAnswer;
+        button* m_correct_button;
 };
 
-class Level2 : public BlinkEngine::Level
+class level_two : public engine::level
 {
     public:
-        Level2(); 
-        void Update() override;
+        level_two(); 
+        void update() override;
 
     private:
-        Button* m_correctAnswer;
+        button* m_correct_button;
 };
 
-class Level3 : public BlinkEngine::Level
+class level_three : public engine::level
 {
     public:
-        Level3(); 
-        void Update() override;
+        level_three(); 
+        void update() override;
 
     private:
-        unordered_map<int, Button*> m_answerChoices;
+        unordered_map<int, button*> m_answer_choices;
 
-        class CorrectAnswer
+        class correct_answer
         {
             public:
-                Button* buttonPtr;
+                button* button_ptr;
 
-                float currentScale;
+                float current_scale;
 
-                static constexpr float scaleUpIncr = 0.05;
-                static constexpr float scaleDownIncr = 0.10;
-                static constexpr float maxScale = 2.5;
-                static constexpr float minScale = 1.0;
+                static constexpr float scale_up_incr = 0.05;
+                static constexpr float scale_down_incr = 0.10;
+                static constexpr float max_scale = 2.5;
+                static constexpr float min_scale = 1.0;
         };
-        CorrectAnswer m_correctAnswer; 
+        correct_answer m_correct_button; 
 };
 
-class Level4 : public BlinkEngine::Level
+class level_four : public engine::level
 {
     public:
-        Level4(); 
-        void Update() override;
+        level_four(); 
+        void update() override;
 };
 
-class Level5 : public BlinkEngine::Level
+class level_five : public engine::level
 {
     public:
-        Level5(string duration); 
-        void Update() override;
+        level_five(string duration); 
+        void update() override;
 
     private:
-        int m_framesCounter;
+        int m_frames_counter;
 
         string m_duration; 
-        Button* m_timer;
+        button* m_timer;
 };
 
-class Level6 : public BlinkEngine::Level
+class level_six : public engine::level
 {
     public:
-        Level6();
-        void Update() override;
+        level_six();
+        void update() override;
 
     private:
-        Button* m_correctChoice;
+        button* m_correct_button;
 };
 
-class Level7 : public BlinkEngine::Level
+class level_seven : public engine::level
 {
     public:
-        Level7();
-        void Update() override;
+        level_seven();
+        void update() override;
 
     private: 
-        Button* m_buttonInHand;
-        Label* m_submitBox;
-        Button* m_submitButton;
-        string m_correctNumber;
+        button* m_button_in_hand;
+        label* m_submit_box;
+        button* m_submit_button;
+        string m_correct_number;
 };
 
-class Level8 : public BlinkEngine::Level
+class level_eight : public engine::level
 {
     public:
-        Level8();
-        void Update() override;
+        level_eight();
+        void update() override;
 
     private:
-        Button* m_submitButton;
+        button* m_submit_button;
 };
 
-class Level9 : public BlinkEngine::Level
+class level_nine : public engine::level
 {
     public:
-        Level9();
-        void Update() override;
+        level_nine();
+        void update() override;
 
     private:
-        Button* m_buttonInHand;
-        Label* m_submitBox;
-        Button* m_submitButton;
-        static constexpr int m_totalNumberChoices = 5;
-        vector<Button*> m_correctNumberLayout;
+        button* m_button_in_hand;
+        label* m_submit_box;
+        button* m_submit_button;
+        static constexpr int m_choice_count = 5;
+        vector<button*> m_correct_button_layout;
 };
 
-class Level10 : public BlinkEngine::Level
+class level_ten : public engine::level
 {
     public:
-        Level10();
-        void Update() override;
+        level_ten();
+        void update() override;
 
     private:
-        Button* m_submitButton;
+        button* m_submit_button;
 };

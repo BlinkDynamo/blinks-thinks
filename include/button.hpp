@@ -24,38 +24,38 @@
 #include "entity.hpp"
 #include "text.hpp"
 
-namespace BlinkEngine
+namespace engine
 {
-    class Button : public Entity {
+    class button : public entity {
         public:
-            Button(
-                Text* textObj,
-                Color bgColor,
+            button(
+                text* text_obj,
+                Color bg_color,
                 Vector2 size,
                 Vector2 position,
                 int layer); 
 
-            ~Button();
+            ~button();
 
-            void Update() override;
-            void Draw() override;
+            void update() override;
+            void draw() override;
 
-            bool isHovered();           // Checks if the mouse is within the button's rectangle.
+            bool is_hovered();          // Checks if the mouse is within the button's rectangle.
 
-            bool isPressed();           // Checks if 'isHovered()' and the mouse being pressed
+            bool is_pressed();          // Checks if 'is_hovered()' and the mouse being pressed
                                         // are both true.
             
             // Getters and setters.
-            Text* getTextObj() { return m_textObj; }
+            text* get_text_obj() { return m_text_obj; }
 
-            Rectangle getRectangle() { return m_rectangle; }
+            Rectangle get_rectangle() { return m_rectangle; }
 
-            void setScale(float scale) { m_scale = scale; }
+            void set_scale(float scale) { m_scale = scale; }
 
         private:
-            Text* m_textObj;            // The pointer to the text object of the button. The
+            text* m_text_obj;           // The pointer to the text object of the button. The
                                         // button handles updating and drawing it's child text
-                                        // within it's own 'Update()' and 'Draw()' methods.
+                                        // within it's own 'update()' and 'draw()' methods.
 
             Vector2 m_size;             // The area the button's rectangle will occupy. Used to
                                         // calculate 'm_rectangle'.
@@ -63,16 +63,16 @@ namespace BlinkEngine
             Rectangle m_rectangle;      // The rectangle used for most button actions. This is
                                         // calculated from 'm_size', 'm_position', and 'm_scale'.
 
-            Color m_defaultTextColor;   // What color the text object's text should be when not
+            Color m_default_text_color; // What color the text object's text should be when not
                                         // hovered.
 
-            Color m_currentTextColor;   // What color the text object's text should be drawn in
+            Color m_current_text_color; // What color the text object's text should be drawn in
                                         // the current frame.
 
-            Color m_defaultBgColor;     // What color the button's background should be when not
+            Color m_default_bg_color;   // What color the button's background should be when not
                                         // hovered.
 
-            Color m_currentBgColor;     // What color the button's background should be in the
+            Color m_current_bg_color;   // What color the button's background should be in the
                                         // current frame.
 
             float m_scale;              // What 'm_rectangle' and the text object's 'm_fontSize'

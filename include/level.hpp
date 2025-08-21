@@ -29,7 +29,7 @@
 #include "label.hpp"
 #include "button.hpp"
 
-using BlinkEngine::Text;
+using engine::text;
 
 // Standard library.
 #include <string>
@@ -40,54 +40,54 @@ using std::string;
 using std::vector;
 using std::is_base_of;
 
-namespace BlinkEngine
+namespace engine
 {
-    // Forward declare 'Game' to let the compiler know it's defined elsewhere.
-    class Game;
+    // Forward declare 'game' to let the compiler know it's defined elsewhere.
+    class game;
 
-    class Level
+    class level
     {
         public:
-            Level();
+            level();
 
-            virtual ~Level();                   // Delete 'm_background', as well as all members
+            virtual ~level();                   // Delete 'm_background', as well as all members
                                                 // of 'm_entities', clearing the vector as well.
 
-            virtual void Update();              // Will call the 'Update()' method of each member
+            virtual void update();              // Will call the 'update()' method of each member
                                                 // of 'm_entities'. Intended to be overloaded,
                                                 // calling itself before adding additional logic.
 
-            virtual void Draw();                // Will call the 'Draw()' method of each member
+            virtual void draw();                // Will call the 'draw()' method of each member
                                                 // of 'm_entities'. It's unlikely any overloading
                                                 // is needed that can not already be handled in 
-                                                // 'Update()', but the option is there.
+                                                // 'update()', but the option is there.
           
             // Getters and setters.
-            vector<Button*> getButtons() { return m_buttons; }
+            vector<button*> get_buttons() { return m_buttons; }
 
-            // Main entity management method. Takes an unknown 'Entity', asserts its subclass,
+            // Main entity management method. Takes an unknown 'entity', asserts its subclass,
             // adds that subclass pointer to 'm_entities', then returns the pointer. All factory
             // methods use this to add the created object to 'm_entities'.
             template <typename T>
-            T* addEntity(T* newEntity)
+            T* add_entity(T* ent)
             {
-                static_assert(is_base_of<Entity, T>::value, "T must derive from Entity.");
+                static_assert(is_base_of<entity, T>::value, "T must derive from entity.");
 
                 
                 // Insert the new entity in the correct position according to it's layer.
                 auto it = m_entities.begin();
-                while (it != m_entities.end() && (*it)->getLayer() <= newEntity->getLayer()) {
+                while (it != m_entities.end() && (*it)->get_layer() <= ent->get_layer()) {
                     ++it;
                 }
-                m_entities.insert(it, newEntity); 
+                m_entities.insert(it, ent); 
                 
                 // If 'entity' is a button, add it to 'm_buttons' as well. 'm_buttons' does not
                 // handle any drawing, so sorting by layer is not relevant or needed.
-                if constexpr (is_base_of<Button, T>::value) {
-                    m_buttons.push_back(static_cast<Button*>(newEntity));
+                if constexpr (is_base_of<button, T>::value) {
+                    m_buttons.push_back(static_cast<button*>(ent));
                 }
 
-                return newEntity;
+                return ent;
             } 
 
             // ------------------------------------------------------------------------------ //
@@ -95,28 +95,28 @@ namespace BlinkEngine
             //                                                                                //
             //  All of these factory methods are to be used inside level implementation code  //
             //  to create objects that exist within a level. Any of these that are called in  //
-            //  a 'Level' constructor will add that created object to 'm_entities'.           //
+            //  a 'level' constructor will add that created object to 'm_entities'.           //
             //                                                                                //
             // ------------------------------------------------------------------------------ //
 
             // Create a simple text with a background shadow.
-            Text* addSimpleText(string text, float fontSize, Color textColor, Vector2 position,
-                                  int layer);
+            text* add_simple_text(string text, float font_size, Color text_color, Vector2 position,
+                                int layer);
 
             // Create a centered gray and black UI button with custom text.
-            Button* addUiButton(string text);
+            button* add_ui_button(string text);
 
             // Create a button with no background, appearing to only be a clickable text.
-            Button* addTextButton(string text, int fontSize, Color textColor, Vector2 position);
+            button* add_text_button(string text, int font_size, Color text_color, Vector2 position);
 
         private: 
-            vector<Entity*> m_entities;         // All entities made by factory methods are added
-                                                // to here, organized by their parent Entity's
+            vector<entity*> m_entities;         // All entities made by factory methods are added
+                                                // to here, organized by their parent entity's
                                                 // 'm_layer' in order from least to greatest.
 
-            vector<Button*> m_buttons;          // All buttons made by factory methods are added
+            vector<button*> m_buttons;          // All buttons made by factory methods are added
                                                 // to here.
         protected:
-            Game& m_game;
+            game& m_game;
     };
 }

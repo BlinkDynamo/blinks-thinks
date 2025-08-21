@@ -21,17 +21,17 @@
 // Source.
 #include "entity.hpp"
 
-using BlinkEngine::Entity;
+using engine::entity;
 
-Entity::Entity(Vector2 position, int layer, Vector2 speed)
+entity::entity(Vector2 position, int layer, Vector2 speed)
     :
     m_position(position),
     m_layer(layer),
     m_speed(speed)
 {}
 
-void Entity::Update()
+void entity::update()
 {
-    // Update the position of the entity according to the movement speed.
+    // update the position of the entity according to the movement speed.
     m_position = {m_position.x + m_speed.x, m_position.y + m_speed.y};
 }

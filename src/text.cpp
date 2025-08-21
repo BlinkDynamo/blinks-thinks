@@ -21,81 +21,81 @@
 // Source.
 #include "text.hpp"
 
-using BlinkEngine::Text;
+using engine::text;
 
 // Standard library.
 #include <cmath>
 
-Text::Text(
-    string textString,
-    float fontSize,
-    Color textColor,
-    Color shadowColor,
+text::text(
+    string text_str,
+    float font_size,
+    Color text_color,
+    Color shadow_color,
     Vector2 position,
     int layer)
 
     :
-    Entity(position, layer),
+    entity(position, layer),
 
-    m_textString(textString),
+    m_text_str(text_str),
     m_scale(1.0f),
 
-    m_baseFontSize(fontSize),
-    m_scaledFontSize(m_baseFontSize * m_scale),
+    m_base_font_size(font_size),
+    m_scaled_font_size(m_base_font_size * m_scale),
 
-    m_textColor(textColor),
-    m_shadowColor(shadowColor),
+    m_text_color(text_color),
+    m_shadow_color(shadow_color),
     
-    // Updated every frame in Update().
-    m_letterSpacing(m_baseFontSize / 10.0f),
-    m_textDim(MeasureTextEx(GetFontDefault(), m_textString.c_str(), m_baseFontSize, m_letterSpacing)),
-    m_origin({ m_textDim.x / 2.0f, m_textDim.y / 2.0f }),
+    // Updated every frame in update().
+    m_letter_spacing(m_base_font_size / 10.0f),
+    m_text_dim(MeasureTextEx(GetFontDefault(), m_text_str.c_str(), m_base_font_size, m_letter_spacing)),
+    m_origin({ m_text_dim.x / 2.0f, m_text_dim.y / 2.0f }),
 
     // Constants.
-    m_shadowOffset({ 5.0f, 5.0f }),
+    m_shadow_offset({ 5.0f, 5.0f }),
     
     // Set to 0, with the prospect of being set at a later time.
     m_rotation(0.0f),
-    m_rotationSpeed(0.0f),
-    m_rotationDepth(0.0f)
+    m_rotation_speed(0.0f),
+    m_rotation_depth(0.0f)
 {}
 
-void Text::Update()
+void text::update()
 { 
-    Entity::Update();
+    entity::update();
 
-    // Update the scaled font size in case scale has changed since last frame. 
-    m_scaledFontSize = m_baseFontSize * m_scale;
+    // update the scaled font size in case scale has changed since last frame. 
+    m_scaled_font_size = m_base_font_size * m_scale;
     
-    m_letterSpacing = m_scaledFontSize / 10.0f;
-    m_textDim = MeasureTextEx(GetFontDefault(), m_textString.c_str(), m_scaledFontSize, m_letterSpacing);
-    m_origin = { m_textDim.x / 2.0f, m_textDim.y / 2.0f };
-    m_rotation = sin(GetTime() * m_rotationSpeed) * m_rotationDepth;
+    m_letter_spacing = m_scaled_font_size / 10.0f;
+    m_text_dim = MeasureTextEx(GetFontDefault(), m_text_str.c_str(), m_scaled_font_size, m_letter_spacing);
+    m_origin = { m_text_dim.x / 2.0f, m_text_dim.y / 2.0f };
+    m_rotation = sin(GetTime() * m_rotation_speed) * m_rotation_depth;
 }
 
-void Text::Draw()
+void text::draw()
 {
     // Shadow. Only draw the shadow if it's not fully transparent.
-    if (m_shadowColor.a != 0) {
+    if (m_shadow_color.a != 0) {
         DrawTextPro(
             GetFontDefault(), 
-            m_textString.c_str(), 
-            { m_position.x + m_shadowOffset.x, m_position.y + m_shadowOffset.y }, 
+            m_text_str.c_str(), 
+            { m_position.x + m_shadow_offset.x, m_position.y + m_shadow_offset.y }, 
             m_origin,
             m_rotation,
-            m_scaledFontSize,
-            m_letterSpacing,
-            m_shadowColor);
+            m_scaled_font_size,
+            m_letter_spacing,
+            m_shadow_color);
     }
 
-    // Text.
+    // text.
     DrawTextPro(
         GetFontDefault(),
-        m_textString.c_str(),
+        m_text_str.c_str(),
         m_position,
         m_origin,
         m_rotation,
-        m_scaledFontSize,
-        m_letterSpacing,
-        m_textColor);
+        m_scaled_font_size,
+        m_letter_spacing,
+        m_text_color);
 }

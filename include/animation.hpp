@@ -28,70 +28,66 @@
 
 using std::string;
 
-namespace BlinkEngine
+namespace engine
 {
-    class AnimRaylib : public Entity
+    class anim_raylib : public entity
     {
         public:
-            AnimRaylib();
+            anim_raylib();
             bool isFinished();
-            void Update() override;
-            void Draw() override;
+            void update() override;
+            void draw() override;
 
         private:
             // Position.
-            int m_logoPositionX;
-            int m_logoPositionY;
+            int m_logo_position_x;
+            int m_logo_position_y;
 
             // Size.
-            int m_topSideRecWidth;
-            int m_leftSideRecHeight;
-            int m_bottomSideRecWidth;
-            int m_rightSideRecHeight;
+            int m_top_side_rec_width;
+            int m_left_side_rec_height;
+            int m_bottom_side_rec_width;
+            int m_right_side_rec_height;
 
             // Counters and state machines.
-            int m_framesCounter;
-            int m_lettersCount;
+            int m_frame_counter;
+            int m_letters_count;
             int m_state;
 
             float m_alpha;
     };
 
-    class AnimSelfCredit : public Entity
+    class anim_self_credit : public entity
     {
         public:
-            AnimSelfCredit();
+            anim_self_credit();
             bool isFinished();
-            void Draw() override;
-            void Update() override;
+            void draw() override;
+            void update() override;
 
         private:
             // Counters.
-            int m_framesCounter;
-            int m_lettersCount;
+            int m_frame_counter;
+            int m_letters_count;
            
-            // State of the animation.
-            enum class State {
+            // state of the animation.
+            enum class state {
                 LETTERS_ADDING,
                 LETTERS_REMOVING,
                 CURSOR_BLINKING,
                 BLANK_SCREEN_DELAY,
                 FINISHED
             };
-            State m_state;
+            state m_state;
 
-            // Text.
+            // text.
             string m_text;
-            int m_fontSize;
+            int m_font_size;
             float m_spacing;
             Font m_font;
-            Vector2 m_textPos;
+            Vector2 m_text_position;
 
             // Colors.
-            Color m_bgColor;
-
-            // Other.
-            int m_shortDelay;
-
+            Color m_bg_color;
     };
 }

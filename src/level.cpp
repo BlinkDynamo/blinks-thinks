@@ -25,30 +25,30 @@
 #include "button.hpp"
 #include "overlay.hpp"
 
-using BlinkEngine::Game;
-using BlinkEngine::Level;
-using BlinkEngine::Text;
-using BlinkEngine::Button;
-using BlinkEngine::Overlay;
+using engine::game;
+using engine::level;
+using engine::text;
+using engine::button;
+using engine::overlay;
 
-Level::Level()
+level::level()
     :
     m_entities{},
     m_buttons{},
-    m_game(Game::getInstance())
+    m_game(game::get_instance())
 {
-    // Create a base simple background for all 'Level' objects for now.
-    addEntity(new Background(GRAY, { 200, 200, 200, 255 }, 50));
+    // Create a base simple background for all 'level' objects for now.
+    add_entity(new background(GRAY, { 200, 200, 200, 255 }, 50));
 
     // Display the current version number in the bottom right.
-    addEntity(new Text("v" + Game::getGameVersion(), 20, RAYWHITE, {0, 0, 0, 0}, {Game::getW() - 40, 20}, 1000));
+    add_entity(new text("v" + game::get_game_version(), 20, RAYWHITE, {0, 0, 0, 0}, {game::get_w() - 40, 20}, 1000));
     }
 
-    Level::~Level()
+    level::~level()
     {
-        // Delete all 'Entity' objects in 'entities', then clear the vector.
-        for (Entity* entity : m_entities) {
-            delete entity;
+        // Delete all 'entity' objects in 'entities', then clear the vector.
+        for (entity* ent : m_entities) {
+            delete ent;
         }
         m_entities.clear();
 
@@ -56,68 +56,68 @@ Level::Level()
         m_buttons.clear();
     }
 
-    void Level::Update()
+    void level::update()
     {
-        // Update each 'Entity' object in 'entities'.
-        for (const auto& entity : m_entities) {
-            entity->Update();
+        // update each 'entity' object in 'entities'.
+        for (const auto& ent : m_entities) {
+            ent->update();
         }
     }
 
-void Level::Draw()
+void level::draw()
 {
-    // Draw each 'Entity' object in 'entities'.
-    for (const auto& entity : m_entities) {
-        entity->Draw();
+    // draw each 'entity' object in 'entities'.
+    for (const auto& ent : m_entities) {
+        ent->draw();
     }
 }
 
 // Create a simple text with a background shadow.
-Text* Level::addSimpleText(string text, float fontSize, Color textColor, Vector2 position,
+text* level::add_simple_text(string text_str, float font_size, Color text_color, Vector2 position,
                                  int layer)
 {
-    constexpr Color shadowColor = { 15, 15, 15, 200 };
-    Text* const textObj = new Text(text, fontSize, textColor, shadowColor, position, layer);
-    addEntity(textObj);
-    return textObj;
+    constexpr Color shadow_color = { 15, 15, 15, 200 };
+    text* const text_obj = new text(text_str, font_size, text_color, shadow_color, position, layer);
+    add_entity(text_obj);
+    return text_obj;
 }
 
 // Make a clickable UI button with dynamic text and background color at a fixed location.
-Button* Level::addUiButton(string text)
+button* level::add_ui_button(string text_str)
 {
-    constexpr Vector2 position = { Game::getCW(), Game::getCH() + 100 };
+    constexpr Vector2 position = { game::get_cw(), game::get_ch() + 100 };
     constexpr int layer = 0;
 
-    Text* const textObj = new Text(text, 40, WHITE, { 0, 0, 0, 0 }, position, layer);
+    text* const text_obj = new text(text_str, 40, WHITE, { 0, 0, 0, 0 }, position, layer);
 
-    Button* const button = new Button(
-        textObj,
+    button* const btn = new button(
+        text_obj,
         DARKGRAY,
         {180,60},
         position,
         layer
     );
 
-    addEntity(button);
-    return button;
+    add_entity(btn);
+    return btn;
 }
 
 // Make clickable text by creating an invisible button in the shape and size of the text.
-Button* Level::addTextButton(string text, int fontSize, Color textColor, Vector2 position)
+button* level::add_text_button(string text_str, int font_size, Color text_color, Vector2 position)
 {
-    constexpr Color shadowColor = { 15, 15, 15, 200 };
+    constexpr Color shadow_color = { 15, 15, 15, 200 };
     constexpr int layer = 0;
 
-    Text* const textObj = new Text(text, fontSize, textColor, shadowColor, position, layer);
+    text* const text_obj = new text(text_str, font_size, text_color, shadow_color, position, layer);
 
-    Button* const button = new Button(
-        textObj,
+    button* const btn = new button(
+        text_obj,
         { 0, 0, 0, 0 },
-        textObj->getTextDim(),
+        text_obj->get_text_dim(),
         position,
         layer
     );
     
-    addEntity(button);
-    return button;
+    add_entity(btn);
+    return btn;
 }

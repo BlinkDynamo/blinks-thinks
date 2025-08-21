@@ -23,30 +23,30 @@
 // Raylib.
 #include "raylib.h"
 
-namespace BlinkEngine
+namespace engine
 {
-    class Entity {
+    class entity {
         public:
-            Entity(
-                Vector2 position = m_defaultPosition,
-                int layer = m_defaultLayer,
-                Vector2 speed = m_defaultSpeed
+            entity(
+                Vector2 position = m_default_position,
+                int layer = m_default_layer,
+                Vector2 speed = m_default_speed
             );
-            virtual ~Entity() = default;
+            virtual ~entity() = default;
 
-            // 'Update()' only does an update of 'm_position', but 'Draw()' is pure virtual.
-            virtual void Update();
-            virtual void Draw() = 0;
+            // 'update()' only does an update of 'm_position', but 'draw()' is pure virtual.
+            virtual void update();
+            virtual void draw() = 0;
 
             // Getters and setters.
-            virtual Vector2 getPosition() { return m_position; }
-            virtual void setPosition(Vector2 position) { m_position = position; }
+            virtual Vector2 get_position() { return m_position; }
+            virtual void set_position(Vector2 position) { m_position = position; }
 
-            virtual int getLayer() { return m_layer; }
-            virtual void setLayer(int layer) { m_layer = layer; }
+            virtual int get_layer() { return m_layer; }
+            virtual void set_layer(int layer) { m_layer = layer; }
 
-            virtual Vector2 getSpeed() { return m_speed; }
-            virtual void setSpeed(Vector2 speed) { m_speed = speed; }
+            virtual Vector2 get_speed() { return m_speed; }
+            virtual void set_speed(Vector2 speed) { m_speed = speed; }
 
         protected:
             Vector2 m_position;     // The X and Y coordinate position of the entity.
@@ -58,8 +58,8 @@ namespace BlinkEngine
             Vector2 m_speed;        // The X and Y movement speed per frame of the entity. 
 
         // Constructor default arguments.
-        static constexpr Vector2 m_defaultPosition = {0, 0};
-        static constexpr int m_defaultLayer = 0;
-        static constexpr Vector2 m_defaultSpeed = {0, 0};
+        static constexpr Vector2 m_default_position = {0, 0};
+        static constexpr int m_default_layer = 0;
+        static constexpr Vector2 m_default_speed = {0, 0};
     };
 }
