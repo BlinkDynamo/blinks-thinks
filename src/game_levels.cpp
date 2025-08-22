@@ -146,6 +146,15 @@ void intro_section_one::update()
 {
     level::update();   
     ++m_frames_counter;
+
+    // Pitch back up the current music track if it's below 1.0. Since the player will always
+    // restart at level 1, this only needs to be handled here.
+    constexpr float epsilon = 0.0001f; 
+    if (m_game.get_current_music_pitch() < 1.0 - epsilon) {
+        SetMusicPitch(*m_game.get_current_music(), m_game.get_current_music_pitch());
+        m_game.set_current_music_pitch(m_game.get_current_music_pitch() + 0.02);
+    }
+
     if (m_frames_counter == 3 * m_game.get_frame_rate()) {
         delete m_game.get_current_level();
         m_game.set_current_level(new level_one());
@@ -206,14 +215,6 @@ void level_one::update()
 {
     level::update();
     
-    // Pitch back up the current music track if it's below 1.0. Since the player will always
-    // restart at level 1, this only needs to be handled here.
-    constexpr float epsilon = 0.0001f; 
-    if (m_game.get_current_music_pitch() < 1.0 - epsilon) {
-        SetMusicPitch(*m_game.get_current_music(), m_game.get_current_music_pitch());
-        m_game.set_current_music_pitch(m_game.get_current_music_pitch() + 0.02);
-    }
-
     if (m_correct_button->is_pressed()) {
         delete m_game.get_current_level();
         m_game.set_current_level(new level_two());
@@ -302,36 +303,32 @@ void level_two::update()
 // ------------------------------------------------------------------------------------------ //
 //                                          level 3.                                          //
 // ------------------------------------------------------------------------------------------ //
-level_three::level_three()
-    :
-    m_correct_button{
-        .button_ptr = nullptr,
-        .current_scale = 1.0
-    }
+level_three::level_three() 
 {
-    constexpr int level_num = 3;
-    constexpr int choice_count = 5;
-    constexpr int min_choice = 1;
-    constexpr int max_choice = 25;
+    constexpr int level_num = 3; 
+    constexpr int choice_count = 5, min_choice = 1, max_choice = 25; 
     constexpr int font_size = 80;
+    
     constexpr float button_x_offset_per_iter = 150;
 
     float button_x = m_game.get_cw() - 300;
 
-    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw(), m_game.get_ch() - 250}, 0);
+    this->m_answer.scale = 1.0;
+
+    add_simple_text("level  ", font_size, ORANGE, {m_game.get_cw(), m_game.get_ch() - 250}, 0);
 
     add_simple_text("What is the tallest number?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
      
-    m_answer_choices[level_num] = add_text_button(
-        to_string(level_num), 80, ORANGE, {m_game.get_cw() + 122, m_game.get_ch() - 250}
+    m_choices[level_num] = add_text_button(
+        to_string(level_num), font_size, ORANGE, {m_game.get_cw() + 122, m_game.get_ch() - 250}
     );
 
     for (int i = 0; i < choice_count; i++) {
         // Get a unique choice value and store it in 'choices' for future checking.
         int choice = m_game.random_int_in_range(min_choice, max_choice);
 
-        while (m_answer_choices.find(choice) != m_answer_choices.end()) {
+        while (m_choices.find(choice) != m_choices.end()) {
             choice = m_game.random_int_in_range(min_choice, max_choice);
         }
 
@@ -339,48 +336,48 @@ level_three::level_three()
         // lower inside the level.
         float button_y = (i % 2) ? m_game.get_ch() - 25 : m_game.get_ch() + 175;
 
-        m_answer_choices[choice] = add_text_button(
+        m_choices[choice] = add_text_button(
                 to_string(choice), font_size, m_game.random_bright_color(), {button_x, button_y}
         );
 
         button_x += button_x_offset_per_iter; 
     }
 
-    // Choose a random member of 'm_answer_choices' to be the correct answer. 
-    const int random_index = m_game.random_int_in_range(0, static_cast<int>(m_answer_choices.size()) - 1);
-    unordered_map<int, button*>::iterator it = m_answer_choices.begin();
+    // Choose a random member of 'm_choices' to be the correct answer. 
+    const int random_index = m_game.random_int_in_range(0, static_cast<int>(m_choices.size()) - 1);
+    unordered_map<int, button*>::iterator it = m_choices.begin();
     std::advance(it, random_index);
-    m_correct_button.button_ptr = it->second;
+    m_answer.btn = it->second;
 }
 
 void level_three::update()
 {
+    level::update();
+
     // If the correct option is hovered, make it grow in scale. Otherwise, make it shrink until
     // it becomes it's normal scale again. 
-    if (m_correct_button.button_ptr->is_hovered()) {
-        if (m_correct_button.current_scale < m_correct_button.max_scale) {
-            m_correct_button.current_scale += m_correct_button.scale_up_incr;
-            m_correct_button.button_ptr->set_scale(m_correct_button.current_scale);
+    if (m_answer.btn->is_hovered()) {
+        if (m_answer.scale < m_answer.max_scale) {
+            m_answer.scale += m_answer.scale_up_incr;
+            m_answer.btn->set_scale(m_answer.scale);
         }
     }
-    else if (m_correct_button.current_scale > m_correct_button.min_scale) {
-            m_correct_button.current_scale -= m_correct_button.scale_down_incr;
-            m_correct_button.button_ptr->set_scale(m_correct_button.current_scale);
+    else if (m_answer.scale > m_answer.min_scale) {
+            m_answer.scale -= m_answer.scale_down_incr;
+            m_answer.btn->set_scale(m_answer.scale);
     }
 
-    level::update();
-    if (m_correct_button.button_ptr->is_pressed()) {
+    if (m_answer.btn->is_pressed()) {
         delete m_game.get_current_level();
         m_game.set_current_level(new level_four());
         return;
     }
-    else {
-        for (button* btn : get_buttons()) {
-            if (btn->is_pressed()) {
-                delete m_game.get_current_level();
-                m_game.set_current_level(new level_lose());
-                return;
-            }
+
+    for (button* btn : get_buttons()) {
+        if (btn->is_pressed()) {
+            delete m_game.get_current_level();
+            m_game.set_current_level(new level_lose());
+            return;
         }
     }
 }
@@ -493,7 +490,10 @@ level_six::level_six()
     add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
     add_text_button("6", 80, ORANGE, {m_game.get_cw() + 122, m_game.get_ch() - 250});
 
-    add_simple_text("What is the first number of something delicious?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
+    add_simple_text("What is the first number of something", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
+        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    
+    add_simple_text("delicious?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 100}, 0)
         ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
     add_text_button("5", 80, m_game.random_bright_color(), {m_game.get_cw() - 275, m_game.get_ch()});
@@ -633,17 +633,27 @@ level_nine::level_nine()
     //
     m_correct_button_layout.reserve(m_choice_count);
 
-    button* number_in_level_title = add_text_button("9", 80, ORANGE, {m_game.get_cw() + 122, m_game.get_ch() - 250});
-    this->m_correct_button_layout.push_back(number_in_level_title);
+    vector<Vector2> button_positions = {
+        {m_game.get_cw() + 122, m_game.get_ch() - 250},
+        {m_game.get_cw() - 275, m_game.get_ch()},
+        {m_game.get_cw() - 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 275, m_game.get_ch()}
+    };
+    vector<Vector2>::iterator positions_it = button_positions.begin();
+
+    button* level_num_button = add_text_button("9", 80, ORANGE, *positions_it++);
+    this->m_correct_button_layout.push_back(level_num_button);
 
     while (m_correct_button_layout.size() < m_choice_count) {
         int choice_value = m_game.random_int_in_range(1, 9);
         Color color = m_game.random_bright_color();
-        Vector2 pos = {m_game.get_cw(), m_game.get_ch()};
+        Vector2 pos = *positions_it++;
         button* newest_button = add_text_button(to_string(choice_value), 80, color, pos); 
         m_correct_button_layout.push_back(newest_button);
     }
-
+    
+    // Sort based on button string values, left to right, greatest to least.
     sort(m_correct_button_layout.begin(), m_correct_button_layout.end(),
         [](button* a, button* b) {
             return a->get_text_obj()->get_text_str() > b->get_text_obj()->get_text_str();

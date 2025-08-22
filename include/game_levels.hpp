@@ -126,21 +126,20 @@ class level_three : public engine::level
         void update() override;
 
     private:
-        unordered_map<int, button*> m_answer_choices;
+        unordered_map<int, button*> m_choices;
 
-        class correct_answer
+        class answer
         {
             public:
-                button* button_ptr;
-
-                float current_scale;
+                button* btn;
+                float scale;
 
                 static constexpr float scale_up_incr = 0.05;
                 static constexpr float scale_down_incr = 0.10;
                 static constexpr float max_scale = 2.5;
                 static constexpr float min_scale = 1.0;
         };
-        correct_answer m_correct_button; 
+        answer m_answer; 
 };
 
 class level_four : public engine::level
