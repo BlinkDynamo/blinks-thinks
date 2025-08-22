@@ -29,6 +29,17 @@ using engine::level;
 #include <string>
 #include <unordered_map>
 #include <random>
+#include <cassert>
+#include <iostream>
+
+#define GAME_ASSERT(cond, msg) \
+    do { \
+        if (!(cond)) { \
+            std::cerr << "[GAME] Assertion failed: " << (msg) \
+                      << " (" << __FILE__ << ":" << __LINE__ << ")\n"; \
+            std::abort(); \
+        } \
+    } while (0)
 
 using std::string;
 using std::unordered_map;
@@ -49,10 +60,16 @@ namespace engine
             void run();
 
             // Returns a random int from a defined range inclusively.
-            int random_int_in_range(int min, int max);
-            
+            int get_random_value(int min, int max);
+
+            // Returns a vector of unique values within a given range. Optionally exclude a vector of values.
+            vector<int> get_random_sequence(size_t count, int min, int max, vector<int> exclude = {});
+
             // Returns a random Raylib-defined color from an array of colors that brighten well.
-            Color random_bright_color();
+            Color get_random_color();
+
+            // Returns a vector of randomized, unique, Raylib-defined colors of size 'count'.
+            vector<Color> get_random_color_sequence(size_t count);
 
             // Getters and setters.
             static const string get_game_version() { return m_game_version; }
@@ -108,5 +125,8 @@ namespace engine
 
             // The random number engine for the game instance.
             std::default_random_engine m_random_generator;
+
+            // RNG specific constants.
+            inline static const vector<Color> m_bright_colors = {GOLD, ORANGE, PINK, RED, LIME, SKYBLUE, PURPLE, VIOLET};
     };
 }

@@ -25,6 +25,8 @@ using engine::game;
 
 // Standard library.
 #include <cmath>
+#include <algorithm>
+#include <unordered_set>
 
 game& game::get_instance()
 {
@@ -34,7 +36,8 @@ game& game::get_instance()
 
 game::game()
     :
-    m_current_music_pitch(1.0)
+    m_current_music_pitch(1.0),
+    m_random_generator(std::random_device{}())
 {
     // Window, Screen, and FPS.
     InitWindow(m_w, m_h, m_game_name);
@@ -82,15 +85,42 @@ void game::run()
     }
 }
 
-int game::random_int_in_range(int min, int max)
+int game::get_random_value(int min, int max)
 {
+    GAME_ASSERT(max - min > 0, "Invalid range supplied.");
     std::uniform_int_distribution<int> distribution(min, max);
     return distribution(m_random_generator);
 }
 
-Color game::random_bright_color()
+vector<int> game::get_random_sequence(size_t count, int min, int max, vector<int> exclude)
 {
-    constexpr size_t n_bright_colors = 8;
-    constexpr Color bright_raylib_colors[n_bright_colors] = {GOLD, ORANGE, PINK, RED, LIME, SKYBLUE, PURPLE, VIOLET};
-    return bright_raylib_colors[random_int_in_range(0, n_bright_colors - 1)];
+    const size_t range_size = static_cast<size_t>(max - min + 1);
+    GAME_ASSERT(count <= range_size, "Requested more unique numbers than available range."); 
+
+    std::unordered_set<int> exclusion_set(exclude.begin(), exclude.end());
+
+    vector<int> pool;
+    for (int num = min; num <= max; ++num) {
+        if (exclusion_set.find(num) == exclusion_set.end()) {
+            pool.push_back(num);
+        }
+    } 
+
+    std::shuffle(pool.begin(), pool.end(), m_random_generator);
+    return {pool.begin(), pool.begin() + static_cast<long>(count)};
+}
+
+Color game::get_random_color()
+{
+    return m_bright_colors[static_cast<size_t>(get_random_value(0, m_bright_colors.size() - 1))];
+}
+
+vector<Color> game::get_random_color_sequence(size_t count)
+{
+    GAME_ASSERT(count <= m_bright_colors.size() ,"Requested more unique colors than available maximum."); 
+
+    // Copy game defined constant vector, shuffle it, then return the count asked for.
+    vector<Color> palate = m_bright_colors;
+    std::shuffle(palate.begin(), palate.end(), m_random_generator);
+    return {palate.begin(), palate.begin() + static_cast<long>(count)};
 }

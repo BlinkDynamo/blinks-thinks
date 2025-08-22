@@ -106,6 +106,7 @@ class level_one : public engine::level
         void update() override;
 
     private:
+        static constexpr int m_choice_count = 5, m_min_choice = 1, m_max_choice = 25; 
         button* m_correct_button;
 };
 
@@ -116,6 +117,7 @@ class level_two : public engine::level
         void update() override;
 
     private:
+        static constexpr int m_choice_count = 5, m_min_choice = 1, m_max_choice = 25; 
         button* m_correct_button;
 };
 
@@ -126,7 +128,7 @@ class level_three : public engine::level
         void update() override;
 
     private:
-        unordered_map<int, button*> m_choices;
+        static constexpr int m_choice_count = 5, m_min_choice = 1, m_max_choice = 25; 
 
         class answer
         {
@@ -183,6 +185,7 @@ class level_seven : public engine::level
         label* m_submit_box;
         button* m_submit_button;
         string m_correct_number;
+        static constexpr int m_choice_count = 5;
 };
 
 class level_eight : public engine::level

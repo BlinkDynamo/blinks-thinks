@@ -167,48 +167,56 @@ void intro_section_one::update()
 // ------------------------------------------------------------------------------------------ //
 level_one::level_one() 
 {
-    constexpr int level_num = 1;
-    constexpr int choice_count = 5;
-    constexpr int min_choice = 1;
-    constexpr int max_choice = 25;
-    constexpr int font_size = 80;
-    constexpr float button_x_offset_per_iter = 150;
-
-    float button_x = m_game.get_cw() - 300;
-
     add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
-    m_correct_button = add_text_button(to_string(level_num), 80, ORANGE, {m_game.get_cw() + 122, m_game.get_ch() - 250});
-    
+
     add_simple_text("What is the largest number?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
         ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    
+    vector<button*> choices(m_choice_count);
+
+    vector<Vector2> button_positions = {
+        {m_game.get_cw() + 122, m_game.get_ch() - 250},
+        {m_game.get_cw() - 275, m_game.get_ch()},
+        {m_game.get_cw() - 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 275, m_game.get_ch()}
+    };
+
+    // Get a sequence of 4 random numbers, then insert the level number (1) at the beginning.
+    vector<int> button_values = m_game.get_random_sequence(4, m_min_choice, m_max_choice, {1});
+    button_values.insert(button_values.begin(), 1);
+
+    // Get a sequence of 4 random colors, then insert the level number's color (GOLD) at the beginning.
+    vector<Color> button_colors = m_game.get_random_color_sequence(4);
+    button_colors.insert(button_colors.begin(), ORANGE);
+    
+    // Ensure all the vectors are constructed to the same proper size.
+    GAME_ASSERT(
+        (button_positions.size() == m_choice_count) &&
+        (button_values.size() == m_choice_count) &&
+        (button_colors.size() == m_choice_count),
+        "Not all button construction vectors are of the class-defined size (m_choice_count)."
+    );
+
+    // Get 3 iterators for each of these vectors, and *it++ them throughout the loop.
+    vector<Vector2>::iterator positions_it = button_positions.begin();
+    vector<int>::iterator values_it = button_values.begin();
+    vector<Color>::iterator colors_it = button_colors.begin();
    
-    vector<int> choices; 
-    choices.push_back(level_num);    
-    int largest_choice = level_num;
+    // Construct a vector of buttons from which we will choose a correct answer. 
+    vector<button*> choosable_buttons(m_choice_count);
 
-    for (int i = 0; i < choice_count; i++) {
-        // Get a unique choice value and store it in 'choices' for future checking.
-        int choice = m_game.random_int_in_range(min_choice, max_choice);
+    for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
+        choosable_buttons[loop_count] = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+    }
 
-        while (find(choices.begin(), choices.end(), choice) != choices.end()) {
-            choice = m_game.random_int_in_range(min_choice, max_choice);
+    // Set 'm_correct_button' to the choice with the smallest value.
+    // Set 'm_correct_button' to the choice with the smallest value.
+    m_correct_button = *std::max_element(choosable_buttons.begin(), choosable_buttons.end(),
+        [](button* a, button* b) {
+            return (stoi(a->get_text_obj()->get_text_str()) < stoi(b->get_text_obj()->get_text_str()));
         }
-        choices.push_back(choice);
-        
-
-        // The buttons' Y value will flip-flop between iterations of being positioned higher and
-        // lower inside the level.
-        float button_y = (i % 2) ? m_game.get_ch() - 25 : m_game.get_ch() + 175;
-
-        button* btn = add_text_button(to_string(choice), font_size, m_game.random_bright_color(),
-                                       {button_x, button_y});
-        button_x += button_x_offset_per_iter;
-
-        if (choice > largest_choice) {
-            largest_choice = choice;
-            m_correct_button = btn;
-        }
-    } 
+    ); 
 }
 
 void level_one::update()
@@ -236,48 +244,55 @@ void level_one::update()
 // ------------------------------------------------------------------------------------------ //
 level_two::level_two()
 {
-    constexpr int level_num = 2;
-    constexpr int choice_count = 5;
-    constexpr int min_choice = 1;
-    constexpr int max_choice = 25;
-    constexpr int font_size = 80;
-    constexpr float button_x_offset_per_iter = 150;
-
-    float button_x = m_game.get_cw() - 300;
-
     add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
 
     add_simple_text("What is the smallest number?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
         ->add_anim_rotate(0.0f, 4.0f, 1.5f);
     
-    vector<int> choices;
+    vector<button*> choices(m_choice_count);
 
-    m_correct_button = add_text_button(to_string(level_num), 80, ORANGE, {m_game.get_cw() + 122, m_game.get_ch() - 250});
-    choices.push_back(level_num);
-    int smallest_choice = level_num;
+    vector<Vector2> button_positions = {
+        {m_game.get_cw() + 122, m_game.get_ch() - 250},
+        {m_game.get_cw() - 275, m_game.get_ch()},
+        {m_game.get_cw() - 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 275, m_game.get_ch()}
+    };
 
-    for (int i = 0; i < choice_count; i++) {
-        // Get a unique choice value and store it in 'choices' for future checking.
-        int choice = m_game.random_int_in_range(min_choice, max_choice);
+    // Get a sequence of 4 random numbers, then insert the level number (2) at the beginning.
+    vector<int> button_values = m_game.get_random_sequence(4, m_min_choice, m_max_choice, {2});
+    button_values.insert(button_values.begin(), 2);
 
-        while (find(choices.begin(), choices.end(), choice) != choices.end()) {
-            choice = m_game.random_int_in_range(min_choice, max_choice);
-        }
-        choices.push_back(choice);
+    // Get a sequence of 4 random colors, then insert the level number's color (GOLD) at the beginning.
+    vector<Color> button_colors = m_game.get_random_color_sequence(4);
+    button_colors.insert(button_colors.begin(), ORANGE);
+    
+    // Ensure all the vectors are constructed to the same proper size.
+    GAME_ASSERT(
+        (button_positions.size() == m_choice_count) &&
+        (button_values.size() == m_choice_count) &&
+        (button_colors.size() == m_choice_count),
+        "Not all button construction vectors are of the class-defined size (m_choice_count)."
+    );
 
-        // The buttons' Y value will flip-flop between iterations of being positioned higher and
-        // lower inside the level.
-        float button_y = (i % 2) ? m_game.get_ch() - 25 : m_game.get_ch() + 175;
+    // Get 3 iterators for each of these vectors, and *it++ them throughout the loop.
+    vector<Vector2>::iterator positions_it = button_positions.begin();
+    vector<int>::iterator values_it = button_values.begin();
+    vector<Color>::iterator colors_it = button_colors.begin();
+   
+    // Construct a vector of buttons from which we will choose a correct answer. 
+    vector<button*> choosable_buttons(m_choice_count);
 
-        button* btn = add_text_button(to_string(choice), font_size, m_game.random_bright_color(),
-                                       {button_x, button_y});
-        button_x += button_x_offset_per_iter;
-
-        if (choice < smallest_choice) {
-            smallest_choice = choice;
-            m_correct_button = btn;
-        }
+    for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
+        choosable_buttons[loop_count] = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
     }
+
+    // Set 'm_correct_button' to the choice with the smallest value.
+    m_correct_button = *std::min_element(choosable_buttons.begin(), choosable_buttons.end(),
+        [](button* a, button* b) {
+            return (stoi(a->get_text_obj()->get_text_str()) < stoi(b->get_text_obj()->get_text_str()));
+        }
+    );
 }
 
 void level_two::update()
@@ -305,49 +320,53 @@ void level_two::update()
 // ------------------------------------------------------------------------------------------ //
 level_three::level_three() 
 {
-    constexpr int level_num = 3; 
-    constexpr int choice_count = 5, min_choice = 1, max_choice = 25; 
-    constexpr int font_size = 80;
-    
-    constexpr float button_x_offset_per_iter = 150;
-
-    float button_x = m_game.get_cw() - 300;
-
     this->m_answer.scale = 1.0;
 
-    add_simple_text("level  ", font_size, ORANGE, {m_game.get_cw(), m_game.get_ch() - 250}, 0);
+    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw(), m_game.get_ch() - 250}, 0);
 
     add_simple_text("What is the tallest number?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
-     
-    m_choices[level_num] = add_text_button(
-        to_string(level_num), font_size, ORANGE, {m_game.get_cw() + 122, m_game.get_ch() - 250}
+    
+    vector<button*> choices(m_choice_count);
+
+    vector<Vector2> button_positions = {
+        {m_game.get_cw() + 122, m_game.get_ch() - 250},
+        {m_game.get_cw() - 275, m_game.get_ch()},
+        {m_game.get_cw() - 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 275, m_game.get_ch()}
+    };
+
+    // Get a sequence of 4 random numbers, then insert the level number (3) at the beginning.
+    vector<int> button_values = m_game.get_random_sequence(4, m_min_choice, m_max_choice, {3});
+    button_values.insert(button_values.begin(), 3);
+
+    // Get a sequence of 4 random colors, then insert the level number's color (GOLD) at the beginning.
+    vector<Color> button_colors = m_game.get_random_color_sequence(4);
+    button_colors.insert(button_colors.begin(), ORANGE);
+    
+    // Ensure all the vectors are constructed to the same proper size.
+    GAME_ASSERT(
+        (button_positions.size() == m_choice_count) &&
+        (button_values.size() == m_choice_count) &&
+        (button_colors.size() == m_choice_count),
+        "Not all button construction vectors are of the class-defined size (m_choice_count)."
     );
 
-    for (int i = 0; i < choice_count; i++) {
-        // Get a unique choice value and store it in 'choices' for future checking.
-        int choice = m_game.random_int_in_range(min_choice, max_choice);
+    // Get 3 iterators for each of these vectors, and *it++ them throughout the loop.
+    vector<Vector2>::iterator positions_it = button_positions.begin();
+    vector<int>::iterator values_it = button_values.begin();
+    vector<Color>::iterator colors_it = button_colors.begin();
+   
+    // Construct a vector of buttons from which we will choose a correct answer. 
+    vector<button*> choosable_buttons(m_choice_count);
 
-        while (m_choices.find(choice) != m_choices.end()) {
-            choice = m_game.random_int_in_range(min_choice, max_choice);
-        }
-
-        // The buttons' Y value will flip-flop between iterations of being positioned higher and
-        // lower inside the level.
-        float button_y = (i % 2) ? m_game.get_ch() - 25 : m_game.get_ch() + 175;
-
-        m_choices[choice] = add_text_button(
-                to_string(choice), font_size, m_game.random_bright_color(), {button_x, button_y}
-        );
-
-        button_x += button_x_offset_per_iter; 
+    for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
+        choosable_buttons[loop_count] = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
     }
 
-    // Choose a random member of 'm_choices' to be the correct answer. 
-    const int random_index = m_game.random_int_in_range(0, static_cast<int>(m_choices.size()) - 1);
-    unordered_map<int, button*>::iterator it = m_choices.begin();
-    std::advance(it, random_index);
-    m_answer.btn = it->second;
+    // Choose a random member of 'choosable_buttons' to be the correct answer. 
+    m_answer.btn = choosable_buttons[static_cast<size_t>(m_game.get_random_value(0, choosable_buttons.size() - 1))];
 }
 
 void level_three::update()
@@ -392,9 +411,9 @@ level_four::level_four()
     add_simple_text("How much time do you want for level 5?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
         ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
-    add_text_button("2 seconds", 60, m_game.random_bright_color(), {m_game.get_cw(), m_game.get_ch() - 50});
-    add_text_button("5 seconds", 60, m_game.random_bright_color(), {m_game.get_cw(), m_game.get_ch() + 50});
-    add_text_button("10 seconds", 60, m_game.random_bright_color(), {m_game.get_cw(), m_game.get_ch() + 150});
+    add_text_button("2 seconds", 60, m_game.get_random_color(), {m_game.get_cw(), m_game.get_ch() - 50});
+    add_text_button("5 seconds", 60, m_game.get_random_color(), {m_game.get_cw(), m_game.get_ch() + 50});
+    add_text_button("10 seconds", 60, m_game.get_random_color(), {m_game.get_cw(), m_game.get_ch() + 150});
 }
 
 void level_four::update()
@@ -482,7 +501,7 @@ void level_five::update()
 
 level_six::level_six()
     :
-    m_correct_button(add_text_button("3", 80, m_game.random_bright_color(), {m_game.get_cw() - 225, m_game.get_ch() + 175}))
+    m_correct_button(add_text_button("3", 80, m_game.get_random_color(), {m_game.get_cw() - 225, m_game.get_ch() + 175}))
 {
     //
     // Main level_title and instructions.
@@ -496,9 +515,9 @@ level_six::level_six()
     add_simple_text("delicious?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 100}, 0)
         ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
-    add_text_button("5", 80, m_game.random_bright_color(), {m_game.get_cw() - 275, m_game.get_ch()});
-    add_text_button("7", 80, m_game.random_bright_color(), {m_game.get_cw() + 225, m_game.get_ch() + 175});
-    add_text_button("9", 80, m_game.random_bright_color(), {m_game.get_cw() + 275, m_game.get_ch()});
+    add_text_button("5", 80, m_game.get_random_color(), {m_game.get_cw() - 275, m_game.get_ch()});
+    add_text_button("7", 80, m_game.get_random_color(), {m_game.get_cw() + 225, m_game.get_ch() + 175});
+    add_text_button("9", 80, m_game.get_random_color(), {m_game.get_cw() + 275, m_game.get_ch()});
 }
 
 void level_six::update()
@@ -535,10 +554,38 @@ level_seven::level_seven()
     add_simple_text("Put the hungry number in the box", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
         ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
-    add_text_button("5", 80, m_game.random_bright_color(), {m_game.get_cw() - 275, m_game.get_ch()});
-    add_text_button("6", 80, m_game.random_bright_color(), {m_game.get_cw() - 225, m_game.get_ch() + 175});
-    add_text_button("8", 80, m_game.random_bright_color(), {m_game.get_cw() + 225, m_game.get_ch() + 175});
-    add_text_button("10", 80, m_game.random_bright_color(), {m_game.get_cw() + 275, m_game.get_ch()});
+    vector<Vector2> button_positions = {
+        {m_game.get_cw() + 122, m_game.get_ch() - 250},
+        {m_game.get_cw() - 275, m_game.get_ch()},
+        {m_game.get_cw() - 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 275, m_game.get_ch()}
+    };
+
+    // Get a sequence of 4 random numbers, then insert the level number (7) at the beginning.
+    vector<int> button_values = m_game.get_random_sequence(m_choice_count - 1, 1, 8, {7});
+    button_values.insert(button_values.begin(), 7);
+
+    // Get a sequence of 4 random colors, then insert the level number's color (GOLD) at the beginning.
+    vector<Color> button_colors = m_game.get_random_color_sequence(m_choice_count - 1);
+    button_colors.insert(button_colors.begin(), ORANGE);
+    
+    // Ensure all the vectors are constructed to the same proper size.
+    GAME_ASSERT(
+        (button_positions.size() == m_choice_count) &&
+        (button_values.size() == m_choice_count) &&
+        (button_colors.size() == m_choice_count),
+        "Not all button construction vectors are of the class-defined size (m_choice_count)."
+    );
+
+    // Get 3 iterators for each of these vectors, and *it++ them throughout the loop.
+    vector<Vector2>::iterator positions_it = button_positions.begin();
+    vector<int>::iterator values_it = button_values.begin();
+    vector<Color>::iterator colors_it = button_colors.begin();
+
+    for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
+        add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+    }
 }
 
 void level_seven::update()
@@ -640,23 +687,37 @@ level_nine::level_nine()
         {m_game.get_cw() + 225, m_game.get_ch() + 175},
         {m_game.get_cw() + 275, m_game.get_ch()}
     };
-    vector<Vector2>::iterator positions_it = button_positions.begin();
 
-    button* level_num_button = add_text_button("9", 80, ORANGE, *positions_it++);
-    this->m_correct_button_layout.push_back(level_num_button);
+    // Get a sequence of 4 random numbers, then insert the level number (9) at the beginning.
+    vector<int> button_values = m_game.get_random_sequence(4, 1, 8, {9});
+    button_values.insert(button_values.begin(), 9);
+
+    // Get a sequence of 4 random colors, then insert the level number's color (GOLD) at the beginning.
+    vector<Color> button_colors = m_game.get_random_color_sequence(4);
+    button_colors.insert(button_colors.begin(), ORANGE);
+    
+    // Ensure all the vectors are constructed to the same proper size.
+    GAME_ASSERT(
+        (button_positions.size() == m_choice_count) &&
+        (button_values.size() == m_choice_count) &&
+        (button_colors.size() == m_choice_count),
+        "Not all button construction vectors are of the class-defined size (m_choice_count)."
+    );
+
+    // Get 3 iterators for each of these vectors, and *it++ them throughout the loop.
+    vector<Vector2>::iterator positions_it = button_positions.begin();
+    vector<int>::iterator values_it = button_values.begin();
+    vector<Color>::iterator colors_it = button_colors.begin();
 
     while (m_correct_button_layout.size() < m_choice_count) {
-        int choice_value = m_game.random_int_in_range(1, 9);
-        Color color = m_game.random_bright_color();
-        Vector2 pos = *positions_it++;
-        button* newest_button = add_text_button(to_string(choice_value), 80, color, pos); 
+        button* newest_button = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
         m_correct_button_layout.push_back(newest_button);
     }
     
     // Sort based on button string values, left to right, greatest to least.
     sort(m_correct_button_layout.begin(), m_correct_button_layout.end(),
         [](button* a, button* b) {
-            return a->get_text_obj()->get_text_str() > b->get_text_obj()->get_text_str();
+            return stoi(a->get_text_obj()->get_text_str()) > stoi(b->get_text_obj()->get_text_str());
         }
     );
 }
@@ -703,6 +764,9 @@ void level_nine::update()
         bool answer_was_chosen = true;
         vector<button*>::iterator choice_it = numbers_in_box.begin();
         vector<button*>::iterator answer_it = m_correct_button_layout.begin();
+
+        if (numbers_in_box.size() != m_correct_button_layout.size()) { answer_was_chosen = false; }
+
         for (; choice_it != numbers_in_box.end() && answer_it != m_correct_button_layout.end(); ++choice_it, ++answer_it) {
             if ((*choice_it)->get_text_obj()->get_text_str() != (*answer_it)->get_text_obj()->get_text_str()) {
                 answer_was_chosen = false;
