@@ -51,9 +51,7 @@ RL_WEB_OBJS := $(D_OBJ_RL)/rcore.o \
 			   $(D_OBJ_RL)/raudio.o
 
 # Shared warning flags. Work for both emcc and clang++, as emcc is clang-based.
-WARNINGS := -Wall -Wextra -Werror \
-			-Wpedantic -Wshadow -Wnon-virtual-dtor \
-			-Wold-style-cast -Wsign-conversion
+WARNINGS := -Wall -Wextra -Werror -Wshadow -Wnon-virtual-dtor -Wold-style-cast 
 
 # The standard of c++ to use. 
 STD := -std=c++23

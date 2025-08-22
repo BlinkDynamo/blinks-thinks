@@ -112,7 +112,7 @@ vector<int> game::get_random_sequence(size_t count, int min, int max, vector<int
 
 Color game::get_random_color()
 {
-    return m_bright_colors[static_cast<size_t>(get_random_value(0, m_bright_colors.size() - 1))];
+    return m_bright_colors[get_random_value(0, m_bright_colors.size() - 1)];
 }
 
 vector<Color> game::get_random_color_sequence(size_t count)
