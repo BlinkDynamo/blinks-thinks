@@ -26,7 +26,8 @@ D_BUILD_WEB := $(D_BUILD)/web
 D_BUILD_RL := $(D_BUILD)/raylib
 
 # D_OBJ subdirectories. For object files.
-D_OBJ_NAT := $(D_BUILD_NAT)/src
+D_OBJ_NAT_DEBUG := $(D_BUILD_NAT)/debug/src
+D_OBJ_NAT_RELEASE := $(D_BUILD_NAT)/release/src
 D_OBJ_WEB := $(D_BUILD_WEB)/src
 D_OBJ_RL := $(D_BUILD_RL)/src
 
@@ -37,7 +38,8 @@ D_OUT_RL := $(D_BUILD_RL)/out
 
 # Blink's Thinks source files. 
 BT_SRCS := $(wildcard $(D_SRC_BT)/*.cpp)
-BT_OBJS_NAT := $(patsubst $(D_SRC_BT)/%.cpp, $(D_OBJ_NAT)/%.o,$(BT_SRCS))
+BT_OBJS_NAT_DEBUG := $(patsubst $(D_SRC_BT)/%.cpp, $(D_OBJ_NAT_DEBUG)/%.o,$(BT_SRCS))
+BT_OBJS_NAT_RELEASE := $(patsubst $(D_SRC_BT)/%.cpp, $(D_OBJ_NAT_RELEASE)/%.o,$(BT_SRCS))
 BT_OBJS_WEB := $(patsubst $(D_SRC_BT)/%.cpp, $(D_OBJ_WEB)/%.o,$(BT_SRCS))
 
 # Library build. This is where the external/raylib/ submodule sends it's *.o files.
@@ -59,8 +61,10 @@ STD := -std=c++23
 # Native build. This assumes an installed raylib library.
 # It does not search in the 'build/lib/' directory.
 NAT_COMP := clang++ $(STD)
-NAT_EXEC := $(D_OUT_NAT)/blinks-thinks
-NAT_COMP_FLAGS := $(WARNINGS) -g -Iinclude
+NAT_EXEC_DEBUG := $(D_OUT_NAT)/blinks_thinks_debug
+NAT_EXEC_RELEASE := $(D_OUT_NAT)/blinks_thinks_release
+NAT_COMP_FLAGS_DEBUG := $(WARNINGS) -g -Iinclude
+NAT_COMP_FLAGS_RELEASE := $(WARNINGS) -g -Iinclude -DNDEBUG
 NAT_LINK_FLAGS := -lraylib -lm -ldl -lpthread -lGL
 				
 
@@ -69,7 +73,7 @@ WEB_COMP := em++ $(STD)
 WEB_EXEC := $(D_OUT_WEB)/index.html
 
 WEB_COMP_FLAGS := $(WARNINGS) -I. -Iinclude -I$(D_SRC_RL) -DPLATFORM_WEB -DRAUDIO_IMPLEMENTATION \
-			      -D_SUPPORT_MODULE_RAUDIO 
+			      -D_SUPPORT_MODULE_RAUDIO -DNDEBUG
 
 # Expand each file inside 'res/' with xargs and format them as flags.
 WEB_PRELOAD_ASSETS := $(shell find res -type f | xargs -I{} echo --preload-file {})
@@ -90,9 +94,11 @@ RL_WEB_COMP := emcc
 all: native web
 
 # Build for Linux.
-native:	$(D_BUILD_NAT) $(BT_OBJS_NAT)
-	@printf "[INFO] Native build.\n"
-	$(NAT_COMP) $(BT_OBJS_NAT) -o $(NAT_EXEC) $(NAT_LINK_FLAGS)
+native:	$(D_BUILD_NAT) $(BT_OBJS_NAT_DEBUG) $(BT_OBJS_NAT_RELEASE)
+	@printf "[INFO] Native debug build.\n"
+	$(NAT_COMP) $(BT_OBJS_NAT_DEBUG) -o $(NAT_EXEC_DEBUG) $(NAT_LINK_FLAGS)
+	@printf "[INFO] Native release build.\n"
+	$(NAT_COMP) $(BT_OBJS_NAT_RELEASE) -o $(NAT_EXEC_RELEASE) $(NAT_LINK_FLAGS)
 
 # Build for the web.
 web: $(D_BUILD_WEB) $(RL_WEB) $(BT_OBJS_WEB)
@@ -107,8 +113,14 @@ $(RL_WEB):	$(D_BUILD_RL) $(RL_WEB_OBJS)
 # --- Compiling rules. --- #
 
 # Native Blink's Thinks object file rules.
-$(D_OBJ_NAT)%.o: $(D_SRC_BT)/%.cpp | $(D_OBJ_NAT)
-	$(NAT_COMP) $(STD) $(NAT_COMP_FLAGS) -c $< -o $@
+#
+# Debug build.
+$(D_OBJ_NAT_DEBUG)%.o: $(D_SRC_BT)/%.cpp | $(D_OBJ_NAT_DEBUG)
+	$(NAT_COMP) $(STD) $(NAT_COMP_FLAGS_DEBUG) -c $< -o $@
+
+# Release build.
+$(D_OBJ_NAT_RELEASE)%.o: $(D_SRC_BT)/%.cpp | $(D_OBJ_NAT_RELEASE)
+	$(NAT_COMP) $(STD) $(NAT_COMP_FLAGS_RELEASE) -c $< -o $@
 
 # Web Blink's Thinks object file rules.
 $(D_OBJ_WEB)%.o: $(D_SRC_BT)/%.cpp | $(D_OBJ_WEB)
@@ -138,7 +150,8 @@ $(D_OBJ_RL)/raudio.o: $(D_SRC_RL)/raudio.c | $(D_OBJ_RL)
 
 # --- Directory rules. --- #
 $(D_BUILD_NAT):
-	@mkdir -p $(D_OBJ_NAT)
+	@mkdir -p $(D_OBJ_NAT_DEBUG)
+	@mkdir -p $(D_OBJ_NAT_RELEASE)
 	@mkdir -p $(D_OUT_NAT)
 
 $(D_BUILD_WEB):

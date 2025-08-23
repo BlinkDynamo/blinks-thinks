@@ -144,7 +144,7 @@ intro_section_one::intro_section_one()
 
 void intro_section_one::update()
 {
-    level::update();   
+    level::update();
     ++m_frames_counter;
 
     // Pitch back up the current music track if it's below 1.0. Since the player will always

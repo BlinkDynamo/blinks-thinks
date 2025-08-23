@@ -94,8 +94,13 @@ int game::get_random_value(int min, int max)
 
 vector<int> game::get_random_sequence(size_t count, int min, int max, vector<int> exclude)
 {
-    const size_t range_size = static_cast<size_t>(max - min + 1);
-    GAME_ASSERT(count <= range_size, "Requested more unique numbers than available range."); 
+    GAME_ASSERT(
+        [&]{
+            const size_t range_size = max - min + 1;
+            return count <= range_size;
+        }(),
+        "Requested more unique numbers than available range."
+    ); 
 
     std::unordered_set<int> exclusion_set(exclude.begin(), exclude.end());
 

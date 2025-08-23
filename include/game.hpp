@@ -32,14 +32,19 @@ using engine::level;
 #include <cassert>
 #include <iostream>
 
-#define GAME_ASSERT(cond, msg) \
-    do { \
-        if (!(cond)) { \
-            std::cerr << "[GAME] Assertion failed: " << (msg) \
-                      << " (" << __FILE__ << ":" << __LINE__ << ")\n"; \
-            std::abort(); \
-        } \
-    } while (0)
+#ifndef NDEBUG
+    #define GAME_ASSERT(cond, msg) \
+        do { \
+            if (!(cond)) { \
+                std::cerr << "[GAME_ASSERT] Assertion failed: (" #cond ") in" \
+                          << " (" << __FILE__ << ":" << __LINE__ << ")\n" \
+                          << "[GAME_ASSERT] Message: " << msg << std::endl; \
+                std::abort(); \
+            } \
+        } while (0)
+#else
+    #define GAME_ASSERT(cond, msg) ((void)0)
+#endif
 
 using std::string;
 using std::unordered_map;
@@ -83,7 +88,7 @@ namespace engine
             static constexpr size_t get_frame_rate() { return m_frame_rate; }
 
             level* get_current_level() { return m_current_level; }
-            void set_current_level(level* level) { m_current_level = level; }
+            void set_current_level(level* level){ m_current_level = level; }
 
             Music* get_current_music() { return m_current_music; }
             void set_current_music(Music* music) { m_current_music = music; }
