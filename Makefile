@@ -32,7 +32,8 @@ D_OBJ_WEB := $(D_BUILD_WEB)/src
 D_OBJ_RL := $(D_BUILD_RL)/src
 
 # D_OUT subdirectories. For output files and final executables.
-D_OUT_NAT := $(D_BUILD_NAT)/out
+D_OUT_NAT_DEBUG := $(D_BUILD_NAT)/debug/out
+D_OUT_NAT_RELEASE := $(D_BUILD_NAT)/release/out
 D_OUT_WEB := $(D_BUILD_WEB)/out
 D_OUT_RL := $(D_BUILD_RL)/out
 
@@ -61,8 +62,8 @@ STD := -std=c++23
 # Native build. This assumes an installed raylib library.
 # It does not search in the 'build/lib/' directory.
 NAT_COMP := clang++ $(STD)
-NAT_EXEC_DEBUG := $(D_OUT_NAT)/blinks_thinks_debug
-NAT_EXEC_RELEASE := $(D_OUT_NAT)/blinks_thinks_release
+NAT_EXEC_DEBUG := $(D_OUT_NAT_DEBUG)/blinks_thinks_debug
+NAT_EXEC_RELEASE := $(D_OUT_NAT_RELEASE)/blinks_thinks_release
 NAT_COMP_FLAGS_DEBUG := $(WARNINGS) -g -Iinclude
 NAT_COMP_FLAGS_RELEASE := $(WARNINGS) -g -Iinclude -DNDEBUG
 NAT_LINK_FLAGS := -lraylib -lm -ldl -lpthread -lGL
@@ -152,7 +153,8 @@ $(D_OBJ_RL)/raudio.o: $(D_SRC_RL)/raudio.c | $(D_OBJ_RL)
 $(D_BUILD_NAT):
 	@mkdir -p $(D_OBJ_NAT_DEBUG)
 	@mkdir -p $(D_OBJ_NAT_RELEASE)
-	@mkdir -p $(D_OUT_NAT)
+	@mkdir -p $(D_OUT_NAT_DEBUG)
+	@mkdir -p $(D_OUT_NAT_RELEASE)
 
 $(D_BUILD_WEB):
 	@mkdir -p $(D_OBJ_WEB)
