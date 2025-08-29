@@ -206,12 +206,12 @@ Lose Condition:
     * 'Submit' is pressed, and the numbers on the screen are not ordered largest to smallest, left to right.
 
 [LEVEL 10]
-Question: "Create the largest number"
+Question: "Put the largest number in the box"
 
 Win Condition:
-    * Drag all of the numbers on the screen, including the level number, inside the box.
-      This time (shown by the immovable '0x' text predicating the box) the player must make the
-      largest hexidecimal number.
+    * 'Submit' is pressed with the largest number on the level inside the box.
+      For this level, the largest number will always be hidden. It will be hidden underneath a random number.
+      This number it's beneath will have a background label the same color as the background.
 
 After completing this level successfully, advance to the [WIN] level.
 

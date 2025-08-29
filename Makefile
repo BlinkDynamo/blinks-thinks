@@ -166,7 +166,6 @@ $(D_BUILD_RL):
 
 # --- Utilities. --- #
 
-# Serve the web build files to a local http server on port 8080.
 serve: web
 	cd $(D_OUT_WEB) && python -m http.server 8080
 
