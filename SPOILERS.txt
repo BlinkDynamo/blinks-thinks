@@ -176,7 +176,7 @@ Lose Condition:
     * Any number that is not 3 is clicked.
 
 [LEVEL 7]
-Question: "Feed the hungry number"
+Question: "Feed the hungry number the proper food"
 
 Win Condition:
     * Drag the number 7 on top of the number 9.
@@ -195,7 +195,7 @@ Lose Condition:
     * Any number that would not be the next number in the displayed Fibbonacci sequence is clicked.
 
 [LEVEL 9]
-Question: "Create the largest number"
+Question: "Put the largest number in the box"
 
 Win Condition: 
     * 'Submit' is pressed with all numbers on the screen in order from largest to smallest, left to right,
@@ -206,7 +206,7 @@ Lose Condition:
     * 'Submit' is pressed, and the numbers on the screen are not ordered largest to smallest, left to right.
 
 [LEVEL 10]
-Question: "Put the largest number in the box"
+Question: "Put the largest 2-digit number in the box"
 
 Win Condition:
     * 'Submit' is pressed with the largest number on the level inside the box.

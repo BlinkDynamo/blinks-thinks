@@ -182,9 +182,8 @@ class level_seven : public engine::level
 
     private: 
         button* m_button_in_hand;
-        label* m_submit_box;
-        button* m_submit_button;
-        string m_correct_number;
+        button* m_button_seven;
+        button* m_button_nine;
         static constexpr int m_choice_count = 5;
 };
 

@@ -46,6 +46,8 @@ namespace engine
                                         // are both true.
             
             // Getters and setters.
+            string get_text() { return m_text_obj->get_text_str(); }
+
             text* get_text_obj() { return m_text_obj; }
 
             Rectangle get_rectangle() { return m_rectangle; }

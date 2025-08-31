@@ -214,7 +214,7 @@ level_one::level_one()
     // Set 'm_correct_button' to the choice with the smallest value.
     m_correct_button = *std::max_element(choosable_buttons.begin(), choosable_buttons.end(),
         [](button* a, button* b) {
-            return (stoi(a->get_text_obj()->get_text_str()) < stoi(b->get_text_obj()->get_text_str()));
+            return (stoi(a->get_text()) < stoi(b->get_text()));
         }
     ); 
 }
@@ -290,7 +290,7 @@ level_two::level_two()
     // Set 'm_correct_button' to the choice with the smallest value.
     m_correct_button = *std::min_element(choosable_buttons.begin(), choosable_buttons.end(),
         [](button* a, button* b) {
-            return (stoi(a->get_text_obj()->get_text_str()) < stoi(b->get_text_obj()->get_text_str()));
+            return (stoi(a->get_text()) < stoi(b->get_text()));
         }
     );
 }
@@ -422,7 +422,7 @@ void level_four::update()
 
     for (button* btn : get_buttons()) {
         if (btn->is_pressed()) {
-            string chosen_time = btn->get_text_obj()->get_text_str();
+            string chosen_time = btn->get_text();
             chosen_time.erase(chosen_time.find(" seconds"), chosen_time.length());
             delete m_game.get_current_level();
             m_game.set_current_level(new level_five(chosen_time));
@@ -542,16 +542,11 @@ void level_six::update()
 
 level_seven::level_seven()
 :
-    m_button_in_hand(nullptr),
-    m_submit_box(add_entity(new label(BLACK, WHITE, {250, 150}, 6, {m_game.get_cw(), m_game.get_ch() - 25}, -10))),
-    m_submit_button(add_ui_button("Submit")),
-    m_correct_number("7")
+    m_button_in_hand(nullptr)
 {
     add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
 
-    add_text_button("7", 80, ORANGE, {m_game.get_cw() + 122, m_game.get_ch() - 250});
-
-    add_simple_text("Put the hungry number in the box", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
+    add_simple_text("Feed the hungry number the proper food", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
         ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
     vector<Vector2> button_positions = {
@@ -562,8 +557,9 @@ level_seven::level_seven()
         {m_game.get_cw() + 275, m_game.get_ch()}
     };
 
-    // Get a sequence of 4 random numbers, then insert the level number (7) at the beginning.
-    vector<int> button_values = m_game.get_random_sequence(m_choice_count - 1, 1, 8, {7});
+    // Get a sequence of 4 random numbers, then insert the level number (9), then (7) at the beginning.
+    vector<int> button_values = m_game.get_random_sequence(m_choice_count - 2, 1, 8, {7});
+    button_values.insert(button_values.begin(), 9);
     button_values.insert(button_values.begin(), 7);
 
     // Get a sequence of 4 random colors, then insert the level number's color (GOLD) at the beginning.
@@ -582,8 +578,11 @@ level_seven::level_seven()
     vector<Vector2>::iterator positions_it = button_positions.begin();
     vector<int>::iterator values_it = button_values.begin();
     vector<Color>::iterator colors_it = button_colors.begin();
+    
+    m_button_seven = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++);
+    m_button_nine = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++);
 
-    for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
+    for (size_t loop_count = 2; loop_count != m_choice_count; ++loop_count) {
         add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
     }
 }
@@ -592,51 +591,47 @@ void level_seven::update()
 {
     level::update();
 
-    // The number-dragging can be this simple because all buttons are numbers except the 'Submit' button.
     for (button* btn : get_buttons()) {
-        if (btn->is_pressed() && btn != m_submit_button) {
+        if (btn->is_pressed()) {
             // point 'm_btnInHand' to the btn that was just pressed, setting it back to
             // 'nullptr' if the mouse is released.
             m_button_in_hand = btn;
         }
     }
 
-    if (IsMouseButtonDown(0) && m_button_in_hand != nullptr) {
+    const bool button_is_being_held = (IsMouseButtonDown(0) && m_button_in_hand != nullptr);
+
+    if (button_is_being_held) {
         m_button_in_hand->set_position(GetMousePosition());
+        for (button* btn : get_buttons()) {
+
+            const bool two_buttons_collided = (
+                btn != m_button_in_hand &&
+                CheckCollisionRecs(m_button_in_hand->get_rectangle(), btn->get_rectangle())
+            );
+
+            if (two_buttons_collided) {
+
+                const bool seven_and_nine_collided = (
+                    (m_button_in_hand == m_button_seven && btn == m_button_nine) ||
+                    (m_button_in_hand == m_button_nine && btn == m_button_seven)
+                );
+
+                if (seven_and_nine_collided) {
+                    delete m_game.get_current_level(); 
+                    m_game.set_current_level(new level_eight());
+                    return;
+                }
+                else {
+                    delete m_game.get_current_level();
+                    m_game.set_current_level(new level_lose());
+                    return;
+                }
+            }
+        }
     }
     else {
         m_button_in_hand = nullptr;
-    }
-
-    // On submission, add every button inside of the submission box to a vector, then organize
-    // their text object's text strings in the same order that they exist spatially. Save this
-    // created number to a string and check if it matches 'm_correct_number'.
-    if (m_submit_button->is_pressed()) {
-        vector<button*> numbers_in_box; // For buttons that are inside of the submission box.
-        string final_submission; // The final submission to match against 'm_correct_number'.
-        for (button* btn : get_buttons()) {
-            if (CheckCollisionRecs(btn->get_rectangle(), m_submit_box->get_rectangle())) {
-                vector<button*>::iterator it = numbers_in_box.begin();
-                while (it != numbers_in_box.end() && (*it)->get_position().x <= btn->get_position().x) {
-                    ++it;
-                }
-                numbers_in_box.insert(it, btn);
-            }
-        }
-        for (button* btn : numbers_in_box) {
-            final_submission += btn->get_text_obj()->get_text_str();
-        }
-
-        if (final_submission == m_correct_number) {
-            delete m_game.get_current_level();
-            m_game.set_current_level(new level_eight());
-            return;
-        }
-        else {
-            delete m_game.get_current_level();
-            m_game.set_current_level(new level_lose());
-            return;
-        }
     }
 }
 
@@ -672,7 +667,7 @@ level_nine::level_nine()
     //
     add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
 
-    add_simple_text("Fit the greatest number into the box", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
+    add_simple_text("Put the largest number in the box", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
         ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
     //
@@ -717,7 +712,7 @@ level_nine::level_nine()
     // Sort based on button string values, left to right, greatest to least.
     sort(m_correct_button_layout.begin(), m_correct_button_layout.end(),
         [](button* a, button* b) {
-            return stoi(a->get_text_obj()->get_text_str()) > stoi(b->get_text_obj()->get_text_str());
+            return stoi(a->get_text()) > stoi(b->get_text());
         }
     );
 }
@@ -768,7 +763,7 @@ void level_nine::update()
         if (numbers_in_box.size() != m_correct_button_layout.size()) { answer_was_chosen = false; }
 
         for (; choice_it != numbers_in_box.end() && answer_it != m_correct_button_layout.end(); ++choice_it, ++answer_it) {
-            if ((*choice_it)->get_text_obj()->get_text_str() != (*answer_it)->get_text_obj()->get_text_str()) {
+            if ((*choice_it)->get_text() != (*answer_it)->get_text()) {
                 answer_was_chosen = false;
             }
         }
