@@ -473,8 +473,8 @@ void level_five::update()
 
     // update the timer once per 60 frames.
     m_frames_counter++; 
-    if (m_frames_counter == 60) { 
-        int duration_as_int = TextToInteger(m_duration.c_str());
+    if (m_frames_counter == 60) {
+        int duration_as_int = stoi(m_duration);
         if (duration_as_int > 0) {
             m_frames_counter = 0;
             --duration_as_int;
@@ -728,7 +728,9 @@ void level_nine::update()
         }
     }
 
-    if (IsMouseButtonDown(0) && m_button_in_hand != nullptr) {
+    const bool button_is_being_held = (IsMouseButtonDown(0) && m_button_in_hand != nullptr);
+
+    if (button_is_being_held) {
         m_button_in_hand->set_position(GetMousePosition());
     }
     else {
