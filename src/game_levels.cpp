@@ -431,6 +431,9 @@ void level_four::update()
     }
 }
 
+// ------------------------------------------------------------------------------------------ //
+//                                          level 5.                                          //
+// ------------------------------------------------------------------------------------------ //
 level_five::level_five(string duration)
     :
     m_frames_counter(0),
@@ -489,7 +492,7 @@ void level_five::update()
         }
     }
 
-    // The level_lose condition can be this simple because all buttons on level 5 will be numbers.
+    // The player will lose if any button is hovered, or if the window (game) becomes unfocused.
     for (button* btn : get_buttons()) {
         if (btn->is_hovered()) {
             delete m_game.get_current_level();
@@ -499,6 +502,9 @@ void level_five::update()
     }
 }
 
+// ------------------------------------------------------------------------------------------ //
+//                                          level 6.                                          //
+// ------------------------------------------------------------------------------------------ //
 level_six::level_six()
     :
     m_correct_button(add_text_button("3", 80, m_game.get_random_color(), {m_game.get_cw() - 225, m_game.get_ch() + 175}))
@@ -540,6 +546,9 @@ void level_six::update()
     }
 }
 
+// ------------------------------------------------------------------------------------------ //
+//                                          level 7.                                          //
+// ------------------------------------------------------------------------------------------ //
 level_seven::level_seven()
 :
     m_button_in_hand(nullptr)
@@ -635,6 +644,9 @@ void level_seven::update()
     }
 }
 
+// ------------------------------------------------------------------------------------------ //
+//                                          level 8.                                          //
+// ------------------------------------------------------------------------------------------ //
 level_eight::level_eight()
     :
     m_submit_button(add_ui_button("Next"))
@@ -656,6 +668,9 @@ void level_eight::update()
     }
 }
 
+// ------------------------------------------------------------------------------------------ //
+//                                          level 9.                                          //
+// ------------------------------------------------------------------------------------------ //
 level_nine::level_nine()
     :
     m_button_in_hand(nullptr),
@@ -783,6 +798,9 @@ void level_nine::update()
     }
 }
 
+// ------------------------------------------------------------------------------------------ //
+//                                          level 10.                                         //
+// ------------------------------------------------------------------------------------------ //
 level_ten::level_ten()
     :
     m_submit_button(add_ui_button("Next"))
