@@ -32,6 +32,18 @@
         <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
         <p id="output" />
         <script>
+            var mouse_in_canvas_flag = true;
+
+            function setupMouseEvents(canvas) {
+                canvas.addEventListener("mouseleave", () => {
+                    mouse_in_canvas_flag = false;
+                });
+
+                canvas.addEventListener("mouseenter", () => {
+                    mouse_in_canvas_flag = true;
+                });
+            }
+
             var Module = {
                 print: (function() {
                     var element = document.getElementById('output');

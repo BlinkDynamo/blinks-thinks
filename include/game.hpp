@@ -76,6 +76,9 @@ namespace engine
             // Returns a vector of randomized, unique, Raylib-defined colors of size 'count'.
             vector<Color> get_random_color_sequence(size_t count);
 
+            // Checks if the cursor is inside the canvas.
+            bool mouse_in_canvas();
+
             // Getters and setters.
             static const string get_game_version() { return m_game_version; }
             static const string get_game_name() { return m_game_name; }

@@ -28,6 +28,14 @@ using engine::game;
 #include <algorithm>
 #include <unordered_set>
 
+#ifdef PLATFORM_WEB
+#include <emscripten.h>
+namespace web
+{
+    EM_JS(int, mouse_in_canvas, (), { return mouse_in_canvas_flag ? 1 : 0; } );
+}
+#endif
+
 game& game::get_instance()
 {
     static game instance;
@@ -128,4 +136,12 @@ vector<Color> game::get_random_color_sequence(size_t count)
     vector<Color> palate = m_bright_colors;
     std::shuffle(palate.begin(), palate.end(), m_random_generator);
     return {palate.begin(), palate.begin() + static_cast<long>(count)};
+}
+
+bool game::mouse_in_canvas() {
+    #ifdef PLATFORM_WEB
+    return web::mouse_in_canvas();
+    #else
+    return IsWindowFocused();
+    #endif
 }

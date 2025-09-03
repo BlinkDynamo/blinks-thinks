@@ -474,6 +474,8 @@ void level_five::update()
 {
     level::update();
 
+    bool level_lost = false;
+
     // update the timer once per 60 frames.
     m_frames_counter++; 
     if (m_frames_counter == 60) {
@@ -495,10 +497,18 @@ void level_five::update()
     // The player will lose if any button is hovered, or if the window (game) becomes unfocused.
     for (button* btn : get_buttons()) {
         if (btn->is_hovered()) {
-            delete m_game.get_current_level();
-            m_game.set_current_level(new level_lose());
-            return;
+            level_lost = true;    
         }
+    }
+
+    if (!m_game.mouse_in_canvas()) {
+        level_lost = true;
+    }
+
+    if (level_lost) {
+        delete m_game.get_current_level();
+        m_game.set_current_level(new level_lose());
+        return;
     }
 }
 
