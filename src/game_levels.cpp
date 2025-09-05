@@ -28,6 +28,7 @@ using engine::game;
 // Standard library.
 #include <iterator>
 #include <algorithm>
+#include <limits.h>
 
 using std::to_string;
 
@@ -118,6 +119,10 @@ void level_lose::update()
     // Pitch down the current music track.
     constexpr float epsilon = 0.0001f;
     if (m_game.get_current_music_pitch() > 0.8f + epsilon) {
+        GAME_ASSERT(
+            m_game.get_current_music() != nullptr,
+            "The current music was null when attempted to be dereferenced."
+        );
         SetMusicPitch(*m_game.get_current_music(), m_game.get_current_music_pitch());
         m_game.set_current_music_pitch(m_game.get_current_music_pitch() - 0.01);
     }
@@ -657,24 +662,106 @@ void level_seven::update()
 // ------------------------------------------------------------------------------------------ //
 //                                          level 8.                                          //
 // ------------------------------------------------------------------------------------------ //
-level_eight::level_eight()
-    :
-    m_submit_button(add_ui_button("Next"))
+vector<int> level_eight::get_fib_sequence(size_t length)
 {
-    //
-    // Main level_title and instructions.
-    //
-    add_simple_text("level 8", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+    vector<int> sequence(length);
+    int a, b, c;
+    a = b = 1;
+    for (size_t i = 0; i != length; ++i) {
+        sequence[i] = a;
+        GAME_ASSERT(
+        a + b < INT_MAX,
+        "INT_MAX was exceeded when trying to calculate a member of a fibbonacci sequence of the requested size.
+        );
+       c = a + b;
+       a = b;
+       b = c; }
+    return sequence;
+}
+
+level_eight::level_eight()
+{
+    
+    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+
+    add_simple_text("What number comes next?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
+        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+
+    vector<int> fib_sequence = this->get_fib_sequence(m_fib_seq_len);
+    string fib_str = "";
+    int start_index = m_game.get_random_value(0, m_fib_seq_len - (m_choice_count - 1));
+    for (int i = start_index; i < start_index + m_choice_count; ++i) {
+        fib_str += to_string(fib_sequence[i]);
+        fib_str += ", ";
+    }   
+    fib_str += "?";
+
+    add_simple_text(fib_str, 40, YELLOW, {m_game.get_cw(), m_game.get_ch() - 100}, 0)
+        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+
+    vector<Vector2> button_positions = {
+        {m_game.get_cw() + 122, m_game.get_ch() - 250},
+        {m_game.get_cw() - 275, m_game.get_ch()},
+        {m_game.get_cw() - 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 275, m_game.get_ch()},
+        {m_game.get_cw(), m_game.get_ch() + 50}
+    };
+
+    vector<int> button_values = m_game.get_random_sequence(m_choice_count - 2, m_min_choice, m_max_choice);
+    button_values.insert(button_values.begin(), fib_sequence[start_index + m_choice_count]);
+    button_values.insert(button_values.begin(), 8);
+
+    vector<Color> button_colors = m_game.get_random_color_sequence(m_choice_count - 1);
+    button_colors.insert(button_colors.begin(), ORANGE);
+    
+    // Ensure all the vectors are constructed to the same proper size.
+    GAME_ASSERT(
+        (button_positions.size() == m_choice_count) &&
+        (button_values.size() == m_choice_count) &&
+        (button_colors.size() == m_choice_count),
+        "Not all button construction vectors are of the class-defined size (m_choice_count)."
+    );
+
+    // Get 3 iterators for each of these vectors, and *it++ them throughout the loop.
+    vector<Vector2>::iterator positions_it = button_positions.begin();
+    vector<int>::iterator values_it = button_values.begin();
+    vector<Color>::iterator colors_it = button_colors.begin();
+
+    size_t buttons_created = 0;
+
+    // Level number button.
+    add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++);
+    ++buttons_created;
+
+    // Correct answer.
+    m_correct_button = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+    ++buttons_created;
+
+    // All other incorrect choices.
+    while (buttons_created != m_choice_count) {
+        add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+        ++buttons_created;
+    }
 }
 
 void level_eight::update()
 {
-    level::update(); 
+    level::update();
 
-    if (m_submit_button->is_pressed()) {
+    if (m_correct_button->is_pressed()) {
         delete m_game.get_current_level();
         m_game.set_current_level(new level_nine());
         return;
+    }
+    else {
+        for (button* btn : get_buttons()) {
+            if (btn->is_pressed()) {
+                delete m_game.get_current_level();
+                m_game.set_current_level(new level_lose());
+                return;
+            }
+        }
     }
 }
 

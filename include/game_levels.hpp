@@ -194,7 +194,9 @@ class level_eight : public engine::level
         void update() override;
 
     private:
-        button* m_submit_button;
+        static constexpr int m_choice_count = 6, m_min_choice = 1, m_max_choice = 1000, m_fib_seq_len = 20; 
+        vector<int> get_fib_sequence(size_t length); 
+        button* m_correct_button;
 };
 
 class level_nine : public engine::level
