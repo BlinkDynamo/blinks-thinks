@@ -53,7 +53,7 @@ game::game()
 
     // Setup the audio device.
     InitAudioDevice();
-    SetAudioStreamBufferSizeDefault(4096);
+    SetAudioStreamBufferSizeDefault(16384);
 
     // Load all music tracks into 'm_music_tracks'.
     m_music_tracks["title_theme"] = LoadMusicStream("res/music/title_theme.ogg");
@@ -78,7 +78,9 @@ void game::run()
         // ---------------------------------------------------------------------------------- //
         //                                      update.                                       //
         // ---------------------------------------------------------------------------------- //
-        if (m_current_music != nullptr) UpdateMusicStream(*m_current_music);
+        if (m_current_music) { UpdateMusicStream(*m_current_music); }
+        if (m_music_mixer.active) { update_music_mixer(); }
+
         if (m_current_level != nullptr) m_current_level->update();
 
         // ---------------------------------------------------------------------------------- //
@@ -93,6 +95,54 @@ void game::run()
     }
 }
 
+void game::set_current_music(string track_name)
+{
+    Music* current_music = m_current_music;
+    Music* new_music = &m_music_tracks[track_name];
+
+    if (current_music == new_music) { return; }
+
+    m_music_mixer.old_music = current_music;
+    m_music_mixer.new_music = new_music;
+    m_music_mixer.steps = 90;
+    m_music_mixer.current_step = 0;
+    m_music_mixer.active = true;
+
+    if (new_music) {
+        PlayMusicStream(*new_music);
+        SetMusicVolume(*new_music, 0.0f);
+    }
+}
+
+void game::update_music_mixer()
+{
+    if (m_music_mixer.old_music) {
+        SetMusicVolume(
+            *m_music_mixer.old_music,
+            (m_music_mixer.steps - m_music_mixer.current_step) / static_cast<float>(m_music_mixer.steps)
+        ); 
+        UpdateMusicStream(*m_music_mixer.old_music);
+    }
+
+    if (m_music_mixer.new_music) {
+        SetMusicVolume(
+            *m_music_mixer.new_music,
+            m_music_mixer.current_step / static_cast<float>(m_music_mixer.steps)
+        ); 
+        UpdateMusicStream(*m_music_mixer.new_music);
+    }
+
+    m_music_mixer.current_step++;
+
+    if (m_music_mixer.current_step > m_music_mixer.steps) {
+        if (m_music_mixer.old_music) {
+            StopMusicStream(*m_music_mixer.old_music);
+        }
+        m_current_music = m_music_mixer.new_music;
+        m_music_mixer.active = false; 
+    }
+}
+        
 int game::get_random_value(int min, int max)
 {
     GAME_ASSERT(max - min > 0, "Invalid range supplied.");

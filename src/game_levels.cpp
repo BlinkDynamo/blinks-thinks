@@ -39,8 +39,7 @@ intro_raylib::intro_raylib()
     :
     m_animation(add_entity(new anim_raylib()))
 {
-    m_game.set_current_music_by_name("title_theme"); 
-    PlayMusicStream(*m_game.get_current_music());
+    m_game.set_current_music("title_theme"); 
 }
 
 void intro_raylib::update() {
@@ -143,8 +142,7 @@ intro_section_one::intro_section_one()
     add_simple_text("Levels 1-10: Numbers", 60, GREEN, {m_game.get_cw(), m_game.get_ch() - 100}, 0);
 
     // Set the music track. 
-    m_game.set_current_music_by_name("no_stopping_now");
-    PlayMusicStream(*m_game.get_current_music());
+    m_game.set_current_music("no_stopping_now");
 }
 
 void intro_section_one::update()

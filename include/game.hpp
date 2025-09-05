@@ -94,12 +94,8 @@ namespace engine
             void set_current_level(level* level){ m_current_level = level; }
 
             Music* get_current_music() { return m_current_music; }
-            void set_current_music(Music* music) { m_current_music = music; }
-
-            void set_current_music_by_name(string track_name)
-            {
-                m_current_music = &m_music_tracks[track_name];
-            }
+            void set_current_music(string track_name);
+            void update_music_mixer();
 
             void set_current_music_pitch(float pitch) { m_current_music_pitch = pitch; }
             float get_current_music_pitch() { return m_current_music_pitch; }
@@ -127,6 +123,15 @@ namespace engine
 
             // The current song being played.
             Music* m_current_music;
+
+            // The structure to handle fading between two music tracks.
+            struct {
+                Music* old_music = nullptr;
+                Music* new_music = nullptr;
+                int steps = 20;
+                int current_step = 0;
+                bool active = false;
+            } m_music_mixer;
 
             // The pitch that the current song is being played at (normal is 1.0).
             float m_current_music_pitch; 
