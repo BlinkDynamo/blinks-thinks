@@ -56,8 +56,15 @@ game::game()
     SetAudioStreamBufferSizeDefault(16384);
 
     // Load all music tracks into 'm_music_tracks'.
-    m_music_tracks["title_theme"] = LoadMusicStream("res/music/title_theme.ogg");
-    m_music_tracks["no_stopping_now"] = LoadMusicStream("res/music/no_stopping_now.ogg"); 
+    m_music_tracks.emplace("title_theme", LoadMusicStream("res/music/title_theme.ogg"));
+    m_music_tracks.emplace("no_stopping_now", LoadMusicStream("res/music/no_stopping_now.ogg")); 
+
+    // Load all sound effects into 'm_sound_effects' with needed adjustments.
+    m_sound_effects.emplace("click", LoadSound("res/sfx/click.ogg"));
+    SetSoundVolume(m_sound_effects.at("click"), 0.22f);
+
+    m_sound_effects.emplace("grab", LoadSound("res/sfx/grab.ogg"));
+    SetSoundVolume(m_sound_effects.at("grab"), 0.40f);
 }
 
 game::~game()
@@ -65,6 +72,11 @@ game::~game()
     // Unload all the music tracks.
     for (const auto& [name, music] : m_music_tracks) {
         UnloadMusicStream(music);
+    }
+
+    // Unload all the sounds.
+    for (const auto& [name, sound] : m_sound_effects) {
+        UnloadSound(sound);
     }
 
     CloseAudioDevice();
@@ -142,7 +154,7 @@ void game::update_music_mixer()
         m_music_mixer.active = false; 
     }
 }
-        
+
 int game::get_random_value(int min, int max)
 {
     GAME_ASSERT(max - min > 0, "Invalid range supplied.");

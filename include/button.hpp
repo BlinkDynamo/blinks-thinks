@@ -54,6 +54,8 @@ namespace engine
 
             void set_scale(float scale) { m_scale = scale; }
 
+            void set_sfx_press(Sound sfx_press) { m_sfx_press = sfx_press; }
+
         private:
             text* m_text_obj;           // The pointer to the text object of the button. The
                                         // button handles updating and drawing it's child text
@@ -79,5 +81,7 @@ namespace engine
 
             float m_scale;              // What 'm_rectangle' and the text object's 'm_fontSize'
                                         // are multiplied by.
+
+            Sound m_sfx_press;          // The sound effect played when the button is pressed.
     };
 }

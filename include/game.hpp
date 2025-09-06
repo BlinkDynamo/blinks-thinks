@@ -95,10 +95,13 @@ namespace engine
 
             Music* get_current_music() { return m_current_music; }
             void set_current_music(string track_name);
+
             void update_music_mixer();
 
             void set_current_music_pitch(float pitch) { m_current_music_pitch = pitch; }
             float get_current_music_pitch() { return m_current_music_pitch; }
+            
+            Sound get_sound_effect(string sound_name) { return m_sound_effects.at(sound_name); }
 
         private:
             game();
@@ -135,6 +138,9 @@ namespace engine
 
             // The pitch that the current song is being played at (normal is 1.0).
             float m_current_music_pitch; 
+
+            // All sounds effects loaded on construction and referenced by their sound names.
+            unordered_map<string, Sound> m_sound_effects;
 
             // The random number engine for the game instance.
             std::default_random_engine m_random_generator;
