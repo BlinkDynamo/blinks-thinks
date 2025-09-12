@@ -224,5 +224,11 @@ class level_ten : public engine::level
         void update() override;
 
     private:
+        label* m_label_in_hand;
+        label* m_submit_box;
+        button* m_button_in_hand;
+        button* m_holdable_number;
         button* m_submit_button;
+        static constexpr int m_choice_count = 5;
+        vector<button*> m_correct_button_layout;
 };

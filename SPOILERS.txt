@@ -206,12 +206,13 @@ Lose Condition:
     * 'Submit' is pressed, and the numbers on the screen are not ordered largest to smallest, left to right.
 
 [LEVEL 10]
-Question: "Put the largest 2-digit number in the box"
+Question: "Put the largest number in the box"
 
 Win Condition:
     * 'Submit' is pressed with the largest number on the level inside the box.
-      For this level, the largest number will always be hidden. It will be hidden underneath a random number.
-      This number it's beneath will have a background label the same color as the background.
+      For this level, only one number will be movable. The trick is that the submit box is also movable.
+      You must drag the single, movable number to the correct side of the largest non-movable number,
+      then drag the submit box over the created number.
 
 After completing this level successfully, advance to the [WIN] level.
 

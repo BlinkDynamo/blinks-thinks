@@ -24,6 +24,7 @@
 #include "game_levels.hpp"
 
 using engine::game;
+using engine::entity;
 
 // Standard library.
 #include <iterator>
@@ -915,21 +916,140 @@ void level_nine::update()
 // ------------------------------------------------------------------------------------------ //
 level_ten::level_ten()
     :
-    m_submit_button(add_ui_button("Next"))
+    m_label_in_hand(nullptr),
+    m_submit_box(add_entity(new label(BLACK, WHITE, {250, 150}, 9, {m_game.get_cw(), m_game.get_ch() - 25}, -10))),
+    m_button_in_hand(nullptr),
+    m_submit_button(add_ui_button("Submit"))
 {
     //
     // Main level_title and instructions.
     //
-    add_simple_text("level 10", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+
+    add_simple_text("Put the largest number in the box", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
+        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+
+    //
+    // button creation.
+    //
+    m_correct_button_layout.reserve(m_choice_count);
+
+    vector<Vector2> button_positions = {
+        {m_game.get_cw() + 122, m_game.get_ch() - 250},
+        {m_game.get_cw() - 275, m_game.get_ch()},
+        {m_game.get_cw() - 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() + 275, m_game.get_ch()}
+    };
+
+    // Get a sequence of 4 random numbers, then insert the level number (10) at the beginning.
+    vector<int> button_values = m_game.get_random_sequence(4, 1, 99, {10});
+    button_values.insert(button_values.begin(), 10);
+
+    // Get a sequence of 4 random colors, then insert the level number's color (GOLD) at the beginning.
+    vector<Color> button_colors = m_game.get_random_color_sequence(4);
+    button_colors.insert(button_colors.begin(), ORANGE);
+    
+    // Ensure all the vectors are constructed to the same proper size.
+    GAME_ASSERT(
+        (button_positions.size() == m_choice_count) &&
+        (button_values.size() == m_choice_count) &&
+        (button_colors.size() == m_choice_count),
+        "Not all button construction vectors are of the class-defined size (m_choice_count)."
+    );
+
+    // Get 3 iterators for each of these vectors, and *it++ them throughout the loop.
+    vector<Vector2>::iterator positions_it = button_positions.begin();
+    vector<int>::iterator values_it = button_values.begin();
+    vector<Color>::iterator colors_it = button_colors.begin();
+
+    while (m_correct_button_layout.size() < m_choice_count) {
+        button* newest_button = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+        m_correct_button_layout.push_back(newest_button);
+    }
+    
+    // Sort based on button string values, left to right, greatest to least.
+    sort(m_correct_button_layout.begin(), m_correct_button_layout.end(),
+        [](button* a, button* b) {
+            return stoi(a->get_text()) > stoi(b->get_text());
+        }
+    );
+    // Remove all members except for the first two. Since only one number will be movable,
+    // the greatest number possible to put inside the box is the movable number along with the
+    // greatest non-movable number. The movable number will need to be put on the correct side
+    // of the immovable number in order to create the largest number possible.
+    m_correct_button_layout.erase(m_correct_button_layout.begin() + 2, m_correct_button_layout.end());
+
+    this->m_holdable_number = m_correct_button_layout.at(0);
 }
 
 void level_ten::update()
 {
-    level::update();
+    level::update(); 
 
+    // The number-dragging can be this simple because all buttons are numbers except the 'Submit' button.
+    if (m_holdable_number->is_pressed()) { 
+        m_button_in_hand = m_holdable_number; 
+    }
+    else if (m_submit_box->is_pressed()) {
+        m_label_in_hand = m_submit_box;
+    }
+
+    const bool button_is_being_held = (IsMouseButtonDown(0) && m_button_in_hand != nullptr);
+    const bool label_is_being_held = (IsMouseButtonDown(0) && m_label_in_hand != nullptr);
+
+    if (button_is_being_held) {
+        m_button_in_hand->set_position(GetMousePosition());
+    }
+    else if (label_is_being_held) {
+        m_label_in_hand->set_position(GetMousePosition());
+    }
+    else {
+        m_button_in_hand = nullptr;
+    }
+    //
+    // On submission, add every button inside of the submission box to a vector, then organize
+    // their text object's text strings in the same order that they exist spatially. Save this
+    // created number to a string and check if it matches 'm_correct_number'.
+    //
     if (m_submit_button->is_pressed()) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new level_title());
-        return;
+
+        vector<button*> numbers_in_box; // For buttons that are inside of the submission box.
+        numbers_in_box.reserve(m_choice_count);
+
+        for (button* btn : get_buttons()) {
+            if (btn == m_submit_button) { continue; }
+            if (CheckCollisionRecs(btn->get_rectangle(), m_submit_box->get_rectangle())) {
+                vector<button*>::iterator it = numbers_in_box.begin();
+                while (it != numbers_in_box.end() && (*it)->get_position().x <= btn->get_position().x) {
+                    ++it;
+                }
+                numbers_in_box.insert(it, btn);
+            }
+        }
+
+        // Assume true and override if proven false. 
+        bool answer_was_chosen = true;
+        vector<button*>::iterator choice_it = numbers_in_box.begin();
+        vector<button*>::iterator answer_it = m_correct_button_layout.begin();
+
+        if (numbers_in_box.size() != m_correct_button_layout.size()) { answer_was_chosen = false; }
+
+        for (; choice_it != numbers_in_box.end() && answer_it != m_correct_button_layout.end(); ++choice_it, ++answer_it) {
+            if ((*choice_it)->get_text() != (*answer_it)->get_text()) {
+                answer_was_chosen = false;
+            }
+        }
+
+        if (answer_was_chosen) {
+            delete m_game.get_current_level();
+            m_game.set_current_level(new level_ten());
+            return;
+        }
+        else {
+            delete m_game.get_current_level();
+            m_game.set_current_level(new level_lose());
+            return;
+        }
     }
 }
