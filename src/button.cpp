@@ -125,7 +125,7 @@ void button::update()
         m_current_text_color = m_default_text_color;
     }
 
-    if (is_pressed() && IsSoundReady(m_sfx_press)) {
+    if (is_pressed()/* && IsSoundReady(m_sfx_press)*/) {
         PlaySound(m_sfx_press);
     }
 

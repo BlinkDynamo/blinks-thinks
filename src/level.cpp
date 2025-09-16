@@ -40,29 +40,48 @@ level::level()
     // Create a base simple background for all 'level' objects for now.
     add_entity(new background(GRAY, { 200, 200, 200, 255 }, 50));
 
+    string version_and_build_display_str  = ("v" + game::get_game_version());
+    float version_and_build_display_spacing;
+    #ifndef NDEBUG
+        version_and_build_display_str += " debug";
+        version_and_build_display_spacing = 74.0f;
+    #else
+        version_and_build_display_str += " release";
+        version_and_build_display_spacing = 84.0f;
+    #endif
+
     // Display the current version number in the bottom right.
-    add_entity(new text("v" + game::get_game_version(), 20, RAYWHITE, {0, 0, 0, 0}, {game::get_w() - 40, 20}, 1000));
-    }
+    add_entity(
+        new text(
+            version_and_build_display_str,
+            20,
+            RAYWHITE,
+            {0, 0, 0, 0},
+            {game::get_w() - version_and_build_display_spacing, 20},
+            1000
+        )
+    );
+}
 
-    level::~level()
-    {
-        // Delete all 'entity' objects in 'entities', then clear the vector.
-        for (entity* ent : m_entities) {
-            delete ent;
-        }
-        m_entities.clear();
-
-        // Only clearing the vector m_buttons is needed, as all were deleted in the prior step.
-        m_buttons.clear();
+level::~level()
+{
+    // Delete all 'entity' objects in 'entities', then clear the vector.
+    for (entity* ent : m_entities) {
+        delete ent;
     }
+    m_entities.clear();
 
-    void level::update()
-    {
-        // update each 'entity' object in 'entities'.
-        for (const auto& ent : m_entities) {
-            ent->update();
-        }
+    // Only clearing the vector m_buttons is needed, as all were deleted in the prior step.
+    m_buttons.clear();
+}
+
+void level::update()
+{
+    // update each 'entity' object in 'entities'.
+    for (const auto& ent : m_entities) {
+        ent->update();
     }
+}
 
 void level::draw()
 {
