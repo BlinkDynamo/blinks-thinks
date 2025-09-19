@@ -45,12 +45,38 @@ If you would like to build the game locally, you will need these hard dependenci
 Along with this soft dependency:
 - python (for locally hosting an http server)
 
+The raylib submodule is used to compile the web library, and later the web game. Your system
+installed version is used to compile the native game. This simplifies the build immensely, as
+no logic needs to be included in the Makefile for various native Linux build platforms.
+
+Fedora
+```bash
+# First, install all of the dependencies available via dnf.
+sudo dnf install make clang++ raylib-devel
+
+# Optionally, install python if you'd like to locally host a http server.
+sudo dnf install python
+
+# Then, install and configure emscripten. 
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+git pull
+./emsdk install latest
+./emsdk activate latest
+source ./emsdk_env.sh
+```
+
 ## Build Instructions
 To begin, clone the project and go to the root of the repository:
 
 ```bash
 git clone https://github.com/BlinkDynamo/blinks-thinks.git blinks-thinks
 cd blinks-thinks/
+```
+
+Update the raylib submodule. You will need this alongside your system-installed version of raylib.
+```bash
+git submodule update --init --recursive
 ```
 
 You can now build either for web, or native Linux. A simple 'make' builds both:
@@ -64,7 +90,6 @@ make web
 # Native and web build.
 make
 ``` 
-
 ## Play Natively
 If the project built successfully, you now have various options to play the game: 
 
