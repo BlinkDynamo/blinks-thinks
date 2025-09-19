@@ -42,8 +42,7 @@ If you would like to build the game locally, you will need these hard dependenci
 - emscripten
 - raylib (installed, not just the submodule)
 
-Along with these soft dependencies (according to your needs):
-- valgrind (for development and leak checks)
+Along with this soft dependency:
 - python (for locally hosting an http server)
 
 ## Build Instructions
@@ -71,15 +70,17 @@ If the project built successfully, you now have various options to play the game
 
 For native build:
 ```bash
-# Simple call (no valgrind).
-./build/blinks-thinks
+# To play the release version (no assertions).
+./build/blinks-thinks/native/release/blinks_thinks
 
-# Call with valgrind (uses .supp files in valgrind/supp and logs to valgrind/log).
-./valgrind/run.sh
+# To play the debug version (assertions).
+./build/blinks-thinks/native/debug/blinks_thinks
 ```
 
 For web build:
 ```bash
+# NOTE: The web build will always be a release build (no assertions).
+
 # Start the http server.
 make serve
 
@@ -88,7 +89,7 @@ firefox localhost:8080/blinks-thinks.html
 ```
 
 ## Cleanup
-Should you want to clean the build/ and tests/ directories:
+Should you want to clean the build files.
 ```bash
 make clean
 ```
