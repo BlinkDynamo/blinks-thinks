@@ -71,10 +71,10 @@ If the project built successfully, you now have various options to play the game
 For native build:
 ```bash
 # To play the release version (no assertions).
-./build/blinks-thinks/native/release/blinks_thinks
+./build/native/release/blinks_thinks
 
 # To play the debug version (assertions).
-./build/blinks-thinks/native/debug/blinks_thinks
+./build/native/debug/blinks_thinks
 ```
 
 For web build:
