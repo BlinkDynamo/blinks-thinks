@@ -37,9 +37,8 @@ using std::to_string;
 //                                     Raylib animation.                                      //
 // ------------------------------------------------------------------------------------------ //
 intro_raylib::intro_raylib()
-    :
-    m_animation(add_entity(new anim_raylib()))
 {
+    this->m_animation = add_entity(new anim_raylib());
     m_game.set_current_music("title_theme"); 
 }
 
@@ -62,9 +61,9 @@ void intro_raylib::update() {
 //                                   Self credit animation.                                   //
 // ------------------------------------------------------------------------------------------ //
 intro_self_credit::intro_self_credit()
-    :
-    m_animation(add_entity(new anim_self_credit()))
-{}
+{
+    this->m_animation = add_entity(new anim_self_credit());
+}
 
 void intro_self_credit::update()
 {
@@ -81,13 +80,38 @@ void intro_self_credit::update()
 //                                       Title screen.                                        //
 // ------------------------------------------------------------------------------------------ //
 level_title::level_title()
-    :
-    m_game_title_text{
-        .text_obj = add_simple_text("Blink's Thinks", 100, m_game_title_text.text_color, {m_game.get_cw(), m_game.get_ch() - 100}, 0)
-    },
-    m_play_button(add_ui_button("Play"))
 {
+    this->m_game_title_text.text_obj = add_simple_text(
+        "Blink's Thinks",
+        100,
+        m_game_title_text.text_color,
+        {m_game.get_cw(), m_game.get_ch() - 100},
+        0
+    );
+    this->m_play_button = add_ui_button("Play");
     this->m_game_title_text.text_obj->add_anim_rotate(0.0f, 5.0f, 2.5f);
+    
+    string version_and_build_display_str  = ("v" + game::get_game_version());
+    float version_and_build_display_spacing;
+    #ifndef NDEBUG
+        version_and_build_display_str += " debug";
+        version_and_build_display_spacing = 74.0f;
+    #else
+        version_and_build_display_str += " release";
+        version_and_build_display_spacing = 84.0f;
+    #endif
+
+    // Display the current version number in the bottom right.
+    add_entity(
+        new text(
+            version_and_build_display_str,
+            20,
+            RAYWHITE,
+            {0, 0, 0, 0},
+            {game::get_w() - version_and_build_display_spacing, 20},
+            1000
+        )
+    );
 }
 
 void level_title::update()
@@ -105,9 +129,8 @@ void level_title::update()
 //                                        Lose screen.                                        //
 // ------------------------------------------------------------------------------------------ //
 level_lose::level_lose()
-    :
-    m_restart_button(add_ui_button("Restart"))
 {
+    this->m_restart_button = add_ui_button("Restart");
     add_simple_text("game over!", 100, RED, {m_game.get_cw(), m_game.get_ch() - 100}, 0)
         ->add_anim_rotate(0.0f, 5.0f, 2.5f);
 }
@@ -138,9 +161,16 @@ void level_lose::update()
 //                               Section Introduction: Numbers.                               //
 // ------------------------------------------------------------------------------------------ //
 intro_section_one::intro_section_one()
-    : m_frames_counter(0)
 {
-    add_simple_text("Levels 1-10: Numbers", 60, GREEN, {m_game.get_cw(), m_game.get_ch() - 100}, 0);
+    this->m_frames_counter = 0;
+
+    add_simple_text(
+        "Levels 1-10: Numbers",
+        60,
+        GREEN,
+        {m_game.get_cw(), m_game.get_ch() - 100},
+        0
+    );
 
     // Set the music track. 
     m_game.set_current_music("no_stopping_now");
@@ -149,6 +179,7 @@ intro_section_one::intro_section_one()
 void intro_section_one::update()
 {
     level::update();
+
     ++m_frames_counter;
 
     // Pitch back up the current music track if it's below 1.0. Since the player will always
@@ -171,10 +202,22 @@ void intro_section_one::update()
 // ------------------------------------------------------------------------------------------ //
 level_one::level_one() 
 {
-    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+    add_simple_text(
+        "level  ",
+        80,
+        ORANGE,
+        {m_game.get_cw() - 4, m_game.get_ch() - 250},
+        0
+    );
 
-    add_simple_text("What is the largest number?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "What is the largest number?",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(), m_game.get_ch() - 150},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
     
     vector<button*> choices(m_choice_count);
 
@@ -211,7 +254,12 @@ level_one::level_one()
     vector<button*> choosable_buttons(m_choice_count);
 
     for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
-        choosable_buttons[loop_count] = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+        choosable_buttons[loop_count] = add_text_button(
+            to_string(*values_it++),
+            80,
+            *colors_it++,
+            *positions_it++
+        ); 
     }
 
     // Set 'm_correct_button' to the choice with the smallest value.
@@ -248,10 +296,22 @@ void level_one::update()
 // ------------------------------------------------------------------------------------------ //
 level_two::level_two()
 {
-    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+    add_simple_text(
+        "level  ",
+        80,
+        ORANGE,
+        {m_game.get_cw() - 4, m_game.get_ch() - 250},
+        0
+    );
 
-    add_simple_text("What is the smallest number?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "What is the smallest number?",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(), m_game.get_ch() - 150},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
     
     vector<button*> choices(m_choice_count);
 
@@ -267,7 +327,7 @@ level_two::level_two()
     vector<int> button_values = m_game.get_random_sequence(4, m_min_choice, m_max_choice, {2});
     button_values.insert(button_values.begin(), 2);
 
-    // Get a sequence of 4 random colors, then insert the level number's color (GOLD) at the beginning.
+    // Get a sequence of 4 random colors, then insert the level number's color at the beginning.
     vector<Color> button_colors = m_game.get_random_color_sequence(4);
     button_colors.insert(button_colors.begin(), ORANGE);
     
@@ -288,7 +348,12 @@ level_two::level_two()
     vector<button*> choosable_buttons(m_choice_count);
 
     for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
-        choosable_buttons[loop_count] = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+        choosable_buttons[loop_count] = add_text_button(
+            to_string(*values_it++),
+            80,
+            *colors_it++,
+            *positions_it++
+        ); 
     }
 
     // Set 'm_correct_button' to the choice with the smallest value.
@@ -366,11 +431,18 @@ level_three::level_three()
     vector<button*> choosable_buttons(m_choice_count);
 
     for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
-        choosable_buttons[loop_count] = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+        choosable_buttons[loop_count] = add_text_button(
+            to_string(*values_it++),
+            80,
+            *colors_it++,
+            *positions_it++
+        ); 
     }
 
     // Choose a random member of 'choosable_buttons' to be the correct answer. 
-    m_answer.btn = choosable_buttons[static_cast<size_t>(m_game.get_random_value(0, choosable_buttons.size() - 1))];
+    m_answer.btn = choosable_buttons.at(
+        static_cast<size_t>(m_game.get_random_value(0, choosable_buttons.size() - 1))
+    );
 }
 
 void level_three::update()
@@ -410,14 +482,48 @@ void level_three::update()
 // ------------------------------------------------------------------------------------------ //
 level_four::level_four()
 {
-    add_simple_text("level 4", 80, ORANGE, {m_game.get_cw(), m_game.get_ch() - 250}, 0);
+    add_simple_text(
+        "level 4",
+        80,
+        ORANGE,
+        {m_game.get_cw(),
+        m_game.get_ch() - 250},
+        0
+    );
 
-    add_simple_text("How much time do you want for level 5?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "How much time do you want for level 5?",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(),
+        m_game.get_ch() - 150},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
-    add_text_button("2 seconds", 60, m_game.get_random_color(), {m_game.get_cw(), m_game.get_ch() - 50});
-    add_text_button("5 seconds", 60, m_game.get_random_color(), {m_game.get_cw(), m_game.get_ch() + 50});
-    add_text_button("10 seconds", 60, m_game.get_random_color(), {m_game.get_cw(), m_game.get_ch() + 150});
+    add_text_button(
+        "2 seconds",
+        60,
+        m_game.get_random_color(),
+        {m_game.get_cw(),
+        m_game.get_ch() - 50}
+    );
+
+    add_text_button(
+        "5 seconds",
+        60,
+        m_game.get_random_color(),
+        {m_game.get_cw(),
+        m_game.get_ch() + 50}
+    );
+
+    add_text_button(
+        "10 seconds",
+        60,
+        m_game.get_random_color(),
+        {m_game.get_cw(),
+        m_game.get_ch() + 150}
+    );
 }
 
 void level_four::update()
@@ -439,39 +545,150 @@ void level_four::update()
 //                                          level 5.                                          //
 // ------------------------------------------------------------------------------------------ //
 level_five::level_five(string duration)
-    :
-    m_frames_counter(0),
-    m_duration(duration),
-    m_timer(add_text_button(m_duration, 80, RED, {m_game.get_cw(), m_game.get_ch() - 65}))
 {
+    this->m_frames_counter = 0;
+    this->m_duration = duration;
+    this->m_timer = add_text_button(
+        m_duration,
+        80,
+        RED,
+        {m_game.get_cw(), m_game.get_ch() - 65}
+    );
+
     // Main level_title, information, and countdown timer.
-    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+    add_simple_text(
+        "level  ",
+        80,
+        ORANGE,
+        {m_game.get_cw() - 4, m_game.get_ch() - 250},
+        0
+    );
 
-    add_text_button("5", 80, ORANGE, {m_game.get_cw() + 122, m_game.get_ch() - 250});
+    add_text_button(
+        "5",
+        80,
+        ORANGE,
+        {m_game.get_cw() + 122, m_game.get_ch() - 250}
+    );
 
-    add_simple_text("Don't touch any numbers for", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "Don't touch any numbers for",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(), m_game.get_ch() - 150},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
-    add_simple_text("more seconds", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch()}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "more seconds",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(), m_game.get_ch()},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
     // All obstacles.
-    const string long_num_one = "762967340328811348866734234450240332396217777462684390";
-    const string long_num_two = "239427620310921174648449330989407894927458570770003111";
+    const string long_num_one   = "762967340328811348866734234450240332396217777462684390";
+    const string long_num_two   = "239427620310921174648449330989407894927458570770003111";
     const string long_num_three = "230459256723665565627118580006023666643111673444567710";
 
-    add_text_button("68", 120, RED, {m_game.get_cw() - 270, m_game.get_ch() - 500})->set_speed({0, 12});
-    add_text_button(long_num_one, 160, RED, {m_game.get_cw() - 3050, m_game.get_ch() + 250})->set_speed({3, -1});
-    add_text_button(long_num_two, 160, RED, {m_game.get_cw() + 3050, m_game.get_ch() - 230})->set_speed({-3, 1});
-    add_text_button("8043001", 120, RED, {m_game.get_cw() - 200, m_game.get_ch() + 1200})->set_speed({0, -5});
-    add_text_button("3", 120, RED, {m_game.get_cw() + 600, m_game.get_ch()})->set_speed({-1, 0});
-    add_text_button("762", 160, RED, {m_game.get_cw() - 1300, m_game.get_ch()})->set_speed({2, 0});
-    add_text_button("12", 120, RED, {m_game.get_cw() + 1800, m_game.get_ch() - 600})->set_speed({-8, 4});
-    add_text_button("5000006", 120, RED, {m_game.get_cw() + 200, m_game.get_ch() - 3000})->set_speed({0, 7});
-    add_text_button("3078", 80, RED, {m_game.get_cw() - 250, m_game.get_ch() - 3100})->set_speed({0, 7});
-    add_text_button(long_num_three, 150, RED, {m_game.get_cw() + 4550, m_game.get_ch() - 150})->set_speed({-4, 0});
-    add_text_button("7877878447232634", 150, RED, {m_game.get_cw(), m_game.get_ch() + 800})->set_speed({0, -1});
-    add_text_button("64", 120, RED, {m_game.get_cw() + 3000, m_game.get_ch() + 700})->set_speed({-5, -1});
+    add_text_button(
+        "68",
+        120,
+        RED,
+        {m_game.get_cw() - 270, m_game.get_ch() - 500}
+    )
+    ->set_speed({0, 12});
+
+    add_text_button(
+        long_num_one,
+        160,
+        RED,
+        {m_game.get_cw() - 3050, m_game.get_ch() + 250}
+    )
+    ->set_speed({3, -1});
+
+    add_text_button(
+        long_num_two,
+        160,
+        RED,
+        {m_game.get_cw() + 3050, m_game.get_ch() - 230}
+    )
+    ->set_speed({-3, 1});
+
+    add_text_button(
+        "8043001",
+        120,
+        RED,
+        {m_game.get_cw() - 200, m_game.get_ch() + 1200}
+    )
+    ->set_speed({0, -5});
+
+    add_text_button(
+        "3",
+        120,
+        RED,
+        {m_game.get_cw() + 600, m_game.get_ch()}
+    )
+    ->set_speed({-1, 0});
+
+    add_text_button(
+        "762",
+        160,
+        RED,
+        {m_game.get_cw() - 1300, m_game.get_ch()}
+    )
+    ->set_speed({2, 0});
+
+    add_text_button(
+        "12",
+        120,
+        RED,
+        {m_game.get_cw() + 1800, m_game.get_ch() - 600}
+    )
+    ->set_speed({-8, 4});
+
+    add_text_button(
+        "5000006",
+        120,
+        RED,
+        {m_game.get_cw() + 200, m_game.get_ch() - 3000}
+    )
+    ->set_speed({0, 7});
+
+    add_text_button(
+        "3078",
+        80,
+        RED,
+        {m_game.get_cw() - 250, m_game.get_ch() - 3100}
+    )
+    ->set_speed({0, 7});
+
+    add_text_button(
+        long_num_three,
+        150,
+        RED,
+        {m_game.get_cw() + 4550, m_game.get_ch() - 150}
+    )
+    ->set_speed({-4, 0});
+
+    add_text_button(
+        "7877878447232634",
+        150,
+        RED,
+        {m_game.get_cw(), m_game.get_ch() + 800}
+    )
+    ->set_speed({0, -1});
+
+    add_text_button(
+        "64",
+        120,
+        RED,
+        {m_game.get_cw() + 3000, m_game.get_ch() + 700}
+    )
+    ->set_speed({-5, -1});
 }
 
 void level_five::update()
@@ -520,24 +737,71 @@ void level_five::update()
 //                                          level 6.                                          //
 // ------------------------------------------------------------------------------------------ //
 level_six::level_six()
-    :
-    m_correct_button(add_text_button("3", 80, m_game.get_random_color(), {m_game.get_cw() - 225, m_game.get_ch() + 175}))
 {
     //
     // Main level_title and instructions.
     //
-    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
-    add_text_button("6", 80, ORANGE, {m_game.get_cw() + 122, m_game.get_ch() - 250});
+    this->m_correct_button = add_text_button(
+        "3",
+        80,
+        m_game.get_random_color(),
+        {m_game.get_cw() - 225, m_game.get_ch() + 175}
+    );
 
-    add_simple_text("What is the first number of something", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "level  ",
+        80,
+        ORANGE,
+        {m_game.get_cw() - 4, m_game.get_ch() - 250},
+        0
+    );
+
+    add_text_button(
+        "6",
+        80,
+        ORANGE,
+        {m_game.get_cw() + 122, m_game.get_ch() - 250}
+    );
+
+    add_simple_text(
+        "What is the first number of something",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(), m_game.get_ch() - 150},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
     
-    add_simple_text("delicious?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 100}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "delicious?",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(),
+        m_game.get_ch() - 100},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
-    add_text_button("5", 80, m_game.get_random_color(), {m_game.get_cw() - 275, m_game.get_ch()});
-    add_text_button("7", 80, m_game.get_random_color(), {m_game.get_cw() + 225, m_game.get_ch() + 175});
-    add_text_button("9", 80, m_game.get_random_color(), {m_game.get_cw() + 275, m_game.get_ch()});
+    add_text_button(
+        "5",
+        80,
+        m_game.get_random_color(),
+        {m_game.get_cw() - 275, m_game.get_ch()}
+    );
+
+    add_text_button(
+        "7",
+        80,
+        m_game.get_random_color(),
+        {m_game.get_cw() + 225, m_game.get_ch() + 175}
+    );
+
+    add_text_button(
+        "9",
+        80,
+        m_game.get_random_color(),
+        {m_game.get_cw() + 275, m_game.get_ch()}
+    );
 }
 
 void level_six::update()
@@ -564,13 +828,25 @@ void level_six::update()
 //                                          level 7.                                          //
 // ------------------------------------------------------------------------------------------ //
 level_seven::level_seven()
-:
-    m_button_in_hand(nullptr)
 {
-    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+    this->m_button_in_hand = nullptr;
 
-    add_simple_text("Feed the hungry number the proper food", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "level  ",
+        80,
+        ORANGE,
+        {m_game.get_cw() - 4, m_game.get_ch() - 250},
+        0
+    );
+
+    add_simple_text(
+        "Feed the hungry number the proper food",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(), m_game.get_ch() - 150},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
@@ -602,11 +878,27 @@ level_seven::level_seven()
     vector<int>::iterator values_it = button_values.begin();
     vector<Color>::iterator colors_it = button_colors.begin();
     
-    m_button_seven = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++);
-    m_button_nine = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++);
+    m_button_seven = add_text_button(
+        to_string(*values_it++),
+        80,
+        *colors_it++,
+        *positions_it++
+    );
+
+    m_button_nine = add_text_button(
+        to_string(*values_it++),
+        80,
+        *colors_it++,
+        *positions_it++
+    );
 
     for (size_t loop_count = 2; loop_count != m_choice_count; ++loop_count) {
-        add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+        add_text_button(
+            to_string(*values_it++),
+            80,
+            *colors_it++,
+            *positions_it++
+        ); 
     }
 }
 
@@ -625,9 +917,10 @@ void level_seven::update()
     const bool button_is_being_held = (IsMouseButtonDown(0) && m_button_in_hand != nullptr);
 
     if (button_is_being_held) {
-        m_button_in_hand->set_position(GetMousePosition());
-        for (button* btn : get_buttons()) {
 
+        m_button_in_hand->set_position(GetMousePosition());
+
+        for (button* btn : get_buttons()) {
             const bool two_buttons_collided = (
                 btn != m_button_in_hand &&
                 CheckCollisionRecs(m_button_in_hand->get_rectangle(), btn->get_rectangle())
@@ -681,10 +974,24 @@ vector<int> level_eight::get_fib_sequence(size_t length)
 level_eight::level_eight()
 {
     
-    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+    add_simple_text(
+        "level  ",
+        80,
+        ORANGE,
+        {m_game.get_cw() - 4,
+        m_game.get_ch() - 250},
+        0
+    );
 
-    add_simple_text("What number comes next?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "What number comes next?",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(),
+        m_game.get_ch() - 150},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
     // Get a fibbonacci sequence, choosing a random subsequence to display for the player.
     // The final member of this subsequence will be the correct answer.
@@ -747,16 +1054,31 @@ level_eight::level_eight()
     size_t buttons_created = 0;
 
     // Level number button.
-    add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++);
+    add_text_button(
+        to_string(*values_it++),
+        80,
+        *colors_it++,
+        *positions_it++
+    );
     ++buttons_created;
 
     // Correct answer.
-    m_correct_button = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+    m_correct_button = add_text_button(
+        to_string(*values_it++),
+        80,
+        *colors_it++,
+        *positions_it++
+    ); 
     ++buttons_created;
 
     // All other incorrect choices.
     while (buttons_created != m_choice_count) {
-        add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+        add_text_button(
+            to_string(*values_it++),
+            80,
+            *colors_it++,
+            *positions_it++
+        ); 
         ++buttons_created;
     }
 }
@@ -785,18 +1107,41 @@ void level_eight::update()
 //                                          level 9.                                          //
 // ------------------------------------------------------------------------------------------ //
 level_nine::level_nine()
-    :
-    m_button_in_hand(nullptr),
-    m_submit_box(add_entity(new label(BLACK, WHITE, {250, 150}, 9, {m_game.get_cw(), m_game.get_ch() - 25}, -10))),
-    m_submit_button(add_ui_button("Submit"))
 {
+    this->m_button_in_hand = nullptr;
+
     //
     // Main level_title and instructions.
     //
-    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+    add_simple_text(
+        "level  ",
+        80,
+        ORANGE,
+        {m_game.get_cw() - 4, m_game.get_ch() - 250},
+        0
+    );
 
-    add_simple_text("Put the largest number in the box", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "Put the largest number in the box",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(), m_game.get_ch() - 150},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+
+    this->m_submit_box = add_entity(
+        new label(
+            BLACK,
+            WHITE,
+            {250, 150},
+            9,
+            {m_game.get_cw(), m_game.get_ch() - 25},
+            -10
+        )
+    );
+
+    this->m_submit_button = add_ui_button("Submit");
 
     //
     // button creation.
@@ -833,7 +1178,12 @@ level_nine::level_nine()
     vector<Color>::iterator colors_it = button_colors.begin();
 
     while (m_correct_button_layout.size() < m_choice_count) {
-        button* newest_button = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+        button* newest_button = add_text_button(
+            to_string(*values_it++),
+            80,
+            *colors_it++,
+            *positions_it++
+        ); 
         m_correct_button_layout.push_back(newest_button);
     }
     
@@ -890,12 +1240,16 @@ void level_nine::update()
         vector<button*>::iterator choice_it = numbers_in_box.begin();
         vector<button*>::iterator answer_it = m_correct_button_layout.begin();
 
-        if (numbers_in_box.size() != m_correct_button_layout.size()) { answer_was_chosen = false; }
+        if (numbers_in_box.size() != m_correct_button_layout.size()) {
+            answer_was_chosen = false;
+        }
 
-        for (; choice_it != numbers_in_box.end() && answer_it != m_correct_button_layout.end(); ++choice_it, ++answer_it) {
+        while (choice_it != numbers_in_box.end() && answer_it != m_correct_button_layout.end()) {
             if ((*choice_it)->get_text() != (*answer_it)->get_text()) {
                 answer_was_chosen = false;
             }
+            ++choice_it;
+            ++answer_it;
         }
 
         if (answer_was_chosen) {
@@ -915,19 +1269,42 @@ void level_nine::update()
 //                                          level 10.                                         //
 // ------------------------------------------------------------------------------------------ //
 level_ten::level_ten()
-    :
-    m_label_in_hand(nullptr),
-    m_submit_box(add_entity(new label(BLACK, WHITE, {250, 150}, 9, {m_game.get_cw(), m_game.get_ch() - 25}, -10))),
-    m_button_in_hand(nullptr),
-    m_submit_button(add_ui_button("Submit"))
 {
+    this->m_label_in_hand = nullptr;
+    this->m_button_in_hand = nullptr;
+
     //
     // Main level_title and instructions.
     //
-    add_simple_text("level  ", 80, ORANGE, {m_game.get_cw() - 4, m_game.get_ch() - 250}, 0);
+    add_simple_text(
+        "level  ",
+        80,
+        ORANGE,
+        {m_game.get_cw() - 4, m_game.get_ch() - 250},
+        0
+    );
 
-    add_simple_text("Put the largest number in the box", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        "Put the largest number in the box",
+        40,
+        RAYWHITE,
+        {m_game.get_cw(), m_game.get_ch() - 150},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+
+    this->m_submit_box = add_entity(
+        new label(
+            BLACK,
+            WHITE,
+            {250, 150},
+            9,
+            {m_game.get_cw(), m_game.get_ch() - 25},
+            -10
+        )
+    );
+
+    this->m_submit_button = add_ui_button("Submit");
 
     //
     // button creation.
@@ -964,7 +1341,12 @@ level_ten::level_ten()
     vector<Color>::iterator colors_it = button_colors.begin();
 
     while (m_correct_button_layout.size() < m_choice_count) {
-        button* newest_button = add_text_button(to_string(*values_it++), 80, *colors_it++, *positions_it++); 
+        button* newest_button = add_text_button(
+            to_string(*values_it++),
+            80,
+            *colors_it++,
+            *positions_it++
+        ); 
         m_correct_button_layout.push_back(newest_button);
     }
     
@@ -1035,10 +1417,12 @@ void level_ten::update()
 
         if (numbers_in_box.size() != m_correct_button_layout.size()) { answer_was_chosen = false; }
 
-        for (; choice_it != numbers_in_box.end() && answer_it != m_correct_button_layout.end(); ++choice_it, ++answer_it) {
+        while(choice_it != numbers_in_box.end() && answer_it != m_correct_button_layout.end()) {
             if ((*choice_it)->get_text() != (*answer_it)->get_text()) {
                 answer_was_chosen = false;
             }
+            ++choice_it;
+            ++answer_it;
         }
 
         if (answer_was_chosen) {

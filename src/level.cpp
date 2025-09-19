@@ -38,29 +38,7 @@ level::level()
     m_game(game::get_instance())
 {
     // Create a base simple background for all 'level' objects for now.
-    add_entity(new background(GRAY, { 200, 200, 200, 255 }, 50));
-
-    string version_and_build_display_str  = ("v" + game::get_game_version());
-    float version_and_build_display_spacing;
-    #ifndef NDEBUG
-        version_and_build_display_str += " debug";
-        version_and_build_display_spacing = 74.0f;
-    #else
-        version_and_build_display_str += " release";
-        version_and_build_display_spacing = 84.0f;
-    #endif
-
-    // Display the current version number in the bottom right.
-    add_entity(
-        new text(
-            version_and_build_display_str,
-            20,
-            RAYWHITE,
-            {0, 0, 0, 0},
-            {game::get_w() - version_and_build_display_spacing, 20},
-            1000
-        )
-    );
+    add_entity(new background(GRAY, { 200, 200, 200, 255 }, 50)); 
 }
 
 level::~level()
