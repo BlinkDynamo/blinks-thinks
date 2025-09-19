@@ -14,10 +14,10 @@
 ## Description
 Blink's Thinks is a self-hosting point-and-click puzzle game.
 
-It runs on it's own engine built using raylib and C++.  It is currently compilable for Linux
-(clang++) and web (Emscripten). The project uses GitHub Pages to host the web-compiled game
-in a separate branch, 'gh-pages'. GitHub Workflows re-compiles the game to this branch on each
-push.
+It runs on a simple C++ engine that uses raylib + raylib modules at it's core.  It is currently
+compilable for Linux (clang++) and web (Emscripten). The project uses GitHub Pages to host the
+web-compiled game in a separate branch, 'gh-pages'. GitHub Workflows re-compiles the game to
+this branch on each push.
 
 ## Play Online
 To play the most recent commit of the game hosted on GitHub Pages, go [here](https://blinkdynamo.github.io/blinks-thinks/).
