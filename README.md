@@ -64,6 +64,9 @@ git pull
 ./emsdk install latest
 ./emsdk activate latest
 source ./emsdk_env.sh
+
+# Now go back to wherever to wish to clone and build 'blinks-thinks'.
+cd ../
 ```
 
 ## Build Instructions
