@@ -89,6 +89,16 @@ class level_lose : public engine::level
         button* m_restart_button;
 };
 
+class level_win : public engine::level
+{
+    public:
+        level_win();
+        void update() override;
+
+    private:
+        button* m_title_screen_button;
+};
+
 class intro_section_one : public engine::level
 {
     public:

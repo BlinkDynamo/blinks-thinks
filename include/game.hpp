@@ -94,7 +94,7 @@ namespace engine
             void set_current_level(level* level){ m_current_level = level; }
 
             Music* get_current_music() { return m_current_music; }
-            void set_current_music(string track_name);
+            void set_current_music(string track_name, bool looping = true);
 
             void update_music_mixer();
 

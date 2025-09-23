@@ -131,8 +131,14 @@ void level_title::update()
 level_lose::level_lose()
 {
     this->m_restart_button = add_ui_button("Restart");
-    add_simple_text("game over!", 100, RED, {m_game.get_cw(), m_game.get_ch() - 100}, 0)
-        ->add_anim_rotate(0.0f, 5.0f, 2.5f);
+    add_simple_text(
+        "game over!",
+        100,
+        RED,
+        {m_game.get_cw(), m_game.get_ch() - 100},
+        0
+    )
+    ->add_anim_rotate(0.0f, 5.0f, 2.5f);
 }
 
 void level_lose::update()
@@ -153,6 +159,35 @@ void level_lose::update()
     if (m_restart_button->is_pressed()) {
         delete m_game.get_current_level();
         m_game.set_current_level(new intro_section_one());
+        return;
+    }
+}
+
+// ------------------------------------------------------------------------------------------ //
+//                                        Win screen.                                         //
+// ------------------------------------------------------------------------------------------ //
+level_win::level_win()
+{
+    m_game.set_current_music("win_theme", false); 
+
+    this->m_title_screen_button = add_ui_button("Title");
+    add_simple_text(
+        "You win!",
+        100,
+        GREEN,
+        {m_game.get_cw(), m_game.get_ch() - 100},
+        0
+    )
+    ->add_anim_rotate(0.0f, 5.0f, 2.5f);
+}
+
+void level_win::update()
+{
+    level::update();
+
+    if (m_title_screen_button->is_pressed()) {
+        delete m_game.get_current_level();
+        m_game.set_current_level(new level_title());
         return;
     }
 }
@@ -1427,7 +1462,7 @@ void level_ten::update()
 
         if (answer_was_chosen) {
             delete m_game.get_current_level();
-            m_game.set_current_level(new level_ten());
+            m_game.set_current_level(new level_win());
             return;
         }
         else {

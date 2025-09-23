@@ -57,6 +57,7 @@ game::game()
 
     // Load all music tracks into 'm_music_tracks'.
     m_music_tracks.emplace("title_theme", LoadMusicStream("res/music/title_theme.ogg"));
+    m_music_tracks.emplace("win_theme", LoadMusicStream("res/music/win_theme.ogg")); 
     m_music_tracks.emplace("no_stopping_now", LoadMusicStream("res/music/no_stopping_now.ogg")); 
 
     // Load all sound effects into 'm_sound_effects' with needed adjustments.
@@ -90,7 +91,8 @@ void game::run()
         // ---------------------------------------------------------------------------------- //
         //                                      update.                                       //
         // ---------------------------------------------------------------------------------- //
-        if (m_current_music) { UpdateMusicStream(*m_current_music); }
+        if (m_current_music != nullptr) { UpdateMusicStream(*m_current_music); }
+
         if (m_music_mixer.active) { update_music_mixer(); }
 
         if (m_current_level != nullptr) m_current_level->update();
@@ -107,10 +109,12 @@ void game::run()
     }
 }
 
-void game::set_current_music(string track_name)
+void game::set_current_music(string track_name, bool looping)
 {
     Music* current_music = m_current_music;
     Music* new_music = &m_music_tracks[track_name];
+
+    new_music->looping = looping;
 
     if (current_music == new_music) { return; }
 
