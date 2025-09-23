@@ -19,7 +19,7 @@ jobs:
           version: 3.1.60
 
       - name: Build Web
-        run: make web
+        run: make -j$(nproc) web
         
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
