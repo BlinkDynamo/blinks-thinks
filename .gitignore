@@ -1,12 +1,2 @@
-# Ignore library files.
-lib
-
 # Ignore build files.
 build
-
-# Ignore suppression and log files in valgrind/.
-valgrind/supp/*
-!valgrind/supp/.gitkeep
-
-valgrind/log/*
-!valgrind/log/.gitkeep
