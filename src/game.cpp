@@ -95,7 +95,13 @@ void game::run()
 
         if (m_music_mixer.active) { update_music_mixer(); }
 
-        if (m_current_level != nullptr) m_current_level->update();
+        if (m_next_level != nullptr) {
+            if (m_current_level != nullptr) { delete m_current_level; }
+            m_current_level = m_next_level;
+            m_next_level = nullptr;
+        }
+        
+        if (m_current_level != nullptr) { m_current_level->update(); }
 
         // ---------------------------------------------------------------------------------- //
         //                                       draw.                                        //
@@ -103,6 +109,7 @@ void game::run()
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
+
         if (m_current_level != nullptr) m_current_level->draw();
 
         EndDrawing();
@@ -120,7 +127,7 @@ void game::set_current_music(string track_name, bool looping)
 
     m_music_mixer.old_music = current_music;
     m_music_mixer.new_music = new_music;
-    m_music_mixer.steps = 90;
+    m_music_mixer.steps = m_music_mixer.default_num_steps;
     m_music_mixer.current_step = 0;
     m_music_mixer.active = true;
 
@@ -191,7 +198,7 @@ vector<int> game::get_random_sequence(size_t count, int min, int max, vector<int
 
 Color game::get_random_color()
 {
-    return m_bright_colors[get_random_value(0, m_bright_colors.size() - 1)];
+    return m_bright_colors.at(get_random_value(0, m_bright_colors.size() - 1));
 }
 
 vector<Color> game::get_random_color_sequence(size_t count)

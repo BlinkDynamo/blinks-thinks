@@ -181,6 +181,8 @@ class level_six : public engine::level
         void update() override;
 
     private:
+        static constexpr int m_choice_count = 5, m_min_choice = 1, m_max_choice = 25;  
+        int m_frames_counter;
         button* m_correct_button;
 };
 

@@ -46,14 +46,10 @@ void intro_raylib::update() {
     level::update(); 
 
     if (m_animation->isFinished()) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new intro_self_credit());
-        return;
+        m_game.set_next_level(new intro_self_credit());
     }
     else if (IsKeyPressed(KEY_ENTER)) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new level_title());
-        return;
+        m_game.set_next_level(new level_title());
     }
 }
 
@@ -70,9 +66,7 @@ void intro_self_credit::update()
     level::update();
 
     if (m_animation->isFinished() || IsKeyPressed(KEY_ENTER)) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new level_title());
-        return;
+        m_game.set_next_level(new level_title());
     }
 }
 
@@ -119,9 +113,7 @@ void level_title::update()
     level::update(); 
     
     if (m_play_button->is_pressed()) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new intro_section_one());
-        return;
+        m_game.set_next_level(new intro_section_one());
     }
 }
 
@@ -157,9 +149,7 @@ void level_lose::update()
     }
 
     if (m_restart_button->is_pressed()) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new intro_section_one());
-        return;
+        m_game.set_next_level(new intro_section_one());
     }
 }
 
@@ -186,9 +176,7 @@ void level_win::update()
     level::update();
 
     if (m_title_screen_button->is_pressed()) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new level_title());
-        return;
+        m_game.set_next_level(new level_title());
     }
 }
 
@@ -226,9 +214,7 @@ void intro_section_one::update()
     }
 
     if (m_frames_counter == 3 * m_game.get_frame_rate()) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new level_one());
-        return;
+        m_game.set_next_level(new level_one());
     }
 }
 
@@ -259,8 +245,8 @@ level_one::level_one()
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
         {m_game.get_cw() - 275, m_game.get_ch()},
-        {m_game.get_cw() - 225, m_game.get_ch() + 175},
-        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() - 175, m_game.get_ch() + 175},
+        {m_game.get_cw() + 175, m_game.get_ch() + 175},
         {m_game.get_cw() + 275, m_game.get_ch()}
     };
 
@@ -311,16 +297,12 @@ void level_one::update()
     level::update();
     
     if (m_correct_button->is_pressed()) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new level_two());
-        return;
+        m_game.set_next_level(new level_two());
     }
     else {
         for (button* btn : get_buttons()) {
             if (btn->is_pressed()) {
-                delete m_game.get_current_level();
-                m_game.set_current_level(new level_lose());
-                return;
+                m_game.set_next_level(new level_lose());
             }
         }
     }
@@ -353,8 +335,8 @@ level_two::level_two()
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
         {m_game.get_cw() - 275, m_game.get_ch()},
-        {m_game.get_cw() - 225, m_game.get_ch() + 175},
-        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() - 175, m_game.get_ch() + 175},
+        {m_game.get_cw() + 175, m_game.get_ch() + 175},
         {m_game.get_cw() + 275, m_game.get_ch()}
     };
 
@@ -404,16 +386,12 @@ void level_two::update()
     level::update();
 
     if (m_correct_button->is_pressed()) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new level_three());
-        return;
+        m_game.set_next_level(new level_three());
     }
     else {
         for (button* btn : get_buttons()) {
             if (btn->is_pressed()) {
-                delete m_game.get_current_level();
-                m_game.set_current_level(new level_lose());
-                return;
+                m_game.set_next_level(new level_lose());
             }
         }
     }
@@ -436,8 +414,8 @@ level_three::level_three()
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
         {m_game.get_cw() - 275, m_game.get_ch()},
-        {m_game.get_cw() - 225, m_game.get_ch() + 175},
-        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() - 175, m_game.get_ch() + 175},
+        {m_game.get_cw() + 175, m_game.get_ch() + 175},
         {m_game.get_cw() + 275, m_game.get_ch()}
     };
 
@@ -498,16 +476,13 @@ void level_three::update()
     }
 
     if (m_answer.btn->is_pressed()) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new level_four());
-        return;
+        m_game.set_next_level(new level_four());
     }
-
-    for (button* btn : get_buttons()) {
-        if (btn->is_pressed()) {
-            delete m_game.get_current_level();
-            m_game.set_current_level(new level_lose());
-            return;
+    else {
+        for (button* btn : get_buttons()) {
+            if (btn->is_pressed()) {
+                m_game.set_next_level(new level_lose());
+            }
         }
     }
 }
@@ -569,9 +544,7 @@ void level_four::update()
         if (btn->is_pressed()) {
             string chosen_time = btn->get_text();
             chosen_time.erase(chosen_time.find(" seconds"), chosen_time.length());
-            delete m_game.get_current_level();
-            m_game.set_current_level(new level_five(chosen_time));
-            return;
+            m_game.set_next_level(new level_five(chosen_time));
         }
     }
 }
@@ -744,9 +717,7 @@ void level_five::update()
             m_timer->get_text_obj()->set_text_str(m_duration);
         }
         else {
-            delete m_game.get_current_level();
-            m_game.set_current_level(new level_six());
-            return;
+            m_game.set_next_level(new level_six());
         }
     }
 
@@ -762,9 +733,7 @@ void level_five::update()
     }
 
     if (level_lost) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new level_lose());
-        return;
+        m_game.set_next_level(new level_lose());
     }
 }
 
@@ -773,6 +742,8 @@ void level_five::update()
 // ------------------------------------------------------------------------------------------ //
 level_six::level_six()
 {
+    this->m_frames_counter = 0;
+
     //
     // Main level_title and instructions.
     //
@@ -780,8 +751,9 @@ level_six::level_six()
         "3",
         80,
         m_game.get_random_color(),
-        {m_game.get_cw() - 225, m_game.get_ch() + 175}
+        {-200, m_game.get_ch() + 85}
     );
+    m_correct_button->set_speed({20, 0});
 
     add_simple_text(
         "level  ",
@@ -791,15 +763,8 @@ level_six::level_six()
         0
     );
 
-    add_text_button(
-        "6",
-        80,
-        ORANGE,
-        {m_game.get_cw() + 122, m_game.get_ch() - 250}
-    );
-
     add_simple_text(
-        "What is the first number of something",
+        "Click the number 3",
         40,
         RAYWHITE,
         {m_game.get_cw(), m_game.get_ch() - 150},
@@ -807,56 +772,75 @@ level_six::level_six()
     )
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
     
-    add_simple_text(
-        "delicious?",
-        40,
-        RAYWHITE,
-        {m_game.get_cw(),
-        m_game.get_ch() - 100},
-        0
-    )
-    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
-
-    add_text_button(
-        "5",
-        80,
-        m_game.get_random_color(),
-        {m_game.get_cw() - 275, m_game.get_ch()}
-    );
-
-    add_text_button(
-        "7",
-        80,
-        m_game.get_random_color(),
-        {m_game.get_cw() + 225, m_game.get_ch() + 175}
-    );
-
-    add_text_button(
-        "9",
-        80,
-        m_game.get_random_color(),
+    vector<Vector2> button_positions = {
+        {m_game.get_cw() + 122, m_game.get_ch() - 250},
+        {m_game.get_cw() - 275, m_game.get_ch()},
+        {m_game.get_cw() - 175, m_game.get_ch() + 175},
+        {m_game.get_cw() + 175, m_game.get_ch() + 175},
         {m_game.get_cw() + 275, m_game.get_ch()}
+    };
+
+    // Get a sequence of 4 random numbers, then insert the level number (6) at the beginning.
+    vector<int> button_values = m_game.get_random_sequence(m_choice_count - 1, m_min_choice, m_max_choice, {6});
+    button_values.insert(button_values.begin(), 6);
+
+    // Get a sequence of 4 random colors, then insert the level number's color (ORANGE) at the beginning.
+    vector<Color> button_colors = m_game.get_random_color_sequence(m_choice_count - 1);
+    button_colors.insert(button_colors.begin(), ORANGE);
+    
+    // Ensure all the vectors are constructed to the same proper size.
+    GAME_ASSERT(
+        (button_positions.size() == m_choice_count) &&
+        (button_values.size() == m_choice_count) &&
+        (button_colors.size() == m_choice_count),
+        "Not all button construction vectors are of the class-defined size (m_choice_count)."
     );
+
+    // Get 3 iterators for each of these vectors, and *it++ them throughout the loop.
+    vector<Vector2>::iterator positions_it = button_positions.begin();
+    vector<int>::iterator values_it = button_values.begin();
+    vector<Color>::iterator colors_it = button_colors.begin();
+   
+    for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
+        add_text_button(
+            to_string(*values_it++),
+            80,
+            *colors_it++,
+            *positions_it++
+        ); 
+    } 
 }
 
 void level_six::update()
 {
-    level::update(); 
+    level::update();
+
+
+    if (m_correct_button->get_position().x >= m_game.get_cw() && m_frames_counter < 60) {
+        m_correct_button->set_speed({0, 0});
+        ++m_frames_counter;
+    }
+
+    if (m_frames_counter == 60) {
+        m_correct_button->set_speed({20, 0});
+    }
 
     for (button* btn : get_buttons()) {
         if (btn->is_pressed()) {
             if (btn == m_correct_button) {
-                delete m_game.get_current_level();
-                m_game.set_current_level(new level_seven());
-                return;
+                m_game.set_next_level(new level_seven());
             }
             else {
-                delete m_game.get_current_level();
-                m_game.set_current_level(new level_lose());
-                return;
+                m_game.set_next_level(new level_lose());
             }
         }
     }
+
+    // Check if the number '3' has gone off of the screen to the right. If so, the player loses.
+    if (m_correct_button->get_position().x > m_game.get_w() + 80) {
+        m_game.set_next_level(new level_lose());
+    }
+
 }
 
 // ------------------------------------------------------------------------------------------ //
@@ -886,8 +870,8 @@ level_seven::level_seven()
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
         {m_game.get_cw() - 275, m_game.get_ch()},
-        {m_game.get_cw() - 225, m_game.get_ch() + 175},
-        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() - 175, m_game.get_ch() + 175},
+        {m_game.get_cw() + 175, m_game.get_ch() + 175},
         {m_game.get_cw() + 275, m_game.get_ch()}
     };
 
@@ -969,14 +953,10 @@ void level_seven::update()
                 );
 
                 if (seven_and_nine_collided) {
-                    delete m_game.get_current_level(); 
-                    m_game.set_current_level(new level_eight());
-                    return;
+                    m_game.set_next_level(new level_eight());
                 }
                 else {
-                    delete m_game.get_current_level();
-                    m_game.set_current_level(new level_lose());
-                    return;
+                    m_game.set_next_level(new level_lose());
                 }
             }
         }
@@ -1051,8 +1031,8 @@ level_eight::level_eight()
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
         {m_game.get_cw() - 275, m_game.get_ch()},
-        {m_game.get_cw() - 225, m_game.get_ch() + 175},
-        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() - 175, m_game.get_ch() + 175},
+        {m_game.get_cw() + 175, m_game.get_ch() + 175},
         {m_game.get_cw() + 275, m_game.get_ch()},
         {m_game.get_cw(), m_game.get_ch() + 50}
     };
@@ -1123,16 +1103,12 @@ void level_eight::update()
     level::update();
 
     if (m_correct_button->is_pressed()) {
-        delete m_game.get_current_level();
-        m_game.set_current_level(new level_nine());
-        return;
+        m_game.set_next_level(new level_nine());
     }
     else {
         for (button* btn : get_buttons()) {
             if (btn->is_pressed()) {
-                delete m_game.get_current_level();
-                m_game.set_current_level(new level_lose());
-                return;
+                m_game.set_next_level(new level_lose());
             }
         }
     }
@@ -1186,8 +1162,8 @@ level_nine::level_nine()
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
         {m_game.get_cw() - 275, m_game.get_ch()},
-        {m_game.get_cw() - 225, m_game.get_ch() + 175},
-        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() - 175, m_game.get_ch() + 175},
+        {m_game.get_cw() + 175, m_game.get_ch() + 175},
         {m_game.get_cw() + 275, m_game.get_ch()}
     };
 
@@ -1288,14 +1264,10 @@ void level_nine::update()
         }
 
         if (answer_was_chosen) {
-            delete m_game.get_current_level();
-            m_game.set_current_level(new level_ten());
-            return;
+            m_game.set_next_level(new level_ten());
         }
         else {
-            delete m_game.get_current_level();
-            m_game.set_current_level(new level_lose());
-            return;
+            m_game.set_next_level(new level_lose());
         }
     }
 }
@@ -1349,8 +1321,8 @@ level_ten::level_ten()
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
         {m_game.get_cw() - 275, m_game.get_ch()},
-        {m_game.get_cw() - 225, m_game.get_ch() + 175},
-        {m_game.get_cw() + 225, m_game.get_ch() + 175},
+        {m_game.get_cw() - 175, m_game.get_ch() + 175},
+        {m_game.get_cw() + 175, m_game.get_ch() + 175},
         {m_game.get_cw() + 275, m_game.get_ch()}
     };
 
@@ -1461,14 +1433,10 @@ void level_ten::update()
         }
 
         if (answer_was_chosen) {
-            delete m_game.get_current_level();
-            m_game.set_current_level(new level_win());
-            return;
+            m_game.set_next_level(new level_win());
         }
         else {
-            delete m_game.get_current_level();
-            m_game.set_current_level(new level_lose());
-            return;
+            m_game.set_next_level(new level_lose());
         }
     }
 }

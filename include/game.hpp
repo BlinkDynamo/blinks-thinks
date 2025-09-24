@@ -91,7 +91,7 @@ namespace engine
             static constexpr size_t get_frame_rate() { return m_frame_rate; }
 
             level* get_current_level() { return m_current_level; }
-            void set_current_level(level* level){ m_current_level = level; }
+            void set_next_level(level* next_level) { m_next_level = next_level; }
 
             Music* get_current_music() { return m_current_music; }
             void set_current_music(string track_name, bool looping = true);
@@ -120,6 +120,7 @@ namespace engine
 
             // The current level being updated, drawn, and interacted with.
             level* m_current_level;
+            level* m_next_level;
 
             // All music tracks loaded on construction and referenced by their track names.
             unordered_map<string, Music> m_music_tracks;
@@ -129,10 +130,14 @@ namespace engine
 
             // The structure to handle fading between two music tracks.
             struct {
+                const int default_num_steps = 90;
+
                 Music* old_music = nullptr;
                 Music* new_music = nullptr;
-                int steps = 20;
+
+                int steps = default_num_steps;
                 int current_step = 0;
+
                 bool active = false;
             } m_music_mixer;
 

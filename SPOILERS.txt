@@ -167,13 +167,14 @@ Lose Condition:
     * Touch any number before the timer reaches 0.
 
 [LEVEL 6]
-Question: "What is the first number of something delicious?"
+Question: "Click the number 3!!!"
 
 Win Condition:
-    * The number 3 is clicked.
+    * The number 3 is clicked before it leaves the screen.
 
 Lose Condition:
     * Any number that is not 3 is clicked.
+    * The number leaves the screen unclicked.
 
 [LEVEL 7]
 Question: "Feed the hungry number the proper food"
