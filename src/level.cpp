@@ -95,7 +95,7 @@ button* level::add_ui_button(string text_str)
         layer
     );
     
-    btn->set_sfx_press(m_game.get_sound_effect("click"));
+    btn->set_sfx_press(m_game.audio.get_sound_effect("click"));
 
     add_entity(btn);
     return btn;
@@ -117,7 +117,7 @@ button* level::add_text_button(string text_str, int font_size, Color text_color,
         layer
     );
 
-    btn->set_sfx_press(m_game.get_sound_effect("grab"));
+    btn->set_sfx_press(m_game.audio.get_sound_effect("grab"));
     
     add_entity(btn);
     return btn;

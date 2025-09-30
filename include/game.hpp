@@ -53,13 +53,67 @@ namespace engine
 {
     class game
     {
-        public:
-            static game& get_instance();
+        // Music mixer class. Handles all music throughout the game.
+        private:
+            class audio_manager
+            {
+                public:
+                    static audio_manager& get_instance() {
+                        static audio_manager instance;
+                        return instance;
+                    }
 
+                    void update();
+
+                    Sound get_sound_effect(string sound_name) { return m_sound_effects.at(sound_name); }
+                    void set_next_music(string track_name, bool looping = true);
+                    void shift_pitch(float pitch);
+
+                private:
+                    audio_manager();
+                    ~audio_manager();
+
+                    // Prevent copy, copy assignment, move, and move assignment.
+                    audio_manager(const audio_manager&) = delete;
+                    audio_manager& operator=(const audio_manager&) = delete;
+                    audio_manager(audio_manager&&) = delete;
+                    audio_manager& operator=(audio_manager&&) = delete;
+
+                    // All music tracks loaded on construction and referenced by their track names.
+                    unordered_map<string, Music> m_music_tracks;
+
+                    // All sounds effects loaded on construction and referenced by their sound names.
+                    unordered_map<string, Sound> m_sound_effects;
+
+                    static constexpr int m_frame_dur_mix = 90;
+                    static constexpr int m_frame_dur_pitch = 60;
+
+                    Music* m_current_music;     // The music currently being played.
+                    Music* m_next_music;        // The song that should be mixed in.
+                    
+                    float m_current_pitch;      // The current pitch of the music.
+                    float m_next_pitch;         // The pitch that should be shifted to.
+
+                    int m_frame_count_mix;      // The current frame count of the mixing process.
+                    int m_frame_count_pitch;    // The current frame in the pitch shifting process.
+
+                    bool m_mixing;              // If two songs are being mixed currently.
+                    bool m_shifting;            // If the pitch is being shifted to something.
+            };
+
+        public:
+            static game& get_instance() {
+                static game instance;
+                return instance;
+            }
+ 
+            // Prevent copy, copy assignment, move, and move assignment.
             game(const game&) = delete;
             game& operator=(const game&) = delete;
             game(game&&) = delete;
             game& operator=(game&&) = delete;
+
+            audio_manager& audio;
 
             // Methods.
             void run();
@@ -91,17 +145,7 @@ namespace engine
             static constexpr size_t get_frame_rate() { return m_frame_rate; }
 
             level* get_current_level() { return m_current_level; }
-            void set_next_level(level* next_level) { m_next_level = next_level; }
-
-            Music* get_current_music() { return m_current_music; }
-            void set_current_music(string track_name, bool looping = true);
-
-            void update_music_mixer();
-
-            void set_current_music_pitch(float pitch) { m_current_music_pitch = pitch; }
-            float get_current_music_pitch() { return m_current_music_pitch; }
-            
-            Sound get_sound_effect(string sound_name) { return m_sound_effects.at(sound_name); }
+            void set_next_level(level* next_level) { m_next_level = next_level; }            
 
         private:
             game();
@@ -120,32 +164,7 @@ namespace engine
 
             // The current level being updated, drawn, and interacted with.
             level* m_current_level;
-            level* m_next_level;
-
-            // All music tracks loaded on construction and referenced by their track names.
-            unordered_map<string, Music> m_music_tracks;
-
-            // The current song being played.
-            Music* m_current_music;
-
-            // The structure to handle fading between two music tracks.
-            struct {
-                const int default_num_steps = 90;
-
-                Music* old_music = nullptr;
-                Music* new_music = nullptr;
-
-                int steps = default_num_steps;
-                int current_step = 0;
-
-                bool active = false;
-            } m_music_mixer;
-
-            // The pitch that the current song is being played at (normal is 1.0).
-            float m_current_music_pitch; 
-
-            // All sounds effects loaded on construction and referenced by their sound names.
-            unordered_map<string, Sound> m_sound_effects;
+            level* m_next_level; 
 
             // The random number engine for the game instance.
             std::default_random_engine m_random_generator;

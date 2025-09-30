@@ -36,24 +36,38 @@ namespace web
 }
 #endif
 
-game& game::get_instance()
-{
-    static game instance;
-    return instance;
-}
-
 game::game()
-    :
-    m_current_music_pitch(1.0),
-    m_random_generator(std::random_device{}())
+    : audio(audio_manager::get_instance())
 {
+    // Class initialization.
+    std::random_device random_generator_seed;
+    m_random_generator.seed(random_generator_seed());
+
     // Window, Screen, and FPS.
     InitWindow(m_w, m_h, m_game_name);
-    SetTargetFPS(m_frame_rate);
+    SetTargetFPS(m_frame_rate); 
+}
 
+game::~game()
+{
+    CloseWindow();
+}
+
+game::audio_manager::audio_manager()
+{
     // Setup the audio device.
     InitAudioDevice();
     SetAudioStreamBufferSizeDefault(16384);
+    
+    // Initialize variables.
+    m_current_music = nullptr;
+    m_next_music = nullptr;
+    m_current_pitch = 1.0f;
+    m_next_pitch = 1.0f;
+    m_frame_count_mix = 0;
+    m_frame_count_pitch = 0;
+    m_mixing = false;
+    m_shifting = false;
 
     // Load all music tracks into 'm_music_tracks'.
     m_music_tracks.emplace("title_theme", LoadMusicStream("res/music/title_theme.ogg"));
@@ -68,7 +82,7 @@ game::game()
     SetSoundVolume(m_sound_effects.at("grab"), 0.40f);
 }
 
-game::~game()
+game::audio_manager::~audio_manager()
 {
     // Unload all the music tracks.
     for (const auto& [name, music] : m_music_tracks) {
@@ -81,9 +95,98 @@ game::~game()
     }
 
     CloseAudioDevice();
-    CloseWindow();
 }
 
+void game::audio_manager::update()
+{
+    if (m_mixing) {
+
+        // Fade out the current track.
+        if (m_current_music != nullptr) {
+            SetMusicVolume(
+                *m_current_music,
+                (m_frame_dur_mix - m_frame_count_mix) / static_cast<float>(m_frame_dur_mix)
+            );
+        }
+        
+        // Fade in the next track.
+        if (m_next_music != nullptr) {
+            SetMusicVolume(
+                *m_next_music,
+                m_frame_count_mix / static_cast<float>(m_frame_dur_mix)
+            );
+        }
+        ++m_frame_count_mix;
+
+        // If the frame count has exceeded the duration, stop the current music (mixed out track)
+        // and set the current music to the next music. Mixing complete.
+        if (m_frame_count_mix > m_frame_dur_mix) {
+            if (m_current_music != nullptr) { StopMusicStream(*m_current_music); }
+            m_current_music = m_next_music;
+            m_mixing = false;
+        }
+    } 
+
+    if (m_shifting) { 
+        float t = m_frame_count_pitch / static_cast<float>(m_frame_dur_pitch);
+        float new_pitch = m_current_pitch + t * (m_next_pitch - m_current_pitch);
+
+        if (m_current_music != nullptr) {
+            SetMusicPitch(*m_current_music, new_pitch);
+        }
+
+        if (m_next_music != nullptr) {
+            SetMusicPitch(*m_next_music, new_pitch);
+        }
+
+        ++m_frame_count_pitch;
+
+        if (m_frame_count_pitch > m_frame_dur_pitch) {
+            m_current_pitch = m_next_pitch;
+            m_shifting = false;
+        }
+    }
+
+    // Update both of the music streams if they are properly set.
+    if (m_current_music != nullptr) {
+        UpdateMusicStream(*m_current_music);
+    }
+
+    if (m_next_music != nullptr) {
+        UpdateMusicStream(*m_next_music);
+    }
+} 
+
+void game::audio_manager::set_next_music(string track_name, bool looping)
+{
+    Music* next_music = &m_music_tracks.at(track_name);
+
+    next_music->looping = looping;
+
+    if (next_music == m_current_music) {
+        m_mixing = false;
+        m_next_music = nullptr;
+        return;
+    }
+
+    m_mixing = true;
+    m_frame_count_mix = 0;
+    m_next_music = next_music;
+
+    if (m_next_music != nullptr) {
+        PlayMusicStream(*m_next_music);
+        SetMusicVolume(*m_next_music, 0.0f);
+    }
+}
+
+void game::audio_manager::shift_pitch(float pitch) {
+    if (m_current_music == nullptr) return;
+
+    m_next_pitch = pitch;
+    m_frame_count_pitch = 0;
+    m_shifting = true;
+}
+    
 void game::run()
 {
     while (!WindowShouldClose())
@@ -91,10 +194,6 @@ void game::run()
         // ---------------------------------------------------------------------------------- //
         //                                      update.                                       //
         // ---------------------------------------------------------------------------------- //
-        if (m_current_music != nullptr) { UpdateMusicStream(*m_current_music); }
-
-        if (m_music_mixer.active) { update_music_mixer(); }
-
         if (m_next_level != nullptr) {
             if (m_current_level != nullptr) { delete m_current_level; }
             m_current_level = m_next_level;
@@ -102,6 +201,8 @@ void game::run()
         }
         
         if (m_current_level != nullptr) { m_current_level->update(); }
+
+        audio.update();
 
         // ---------------------------------------------------------------------------------- //
         //                                       draw.                                        //
@@ -113,56 +214,6 @@ void game::run()
         if (m_current_level != nullptr) m_current_level->draw();
 
         EndDrawing();
-    }
-}
-
-void game::set_current_music(string track_name, bool looping)
-{
-    Music* current_music = m_current_music;
-    Music* new_music = &m_music_tracks[track_name];
-
-    new_music->looping = looping;
-
-    if (current_music == new_music) { return; }
-
-    m_music_mixer.old_music = current_music;
-    m_music_mixer.new_music = new_music;
-    m_music_mixer.steps = m_music_mixer.default_num_steps;
-    m_music_mixer.current_step = 0;
-    m_music_mixer.active = true;
-
-    if (new_music) {
-        PlayMusicStream(*new_music);
-        SetMusicVolume(*new_music, 0.0f);
-    }
-}
-
-void game::update_music_mixer()
-{
-    if (m_music_mixer.old_music) {
-        SetMusicVolume(
-            *m_music_mixer.old_music,
-            (m_music_mixer.steps - m_music_mixer.current_step) / static_cast<float>(m_music_mixer.steps)
-        ); 
-        UpdateMusicStream(*m_music_mixer.old_music);
-    }
-
-    if (m_music_mixer.new_music) {
-        SetMusicVolume(
-            *m_music_mixer.new_music,
-            m_music_mixer.current_step / static_cast<float>(m_music_mixer.steps)
-        ); 
-        UpdateMusicStream(*m_music_mixer.new_music);
-    }
-
-    m_music_mixer.current_step++;
-
-    if (m_music_mixer.current_step > m_music_mixer.steps) {
-        if (m_music_mixer.old_music) {
-            StopMusicStream(*m_music_mixer.old_music);
-        }
-        m_current_music = m_music_mixer.new_music;
-        m_music_mixer.active = false; 
     }
 }
 

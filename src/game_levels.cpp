@@ -39,7 +39,7 @@ using std::to_string;
 intro_raylib::intro_raylib()
 {
     this->m_animation = add_entity(new anim_raylib());
-    m_game.set_current_music("title_theme"); 
+    m_game.audio.set_next_music("title_theme"); 
 }
 
 void intro_raylib::update() {
@@ -131,22 +131,14 @@ level_lose::level_lose()
         0
     )
     ->add_anim_rotate(0.0f, 5.0f, 2.5f);
+
+    // Pitch the music down.
+    m_game.audio.shift_pitch(0.8f);
 }
 
 void level_lose::update()
 {
     level::update();
-
-    // Pitch down the current music track.
-    constexpr float epsilon = 0.0001f;
-    if (m_game.get_current_music_pitch() > 0.8f + epsilon) {
-        GAME_ASSERT(
-            m_game.get_current_music() != nullptr,
-            "The current music was null when attempted to be dereferenced."
-        );
-        SetMusicPitch(*m_game.get_current_music(), m_game.get_current_music_pitch());
-        m_game.set_current_music_pitch(m_game.get_current_music_pitch() - 0.01);
-    }
 
     if (m_restart_button->is_pressed()) {
         m_game.set_next_level(new intro_section_one());
@@ -158,7 +150,7 @@ void level_lose::update()
 // ------------------------------------------------------------------------------------------ //
 level_win::level_win()
 {
-    m_game.set_current_music("win_theme", false); 
+    m_game.audio.set_next_music("win_theme", false);  
 
     this->m_title_screen_button = add_ui_button("Title");
     add_simple_text(
@@ -195,8 +187,9 @@ intro_section_one::intro_section_one()
         0
     );
 
-    // Set the music track. 
-    m_game.set_current_music("no_stopping_now");
+    // Set the music track, and set the pitch make to normal if it's not.
+    m_game.audio.set_next_music("no_stopping_now");
+    m_game.audio.shift_pitch(1.0f);
 }
 
 void intro_section_one::update()
@@ -204,14 +197,6 @@ void intro_section_one::update()
     level::update();
 
     ++m_frames_counter;
-
-    // Pitch back up the current music track if it's below 1.0. Since the player will always
-    // restart at level 1, this only needs to be handled here.
-    constexpr float epsilon = 0.0001f; 
-    if (m_game.get_current_music_pitch() < 1.0 - epsilon) {
-        SetMusicPitch(*m_game.get_current_music(), m_game.get_current_music_pitch());
-        m_game.set_current_music_pitch(m_game.get_current_music_pitch() + 0.02);
-    }
 
     if (m_frames_counter == 3 * m_game.get_frame_rate()) {
         m_game.set_next_level(new level_one());
