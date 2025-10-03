@@ -954,20 +954,20 @@ void level_seven::update()
 // ------------------------------------------------------------------------------------------ //
 //                                          level 8.                                          //
 // ------------------------------------------------------------------------------------------ //
-vector<int> level_eight::get_fib_sequence(size_t length)
+vector<int> level_eight::get_fib_seq(int num_one, int num_two)
 {
-    vector<int> sequence(length);
-    int a, b, c;
-    a = b = 1;
-    for (size_t i = 0; i != length; ++i) {
-        sequence[i] = a;
+    vector<int> sequence(m_fib_seq_len);
+    int num_three;
+    for (size_t i = 0; i != m_fib_seq_len; ++i) {
+        sequence[i] = num_one;
         GAME_ASSERT(
-        a + b < INT_MAX,
+        num_one + num_two < INT_MAX,
         "INT_MAX was exceeded when trying to calculate a member of a fibbonacci sequence of the requested size."
         );
-       c = a + b;
-       a = b;
-       b = c; }
+       num_three = num_one + num_two;
+       num_one = num_two;
+       num_two = num_three;
+    }
     return sequence;
 }
 
@@ -993,25 +993,27 @@ level_eight::level_eight()
     )
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
-    // Get a fibbonacci sequence, choosing a random subsequence to display for the player.
-    // The final member of this subsequence will be the correct answer.
-    vector<int> fib_sequence = this->get_fib_sequence(m_fib_seq_len);
+    // Get a completed fibbonacci sequence from a random first and second number.
+    int fib_seq_num_one = m_game.get_random_value(1, 4);
+    int fib_seq_num_two = m_game.get_random_value(5, 9);
+    vector<int> fib_seq = get_fib_seq(fib_seq_num_one, fib_seq_num_two);
 
-    int fib_subseq_start_i = m_game.get_random_value(0, m_fib_seq_len - m_fib_subseq_len - 1);
-    int fib_subseq_end_i = fib_subseq_start_i + m_fib_subseq_len;
+    string fib_seq_question_str = ""; 
 
-    vector<int> fib_subsequence(fib_sequence.begin() + fib_subseq_start_i, fib_sequence.begin() + fib_subseq_end_i);
-
-    string fib_subseq_question_str = ""; 
-
-    for (vector<int>::iterator it = fib_subsequence.begin(); it != fib_subsequence.end() - 1; ++it) {
-        fib_subseq_question_str += to_string(*it);
-        fib_subseq_question_str += ", ";
+    for (vector<int>::iterator it = fib_seq.begin(); it != fib_seq.end() - 1; ++it) {
+        fib_seq_question_str += to_string(*it);
+        fib_seq_question_str += ", ";
     }   
-    fib_subseq_question_str += "?";
+    fib_seq_question_str += "?";
 
-    add_simple_text(fib_subseq_question_str, 40, YELLOW, {m_game.get_cw(), m_game.get_ch() - 100}, 0)
-        ->add_anim_rotate(0.0f, 4.0f, 1.5f);
+    add_simple_text(
+        fib_seq_question_str,
+        40,
+        YELLOW,
+        {m_game.get_cw(), m_game.get_ch() - 100},
+        0
+    )
+    ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
@@ -1022,16 +1024,20 @@ level_eight::level_eight()
         {m_game.get_cw(), m_game.get_ch() + 50}
     };
 
-    int correct_value = fib_subsequence.back();
-    int correct_value_digits = to_string(abs(correct_value)).size();
+    int correct_value = fib_seq.back();
+ 
+    // All possible Fibbonacci sequences derived from 1-4 and 5-9 have a 2-digit 5th number.
+    // This is why we can hard code this range of incorrect value, but correct digit-length
+    // wrong numbers.
+    const int min_choice = 10;
+    const int max_choice = 99;
 
-    // Define the min and max of the random incorrect choices to be of the same digit value as
-    // the correct value. For example, if the correct value is 987, random incorrect choices
-    // should be between 100 and 999, excluding 987.
-    int min_choice = 1 * pow(10, correct_value_digits - 1);
-    int max_choice =  9 * pow(10, correct_value_digits - 1);
-
-    vector<int> button_values = m_game.get_random_sequence(m_choice_count - 2, min_choice, max_choice, {correct_value});
+    vector<int> button_values = m_game.get_random_sequence(
+        m_choice_count - 2,
+        min_choice,
+        max_choice,
+        {correct_value}
+    );
     button_values.insert(button_values.begin(), correct_value);
     button_values.insert(button_values.begin(), 8);
 

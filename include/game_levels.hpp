@@ -206,11 +206,11 @@ class level_eight : public engine::level
         void update() override;
 
     private:
-        static constexpr int m_choice_count = 6, m_fib_seq_len = 20, m_fib_subseq_len = 4;
+        static constexpr int m_choice_count = 6, m_fib_seq_len = 5;
 
-        // Will return a fibbonacci sequence of length 'length', exiting if the returned length
-        // results in a number larger than an int can store.
-        vector<int> get_fib_sequence(size_t length); 
+        // Will return a fibbonacci sequence of length 'length', started by 'num_one' + 'num_two',
+        // exiting if the returned length results in a number larger than an int can store.
+        vector<int> get_fib_seq(int num_one, int num_two); 
 
         button* m_correct_button;
 };
