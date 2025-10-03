@@ -46,6 +46,9 @@ game::game()
     // Window, Screen, and FPS.
     InitWindow(m_w, m_h, m_game_name);
     SetTargetFPS(m_frame_rate); 
+
+    // Remove the ESC key as a close command.
+    SetExitKey(KEY_NULL);
 }
 
 game::~game()
