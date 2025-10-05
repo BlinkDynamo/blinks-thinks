@@ -49,6 +49,9 @@ game::game()
 
     // Remove the ESC key as a close command.
     SetExitKey(KEY_NULL);
+
+    // Set the tracelog level.
+    SetTraceLogLevel(LOG_DEBUG);
 }
 
 game::~game()
@@ -163,23 +166,23 @@ void game::audio_manager::update()
 void game::audio_manager::set_next_music(string track_name, bool looping)
 {
     Music* next_music = &m_music_tracks.at(track_name);
-
-    next_music->looping = looping;
-
+ 
     if (next_music == m_current_music) {
-        m_mixing = false;
-        m_next_music = nullptr;
+        TraceLog(LOG_DEBUG, "[%s] Track requested is already playing. No change.", __PRETTY_FUNCTION__);
+        return;
+    }
+    else if (m_mixing) {
+        TraceLog(LOG_DEBUG, "[%s] Track requested while mixing is active. No change.", __PRETTY_FUNCTION__);
         return;
     }
 
+    next_music->looping = looping;
+  
     m_mixing = true;
     m_frame_count_mix = 0;
     m_next_music = next_music;
-
-    if (m_next_music != nullptr) {
-        PlayMusicStream(*m_next_music);
-        SetMusicVolume(*m_next_music, 0.0f);
-    }
+    PlayMusicStream(*m_next_music);
+    SetMusicVolume(*m_next_music, 0.0f);
 }
 
 void game::audio_manager::shift_pitch(float pitch) {

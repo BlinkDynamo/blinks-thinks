@@ -106,6 +106,8 @@ level_title::level_title()
             1000
         )
     );
+
+    m_game.audio.set_next_music("title_theme");
 }
 
 void level_title::update()
@@ -224,7 +226,10 @@ level_one::level_one()
         0
     )
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
-    
+
+    //
+    // Button creation.
+    //
     vector<button*> choices(m_choice_count);
 
     vector<Vector2> button_positions = {
@@ -314,7 +319,11 @@ level_two::level_two()
         0
     )
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
-    
+
+
+    //
+    // Button creation.    
+    //
     vector<button*> choices(m_choice_count);
 
     vector<Vector2> button_positions = {
@@ -389,11 +398,17 @@ level_three::level_three()
 {
     this->m_answer.scale = 1.0;
 
+    //
+    // Main UI elements (level title, directions).
+    //
     add_simple_text("level  ", 80, ORANGE, {m_game.get_cw(), m_game.get_ch() - 250}, 0);
 
     add_simple_text("What is the tallest number?", 40, RAYWHITE, {m_game.get_cw(), m_game.get_ch() - 150}, 0)
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
     
+    //
+    // Button creation.
+    //
     vector<button*> choices(m_choice_count);
 
     vector<Vector2> button_positions = {
@@ -477,6 +492,9 @@ void level_three::update()
 // ------------------------------------------------------------------------------------------ //
 level_four::level_four()
 {
+    //
+    // Main UI elements (level title, directions).
+    //
     add_simple_text(
         "level 4",
         80,
@@ -548,7 +566,9 @@ level_five::level_five(string duration)
         {m_game.get_cw(), m_game.get_ch() - 65}
     );
 
-    // Main level_title, information, and countdown timer.
+    //
+    // Main UI elements (level title, directions, countdown timer).
+    //
     add_simple_text(
         "level  ",
         80,
@@ -582,7 +602,9 @@ level_five::level_five(string duration)
     )
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
-    // All obstacles.
+    //
+    // Button creation.
+    //
     const string long_num_one   = "762967340328811348866734234450240332396217777462684390";
     const string long_num_two   = "239427620310921174648449330989407894927458570770003111";
     const string long_num_three = "230459256723665565627118580006023666643111673444567710";
@@ -730,7 +752,7 @@ level_six::level_six()
     this->m_frames_counter = 0;
 
     //
-    // Main level_title and instructions.
+    // Main UI elements (level title, directions).
     //
     this->m_correct_button = add_text_button(
         "3",
@@ -757,6 +779,9 @@ level_six::level_six()
     )
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
     
+    //
+    // Button creation.
+    //
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
         {m_game.get_cw() - 275, m_game.get_ch()},
@@ -835,6 +860,9 @@ level_seven::level_seven()
 {
     this->m_button_in_hand = nullptr;
 
+    //
+    // Main UI elements (level title, directions).
+    //
     add_simple_text(
         "level  ",
         80,
@@ -852,6 +880,9 @@ level_seven::level_seven()
     )
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
+    //
+    // Button creation.
+    //
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
         {m_game.get_cw() - 275, m_game.get_ch()},
@@ -973,7 +1004,9 @@ vector<int> level_eight::get_fib_seq(int num_one, int num_two)
 
 level_eight::level_eight()
 {
-    
+    //
+    // Main UI elements (level title, directions, Fibbonacci sequence hint).
+    //
     add_simple_text(
         "level  ",
         80,
@@ -1015,6 +1048,9 @@ level_eight::level_eight()
     )
     ->add_anim_rotate(0.0f, 4.0f, 1.5f);
 
+    //
+    // Button creation.
+    //
     vector<Vector2> button_positions = {
         {m_game.get_cw() + 122, m_game.get_ch() - 250},
         {m_game.get_cw() - 275, m_game.get_ch()},
@@ -1113,7 +1149,7 @@ level_nine::level_nine()
     this->m_button_in_hand = nullptr;
 
     //
-    // Main level_title and instructions.
+    // Main UI elements (level title, directions, submit box).
     //
     add_simple_text(
         "level  ",
@@ -1146,7 +1182,7 @@ level_nine::level_nine()
     this->m_submit_button = add_ui_button("Submit");
 
     //
-    // button creation.
+    // Button creation.
     //
     m_correct_button_layout.reserve(m_choice_count);
 
@@ -1272,7 +1308,7 @@ level_ten::level_ten()
     this->m_button_in_hand = nullptr;
 
     //
-    // Main level_title and instructions.
+    // Main UI elements (level title, directions, submit box).
     //
     add_simple_text(
         "level  ",
@@ -1305,7 +1341,7 @@ level_ten::level_ten()
     this->m_submit_button = add_ui_button("Submit");
 
     //
-    // button creation.
+    // Button creation.
     //
     m_correct_button_layout.reserve(m_choice_count);
 
