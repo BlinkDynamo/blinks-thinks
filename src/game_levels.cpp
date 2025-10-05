@@ -25,6 +25,7 @@
 
 using engine::game;
 using engine::entity;
+using engine::grows_when_hovered;
 
 // Standard library.
 #include <iterator>
@@ -265,15 +266,16 @@ level_one::level_one()
     vector<button*> choosable_buttons(m_choice_count);
 
     for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
-        choosable_buttons[loop_count] = add_text_button(
+        button* btn = add_text_button(
             to_string(*values_it++),
             80,
             *colors_it++,
             *positions_it++
         ); 
+		btn->add_trait(new grows_when_hovered());
+		choosable_buttons[loop_count] = btn;
     }
 
-    // Set 'm_correct_button' to the choice with the smallest value.
     // Set 'm_correct_button' to the choice with the smallest value.
     m_correct_button = *std::max_element(choosable_buttons.begin(), choosable_buttons.end(),
         [](button* a, button* b) {
@@ -359,12 +361,14 @@ level_two::level_two()
     vector<button*> choosable_buttons(m_choice_count);
 
     for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
-        choosable_buttons[loop_count] = add_text_button(
+        button* btn = add_text_button(
             to_string(*values_it++),
             80,
             *colors_it++,
             *positions_it++
         ); 
+		btn->add_trait(new grows_when_hovered());
+		choosable_buttons[loop_count] = btn;
     }
 
     // Set 'm_correct_button' to the choice with the smallest value.
@@ -396,8 +400,6 @@ void level_two::update()
 // ------------------------------------------------------------------------------------------ //
 level_three::level_three() 
 {
-    this->m_answer.scale = 1.0;
-
     //
     // Main UI elements (level title, directions).
     //
@@ -440,42 +442,32 @@ level_three::level_three()
     vector<int>::iterator values_it = button_values.begin();
     vector<Color>::iterator colors_it = button_colors.begin();
    
-    // Construct a vector of buttons from which we will choose a correct answer. 
-    vector<button*> choosable_buttons(m_choice_count);
+    // Choose a random iteration to be the correct 'growing' number.
+    size_t chosen_loop_count = m_game.get_random_value(0, m_choice_count - 1);
 
     for (size_t loop_count = 0; loop_count != m_choice_count; ++loop_count) {
-        choosable_buttons[loop_count] = add_text_button(
+        button* btn = add_text_button(
             to_string(*values_it++),
             80,
             *colors_it++,
             *positions_it++
         ); 
-    }
 
-    // Choose a random member of 'choosable_buttons' to be the correct answer. 
-    m_answer.btn = choosable_buttons.at(
-        static_cast<size_t>(m_game.get_random_value(0, choosable_buttons.size() - 1))
-    );
+		if (loop_count == chosen_loop_count) {
+			m_correct_button = btn;
+			m_correct_button->add_trait(new grows_when_hovered(20, 2.5f));
+		}
+		else {
+			btn->add_trait(new grows_when_hovered());
+		}
+    }	
 }
 
 void level_three::update()
 {
     level::update();
 
-    // If the correct option is hovered, make it grow in scale. Otherwise, make it shrink until
-    // it becomes it's normal scale again. 
-    if (m_answer.btn->is_hovered()) {
-        if (m_answer.scale < m_answer.max_scale) {
-            m_answer.scale += m_answer.scale_up_incr;
-            m_answer.btn->set_scale(m_answer.scale);
-        }
-    }
-    else if (m_answer.scale > m_answer.min_scale) {
-            m_answer.scale -= m_answer.scale_down_incr;
-            m_answer.btn->set_scale(m_answer.scale);
-    }
-
-    if (m_answer.btn->is_pressed()) {
+    if (m_correct_button->is_pressed()) {
         m_game.set_next_level(new level_four());
     }
     else {
@@ -537,6 +529,10 @@ level_four::level_four()
         {m_game.get_cw(),
         m_game.get_ch() + 150}
     );
+
+    for (button* btn : get_buttons()) {
+        btn->add_trait(new grows_when_hovered());
+    }
 }
 
 void level_four::update()
@@ -819,6 +815,10 @@ level_six::level_six()
             *positions_it++
         ); 
     } 
+
+	for (button* btn : get_buttons()) {
+		btn->add_trait(new grows_when_hovered());
+	}
 }
 
 void level_six::update()
@@ -935,6 +935,10 @@ level_seven::level_seven()
             *positions_it++
         ); 
     }
+
+	for (button* btn : get_buttons()) {
+		btn->add_trait(new grows_when_hovered());
+	}
 }
 
 void level_seven::update()
@@ -1123,6 +1127,10 @@ level_eight::level_eight()
         ); 
         ++buttons_created;
     }
+
+	for (button* btn : get_buttons()) {
+		btn->add_trait(new grows_when_hovered());
+	}
 }
 
 void level_eight::update()
@@ -1216,13 +1224,14 @@ level_nine::level_nine()
     vector<Color>::iterator colors_it = button_colors.begin();
 
     while (m_correct_button_layout.size() < m_choice_count) {
-        button* newest_button = add_text_button(
+        button* btn = add_text_button(
             to_string(*values_it++),
             80,
             *colors_it++,
             *positions_it++
         ); 
-        m_correct_button_layout.push_back(newest_button);
+		btn->add_trait(new grows_when_hovered());
+        m_correct_button_layout.push_back(btn);
     }
     
     // Sort based on button string values, left to right, greatest to least.
@@ -1381,22 +1390,21 @@ level_ten::level_ten()
     vector<Color>::iterator colors_it = button_colors.begin(); 
 
     while (m_correct_button_layout.size() < m_choice_count) {
-        button* newest_button = add_text_button(
+        button* btn = add_text_button(
             to_string(*values_it++),
             80,
             *colors_it,
             *positions_it
-        ); 
-        
-        m_correct_button_layout.push_back(newest_button); 
+        );  
+        m_correct_button_layout.push_back(btn); 
 
         // Place an ice cube over every number except for the greatest to show that they are
         // not holdable.
         if (values_it != button_values.end()) {
             Vector2 ice_cube_size;
             int ice_cube_padding = 32;
-            ice_cube_size.x = newest_button->get_rectangle().width + ice_cube_padding;
-            ice_cube_size.y = newest_button->get_rectangle().height + ice_cube_padding;
+            ice_cube_size.x = btn->get_rectangle().width + ice_cube_padding;
+            ice_cube_size.y = btn->get_rectangle().height + ice_cube_padding;
 
             Vector2 ice_cube_position = *positions_it;
             ice_cube_position.x += 4;   // Accomodate for the shadow offset of the text.
@@ -1410,6 +1418,9 @@ level_ten::level_ten()
                     1
                 )
             );
+        }
+        else {
+            btn->add_trait(new grows_when_hovered());
         }
 
         ++colors_it;

@@ -94,6 +94,8 @@ button* level::add_ui_button(string text_str)
         position,
         layer
     );
+
+    btn->add_trait(new grows_when_hovered());
     
     btn->set_sfx_press(m_game.audio.get_sound_effect("click"));
 
@@ -116,6 +118,8 @@ button* level::add_text_button(string text_str, int font_size, Color text_color,
         position,
         layer
     );
+
+    //btn->add_trait(new grows_when_hovered());
 
     btn->set_sfx_press(m_game.audio.get_sound_effect("grab"));
     

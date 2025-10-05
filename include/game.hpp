@@ -31,6 +31,7 @@ using engine::level;
 #include <random>
 #include <cassert>
 #include <iostream>
+#include <cmath>
 
 #ifndef NDEBUG
     #define GAME_ASSERT(cond, msg) \
@@ -132,6 +133,8 @@ namespace engine
 
             // Checks if the cursor is inside the canvas.
             bool mouse_in_canvas();
+
+            static bool float_equals(float a, float b, float epsilon = 0.0001f) { return std::fabs(a - b) < epsilon; }
 
             // Getters and setters.
             static const string get_game_version() { return m_game_version; }

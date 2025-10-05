@@ -29,6 +29,9 @@ using engine::game;
 // Standard library.
 #include <cmath>
 
+//
+// Base button class.
+//
 button::button(
     text* text_obj,
     Color bg_color,
@@ -58,11 +61,13 @@ button::button(
 
 button::~button() {
     delete m_text_obj;
+
+    for (auto* trait : m_traits) {
+        delete trait;
+    }
+    m_traits.clear();
 }
 
-// ------------------------------------------------------------------------------------------ //
-//                                          Methods.                                          //
-// ------------------------------------------------------------------------------------------ //
 bool button::is_hovered()
 {
     return CheckCollisionPointRec(GetMousePosition(), m_rectangle);
@@ -75,7 +80,13 @@ bool button::is_pressed()
 
 void button::update()
 { 
+    // Update the base entity.
     entity::update();
+
+    // Update all button traits.
+    for (auto& trait : m_traits) {
+        trait->update(*this);
+    }
 
     // update the rectangle, multiplying size elements by scale.
     m_rectangle = {
@@ -131,8 +142,8 @@ void button::update()
 
     m_text_obj->set_text_color(m_current_text_color); 
 
-    // update the text object.
-    m_text_obj->update();
+    // Update the text object.
+    m_text_obj->update(); 
 }
 
 void button::draw()

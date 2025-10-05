@@ -140,18 +140,7 @@ class level_three : public engine::level
     private:
         static constexpr int m_choice_count = 5, m_min_choice = 1, m_max_choice = 25; 
 
-        class answer
-        {
-            public:
-                button* btn;
-                float scale;
-
-                static constexpr float scale_up_incr = 0.05;
-                static constexpr float scale_down_incr = 0.10;
-                static constexpr float max_scale = 2.5;
-                static constexpr float min_scale = 1.0;
-        };
-        answer m_answer; 
+        button* m_correct_button; 
 };
 
 class level_four : public engine::level

@@ -22,10 +22,19 @@
 
 // Source.
 #include "entity.hpp"
+#include "entity_traits.hpp"
 #include "text.hpp"
+
+// Standard library.
+#include <vector>
+
+using std::vector;
 
 namespace engine
 {
+    //
+    // Base button class.
+    //
     class button : public entity {
         public:
             button(
@@ -44,6 +53,8 @@ namespace engine
 
             bool is_pressed();          // Checks if 'is_hovered()' and the mouse being pressed
                                         // are both true.
+
+            void add_trait(button_trait* trait) { m_traits.push_back(trait); }
             
             // Getters and setters.
             string get_text() { return m_text_obj->get_text_str(); }
@@ -53,6 +64,8 @@ namespace engine
             Rectangle get_rectangle() { return m_rectangle; }
 
             void set_scale(float scale) { m_scale = scale; }
+
+            float get_scale() { return m_scale; }
 
             void set_sfx_press(Sound sfx_press) { m_sfx_press = sfx_press; }
 
@@ -83,5 +96,8 @@ namespace engine
                                         // are multiplied by.
 
             Sound m_sfx_press;          // The sound effect played when the button is pressed.
-    };
+
+            vector<button_trait*> m_traits; // the storage container to hold all active traits
+                                            // attached to the button.
+    }; 
 }
