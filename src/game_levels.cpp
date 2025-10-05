@@ -1317,8 +1317,14 @@ level_ten::level_ten()
         {m_game.get_cw() + 275, m_game.get_ch()}
     };
 
-    // Get a sequence of 4 random numbers, then insert the level number (10) at the beginning.
+    // Get a sequence of 4 random numbers, sort them greatest to least, then insert the level
+    // number (10) at the beginning.
     vector<int> button_values = m_game.get_random_sequence(4, 1, 99, {10});
+    sort(button_values.begin(), button_values.end(),
+        [](int a, int b) {
+            return a < b;
+        }
+    );
     button_values.insert(button_values.begin(), 10);
 
     // Get a sequence of 4 random colors, then insert the level number's color (GOLD) at the beginning.
@@ -1336,31 +1342,52 @@ level_ten::level_ten()
     // Get 3 iterators for each of these vectors, and *it++ them throughout the loop.
     vector<Vector2>::iterator positions_it = button_positions.begin();
     vector<int>::iterator values_it = button_values.begin();
-    vector<Color>::iterator colors_it = button_colors.begin();
+    vector<Color>::iterator colors_it = button_colors.begin(); 
 
     while (m_correct_button_layout.size() < m_choice_count) {
         button* newest_button = add_text_button(
             to_string(*values_it++),
             80,
-            *colors_it++,
-            *positions_it++
+            *colors_it,
+            *positions_it
         ); 
-        m_correct_button_layout.push_back(newest_button);
-    }
-    
-    // Sort based on button string values, left to right, greatest to least.
-    sort(m_correct_button_layout.begin(), m_correct_button_layout.end(),
-        [](button* a, button* b) {
-            return stoi(a->get_text()) > stoi(b->get_text());
-        }
-    );
-    // Remove all members except for the first two. Since only one number will be movable,
-    // the greatest number possible to put inside the box is the movable number along with the
-    // greatest non-movable number. The movable number will need to be put on the correct side
-    // of the immovable number in order to create the largest number possible.
-    m_correct_button_layout.erase(m_correct_button_layout.begin() + 2, m_correct_button_layout.end());
+        
+        m_correct_button_layout.push_back(newest_button); 
 
-    this->m_holdable_number = m_correct_button_layout.at(0);
+        // Place an ice cube over every number except for the greatest to show that they are
+        // not holdable.
+        if (values_it != button_values.end()) {
+            Vector2 ice_cube_size;
+            int ice_cube_padding = 32;
+            ice_cube_size.x = newest_button->get_rectangle().width + ice_cube_padding;
+            ice_cube_size.y = newest_button->get_rectangle().height + ice_cube_padding;
+
+            Vector2 ice_cube_position = *positions_it;
+            ice_cube_position.x += 4;   // Accomodate for the shadow offset of the text.
+            add_entity(
+                new label(
+                    {255, 255, 255, 75},
+                    {75, 150, 255, 75},
+                    ice_cube_size,
+                    4,
+                    ice_cube_position,
+                    1
+                )
+            );
+        }
+
+        ++colors_it;
+        ++positions_it;
+    } 
+
+    // Erase everything except for the last two numbers, swap them so that they together create
+    // the largest compound number, then make the larger of the two (the first) the holdable one.
+    m_correct_button_layout.erase(
+        m_correct_button_layout.begin(),
+        m_correct_button_layout.begin() + m_choice_count - 2
+    );
+    std::swap(m_correct_button_layout.at(0), m_correct_button_layout.at(1));
+    m_holdable_number = m_correct_button_layout.front();
 }
 
 void level_ten::update()
